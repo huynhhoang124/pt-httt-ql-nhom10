@@ -1,0 +1,18 @@
+# Phát triển HTTT quản lý – Nhóm 10
+
+Đề tài: **Hệ thống quản lý trung tâm ngoại ngữ**
+
+## Thành viên
+1. Hoàng Văn Huynh (trưởng nhóm)
+2. Nguyễn Gia Ân
+3. Vũ Văn Hùng
+4. Nguyễn Văn Luận
+5. Trần Thu Thủy
+6. Trần Minh Quân
+
+## Nội dung
+- `bai_tap_1/` – Báo cáo phân tích theo 6 góc nhìn (Word + PDF)
+- `so_do/` – Sơ đồ BFD, DFD mức ngữ cảnh, DFD mức 0
+
+## Quy ước
+Nhánh `main` do Huynh quản lý. Thành viên làm trên nhánh riêng và mở Pull Request vào `main`.
