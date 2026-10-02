@@ -13,6 +13,7 @@
 ## Nội dung
 - `bai_tap_1/` – Báo cáo phân tích theo 6 góc nhìn (Word + PDF)
 - `so_do/` – Sơ đồ BFD, DFD mức ngữ cảnh, DFD mức 0
+- `KE_HOACH.md` – Kế hoạch xuyên suốt dự án (giai đoạn, sản phẩm, phân công, kiểm tra)
 
 ## Quy ước
 Nhánh `main` do Huynh quản lý. Thành viên làm trên nhánh riêng và mở Pull Request vào `main`.
