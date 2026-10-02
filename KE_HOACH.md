@@ -52,7 +52,7 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - Kế hoạch phỏng vấn (Giám đốc, QL đào tạo, NV tuyển sinh, Kế toán, GV): câu hỏi mở + đóng; 1 phiếu điều tra học viên (tiêu đề – định danh – câu hỏi – kết thúc).
 - Bảng so sánh ưu/nhược 6 phương pháp, nêu phương pháp nhóm dùng.
 
-### 2.2 Phân tích chức năng – `phan_tich/03_chuc_nang.md`
+### 2.2 Phân tích chức năng – `phan_tich/03_chuc_nang.md` ✅ (xong 2026-10-02)
 - Bảng mô tả từng chức năng lá BFD: Mã – Tên – Mô tả – Đầu vào – Đầu ra – Người thực hiện (20 dòng).
 - Ma trận thực thể–chức năng (chức năng nào tạo/đọc/sửa dữ liệu gì) → làm cầu nối sang DFD và ERD.
 

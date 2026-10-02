@@ -286,7 +286,7 @@ Các bước 2.4 (bảng/cây quyết định), 3.4 (ràng buộc CHECK) và dem
 
 | Mã | Quy tắc | Áp dụng ở |
 |---|---|---|
-| QT01 | Ưu đãi **học viên cũ** (đã hoàn thành ít nhất 1 khóa): giảm 10% | 3.1 |
+| QT01 | Ưu đãi **học viên cũ** (đã học hết ít nhất 1 khóa trước đó: lớp đã kết thúc, đăng ký không ở trạng thái nghỉ học): giảm 10% | 3.1 |
 | QT02 | Ưu đãi **đăng ký nhóm** (từ 3 người trở lên, đăng ký cùng ngày): giảm 5% | 3.1 |
 | QT03 | Ưu đãi **đóng một lần** toàn bộ học phí: giảm 5% | 3.1 |
 | QT04 | Các ưu đãi được cộng dồn nhưng tổng mức giảm **tối đa 15%**; chỉ áp dụng ưu đãi còn trong thời gian hiệu lực | 3.1 |

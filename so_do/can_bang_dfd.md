@@ -40,11 +40,12 @@
 | D2 Lớp và lịch học | 2.0 | Ghi vào kho | Lớp, đăng ký, lịch học |
 | D2 Lớp và lịch học | 3.0 | Đọc từ kho | Đăng ký học |
 | D2 Lớp và lịch học | 4.0 | Đọc từ kho | Danh sách lớp, buổi học |
-| D2 Lớp và lịch học | 5.0 | Đọc từ kho | Lớp, đăng ký |
+| D2 Lớp và lịch học | 5.0 | Đọc từ kho | Lớp, đăng ký, buổi học |
+| D3 Học phí | 2.0 | Đọc từ kho | Tình trạng đóng học phí |
 | D3 Học phí | 3.0 | Đọc từ kho | Số đã thu, công nợ |
-| D3 Học phí | 3.0 | Ghi vào kho | Học phí, phiếu thu |
+| D3 Học phí | 3.0 | Ghi vào kho | Ưu đãi, học phí, phiếu thu |
 | D3 Học phí | 5.0 | Đọc từ kho | Công nợ |
-| D4 Học tập | 4.0 | Đọc từ kho | Điểm thành phần |
+| D4 Học tập | 4.0 | Đọc từ kho | Điểm danh, điểm thành phần |
 | D4 Học tập | 4.0 | Ghi vào kho | Điểm danh, điểm, kết quả |
 | D4 Học tập | 5.0 | Đọc từ kho | Chuyên cần, kết quả |
 | D5 Tài khoản và thông báo | 5.0 | Đọc từ kho | Quyền truy cập |
