@@ -39,7 +39,7 @@ Tái dùng: `create_report.py` của Bài tập 1 (đường dẫn trong memory)
   - Luồng tiến trình ↔ kho vẽ 2 mũi tên riêng, có nhãn khi cần.
 - Kiểm tra bằng bảng cân bằng ngữ cảnh ↔ mức 0 (mục Verification).
 
-## Giai đoạn 1 – Xác định, lựa chọn, lập kế hoạch
+## Giai đoạn 1 – Xác định, lựa chọn, lập kế hoạch ✅ (xong 2026-10-02)
 Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - Phạm vi: 1 cơ sở, ~500 HV, 30 GV (từ BT1); ngoài phạm vi: thanh toán online, QR, đa cơ sở.
 - Khả thi: kinh tế (chi phí hữu hình: máy chủ, phát triển; vô hình: đào tạo, thay đổi thói quen; lợi ích: giảm sai sót học phí, giảm thời gian báo cáo), kỹ thuật (stack BT1), tác nghiệp (nhân viên dùng được), pháp lý (bảo vệ dữ liệu cá nhân trẻ vị thành niên).
