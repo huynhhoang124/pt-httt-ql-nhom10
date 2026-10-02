@@ -13,7 +13,7 @@ Quy ước dùng trong tài liệu:
 
 ## 1. Bước 1 – Khảo sát chức năng
 
-### 1.0 Quản lý danh mục và hồ sơ
+### Chức năng 1.0 – Quản lý danh mục và hồ sơ
 
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
@@ -22,7 +22,7 @@ Quy ước dùng trong tài liệu:
 | 1.3 | Quản lý khóa học | Thêm và sửa khóa học: ngôn ngữ, trình độ đầu vào → đầu ra, số buổi, thời lượng, học phí, trọng số điểm. | Thông tin khóa học (QL đào tạo) | Khóa học (D1) | QL đào tạo | QT13 (trọng số) |
 | 1.4 | Quản lý phòng học | Thêm và sửa phòng học: sức chứa, thiết bị, tình trạng sử dụng. | Thông tin phòng học (QL đào tạo) | Phòng học (D1) | QL đào tạo | QT06 (sức chứa) |
 
-### 2.0 Quản lý lớp học và lịch học
+### Chức năng 2.0 – Quản lý lớp học và lịch học
 
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
@@ -31,7 +31,7 @@ Quy ước dùng trong tài liệu:
 | 2.3 | Xếp lịch, kiểm tra trùng lịch | Sinh các buổi học của lớp theo lịch tuần, gán phòng; từ chối nếu trùng giáo viên hoặc trùng phòng. Xử lý đổi lịch và học bù. | Lớp đã mở (từ 2.1); giáo viên, phòng học (D1); lịch đã xếp (D2) | Buổi học / lịch học (D2); lịch học (HV/PH); lịch dạy, danh sách lớp (Giáo viên) | QL đào tạo | QT07 |
 | 2.4 | Xử lý chuyển lớp, bảo lưu, nghỉ học | Kiểm tra điều kiện rồi cập nhật trạng thái đăng ký: *Chuyển lớp* (tạo đăng ký mới ở lớp đích), *Bảo lưu*, *Nghỉ học*. | Yêu cầu chuyển lớp, bảo lưu (HV/PH); đơn chuyển lớp, bảo lưu (NV tuyển sinh); đăng ký, sĩ số, buổi học (D2); tình trạng đóng học phí (D3) | Đăng ký cập nhật (D2); kết quả xử lý (NV tuyển sinh) | NV tuyển sinh / CSHV | QT08, QT09, QT10 |
 
-### 3.0 Quản lý học phí
+### Chức năng 3.0 – Quản lý học phí
 
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
@@ -40,7 +40,7 @@ Quy ước dùng trong tài liệu:
 | 3.3 | Theo dõi công nợ | Tính công nợ = phải thu − đã thu cho từng đăng ký còn hiệu lực; lọc các khoản quá hạn. Đăng ký nghỉ học không tính nợ. | Học phí, phiếu thu (D3); trạng thái đăng ký (D2) | Công nợ (NV kế toán) | NV kế toán | QT10, QT16 |
 | 3.4 | Thống kê doanh thu | Tổng hợp phiếu thu theo kỳ, khóa học, hình thức thanh toán; kèm tổng công nợ. | Yêu cầu báo cáo doanh thu (Giám đốc); phiếu thu, công nợ (D3) | Báo cáo doanh thu, công nợ (Giám đốc) | NV kế toán, Giám đốc | – |
 
-### 4.0 Quản lý học tập
+### Chức năng 4.0 – Quản lý học tập
 
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
@@ -49,7 +49,7 @@ Quy ước dùng trong tài liệu:
 | 4.3 | Tổng kết, xếp loại | Khi lớp kết thúc: tính điểm chuyên cần, điểm tổng kết theo trọng số, xếp loại và xác định Đạt/Không đạt. | Điểm danh, điểm thành phần (D4); trọng số điểm khóa học (D1) | Kết quả học tập (D4); kết quả học tập (HV/PH); danh sách học viên đạt (sang 4.4) | Hệ thống tự tính, QL đào tạo duyệt | QT13, QT14, QT15 |
 | 4.4 | Cấp chứng nhận hoàn thành khóa học | Cấp số chứng nhận cho học viên đạt và in chứng nhận. | Danh sách học viên đạt (từ 4.3) | Chứng nhận (D4); chứng nhận (HV/PH) | QL đào tạo | QT15 |
 
-### 5.0 Quản lý hệ thống và báo cáo
+### Chức năng 5.0 – Quản lý hệ thống và báo cáo
 
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
