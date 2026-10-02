@@ -47,7 +47,7 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - Lịch dự án (Gantt đơn giản theo các giai đoạn dưới).
 
 ## Giai đoạn 2 – Phân tích hệ thống
-### 2.1 Thu thập thông tin – `phan_tich/02_thu_thap.md`
+### 2.1 Thu thập thông tin – `phan_tich/02_thu_thap.md` ✅ (xong 2026-10-02)
 - Báo cáo nghiên cứu tài liệu theo mẫu bài giảng, dựa trên chứng từ mẫu tự xây: **phiếu đăng ký học, phiếu thu học phí, sổ điểm danh, bảng điểm, chứng nhận**. Các chứng từ này là đầu vào cho chuẩn hóa ở 3.3.
 - Kế hoạch phỏng vấn (Giám đốc, QL đào tạo, NV tuyển sinh, Kế toán, GV): câu hỏi mở + đóng; 1 phiếu điều tra học viên (tiêu đề – định danh – câu hỏi – kết thúc).
 - Bảng so sánh ưu/nhược 6 phương pháp, nêu phương pháp nhóm dùng.

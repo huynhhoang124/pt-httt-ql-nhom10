@@ -13,6 +13,7 @@
 ## Nội dung
 - `bai_tap_1/` – Báo cáo phân tích theo 6 góc nhìn (Word + PDF)
 - `so_do/` – Sơ đồ BFD_v3, DFD mức ngữ cảnh, DFD mức 0, bảng cân bằng DFD (`can_bang_dfd.md`)
+- `phan_tich/` – Tài liệu giai đoạn phân tích (2.1 thu thập thông tin, quy tắc nghiệp vụ QT01–QT16)
 - `so_do/src/` – Script sinh sơ đồ: sửa dữ liệu trong `bfd.py` / `dfd.py` rồi chạy `python so_do/src/bfd.py` và `python so_do/src/dfd.py` (cần matplotlib)
 - `KE_HOACH.md` – Kế hoạch xuyên suốt dự án (giai đoạn, sản phẩm, phân công, kiểm tra)
 
