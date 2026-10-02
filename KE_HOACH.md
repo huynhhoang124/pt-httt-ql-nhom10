@@ -61,7 +61,7 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - **5 sơ đồ mức 1**: DFD-1.0 … DFD-5.0, mỗi sơ đồ có 4 tiến trình con x.1–x.4, giữ nguyên tác nhân/kho/luồng của mức 0 (cân bằng). Có thể tách kho con (vd D2 → D2.1 Lớp, D2.2 Đăng ký, D2.3 Lịch học) nếu cần nhưng phải ghi rõ thuộc D2.
 - Dừng ở mức 1 (các tiến trình x.y đã là cơ bản).
 
-### 2.4 Đặc tả xử lý + từ điển dữ liệu – `phan_tich/04_dac_ta.md`
+### 2.4 Đặc tả xử lý + từ điển dữ liệu – `phan_tich/04_dac_ta.md` ✅ (xong 2026-10-02)
 - Ngôn ngữ cấu trúc cho các tiến trình cơ sở chính (2.2 đăng ký/xếp lớp, 3.2 lập phiếu thu, 4.1 điểm danh, 4.3 tổng kết).
 - **Bảng quyết định**: 3.1 tính học phí/ưu đãi (điều kiện: HV cũ, đăng ký nhóm, đóng 1 lần…); 4.3 xếp loại.
 - **Cây quyết định**: 2.4 chuyển lớp/bảo lưu/nghỉ; cảnh báo chuyên cần.
