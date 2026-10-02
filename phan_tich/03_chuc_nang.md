@@ -46,7 +46,7 @@ Quy ước dùng trong tài liệu:
 |---|---|---|---|---|---|---|
 | 4.1 | Điểm danh, tính chuyên cần | Giáo viên chọn buổi học và ghi trạng thái từng học viên. Hệ thống tính tỷ lệ chuyên cần và đánh dấu học viên vượt ngưỡng vắng. | Điểm danh (Giáo viên); danh sách lớp, buổi học (D2) | Điểm danh (D4); chuyên cần (HV/PH) | Giáo viên | QT11, QT12 |
 | 4.2 | Nhập điểm thành phần | Giáo viên nhập điểm giữa kỳ, cuối kỳ (thang 10) và nhận xét cho từng học viên. | Điểm số, nhận xét (Giáo viên); danh sách lớp (D2) | Điểm thành phần (D4) | Giáo viên | Điểm trong khoảng 0–10 |
-| 4.3 | Tổng kết, xếp loại | Khi lớp kết thúc: tính điểm chuyên cần, điểm tổng kết theo trọng số, xếp loại và xác định Đạt/Không đạt. | Điểm danh, điểm thành phần (D4) | Kết quả học tập (D4); kết quả học tập (HV/PH); danh sách học viên đạt (sang 4.4) | Hệ thống tự tính, QL đào tạo duyệt | QT13, QT14, QT15 |
+| 4.3 | Tổng kết, xếp loại | Khi lớp kết thúc: tính điểm chuyên cần, điểm tổng kết theo trọng số, xếp loại và xác định Đạt/Không đạt. | Điểm danh, điểm thành phần (D4); trọng số điểm khóa học (D1) | Kết quả học tập (D4); kết quả học tập (HV/PH); danh sách học viên đạt (sang 4.4) | Hệ thống tự tính, QL đào tạo duyệt | QT13, QT14, QT15 |
 | 4.4 | Cấp chứng nhận hoàn thành khóa học | Cấp số chứng nhận cho học viên đạt và in chứng nhận. | Danh sách học viên đạt (từ 4.3) | Chứng nhận (D4); chứng nhận (HV/PH) | QL đào tạo | QT15 |
 
 ### 5.0 Quản lý hệ thống và báo cáo
@@ -54,7 +54,7 @@ Quy ước dùng trong tài liệu:
 | Mã | Tên chức năng | Mô tả | Đầu vào | Đầu ra | Người thực hiện | Quy tắc |
 |---|---|---|---|---|---|---|
 | 5.1 | Quản lý tài khoản, phân quyền | Tạo và khóa tài khoản cho nhân viên, giáo viên, học viên, phụ huynh; gán vai trò; cấu hình tham số; ghi và xem nhật ký. | Tài khoản, phân quyền, cấu hình (Quản trị viên); hồ sơ học viên, giáo viên (D1); quyền truy cập (D5) | Tài khoản, nhật ký (D5); nhật ký hệ thống (Quản trị viên) | Quản trị viên | Phụ huynh chỉ xem được thông tin của con mình |
-| 5.2 | Gửi thông báo | Sinh và gửi thông báo: lịch học thay đổi, nhắc học phí sắp hoặc đã quá hạn, cảnh báo vắng học, kết quả học tập. | Lớp, đăng ký, buổi học (D2); công nợ (D3); chuyên cần, kết quả (D4); hồ sơ học viên, phụ huynh (D1); tài khoản nhận (D5) | Thông báo (D5); thông báo (HV/PH) | Hệ thống tự động, NV CSHV | QT12, QT16 |
+| 5.2 | Gửi thông báo | Sinh và gửi thông báo: lịch học thay đổi, nhắc học phí sắp hoặc đã quá hạn, cảnh báo vắng học, kết quả học tập. | Lịch học thay đổi (D2); công nợ (D3); chuyên cần, kết quả (D4); liên hệ học viên, phụ huynh (D1) | Thông báo (D5); thông báo (HV/PH) | Hệ thống tự động, NV CSHV | QT12, QT16 |
 | 5.3 | Lập báo cáo tuyển sinh, tình trạng lớp | Số học viên mới theo tháng và khóa học; sĩ số và tỷ lệ lấp đầy từng lớp; số lớp mở và hủy. | Yêu cầu báo cáo tổng hợp (Giám đốc); hồ sơ học viên (D1); lớp, đăng ký (D2) | Báo cáo tuyển sinh (Giám đốc); báo cáo lớp học (QL đào tạo) | QL đào tạo, Giám đốc | – |
 | 5.4 | Lập báo cáo chuyên cần, kết quả, giảng dạy | Tỷ lệ chuyên cần theo lớp, danh sách học viên nghỉ nhiều; tỷ lệ đạt và phân bố xếp loại; số buổi dạy của từng giáo viên. | Yêu cầu báo cáo tổng hợp (Giám đốc); giáo viên (D1); lớp, buổi học (D2); chuyên cần, kết quả (D4) | Báo cáo chuyên cần, kết quả, giảng dạy (QL đào tạo); báo cáo kết quả học tập (Giám đốc) | QL đào tạo, Giám đốc | – |
 
@@ -143,7 +143,7 @@ Mục đích: làm cầu nối từ chức năng sang DFD (luồng vào/ra kho) 
 | 4.3 | | | | R | | | R | | | | | R | R | CU | | | | | |
 | 4.4 | | | | | | | | | | | | | | R | C | | | | |
 | 5.1 | R | R | R | | | | | | | | | | | | | CU | CU | | CR |
-| 5.2 | R | R | | | | R | R | R | | R | R | R | | R | | | R | C | |
+| 5.2 | R | R | | | | R | R | R | | R | R | R | | R | | | | C | |
 | 5.3 | R | | | R | | R | R | | | | | | | | | | | | |
 | 5.4 | | | R | | | R | R | R | | | | R | | R | | | | | |
 
@@ -151,9 +151,11 @@ Mục đích: làm cầu nối từ chức năng sang DFD (luồng vào/ra kho) 
 
 - **Mỗi thực thể đều có chức năng tạo (C):** đạt, cả 19 thực thể.
 - **Mỗi chức năng đều đụng tới dữ liệu:** đạt, cả 20 chức năng.
-- **Khớp với DFD mức 0:** mọi ô C/U của một chức năng x.y đều nằm ở kho mà tiến trình x.0 có luồng *ghi*, và mọi ô R đều nằm ở kho mà x.0 có luồng *đọc*, hoặc ở kho mà chính x.0 ghi vào (`so_do/can_bang_dfd.md`). Các ngoại lệ:
-  - 4.3 đọc KH (trọng số điểm, D1). Trọng số này được chép sang lớp khi mở lớp nên 4.3 chỉ cần đọc D2/D4; sẽ chốt lại ở bước chuẩn hóa 3.3.
-  - Khi rà ma trận, nhóm phát hiện tiến trình 2.0 còn thiếu luồng đọc D3 (2.2 và 2.4 cần biết tình trạng đóng học phí theo QT05 và QT09). Đã bổ sung luồng **"Tình trạng đóng học phí" (D3 → 2.0)** vào `so_do/src/dfd.py` và vẽ lại DFD mức 0.
+- **Khớp với DFD mức 0:** mọi ô C/U của một chức năng x.y đều nằm ở kho mà tiến trình x.0 có luồng *ghi*, và mọi ô R đều nằm ở kho mà x.0 có luồng *đọc*, hoặc ở kho mà chính x.0 ghi vào (`so_do/can_bang_dfd.md`).
+- Những điểm đã sửa trên DFD mức 0 nhờ rà ma trận và vẽ mức 1:
+  - Thêm luồng **"Tình trạng đóng học phí" (D3 → 2.0)**: 2.2 và 2.4 cần biết tình trạng đóng học phí theo QT05 và QT09.
+  - Thêm luồng **"Trọng số điểm khóa học" (D1 → 4.0)**: 4.3 cần trọng số để tính điểm tổng kết (QT13).
+  - Đổi tên một số luồng kho cho đủ nội dung mà mức 1 cần: D2 → 2.0 "Đăng ký, sĩ số, lịch đã xếp"; D3 → 3.0 "Học phí phải thu, số đã thu"; 4.0 → D4 "Điểm danh, điểm, kết quả, chứng nhận"; D5 → 5.0 "Quyền truy cập, nhật ký".
 - Mã nhân viên lập phiếu (NV) lấy từ phiên đăng nhập nên không vẽ thành luồng đọc D5 trên DFD.
 
 ## 5. Đầu ra cho các bước sau

@@ -56,7 +56,7 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - Bảng mô tả từng chức năng lá BFD: Mã – Tên – Mô tả – Đầu vào – Đầu ra – Người thực hiện (20 dòng).
 - Ma trận thực thể–chức năng (chức năng nào tạo/đọc/sửa dữ liệu gì) → làm cầu nối sang DFD và ERD.
 
-### 2.3 DFD phân cấp – `so_do/`
+### 2.3 DFD phân cấp – `so_do/` ✅ (xong 2026-10-02)
 - Ngữ cảnh, mức 0 (giai đoạn 0).
 - **5 sơ đồ mức 1**: DFD-1.0 … DFD-5.0, mỗi sơ đồ có 4 tiến trình con x.1–x.4, giữ nguyên tác nhân/kho/luồng của mức 0 (cân bằng). Có thể tách kho con (vd D2 → D2.1 Lớp, D2.2 Đăng ký, D2.3 Lịch học) nếu cần nhưng phải ghi rõ thuộc D2.
 - Dừng ở mức 1 (các tiến trình x.y đã là cơ bản).
