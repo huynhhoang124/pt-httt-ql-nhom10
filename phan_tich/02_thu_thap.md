@@ -12,11 +12,11 @@ Mục tiêu đặt ra cụ thể để biết khi nào thu thập đủ:
 
 | # | Mục tiêu | Dùng cho bước |
 |---|---|---|
-| M1 | Xác định đủ các nghiệp vụ, người thực hiện, đầu vào và đầu ra của từng nghiệp vụ | BFD (2.2), DFD (2.3) |
-| M2 | Thu đủ các chứng từ đang dùng (phiếu đăng ký, phiếu thu, sổ điểm danh, bảng điểm, chứng nhận) cùng các trường dữ liệu trên đó | Từ điển dữ liệu (2.4), chuẩn hóa (3.3) |
-| M3 | Ghi lại các quy tắc nghiệp vụ: học phí, ưu đãi, sĩ số, chuyển lớp, bảo lưu, chuyên cần, xếp loại | Bảng/cây quyết định (2.4) |
-| M4 | Xác định các báo cáo mà ban giám đốc và các bộ phận cần, kèm tần suất | Tiến trình 3.4, 5.3, 5.4; thiết kế report (3.6) |
-| M5 | Xác định khó khăn của cách làm hiện tại và yêu cầu đối với hệ thống mới | Phạm vi, khả thi (GĐ1); yêu cầu phi chức năng |
+| M1 | Xác định đủ các nghiệp vụ, người thực hiện, đầu vào và đầu ra của từng nghiệp vụ | Phân tích chức năng (BFD), DFD |
+| M2 | Thu đủ các chứng từ đang dùng (phiếu đăng ký, phiếu thu, sổ điểm danh, bảng điểm, chứng nhận) cùng các trường dữ liệu trên đó | Từ điển dữ liệu; chuẩn hóa ở giai đoạn thiết kế |
+| M3 | Ghi lại các quy tắc nghiệp vụ: học phí, ưu đãi, sĩ số, chuyển lớp, bảo lưu, chuyên cần, xếp loại | Bảng/cây quyết định |
+| M4 | Xác định các báo cáo mà ban giám đốc và các bộ phận cần, kèm tần suất | Tiến trình 3.4, 5.3, 5.4; thiết kế báo cáo |
+| M5 | Xác định khó khăn của cách làm hiện tại và yêu cầu đối với hệ thống mới | Phạm vi, khả thi (giai đoạn 1); yêu cầu phi chức năng |
 
 ## 2. Nội dung thông tin cần thu thập
 
@@ -52,7 +52,7 @@ Phân theo hai nhóm như bài giảng.
 | Phỏng vấn cá nhân / nhóm | Hỏi thêm được ngay; biết thái độ và trách nhiệm của người trả lời. Phỏng vấn nhóm ít tốn thời gian hơn | Các ý kiến có thể mâu thuẫn; tốn thời gian. Trong phỏng vấn nhóm, cấp dưới ngại nói trái ý cấp trên | **Có** – 5 cá nhân + 1 buổi nhóm (mục 6) |
 | Phiếu điều tra | Rẻ, khách quan khi có nhiều phiếu, dễ thống kê | Không hỏi thêm được; tỷ lệ thu hồi phiếu thấp | **Có** – phát cho học viên và phụ huynh (mục 7) |
 | JAD (thảo luận chuyên đề) | Thảo luận có kiểm soát, ra được giải pháp tốt nhất | Tốn kém, nhiều người tham dự | **Có, rút gọn** – 1 buổi về học phí và ưu đãi (mục 8) |
-| Làm mẫu (prototyping) | Người dùng hiểu hệ thống, góp ý sửa ngay | Khó thống nhất yêu cầu của nhiều người dùng | **Có** – ở giai đoạn thiết kế form (3.6) |
+| Làm mẫu (prototyping) | Người dùng hiểu hệ thống, góp ý sửa ngay | Khó thống nhất yêu cầu của nhiều người dùng | **Có** – ở giai đoạn thiết kế biểu mẫu |
 
 ### 3.2 Kế hoạch thực hiện
 
@@ -70,7 +70,7 @@ Phân theo hai nhóm như bài giảng.
 
 ## 4. Nghiên cứu tài liệu
 
-### 4.1 Báo cáo kết quả nghiên cứu tài liệu hệ thống (mẫu Hình 3.11)
+### 4.1 Báo cáo kết quả nghiên cứu tài liệu hệ thống (theo mẫu Hình 3.11 của bài giảng)
 
 > **Đề án:** Hệ thống quản lý trung tâm ngoại ngữ – Nhóm 10
 >
@@ -95,7 +95,7 @@ Phân theo hai nhóm như bài giảng.
 
 ### 4.2 Chứng từ mẫu thu được
 
-Đây là nguồn dữ liệu cho từ điển dữ liệu (2.4) và cho chuẩn hóa (3.3). Các trường được giữ nguyên như trên giấy, chưa chuẩn hóa.
+Đây là nguồn dữ liệu cho từ điển dữ liệu và cho bước chuẩn hóa ở giai đoạn thiết kế. Các trường được giữ nguyên như trên giấy, chưa chuẩn hóa.
 
 #### 4.2.1 Phiếu đăng ký học (luồng "Phiếu đăng ký" vào tiến trình 2.0)
 
@@ -271,7 +271,7 @@ PHIẾU KHẢO SÁT Ý KIẾN HỌC VIÊN VÀ PHỤ HUYNH
 
 ### 9.2 Yêu cầu đối với hệ thống mới
 
-**Yêu cầu chức năng:** 20 chức năng lá trong BFD_v3 (`so_do/BFD_v3.png`). Mô tả chi tiết ở bước 2.2.
+**Yêu cầu chức năng:** 20 chức năng lá trong BFD_v3 (`so_do/BFD_v3.png`). Mô tả chi tiết ở phần phân tích chức năng.
 
 **Yêu cầu phi chức năng:**
 - Dùng được trên trình duyệt máy tính và điện thoại (giáo viên điểm danh bằng điện thoại).
@@ -282,7 +282,7 @@ PHIẾU KHẢO SÁT Ý KIẾN HỌC VIÊN VÀ PHỤ HUYNH
 
 ### 9.3 Quy tắc nghiệp vụ thu được
 
-Các bước 2.4 (bảng/cây quyết định), 3.4 (ràng buộc CHECK) và demo đều dùng **đúng mã quy tắc** dưới đây.
+Phần đặc tả xử lý (bảng/cây quyết định), thiết kế CSDL (ràng buộc CHECK) và bản demo đều dùng **đúng mã quy tắc** dưới đây.
 
 | Mã | Quy tắc | Áp dụng ở |
 |---|---|---|

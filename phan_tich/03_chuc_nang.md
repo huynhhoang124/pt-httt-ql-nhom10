@@ -98,7 +98,7 @@ Các chức năng cùng cấp có độ phức tạp tương đương (cấp 1 �
 
 ## 4. Ma trận thực thể – chức năng
 
-Mục đích: làm cầu nối từ chức năng sang DFD (luồng vào/ra kho) và sang ERD (bước 3.1–3.2). Danh sách thực thể ở đây là **dự kiến**, lấy từ 20 đối tượng dữ liệu của BT1 và 5 chứng từ ở bước 2.1; tên có thể chỉnh lại khi chuẩn hóa.
+Mục đích: làm cầu nối từ chức năng sang DFD (luồng vào/ra kho) và sang ERD (giai đoạn thiết kế). Danh sách thực thể ở đây là **dự kiến**, lấy từ 20 đối tượng dữ liệu của BT1 và 5 chứng từ thu thập được; tên có thể chỉnh lại khi chuẩn hóa.
 
 **Ký hiệu:** C = tạo, U = sửa, R = đọc.
 

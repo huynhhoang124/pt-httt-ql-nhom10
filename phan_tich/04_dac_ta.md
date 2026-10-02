@@ -158,7 +158,7 @@ Kiểm tra lại với bảng điểm mẫu (02_thu_thap.md, mục 4.2.4): HV041
 | 4.2 | Kiểm tra 0 ≤ Điểm ≤ 10. Chỉ giáo viên được phân công dạy lớp mới được nhập điểm. Được sửa điểm cho đến khi lớp đã được tổng kết. |
 | 4.4 | Với mỗi học viên trong Danh sách học viên đạt: cấp Số chứng nhận (tăng dần theo năm, dạng CN2026-xxxx), Ngày cấp = hôm nay; ghi D4 và in chứng nhận (QT15). |
 | 5.2 | Chạy tự động hằng ngày, gửi thông báo khi có: lịch học thay đổi; khoản học phí còn 3 ngày đến hạn hoặc đã quá hạn (QT16); cảnh báo vắng (QT12); kết quả học tập. Người nhận là học viên, cùng với phụ huynh nếu học viên dưới 18 tuổi. Ghi Thông báo đã gửi vào D5. |
-| 5.3, 5.4 | Kích hoạt theo yêu cầu của Giám đốc hoặc định kỳ cuối tháng. Chỉ đọc dữ liệu, tổng hợp theo kỳ, có so sánh với kỳ trước (đặc trưng của MIS). Danh sách chỉ tiêu: xem mục 4.4. |
+| 5.3, 5.4 | Kích hoạt theo yêu cầu của Giám đốc hoặc định kỳ cuối tháng. Chỉ đọc dữ liệu, tổng hợp theo kỳ, có so sánh với kỳ trước (đặc trưng của MIS). Danh sách chỉ tiêu: xem các dòng báo cáo ở mục 4.2. |
 
 ---
 

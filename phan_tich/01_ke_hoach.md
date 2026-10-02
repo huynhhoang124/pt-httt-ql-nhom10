@@ -122,7 +122,7 @@ Phần cứng người dùng (12 máy tính, máy in, wifi) đã có sẵn, khô
 - **Chứng từ thu tiền:** phiếu thu là chứng từ nội bộ, phải có đủ nội dung của chứng từ kế toán (số, ngày, người nộp, số tiền bằng số và bằng chữ, người thu). Việc xuất hóa đơn điện tử theo quy định thuế nằm ngoài phạm vi và tiếp tục làm trên phần mềm hóa đơn hiện có của kế toán.
 - **Bản quyền phần mềm:** dùng công cụ miễn phí hoặc mã nguồn mở (ASP.NET Core, SQL Server Express, Bootstrap); mã nguồn hệ thống thuộc về trung tâm.
 
-→ **Khả thi về pháp lý** nếu thực hiện đủ các biện pháp trên; chúng được đưa vào yêu cầu phi chức năng và thiết kế phân quyền (3.5).
+→ **Khả thi về pháp lý** nếu thực hiện đủ các biện pháp trên; chúng được đưa vào yêu cầu phi chức năng và thiết kế phân quyền ở giai đoạn thiết kế.
 
 ### 3.5 Khả thi chính trị (về mặt tổ chức)
 
@@ -168,7 +168,7 @@ Tính theo tuần của học kỳ, tuần 1 bắt đầu 07/09/2026. Mốc nộ
 
 ### 5.2 Nguồn lực và phân công
 
-| Thành viên | Vai trò trong dự án | Phần chính (theo KE_HOACH.md) |
+| Thành viên | Vai trò trong dự án | Phần việc chính |
 |---|---|---|
 | Hoàng Văn Huynh | Trưởng nhóm, phân tích viên chính | Điều phối, sơ đồ, ERD, duyệt PR, báo cáo tổng |
 | Nguyễn Gia Ân | Phân tích viên | Thu thập thông tin, DFD-1.0, DFD-2.0 |
@@ -185,6 +185,6 @@ Công cụ: GitHub (mỗi người một nhánh, mở PR vào `main`), Python đ
 |---|:-:|:-:|---|
 | Thiếu thời gian làm demo | Trung bình | Cao | Demo chỉ gồm các chức năng cốt lõi (đăng ký, phiếu thu, điểm danh, nhập điểm, 2–3 báo cáo); nếu cần thì chỉ làm CSDL + truy vấn |
 | Các phần làm riêng không khớp nhau (DFD, ERD, CSDL) | Trung bình | Cao | Dùng chung mã chức năng, mã quy tắc; script tự kiểm tra cân bằng DFD; đối chiếu DFD ↔ ERD ↔ CSDL sau mỗi giai đoạn |
-| Yêu cầu của giảng viên thay đổi | Trung bình | Trung bình | Báo cáo dựng tự động từ .md nên sửa nhanh |
+| Yêu cầu của giảng viên thay đổi | Trung bình | Trung bình | Báo cáo được dựng tự động từ tài liệu nguồn nên sửa nhanh |
 | Thành viên không tham gia đều | Thấp | Trung bình | Phân công rõ ràng, theo dõi qua PR trên GitHub |
 | Dữ liệu giả định không thực tế | Thấp | Thấp | Ghi rõ "giả định"; có thể thay bằng số liệu khảo sát thật mà không đổi cấu trúc |

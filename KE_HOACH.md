@@ -67,7 +67,7 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 - **Cây quyết định**: 2.4 chuyển lớp/bảo lưu/nghỉ; cảnh báo chuyên cần.
 - **Từ điển dữ liệu** cho mọi luồng và kho: Tên – Ý nghĩa – Cấu trúc – Nguồn gốc.
 
-### 2.5 Báo cáo phân tích (nộp) ✅ (xong 2026-10-02 – `bao_cao/Bao_cao_phan_tich_Nhom_10.docx/.pdf`)
+### 2.5 Báo cáo phân tích (nộp) ✅ (xong 2026-10-02 – `bao_cao/Bao_cao_GD1_GD2_Nhom_10.docx/.pdf`)
 Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → Kết quả thu thập → Phân tích chức năng + BFD → DFD các mức → Đặc tả → Kết luận → Phụ lục (chứng từ, phiếu phỏng vấn).
 
 ## Giai đoạn 3 – Thiết kế hệ thống
