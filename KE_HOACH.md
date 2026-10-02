@@ -29,7 +29,7 @@ Tái dùng: `create_report.py` của Bài tập 1 (đường dẫn trong memory)
 
 ---
 
-## Giai đoạn 0 – Sửa phần đã làm (làm ngay)
+## Giai đoạn 0 – Sửa phần đã làm ✅ (xong 2026-10-02)
 - **BFD_v3**: đổi 1.1 thành "Tiếp nhận hồ sơ, kiểm tra trình độ học viên" (bổ sung quy trình tư vấn/kiểm tra đầu vào của BT1 → thỏa nguyên tắc *đầy đủ*). Giữ 5×4 chức năng.
 - **DFD ngữ cảnh**: giữ, chỉ rà lại nhãn luồng cho khớp BFD_v3.
 - **DFD mức 0 (vẽ lại)**:
