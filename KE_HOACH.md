@@ -71,12 +71,13 @@ Sản phẩm: `phan_tich/01_ke_hoach.md` → chương 1 báo cáo tổng.
 Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → Kết quả thu thập → Phân tích chức năng + BFD → DFD các mức → Đặc tả → Kết luận → Phụ lục (chứng từ, phiếu phỏng vấn).
 
 ## Giai đoạn 3 – Thiết kế hệ thống
-### 3.1 Thực thể & thuộc tính – `thiet_ke/01_thuc_the.md`
-- Lấy 20 đối tượng BT1, phân loại (xác thực / sự kiện / quan hệ), đánh dấu thuộc tính # / R / S. Loại thứ sinh: Công nợ (= học phí − đã thu), tỷ lệ chuyên cần, điểm tổng kết.
-- Dự kiến thực thể chính: HocVien, PhuHuynh, GiaoVien, NhanVien, KhoaHoc, LopHoc, PhongHoc, DangKy, BuoiHoc (lịch), DiemDanh, UuDai, PhieuThu, DauDiem (cột điểm), Diem, KetQua, ChungNhan, TaiKhoan, ThongBao.
+### 3.1 Thực thể & thuộc tính – `thiet_ke/01_thuc_the.md` ✅ (xong 2026-10-04)
+- 20 đối tượng BT1 → **26 thực thể** (1 xác thực, 9 chức năng, 10 sự kiện, 6 quan hệ), chia theo kho D1–D5; thuộc tính # / QH / R / S, tên trường không dấu.
+- Loại Công nợ (thứ sinh); bỏ DauDiem (Loại điểm là miền giá trị); thêm NhatKy, ThamSo. Có 8 thuộc tính thứ sinh "chốt" được lưu, có lý do.
+- Khóa của đăng ký là (MaHV, MaLop); 34 thuộc tính quan hệ ở mục 9 là đầu vào cho 3.2. Đã đối chiếu từng trường của 5 chứng từ mẫu.
 
 ### 3.2 Quan hệ + ERD – `so_do/ERD.png`
-- Bảng quan hệ (bậc, kiểu). N-N quan trọng: HocVien–LopHoc qua DangKy; HocVien–BuoiHoc qua DiemDanh; DangKy–DauDiem qua Diem; PhuHuynh–HocVien.
+- Bảng quan hệ (bậc, kiểu) từ 34 thuộc tính quan hệ ở `thiet_ke/01_thuc_the.md` mục 9. N-N quan trọng: HocVien–LopHoc qua DangKy; DangKy–BuoiHoc qua DiemDanh; HocVien–PhuHuynh qua HocVienPhuHuynh; HocPhi–UuDai qua ApDungUuDai; PhieuThu–DotHocPhi qua ChiTietPhieuThu; bậc 1: DangKy → đăng ký gốc.
 - Vẽ ERD ký pháp bài giảng (hình thoi, động từ).
 - Đối chiếu kho D1–D5 ↔ thực thể.
 
