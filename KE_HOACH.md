@@ -86,16 +86,17 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - Trộn bảng: thống nhất tên (học phí gốc khác học phí khóa); hai khóa tương đương của đăng ký → chọn (MaHV, MaLop); không trộn DangKy, HocPhi, KetQua vì là ba đối tượng khác nhau.
 - `thiet_ke/kiem_tra_chuan_hoa.py`: 22/26 thực thể tìm lại được từ chứng từ, khóa trùng thiết kế, 0 thuộc tính thừa. Kết quả 3NF trùng với 3.1.
 
-### 3.4 CSDL vật lý – `csdl/schema.sql`, `csdl/seed.sql`
-- SQL Server: bảng, PK, FK, CHECK (trạng thái, điểm 0–10, sĩ số), UNIQUE, index trường tra cứu. Bảng mô tả từng tệp (Tên trường – Kiểu – Ràng buộc – Ý nghĩa).
-- Dữ liệu mẫu đủ để chạy báo cáo (≈30 HV, 5 GV, 4 khóa, 6 lớp).
-- Một số view/truy vấn cho báo cáo MIS (doanh thu, công nợ, chuyên cần, tỷ lệ lấp đầy).
+### 3.4 CSDL vật lý – `thiet_ke/04_csdl.md`, `csdl/` ✅ (xong 2026-10-05)
+- SQL Server (chạy trên 2022 Express, bảng mã `Vietnamese_100_CI_AS`). Có 26 bảng, 161 trường, 35 khóa ngoại (34 theo 3.1 + `FK_ThongBao_GiamHo`), 63 CHECK, 16 chỉ mục. CHECK chỉ dùng cho bất biến; con số chính sách đọc từ bảng ThamSo.
+- `views.sql`: 9 view và 2 hàm tính thuộc tính thứ sinh và báo cáo MIS (doanh thu, `fn_CongNo(@Ngay)`, sĩ số – lấp đầy, chuyên cần, kết quả, giảng dạy, tuyển sinh).
+- `seed.sql` do `sinh_du_lieu.py` sinh, chốt ngày 31/12/2026, bám đúng 5 chứng từ mẫu. Có 46 học viên, 7 lớp, 940 lượt điểm danh, 92 phiếu thu, đủ các tình huống: chuyển lớp, bảo lưu, nghỉ học, lớp hủy, nợ quá hạn…
+- Kiểm tra: `chay.ps1` chạy schema → views → seed → `kiem_tra.sql`, kết quả 24/24 đạt (có thử chèn 5 bản ghi sai đều bị chặn). `sinh_mo_ta.py` đối chiếu schema với 3.1 rồi sinh `csdl/mo_ta_bang.md`.
 
-### 3.5 Thiết kế phần mềm – `thiet_ke/04_module.md`
+### 3.5 Thiết kế phần mềm – `thiet_ke/05_module.md`
 - Sơ đồ module Top-down: module chính → 5 phân hệ ↔ 1.0–5.0 → module con ↔ x.y; thêm đăng nhập/phân quyền, sao lưu (số module ≥ số tiến trình).
 - Ma trận phân quyền: vai trò (7 tác nhân + Quản trị) × chức năng.
 
-### 3.6 Thiết kế giao diện – `thiet_ke/05_giao_dien.md`
+### 3.6 Thiết kế giao diện – `thiet_ke/06_giao_dien.md`
 - Bảng ánh xạ: luồng vào DFD → Form (điền mẫu), luồng ra DFD → Report.
 - Form chính: hồ sơ HV, đăng ký lớp, xếp lịch, phiếu thu, điểm danh, nhập điểm. Report: phiếu thu, danh sách lớp, lịch dạy, bảng điểm, công nợ, BC tuyển sinh/doanh thu/chuyên cần.
 - Sơ đồ thực đơn phân cấp theo BFD; mockup đen trắng; quy tắc trợ giúp và thông báo lỗi.
