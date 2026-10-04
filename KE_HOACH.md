@@ -76,12 +76,12 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - Loại Công nợ (thứ sinh); bỏ DauDiem (Loại điểm là miền giá trị); thêm NhatKy, ThamSo. Có 8 thuộc tính thứ sinh "chốt" được lưu, có lý do.
 - Khóa của đăng ký là (MaHV, MaLop); 34 thuộc tính quan hệ ở mục 9 là đầu vào cho 3.2. Đã đối chiếu từng trường của 5 chứng từ mẫu.
 
-### 3.2 Quan hệ + ERD – `so_do/ERD.png`
-- Bảng quan hệ (bậc, kiểu) từ 34 thuộc tính quan hệ ở `thiet_ke/01_thuc_the.md` mục 9. N-N quan trọng: HocVien–LopHoc qua DangKy; DangKy–BuoiHoc qua DiemDanh; HocVien–PhuHuynh qua HocVienPhuHuynh; HocPhi–UuDai qua ApDungUuDai; PhieuThu–DotHocPhi qua ChiTietPhieuThu; bậc 1: DangKy → đăng ký gốc.
-- Vẽ ERD ký pháp bài giảng (hình thoi, động từ).
-- Đối chiếu kho D1–D5 ↔ thực thể.
+### 3.2 Quan hệ + ERD – `thiet_ke/02_quan_he.md`, `so_do/ERD_1_nghiep_vu.png`, `so_do/ERD_2_he_thong.png` ✅ (xong 2026-10-05)
+- 29 quan hệ, gồm 16 quan hệ 1–N, 8 quan hệ 1–1, 5 quan hệ N–N (cộng quan hệ N–N "Học" giữa HV và lớp qua DangKy) và 1 quan hệ bậc 1 (đăng ký gốc). Dùng đủ 34 thuộc tính quan hệ của 3.1.
+- ERD vẽ theo ký pháp bài giảng (hình thoi chứa động từ, 1/N, thực thể quan hệ chữ hoa kèm elip như Hình 4.45), chia 2 hình. Sơ đồ sinh bằng `so_do/src/erd.py`: script đọc bảng quan hệ trong .md, kiểm tra 8 quy tắc rồi mới vẽ.
+- Đối chiếu DFD–ERD theo 2 ràng buộc của bài giảng: mọi luồng ghi và đọc kho, mọi báo cáo đều có đường đi trên ERD.
 
-### 3.3 Chuẩn hóa – `thiet_ke/02_chuan_hoa.md`
+### 3.3 Chuẩn hóa – `thiet_ke/03_chuan_hoa.md`
 - Làm mẫu theo bài giảng (Hóa đơn → …) trên 3 chứng từ: **Phiếu đăng ký**, **Phiếu thu**, **Bảng điểm lớp**: dạng chưa chuẩn → 1NF → 2NF → 3NF → trộn bảng cùng khóa. Kết quả phải trùng tập bảng ở 3.1–3.2.
 
 ### 3.4 CSDL vật lý – `csdl/schema.sql`, `csdl/seed.sql`
@@ -89,11 +89,11 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - Dữ liệu mẫu đủ để chạy báo cáo (≈30 HV, 5 GV, 4 khóa, 6 lớp).
 - Một số view/truy vấn cho báo cáo MIS (doanh thu, công nợ, chuyên cần, tỷ lệ lấp đầy).
 
-### 3.5 Thiết kế phần mềm – `thiet_ke/03_module.md`
+### 3.5 Thiết kế phần mềm – `thiet_ke/04_module.md`
 - Sơ đồ module Top-down: module chính → 5 phân hệ ↔ 1.0–5.0 → module con ↔ x.y; thêm đăng nhập/phân quyền, sao lưu (số module ≥ số tiến trình).
 - Ma trận phân quyền: vai trò (7 tác nhân + Quản trị) × chức năng.
 
-### 3.6 Thiết kế giao diện – `thiet_ke/04_giao_dien.md`
+### 3.6 Thiết kế giao diện – `thiet_ke/05_giao_dien.md`
 - Bảng ánh xạ: luồng vào DFD → Form (điền mẫu), luồng ra DFD → Report.
 - Form chính: hồ sơ HV, đăng ký lớp, xếp lịch, phiếu thu, điểm danh, nhập điểm. Report: phiếu thu, danh sách lớp, lịch dạy, bảng điểm, công nợ, BC tuyển sinh/doanh thu/chuyên cần.
 - Sơ đồ thực đơn phân cấp theo BFD; mockup đen trắng; quy tắc trợ giúp và thông báo lỗi.
