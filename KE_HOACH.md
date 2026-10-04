@@ -81,8 +81,10 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - ERD vẽ theo ký pháp bài giảng (hình thoi chứa động từ, 1/N, thực thể quan hệ chữ hoa kèm elip như Hình 4.45), chia 2 hình. Sơ đồ sinh bằng `so_do/src/erd.py`: script đọc bảng quan hệ trong .md, kiểm tra 8 quy tắc rồi mới vẽ.
 - Đối chiếu DFD–ERD theo 2 ràng buộc của bài giảng: mọi luồng ghi và đọc kho, mọi báo cáo đều có đường đi trên ERD.
 
-### 3.3 Chuẩn hóa – `thiet_ke/03_chuan_hoa.md`
-- Làm mẫu theo bài giảng (Hóa đơn → …) trên 3 chứng từ: **Phiếu đăng ký**, **Phiếu thu**, **Bảng điểm lớp**: dạng chưa chuẩn → 1NF → 2NF → 3NF → trộn bảng cùng khóa. Kết quả phải trùng tập bảng ở 3.1–3.2.
+### 3.3 Chuẩn hóa – `thiet_ke/03_chuan_hoa.md` ✅ (xong 2026-10-05)
+- Chuẩn hóa đủ 3 bước của Ví dụ 3 (Hóa đơn) cho **Phiếu đăng ký**, **Phiếu thu**, **Bảng điểm lớp**; làm rút gọn cho Sổ điểm danh và Chứng nhận. Liệt kê đủ phụ thuộc hàm (F1–F11, G1–G6, H1–H6), kèm bảng dị thường khi lưu nguyên chứng từ.
+- Trộn bảng: thống nhất tên (học phí gốc khác học phí khóa); hai khóa tương đương của đăng ký → chọn (MaHV, MaLop); không trộn DangKy, HocPhi, KetQua vì là ba đối tượng khác nhau.
+- `thiet_ke/kiem_tra_chuan_hoa.py`: 22/26 thực thể tìm lại được từ chứng từ, khóa trùng thiết kế, 0 thuộc tính thừa. Kết quả 3NF trùng với 3.1.
 
 ### 3.4 CSDL vật lý – `csdl/schema.sql`, `csdl/seed.sql`
 - SQL Server: bảng, PK, FK, CHECK (trạng thái, điểm 0–10, sĩ số), UNIQUE, index trường tra cứu. Bảng mô tả từng tệp (Tên trường – Kiểu – Ràng buộc – Ý nghĩa).
