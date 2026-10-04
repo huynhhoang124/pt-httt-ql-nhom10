@@ -92,7 +92,7 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - `seed.sql` do `sinh_du_lieu.py` sinh, chốt ngày 31/12/2026, bám đúng 5 chứng từ mẫu. Có 46 học viên, 7 lớp, 940 lượt điểm danh, 92 phiếu thu, đủ các tình huống: chuyển lớp, bảo lưu, nghỉ học, lớp hủy, nợ quá hạn…
 - Kiểm tra: `chay.ps1` chạy schema → views → seed → `kiem_tra.sql`, kết quả 24/24 đạt (có thử chèn 5 bản ghi sai đều bị chặn). `sinh_mo_ta.py` đối chiếu schema với 3.1 rồi sinh `csdl/mo_ta_bang.md`.
 
-### 3.5 Thiết kế phần mềm – `thiet_ke/05_module.md`
+### 3.5 Thiết kế phần mềm – `thiet_ke/05_module.md` ✅ (xong 2026-10-05; `so_do/So_do_module.png`, `so_do/src/module.py`). Phát hiện DFD-2.0 và DFD-4.0 thiếu luồng QL đào tạo → 2.3 và → 4.3, chưa sửa
 - Sơ đồ module Top-down: module chính → 5 phân hệ ↔ 1.0–5.0 → module con ↔ x.y; thêm đăng nhập/phân quyền, sao lưu (số module ≥ số tiến trình).
 - Ma trận phân quyền: vai trò (7 tác nhân + Quản trị) × chức năng.
 
