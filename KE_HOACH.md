@@ -125,7 +125,18 @@ Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k 
 - **Xong (2026-10-05), 181 trang:** `python bao_cao/lam_bao_cao.py tong`. Bìa → mục lục → Lời giới thiệu → Phần I (BT1, chép từ `bai_tap_1/*.docx`) → Phần II (GĐ1–2, giữ số chương của báo cáo phân tích) → Phần III (GĐ3, chương 3.1–3.6) → Phần IV (chương 1 = 05_cai_dat, chương 2 = 06_bao_tri) → Kết luận → Phụ lục A (cân bằng DFD), B (mô tả tệp dữ liệu). Tham chiếu chéo ghi "Phần II, mục …". Hai báo cáo giai đoạn cũ dựng lại vẫn giống hệt (đã so từng đoạn). Còn lại: nhóm đọc duyệt, chuẩn bị thuyết trình.
 - **Rà soát tự động (2026-10-05):** đã sửa backtick sót, khối mã thụt lề, tham chiếu 3.2.9 → 3.1.9, `csdl/mo_ta_bang.md` → Phụ lục B (commit 82e5cc0). Số liệu kiểm thử đúng: 28 ca, 24 đạt, 4 chưa chạy (module chưa có trong demo).
 
-### Thuyết trình (đang làm)
+### Code bổ sung (làm TRƯỚC slide – người dùng chốt 2026-10-05)
+Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo cáo (06_giao_dien) + quyền (05_module mục 5) → code trong `demo/TrungTamNgoaiNgu/Pages/<phân hệ>/` theo cách các trang có sẵn → thêm test xUnit cho quy tắc → thử POST bằng curl → chạy lại `csdl/chay.ps1` → cập nhật ca kiểm thử ở 05_cai_dat mục 4.2 → commit.
+1. 4.3 Tổng kết, xếp loại (bảng quyết định 4.3 R1–R5, QT13–QT15, QL đào tạo duyệt) – ca TC22.
+2. 4.4 Cấp chứng nhận (QT15) – ca TC23.
+3. 2.3 Xếp lịch, kiểm tra trùng giáo viên/phòng (QT07) – ca TC06.
+4. 2.4 Chuyển lớp, bảo lưu, nghỉ học (QT08–QT10, cây quyết định 2.4) – ca TC07.
+5. Bảo trì nhỏ (06_bao_tri mục 4): B2 bắt đổi mật khẩu lần đầu, B4 đếm đăng nhập sai trong CSDL, B7 nhập điểm chấp nhận "7,5".
+6. Các module còn lại: 1.2–1.4, 2.1, 3.3, 5.1, 5.2, 5.4; N4 sao lưu, N5 xuất Excel/PDF, N6 lưu nháp.
+7. B1 nâng .NET 8 → .NET 10 (hỏi người dùng trước khi làm).
+Xong: cập nhật 05_cai_dat (kết quả kiểm thử), 05_module mục 7, 06_bao_tri mục 4, KE_HOACH "Tiến độ demo"; dựng lại báo cáo tổng (`python bao_cao/lam_bao_cao.py tong`). Rồi mới làm slide.
+
+### Thuyết trình (làm SAU code)
 Slide là Artifact loại Slides: https://claude.ai/artifact/PBqgA262dz8XCm871dM9vB (đã tạo, **chưa có slide nào**). Ảnh đã tải lên: BFD `/_blob/4f44929d59767147a3218aae6b4bb92f` (2012×853), DFD mức 0 `/_blob/bb0a3a96a55674c45241dcfbccf47775` (1761×2990, dọc), ERD 1 `/_blob/203cbb97774d9fea4d5815a720c80353` (1960×1535), sơ đồ module `/_blob/07f6d6e157a0bac5917387c1266c342d` (2417×1291).
 Dự kiến ~16 slide, đen trắng, Times New Roman, ghi chú người trình bày theo bảng phân công: bìa · bài toán (1 cơ sở, ~500 HV, 30 GV, 25–30 lớp; V4–V5, V2–V3, V8) · lộ trình 5 giai đoạn · GĐ1 (phương án C 4,05 điểm; hoàn vốn 1,3–3,7 năm) · thu thập (6 phương pháp, 5 chứng từ, 16 QT) · BFD · DFD · bảng quyết định học phí R1–R8 · ERD · CSDL & module (26 bảng, 35 FK, 63 CHECK, 9 view, 34 module, 8 vai trò, 18 form/18 báo cáo) · một bộ mã thống nhất + sinh tự động · demo (10 màn hình) · kiểm thử (38 xUnit, 24 kiểm tra CSDL, 8 vai trò, 24/28 ca; 4 lỗi đã sửa) · chuyển đổi theo giai đoạn · bảo trì (.NET 8 hết hỗ trợ 10/11/2026) + hướng phát triển · kết luận, hỏi đáp.
 
