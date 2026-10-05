@@ -118,6 +118,7 @@ Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k 
 
 ## Giai đoạn 5 – Bảo trì
 - Phân loại hiệu chỉnh / thích nghi / phòng ngừa; thứ tự ưu tiên; quản lý cấu hình bằng Git (nhánh, PR, tag phiên bản); hướng phát triển (thanh toán online, QR, đa cơ sở).
+- **Xong (2026-10-05):** `phan_tich/06_bao_tri.md` – 3 loại bảo trì kèm ví dụ thật, quy trình 8 bước + mức độ, ví dụ một vòng hiệu chỉnh (lỗi NhatKy), Git (nhánh, phiên bản vA.B.C, tệp nâng cấp `csdl/nang_cap/`), danh sách bảo trì B1–B8 (B1: .NET 8 hết hỗ trợ 10/11/2026), 7 hướng phát triển. Tiếp theo: báo cáo tổng.
 
 ## Báo cáo tổng cuối kỳ
 `bao_cao/Bao_cao_tong_Nhom_10.docx/.pdf` = BT1 + GĐ1 → GĐ5 theo khung báo cáo phân tích trong lý thuyết.
