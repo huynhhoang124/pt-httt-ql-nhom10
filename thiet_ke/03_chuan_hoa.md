@@ -421,7 +421,7 @@ Cột 2 là thuộc tính thu được từ chuẩn hóa các chứng từ, vi�
 | KetQua | #MaHV, #MaLop, DiemTongKet, XepLoai, KetQua | C, E | MaNVDuyet, NgayDuyet (4.3, QL đào tạo duyệt) |
 | ChungNhan | #SoCN, MaHV, MaLop, NgayCap | E | – |
 | NhanVien | #MaNV, HoTen | A, B | BoPhan, ChucVu, DienThoai, Email, TrangThai (5.1) |
-| TaiKhoan | – | – | TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai (5.1; không có chứng từ) |
+| TaiKhoan | – | – | TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai, PhaiDoiMatKhau, SoLanSai, KhoaDen (5.1; không có chứng từ) |
 | ThongBao | – | – | MaTB, Loai, MaHV, MaPH, NoiDung, ThoiGianGui, TrangThaiGui (5.2; không có chứng từ) |
 | NhatKy | – | – | MaNK, ThoiDiem, TenDangNhap, ThaoTac, DoiTuong, MaDoiTuong (dữ liệu hệ thống) |
 | ThamSo | – | – | MaThamSo, TenThamSo, GiaTri, DonVi, QuyTac (dữ liệu cấu hình) |

@@ -1,4 +1,4 @@
-using System.Globalization;
+using TrungTamNgoaiNgu.NghiepVu;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +44,7 @@ public class NhapDiemModel(TrungTamContext db, DongHo dongHo) : PageModel
         {
             var s = DiemNhap.GetValueOrDefault(d.Hv.MaHV)?.Trim();
             if (string.IsNullOrEmpty(s)) continue;  // chưa có điểm thì bỏ trống
-            if (!decimal.TryParse(s, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var diem))
+            if (!QuyTac.DocDiem(s, out var diem))
             {
                 ThongBaoLoi.Them(ModelState, new LoiNghiepVu("CK_Diem_Diem", $"{d.Hv.MaHV}: \"{s}\""));
                 continue;

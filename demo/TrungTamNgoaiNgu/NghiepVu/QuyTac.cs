@@ -1,3 +1,4 @@
+using System.Globalization;
 using TrungTamNgoaiNgu.Nen;
 
 namespace TrungTamNgoaiNgu.NghiepVu;
@@ -114,6 +115,14 @@ public static class QuyTac
         bay >= ngay.ToDateTime(batDau) && bay <= ngay.ToDateTime(ketThuc).AddHours((double)gioSua);
 
     public static readonly string[] TrangThaiDiemDanh = ["x", "M", "P", "K"];
+
+    // ---------------- 4.2 – Nhập điểm (bảo trì B7) ----------------
+
+    /// <summary>Đọc ô điểm, nhận cả dấu chấm và dấu phẩy thập phân ("7.5" = "7,5"); tối đa 1 chữ số lẻ (cột DECIMAL(3, 1)
+    /// sẽ làm tròn ngầm "8.25"). Không kiểm tra 0–10 (do CHECK CK_Diem_Diem).</summary>
+    public static bool DocDiem(string s, out decimal diem) =>
+        decimal.TryParse(s.Trim().Replace(',', '.'), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out diem)
+        && diem == Math.Round(diem, 1);
 
     // ---------------- 4.3 – Tổng kết, bảng quyết định xếp loại R1–R5 (04_dac_ta mục 1.7, 3.2; QT13–QT15) ----------------
 

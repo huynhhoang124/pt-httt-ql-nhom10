@@ -247,15 +247,27 @@ public class KiemThuQuyTac
     [Fact]
     public void KhoaDangNhap_5LanSai_Khoa15Phut()
     {
-        var k = new KhoaDangNhap();
         var t = new DateTime(2027, 1, 4, 19, 30, 0);
-        for (int i = 0; i < 4; i++) k.Sai("nv004", t);
-        Assert.False(k.DangKhoa("nv004", t));
-        k.Sai("nv004", t);
-        Assert.True(k.DangKhoa("nv004", t.AddMinutes(14)));
-        Assert.False(k.DangKhoa("nv004", t.AddMinutes(15)));
-        Assert.False(k.DangKhoa("nv005", t));
-        k.Dung("nv004");
-        Assert.False(k.DangKhoa("nv004", t));
+        (int Lan, DateTime? Den) s = (0, null);          // TaiKhoan.SoLanSai, KhoaDen (bảo trì B4)
+        for (int i = 0; i < 4; i++) s = KhoaDangNhap.Sai(s.Lan, s.Den, t);
+        Assert.False(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t));
+        s = KhoaDangNhap.Sai(s.Lan, s.Den, t);
+        Assert.True(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t.AddMinutes(14)));
+        Assert.False(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t.AddMinutes(15)));
+        Assert.Equal(1, KhoaDangNhap.Sai(s.Lan, s.Den, t.AddMinutes(15)).Lan);   // hết khóa: đếm lại từ đầu
+        Assert.False(KhoaDangNhap.DangKhoa(0, null, t));
+    }
+
+    [Theory]  // B7: nhận dấu phẩy thập phân
+    [InlineData("7.5", true, 7.5)]
+    [InlineData("7,5", true, 7.5)]
+    [InlineData(" 10 ", true, 10)]
+    [InlineData("abc", false, 0)]
+    [InlineData("7,5,1", false, 0)]
+    [InlineData("8.25", false, 0)]     // DECIMAL(3, 1) sẽ làm tròn ngầm
+    public void DocDiem_DauPhayHoacDauCham(string s, bool doc, double mong)
+    {
+        Assert.Equal(doc, DocDiem(s, out var d));
+        if (doc) Assert.Equal((decimal)mong, d);
     }
 }

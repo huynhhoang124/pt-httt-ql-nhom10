@@ -472,6 +472,8 @@ tai_khoan = [(m.lower(), bam(m.lower()), vt, m, None, None, None) for m, _, _, _
             [(g[0].lower(), bam(g[0].lower()), "Giáo viên", None, g[0], None, None) for g in GIAO_VIEN] + \
             [(h.lower(), bam(h.lower()), "Học viên", None, None, h, None) for h in ("HV0412", "HV0398", "HV0480")] + \
             [(p.lower(), bam(p.lower()), "Phụ huynh", None, None, None, p) for p in ("PH0301", "PH0320")]
+# B2: tài khoản đang dùng không phải đổi mật khẩu; riêng hv0480 coi như vừa được cấp, để thử bắt đổi mật khẩu lần đầu
+tai_khoan = [(*t, int(t[0] == "hv0480")) for t in tai_khoan]
 
 thong_bao = []
 
@@ -562,7 +564,7 @@ phan = [
     insert("Diem", ["MaHV", "MaLop", "LoaiDiem", "Diem", "NhanXet"], diem),
     insert("KetQua", list(ket_qua[0]), [tuple(k.values()) for k in ket_qua]),
     insert("ChungNhan", ["SoCN", "MaHV", "MaLop", "NgayCap"], [(so, x[3], x[1], x[0]) for so, x in chung_nhan]),
-    insert("TaiKhoan", ["TenDangNhap", "MatKhauBam", "VaiTro", "MaNV", "MaGV", "MaHV", "MaPH"], tai_khoan),
+    insert("TaiKhoan", ["TenDangNhap", "MatKhauBam", "VaiTro", "MaNV", "MaGV", "MaHV", "MaPH", "PhaiDoiMatKhau"], tai_khoan),
     insert("ThongBao", ["Loai", "MaHV", "MaPH", "NoiDung", "ThoiGianGui", "TrangThaiGui"], thong_bao),
     insert("NhatKy", ["ThoiDiem", "TenDangNhap", "ThaoTac", "DoiTuong", "MaDoiTuong"], nhat_ky),
     insert("ThamSo", ["MaThamSo", "TenThamSo", "GiaTri", "DonVi", "QuyTac"], THAM_SO),

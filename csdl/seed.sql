@@ -1907,24 +1907,24 @@ INSERT INTO ChungNhan (SoCN, MaHV, MaLop, NgayCap) VALUES
     (N'CN2026-0096', N'HV0417', N'IEK-2609', '2026-12-20');
 
 -- TaiKhoan: 17 dòng
-INSERT INTO TaiKhoan (TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH) VALUES
-    (N'nv001', N'sha256$3a30d5e46ee62ac9f5d83376ff61ca01e8a02594bbcd37771ffa14d0be46b374', N'Giám đốc', N'NV001', NULL, NULL, NULL),
-    (N'nv002', N'sha256$a39fdfe724c511ebe13ccf0c5b62244f4b0b1cd7b0305a208975f6746ac3be9a', N'QL đào tạo', N'NV002', NULL, NULL, NULL),
-    (N'nv003', N'sha256$cdc8d4f8f05fe9ff5e7b5d46fbdcf2e06cb54bcad0bac80924284a3b30fd8d7d', N'Quản trị viên', N'NV003', NULL, NULL, NULL),
-    (N'nv004', N'sha256$c613de5b895a04caa1e99bde16bafae95181a2cd99647fb4b2810ca28f99b607', N'NV kế toán', N'NV004', NULL, NULL, NULL),
-    (N'nv005', N'sha256$9376ea7290768d6954c4ec74d8ea1f0b7e90b0b01a2af726ad8f0ab601bf7677', N'NV tuyển sinh', N'NV005', NULL, NULL, NULL),
-    (N'nv006', N'sha256$75284b7934adc48513a81a86a8a1845e02e37f852a27252f1614552ca27f2a51', N'NV kế toán', N'NV006', NULL, NULL, NULL),
-    (N'nv007', N'sha256$449c59f1cffa346eb8d9147fe070751b691f2ed61aa4b6b13d54569a7bdb8a4a', N'NV tuyển sinh', N'NV007', NULL, NULL, NULL),
-    (N'gv008', N'sha256$3562b2d7dcefeebe1e25a1868be6921ffd5a8d6df1521451e46b44f50a03d9c7', N'Giáo viên', NULL, N'GV008', NULL, NULL),
-    (N'gv011', N'sha256$332cc05688b59af9858c5d9aa0819bf778dbb25b0d7517aada615d5544209bd7', N'Giáo viên', NULL, N'GV011', NULL, NULL),
-    (N'gv015', N'sha256$f521039c692edd634e997f6819358d45d796c12d5291bd73471e2c971f08deb2', N'Giáo viên', NULL, N'GV015', NULL, NULL),
-    (N'gv020', N'sha256$ec74c188d7fa0b31f51994df859b3fbd426a32ae9a2689a631dd815a69cf124a', N'Giáo viên', NULL, N'GV020', NULL, NULL),
-    (N'gv023', N'sha256$eed8292919690178b30c11ae1eb477e71d606a75d313b9f5bcd486faf8549594', N'Giáo viên', NULL, N'GV023', NULL, NULL),
-    (N'hv0412', N'sha256$8682cfa668035afb3ab3f99d3234e9b61c78f45d05d518b157904d58e04738f9', N'Học viên', NULL, NULL, N'HV0412', NULL),
-    (N'hv0398', N'sha256$91372dfa33901d9697aec045d203bc18150af5d00ef951a508c7282bdb261007', N'Học viên', NULL, NULL, N'HV0398', NULL),
-    (N'hv0480', N'sha256$4ccbdafd28343087e24c0ca916ac233e839517ddcef128d59f9731283439cabe', N'Học viên', NULL, NULL, N'HV0480', NULL),
-    (N'ph0301', N'sha256$564f1f0b428cd7e5719298aaff7c3e953fa8390c40f15bddafc04970e8667a5e', N'Phụ huynh', NULL, NULL, NULL, N'PH0301'),
-    (N'ph0320', N'sha256$677f6135dc9a8a17026a5d04ea6230e2570f674190568d0e976565cc1f1a2989', N'Phụ huynh', NULL, NULL, NULL, N'PH0320');
+INSERT INTO TaiKhoan (TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, PhaiDoiMatKhau) VALUES
+    (N'nv001', N'sha256$3a30d5e46ee62ac9f5d83376ff61ca01e8a02594bbcd37771ffa14d0be46b374', N'Giám đốc', N'NV001', NULL, NULL, NULL, 0),
+    (N'nv002', N'sha256$a39fdfe724c511ebe13ccf0c5b62244f4b0b1cd7b0305a208975f6746ac3be9a', N'QL đào tạo', N'NV002', NULL, NULL, NULL, 0),
+    (N'nv003', N'sha256$cdc8d4f8f05fe9ff5e7b5d46fbdcf2e06cb54bcad0bac80924284a3b30fd8d7d', N'Quản trị viên', N'NV003', NULL, NULL, NULL, 0),
+    (N'nv004', N'sha256$c613de5b895a04caa1e99bde16bafae95181a2cd99647fb4b2810ca28f99b607', N'NV kế toán', N'NV004', NULL, NULL, NULL, 0),
+    (N'nv005', N'sha256$9376ea7290768d6954c4ec74d8ea1f0b7e90b0b01a2af726ad8f0ab601bf7677', N'NV tuyển sinh', N'NV005', NULL, NULL, NULL, 0),
+    (N'nv006', N'sha256$75284b7934adc48513a81a86a8a1845e02e37f852a27252f1614552ca27f2a51', N'NV kế toán', N'NV006', NULL, NULL, NULL, 0),
+    (N'nv007', N'sha256$449c59f1cffa346eb8d9147fe070751b691f2ed61aa4b6b13d54569a7bdb8a4a', N'NV tuyển sinh', N'NV007', NULL, NULL, NULL, 0),
+    (N'gv008', N'sha256$3562b2d7dcefeebe1e25a1868be6921ffd5a8d6df1521451e46b44f50a03d9c7', N'Giáo viên', NULL, N'GV008', NULL, NULL, 0),
+    (N'gv011', N'sha256$332cc05688b59af9858c5d9aa0819bf778dbb25b0d7517aada615d5544209bd7', N'Giáo viên', NULL, N'GV011', NULL, NULL, 0),
+    (N'gv015', N'sha256$f521039c692edd634e997f6819358d45d796c12d5291bd73471e2c971f08deb2', N'Giáo viên', NULL, N'GV015', NULL, NULL, 0),
+    (N'gv020', N'sha256$ec74c188d7fa0b31f51994df859b3fbd426a32ae9a2689a631dd815a69cf124a', N'Giáo viên', NULL, N'GV020', NULL, NULL, 0),
+    (N'gv023', N'sha256$eed8292919690178b30c11ae1eb477e71d606a75d313b9f5bcd486faf8549594', N'Giáo viên', NULL, N'GV023', NULL, NULL, 0),
+    (N'hv0412', N'sha256$8682cfa668035afb3ab3f99d3234e9b61c78f45d05d518b157904d58e04738f9', N'Học viên', NULL, NULL, N'HV0412', NULL, 0),
+    (N'hv0398', N'sha256$91372dfa33901d9697aec045d203bc18150af5d00ef951a508c7282bdb261007', N'Học viên', NULL, NULL, N'HV0398', NULL, 0),
+    (N'hv0480', N'sha256$4ccbdafd28343087e24c0ca916ac233e839517ddcef128d59f9731283439cabe', N'Học viên', NULL, NULL, N'HV0480', NULL, 1),
+    (N'ph0301', N'sha256$564f1f0b428cd7e5719298aaff7c3e953fa8390c40f15bddafc04970e8667a5e', N'Phụ huynh', NULL, NULL, NULL, N'PH0301', 0),
+    (N'ph0320', N'sha256$677f6135dc9a8a17026a5d04ea6230e2570f674190568d0e976565cc1f1a2989', N'Phụ huynh', NULL, NULL, NULL, N'PH0320', 0);
 
 -- ThongBao: 27 dòng
 INSERT INTO ThongBao (Loai, MaHV, MaPH, NoiDung, ThoiGianGui, TrangThaiGui) VALUES

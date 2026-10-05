@@ -16,7 +16,7 @@ public static partial class ThongBaoLoi
         ["CK_DangKy_HanBaoLuu"] = ("F2.4", "Đăng ký bảo lưu phải có hạn bảo lưu.", "Hệ thống tự điền ngày bảo lưu + 6 tháng; không xóa ô này"),
         ["CK_UuDai_Ngay"] = ("F3.1", "Ngày kết thúc ưu đãi phải sau ngày bắt đầu.", "Kiểm tra lại thời gian hiệu lực"),
         ["CK_ChiTietPhieuThu_SoTien"] = ("F3.2", "Số tiền nộp phải lớn hơn 0.", "Bỏ dòng đợt không nộp"),
-        ["CK_Diem_Diem"] = ("F4.2", "Điểm phải từ 0 đến 10.", "Dùng dấu chấm cho phần lẻ, vd 7.5"),
+        ["CK_Diem_Diem"] = ("F4.2", "Điểm phải từ 0 đến 10.", "Nhập số, phần lẻ dùng dấu chấm hoặc dấu phẩy, vd 7.5 hoặc 7,5"),
         ["FK_DiemDanh_BuoiHoc"] = ("F4.1", "Buổi học này không thuộc lớp đang chọn.", "Chọn lại buổi trong lịch của lớp"),
         ["CK_KetQua_Dat"] = ("F4.3", "Kết quả \"Đạt\" không đi với xếp loại \"Không đạt\".", "Chạy lại tổng kết; không sửa tay kết quả"),
         ["CK_TaiKhoan_ChuSoHuu"] = ("F5.1a", "Vai trò không khớp với chủ tài khoản.", "Vai trò Giáo viên chọn mã giáo viên; Học viên chọn mã học viên…"),

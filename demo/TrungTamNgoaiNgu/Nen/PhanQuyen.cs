@@ -46,6 +46,13 @@ public class KiemTraQuyen : IAsyncPageFilter
 
     public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
+        // B2: phiên phải đổi mật khẩu chỉ được vào trang đổi mật khẩu hoặc đăng xuất
+        if (context.HttpContext.User.HasClaim(c => c.Type == Pages.DangNhapModel.PhaiDoiMatKhau)
+            && context.ActionDescriptor.ViewEnginePath is not ("/DoiMatKhau" or "/DangXuat"))
+        {
+            context.Result = new RedirectResult("/DoiMatKhau");
+            return;
+        }
         var q = context.HandlerInstance.GetType().GetCustomAttribute<QuyenAttribute>();
         if (q != null)
         {

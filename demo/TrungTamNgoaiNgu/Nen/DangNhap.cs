@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -35,20 +34,18 @@ public static class MatKhau
     }
 }
 
-/// <summary>N1 – Khóa tạm tài khoản khi nhập sai nhiều lần.</summary>
-// ponytail: đếm trong bộ nhớ, mất khi khởi động lại máy chủ; chạy nhiều máy chủ thì chuyển sang bảng CSDL
-public class KhoaDangNhap
+/// <summary>N1 – Khóa tạm tài khoản khi nhập sai nhiều lần. Số lần sai và mốc thời gian lưu ở TaiKhoan.SoLanSai, KhoaDen
+/// (bảo trì B4: trước đây đếm trong bộ nhớ, mất khi khởi động lại máy chủ).</summary>
+public static class KhoaDangNhap
 {
     public const int SoLanSai = 5;
     public static readonly TimeSpan ThoiGianKhoa = TimeSpan.FromMinutes(15);
-    readonly ConcurrentDictionary<string, (int Lan, DateTime Den)> _sai = new();
 
-    public bool DangKhoa(string ten, DateTime bay) => _sai.TryGetValue(ten, out var s) && s.Lan >= SoLanSai && bay < s.Den;
+    public static bool DangKhoa(int lan, DateTime? den, DateTime bay) => lan >= SoLanSai && bay < den;
 
-    public void Sai(string ten, DateTime bay) =>
-        _sai.AddOrUpdate(ten, (1, bay + ThoiGianKhoa), (_, s) => (bay >= s.Den ? 1 : s.Lan + 1, bay + ThoiGianKhoa));
-
-    public void Dung(string ten) => _sai.TryRemove(ten, out _);
+    /// <summary>Thêm một lần sai: quá mốc <paramref name="den"/> thì đếm lại từ 1; mốc mới = bây giờ + 15 phút.</summary>
+    public static (byte Lan, DateTime Den) Sai(int lan, DateTime? den, DateTime bay) =>
+        ((byte)(den is null || bay >= den ? 1 : Math.Min(lan + 1, byte.MaxValue)), bay + ThoiGianKhoa);
 }
 
 /// <summary>Giờ hệ thống. Bản demo đặt cố định trong appsettings (HeThong:ThoiDiem) cho khớp dữ liệu mẫu.</summary>

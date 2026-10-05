@@ -213,11 +213,12 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC17 | 4.1 | Thiếu trạng thái một học viên / trạng thái lạ | Chặn, nêu mã học viên | Đạt |
 | TC18 | 4.1 | Sửa điểm danh buổi đã qua 24 giờ | Chặn (QT11) | Đạt |
 | TC19 | 4.1 | QL đào tạo (chỉ có quyền xem) gửi điểm danh | Chặn ở bộ lọc phân quyền | Đạt |
-| TC20 | 4.2 | Nhập điểm "abc", 11, "7,5" | Báo lỗi, gợi ý dùng dấu chấm | Đạt |
+| TC20 | 4.2 | Nhập điểm "abc", 11, "8.25"; nhập "7,5" (sau bảo trì B7) | Báo lỗi, gợi ý cách nhập; "7,5" lưu thành 7.5 | Đạt |
 | TC21 | 4.2 | Nhập rồi sửa điểm cuối kỳ | Lưu, ghi nhật ký "Sửa Diem TOE-2611/Cuối kỳ" | Đạt |
 | TC22 | 4.3 | Tổng kết lớp: các trường hợp R1–R5 của bảng quyết định 4.3; duyệt lại IEK-2609 (đã xóa kết quả cũ); duyệt lớp TOE-2611 mới dạy 18/24 buổi | Xếp loại, Đạt/Không đạt đúng bảng; 9/9 kết quả trùng bảng điểm mẫu; lớp chưa đủ buổi bị chặn (QT13); giáo viên gửi duyệt bị chặn | Đạt |
 | TC23 | 4.4 | Cấp chứng nhận cho HV0398 (không đạt); NV tuyển sinh gửi cấp; cấp cho HV0412, rồi chọn lại HV0412 cùng 2 HV khác | Từ chối (QT15); chặn ở bộ lọc phân quyền; cấp CN2027-0001, lần sau chỉ cấp 2 số mới, bản in trùng mẫu chứng nhận | Đạt |
-| TC24 | 5.1 | Sai mật khẩu 5 lần | Khóa 15 phút | Đạt |
+| TC24 | 5.1 | Sai mật khẩu 5 lần, khởi động lại máy chủ rồi nhập đúng (sau bảo trì B4) | Khóa 15 phút; vẫn khóa sau khi khởi động lại (đếm lưu ở TaiKhoan) | Đạt |
+| TC24b | 5.1 | hv0480 (tài khoản mới cấp) đăng nhập lần đầu, mở trang khác; đổi mật khẩu trùng mật khẩu cũ (bảo trì B2) | Mọi trang chuyển về đổi mật khẩu; mật khẩu mới phải khác mật khẩu cũ; đổi xong dùng bình thường | Đạt |
 | TC25 | 5.1 | Mọi thao tác ghi | Có dòng nhật ký cùng giao dịch | Đạt |
 | TC26 | 5.3, 3.4 | Mở báo cáo tình trạng lớp, doanh thu | Số liệu = truy vấn trên view | Đạt |
 

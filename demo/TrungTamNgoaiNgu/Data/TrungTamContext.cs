@@ -656,6 +656,7 @@ public partial class TrungTamContext : DbContext
             entity.Property(e => e.TenDangNhap)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.KhoaDen).HasPrecision(0);
             entity.Property(e => e.MaGV)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -671,6 +672,7 @@ public partial class TrungTamContext : DbContext
             entity.Property(e => e.MatKhauBam)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.PhaiDoiMatKhau).HasDefaultValue(true);
             entity.Property(e => e.TrangThai)
                 .HasMaxLength(20)
                 .HasDefaultValue("Hoạt động");
