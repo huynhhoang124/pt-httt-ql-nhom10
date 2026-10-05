@@ -155,6 +155,26 @@ public static class QuyTac
         return new(Math.Round(tyLe, 1, MidpointRounding.AwayFromZero), cc, tk, xepLoai, dat ? "Đạt" : "Không đạt");
     }
 
+    // ---------------- 5.2 – Gửi thông báo (04_dac_ta mục 1.8, 2.2; QT12, QT16) ----------------
+
+    /// <summary>Người nhận: học viên (null), thêm từng phụ huynh nếu học viên dưới 18 tuổi.</summary>
+    public static List<string?> NguoiNhan(DateOnly ngaySinh, IEnumerable<string> phuHuynh, DateOnly homNay) =>
+        ngaySinh.AddYears(18) > homNay ? [null, .. phuHuynh] : [null];
+
+    /// <summary>Nhắc học phí: còn nợ và hạn còn ≤ <paramref name="soNgayNhac"/> ngày (sắp đến hạn) hoặc đã qua hạn (QT16); null = chưa nhắc.</summary>
+    public static string? NhacHocPhi(string lop, decimal conNo, DateOnly? han, DateOnly homNay, decimal soNgayNhac)
+    {
+        if (conNo <= 0 || han is not { } h) return null;
+        var tien = conNo.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+        if (h < homNay) return $"Học phí lớp {lop} đã quá hạn ngày {h:dd/MM/yyyy}, còn nợ {tien} đ, đề nghị hoàn thành sớm.";
+        return h.DayNumber - homNay.DayNumber <= soNgayNhac ? $"Học phí lớp {lop} còn nợ {tien} đ, hạn đóng {h:dd/MM/yyyy}." : null;
+    }
+
+    /// <summary>Cây quyết định 2.2: vắng quá ngưỡng thì cảnh báo; chuyên cần đã dưới mức đạt thì thêm "nguy cơ không đạt".</summary>
+    public static string CanhBaoVang(string hoTen, string lop, decimal nguong, bool nguyCo, decimal nguongDat) =>
+        $"Cảnh báo vắng học: {hoTen} đã vắng quá {nguong:0}% số buổi lớp {lop}."
+        + (nguyCo ? $" Chuyên cần dưới {nguongDat:0}%: nguy cơ không đạt (QT15)." : "");
+
     // ---------------- 4.4 – Cấp chứng nhận (04_dac_ta mục 1.8, QT15) ----------------
 
     /// <summary>Chỉ cấp cho học viên có kết quả "Đạt" đã được QL đào tạo duyệt (danh sách học viên đạt từ 4.3).</summary>

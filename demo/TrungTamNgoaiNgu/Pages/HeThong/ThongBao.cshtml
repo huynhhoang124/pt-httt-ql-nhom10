@@ -1,0 +1,31 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HeThong.ThongBaoModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R5.2";
+    ViewData["TroGiup"] = "Hệ thống tự gửi đầu ngày: lịch học thay đổi, học phí còn 3 ngày đến hạn hoặc đã quá hạn (QT16), cảnh báo vắng quá 20% (QT12), kết quả học tập. Học viên dưới 18 tuổi: gửi thêm cho phụ huynh.";
+    var nhanVien = !PhanQuyen.ChiCuaMinh(User.VaiTro(), "5.2");
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="loaiTB">Loại</label>
+        <select id="loaiTB" name="loaiTB" class="form-select"><option value="">Tất cả</option>@foreach (var l in TrungTamNgoaiNgu.Pages.HeThong.ThongBaoModel.Loai) { <option selected="@(l == Model.LoaiTB)">@l</option> }</select></div>
+    @if (nhanVien)
+    {
+        <div><label class="form-label" for="hv">Mã học viên</label><input id="hv" name="hv" value="@Model.Hv" class="form-control" /></div>
+    }
+    <button class="btn btn-primary">Lọc</button>
+</form>
+@if (nhanVien) { <partial name="_XuatBaoCao" /> }
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Thời gian</th><th>Loại</th>@if (nhanVien) { <th>Học viên</th><th>Gửi PH</th> }<th>Nội dung</th></tr></thead>
+        <tbody>
+            @foreach (var t in Model.DanhSach)
+            {
+                <tr><td class="text-nowrap">@t.ThoiGianGui.ToString("dd/MM/yyyy HH:mm")</td><td>@t.Loai</td>
+                    @if (nhanVien) { <td>@t.MaHV – @t.MaHVNavigation.HoTen</td><td>@t.MaPH</td> }
+                    <td>@t.NoiDung</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

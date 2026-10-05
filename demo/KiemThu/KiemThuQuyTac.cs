@@ -237,6 +237,26 @@ public class KiemThuQuyTac
     public void CayQuyetDinh_BaoLuu(int conNo, int daHoc, bool daBaoLuu, string? loi) =>
         Assert.Equal(loi, Record.Exception(() => XetBaoLuu(conNo, daHoc, 24, 50, daBaoLuu)) is LoiNghiepVu l ? l.Khoa : null);
 
+    // ---------------- 5.2 – Thông báo (QT12, QT16) ----------------
+
+    [Fact]
+    public void ThongBao_NguoiNhan_PhuHuynhKhiDuoi18()
+    {
+        Assert.Equal([null, "PH0301", "PH0302"], NguoiNhan(new(2012, 3, 14), ["PH0301", "PH0302"], NgayDK));   // HV0412, 14 tuổi
+        Assert.Equal([null], NguoiNhan(new(2009, 1, 4), ["PH0301"], NgayDK));                                  // đúng 18 tuổi
+    }
+
+    [Theory]
+    [InlineData(2_800_000, "2026-12-09", "quá hạn ngày 09/12/2026, còn nợ 2.800.000 đ")]
+    [InlineData(1_000, "2027-01-07", "hạn đóng 07/01/2027")]   // còn 3 ngày
+    [InlineData(1_000, "2027-01-08", null)]                      // còn 4 ngày: chưa nhắc
+    [InlineData(0, "2026-12-09", null)]                          // đã đóng đủ
+    public void ThongBao_NhacHocPhi_QT16(int conNo, string han, string? chua)
+    {
+        var nd = NhacHocPhi("TOE-2611", conNo, DateOnly.Parse(han), NgayDK, 3);
+        if (chua == null) Assert.Null(nd); else Assert.Contains(chua, nd);
+    }
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]

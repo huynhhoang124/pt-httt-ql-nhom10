@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TrungTamContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("TrungTam")));
 builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All)); // giữ nguyên chữ tiếng Việt trong HTML
 builder.Services.AddSingleton<DongHo>();
+builder.Services.AddHostedService<LoThongBao>();   // 5.2: lô thông báo hằng ngày
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
     {
