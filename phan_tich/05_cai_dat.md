@@ -199,7 +199,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC03 | 2.2 | HV0394 đăng ký GT-2701 | Lập phiếu DK2027-0001, trạng thái "Chờ lập học phí" | Đạt |
 | TC04 | 2.2 | Đăng ký lại cùng lớp | Báo "Học viên đã có đăng ký ở lớp này" | Đạt |
 | TC05 | 2.2 | Đăng ký lớp đã đủ sĩ số (tạm hạ tham số SISO_TOI_DA = 7) | Báo QT06, gợi ý lớp cùng khóa còn chỗ | Đạt |
-| TC06 | 2.3 | Xếp buổi trùng giáo viên hoặc phòng | Từ chối (QT07) | – |
+| TC06 | 2.3 | Sinh lịch GT-2701; thêm buổi học bù 06/01/2027 trùng giáo viên GV023, trùng phòng P305 với TOE-2611; đổi buổi 2 sang giờ, phòng của TOE-2611; NV tuyển sinh gửi xếp lịch | Sinh 10 buổi 09/01–13/03/2027; từ chối, nêu rõ lớp, buổi, giáo viên hoặc phòng bị trùng (QT07); buổi không trùng thì lưu; TS bị chặn | Đạt |
 | TC07 | 2.4 | Chuyển lớp sau quá 3 buổi; bảo lưu quá 50% số buổi | Từ chối (QT08, QT09) | – |
 | TC08 | 3.1 | HV cũ, một mình, 2 đợt (R4) | Giảm 10%: 2.400.000 → 2 × 1.080.000 | Đạt |
 | TC09 | 3.1 | HV cũ, đóng một lần (R3) | Giảm 15% (trần QT04): 2.040.000, 1 đợt | Đạt |

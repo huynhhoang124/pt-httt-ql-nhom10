@@ -176,6 +176,34 @@ public class KiemThuQuyTac
     public void CapChungNhan(string? ketQua, bool daDuyet, bool mong) =>
         Assert.Equal(mong, DuocCapChungNhan(ketQua, daDuyet ? new DateOnly(2027, 1, 4) : null));
 
+    // ---------------- 2.3 – Trùng lịch (QT07), ca TC06 ----------------
+
+    static readonly Ca BuoiTOE = new("TOE-2611", 20, new(2027, 1, 6), new(19, 0), new(21, 0), "P305", "GV023");
+
+    [Theory]
+    [InlineData("19:30", "21:00", "P101", "GV023", true)]   // cùng giáo viên, chồng giờ
+    [InlineData("18:00", "19:30", "P305", "GV011", true)]   // cùng phòng, chồng giờ
+    [InlineData("17:00", "19:00", "P305", "GV023", false)]  // nối tiếp đúng 19:00: không trùng
+    [InlineData("19:00", "21:00", "P101", "GV011", false)]  // cùng giờ nhưng khác giáo viên, khác phòng
+    public void TrungLich_QT07(string tu, string den, string phong, string gv, bool trung)
+    {
+        var b = new Ca("GT-2701", 11, new(2027, 1, 6), TimeOnly.Parse(tu), TimeOnly.Parse(den), phong, gv);
+        Assert.Equal(trung, TrungLich(b, [BuoiTOE]) != null);
+        Assert.Null(TrungLich(b with { Ngay = new(2027, 1, 7) }, [BuoiTOE]));       // khác ngày
+        Assert.Null(TrungLich(BuoiTOE with { MaPhong = "P101" }, [BuoiTOE]));       // đổi lịch: không so với chính nó
+    }
+
+    [Fact]
+    public void SinhBuoi_TheoLichTuan()  // GT-2701: thứ 7 08:00, 10 buổi × 120 phút, khai giảng 09/01/2027 (thứ 7)
+    {
+        var b = SinhBuoi("GT-2701", new(2027, 1, 9), [(7, new(8, 0), "P101")], 10, 120, "GV011");
+        Assert.Equal(10, b.Count);
+        Assert.Equal((new DateOnly(2027, 1, 9), new TimeOnly(10, 0)), (b[0].Ngay, b[0].KetThuc));
+        Assert.Equal(new DateOnly(2027, 3, 13), b[^1].Ngay);
+        var hai = SinhBuoi("TOE", new(2027, 1, 5), [(2, new(19, 0), "P305"), (4, new(19, 0), "P305")], 3, 120, "GV023");
+        Assert.Equal([new(2027, 1, 6), new(2027, 1, 11), new DateOnly(2027, 1, 13)], hai.Select(x => x.Ngay));  // khai giảng thứ 3
+    }
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]

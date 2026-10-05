@@ -44,6 +44,28 @@ public static class QuyTac
                 return d;
     }
 
+    // ---------------- 2.3 – Xếp lịch, kiểm tra trùng lịch (04_dac_ta mục 1.3, QT07) ----------------
+
+    public record Ca(string MaLop, short SoBuoi, DateOnly Ngay, TimeOnly BatDau, TimeOnly KetThuc, string MaPhong, string MaGV);
+
+    /// <summary>Buổi đã xếp đầu tiên trùng giờ với <paramref name="b"/> và cùng giáo viên hoặc cùng phòng; null nếu không trùng.
+    /// Bỏ qua chính buổi b (khi đổi lịch).</summary>
+    public static Ca? TrungLich(Ca b, IEnumerable<Ca> daXep) => daXep.FirstOrDefault(x =>
+        !(x.MaLop == b.MaLop && x.SoBuoi == b.SoBuoi) && x.Ngay == b.Ngay
+        && x.BatDau < b.KetThuc && b.BatDau < x.KetThuc && (x.MaGV == b.MaGV || x.MaPhong == b.MaPhong));
+
+    /// <summary>Sinh <paramref name="soBuoi"/> buổi từ ngày khai giảng theo lịch tuần (thứ 2–8, 8 = chủ nhật).</summary>
+    public static List<Ca> SinhBuoi(string maLop, DateOnly khaiGiang, IReadOnlyCollection<(byte Thu, TimeOnly Gio, string Phong)> lich,
+        int soBuoi, int phut, string maGV)
+    {
+        if (lich.Count == 0) throw new ArgumentException("Lớp chưa có lịch tuần.");
+        var kq = new List<Ca>();
+        for (var d = khaiGiang; kq.Count < soBuoi; d = d.AddDays(1))
+            foreach (var l in lich.Where(l => l.Thu == (d.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)d.DayOfWeek + 1)))
+                kq.Add(new(maLop, (short)(kq.Count + 1), d, l.Gio, l.Gio.AddMinutes(phut), l.Phong, maGV));
+        return kq;
+    }
+
     // ---------------- 3.2 – Lập phiếu thu (04_dac_ta mục 1.4, QT05) ----------------
 
     /// <summary>Một dòng trên phiếu thu. PhaiNop, DaThu: của cả đăng ký; ConNoDot: của riêng đợt này.</summary>
