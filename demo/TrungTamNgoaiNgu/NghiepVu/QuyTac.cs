@@ -45,6 +45,18 @@ public static class QuyTac
                 return d;
     }
 
+    // ---------------- 2.1 – Mở lớp, phân công giáo viên (04_dac_ta mục 1.1; QT06) ----------------
+
+    /// <summary>Sĩ số tối đa ≤ quy định (SISO_TOI_DA) và ≤ sức chứa nhỏ nhất trong các phòng của lịch tuần.</summary>
+    public static void KiemTraSiSo(int siSo, decimal siSoQuyDinh, int sucChuaNhoNhat)
+    {
+        if (siSo > siSoQuyDinh || siSo > sucChuaNhoNhat)
+            throw new LoiNghiepVu("QT06#2", $"sĩ số {siSo}, quy định {siSoQuyDinh:0}, phòng nhỏ nhất {sucChuaNhoNhat} chỗ");
+    }
+
+    /// <summary>Đến ngày khai giảng: đủ số đăng ký có hiệu lực (SISO_TOI_THIEU) thì mở lớp, không thì hủy.</summary>
+    public static string ChotLop(int soHieuLuc, decimal toiThieu) => soHieuLuc >= toiThieu ? "Đang học" : "Hủy";
+
     // ---------------- 2.3 – Xếp lịch, kiểm tra trùng lịch (04_dac_ta mục 1.3, QT07) ----------------
 
     public record Ca(string MaLop, short SoBuoi, DateOnly Ngay, TimeOnly BatDau, TimeOnly KetThuc, string MaPhong, string MaGV);

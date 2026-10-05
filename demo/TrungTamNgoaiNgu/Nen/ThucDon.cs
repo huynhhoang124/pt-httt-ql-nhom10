@@ -21,6 +21,7 @@ public static partial class ThucDon
         ("F1.2", "/DanhMuc/GiaoVien", "X"),
         ("F1.3", "/DanhMuc/KhoaHoc", ""),
         ("F1.4", "/DanhMuc/PhongHoc", ""),
+        ("F2.1", "/LopHoc/MoLop", "X"),
         ("F2.2", "/LopHoc/DangKy", "T"),
         ("R2.2", "/LopHoc/KetQuaDangKy", "X"),
         ("F2.3", "/LopHoc/XepLich", "T"),

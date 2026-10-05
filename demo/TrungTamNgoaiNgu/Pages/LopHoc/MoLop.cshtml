@@ -1,0 +1,59 @@
+@page
+@model TrungTamNgoaiNgu.Pages.LopHoc.MoLopModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F2.1";
+    ViewData["TroGiup"] = "Sĩ số tối đa không quá 20 và không quá sức chứa phòng; giáo viên phải dạy đúng ngôn ngữ của khóa (QT06). Đến ngày khai giảng bấm Chốt lớp: đủ 8 đăng ký có hiệu lực (đã đóng ≥ 50%) thì mở lớp, không thì hủy.";
+    var ghi = User.Co("2.1", "S");
+    var c = Model.Chon;
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Lớp</th><th>Khóa</th><th>Khai giảng</th><th class="so">Đăng ký / tối đa</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+            @foreach (var l in Model.DanhSach)
+            {
+                <tr class="@(l.MaLop == Model.Ma ? "table-active" : "")"><td><a href="?ma=@l.MaLop">@l.MaLop</a></td><td>@l.MaKH</td><td>@HienThi.Ngay(l.NgayKhaiGiang)</td><td class="so">@l.SoDangKy/@l.SiSoToiDa</td><td>@l.TrangThai</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (ghi)
+{
+    <form method="post" class="col-lg-9">
+        <h2 class="h6 fw-bold">@(c == null ? "Mở lớp mới" : $"Lớp {c.MaLop} ({c.TrangThai})") @if (c != null) { <a class="small fw-normal ms-2" href="?">+ mở lớp mới</a> }</h2>
+        <input type="hidden" name="ma" value="@Model.Ma" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <fieldset disabled="@(!Model.SuaDuoc)">
+            <div class="row g-2">
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="MaLop">Mã lớp</label><input id="MaLop" name="MaLop" value="@Model.MaLop" class="form-control" readonly="@(c != null)" maxlength="15" placeholder="GT-2702" /></div>
+                <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaKH">Khóa học</label>
+                    <select id="MaKH" name="MaKH" class="form-select">@foreach (var k in Model.CacKhoa) { <option value="@k.MaKH" selected="@(k.MaKH == Model.MaKH)">@k.MaKH – @k.TenKH</option> }</select></div>
+                <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaGV">Giáo viên</label>
+                    <select id="MaGV" name="MaGV" class="form-select">@foreach (var g in Model.CacGV) { <option value="@g.MaGV" selected="@(g.MaGV == Model.MaGV)">@g.MaGV – @g.HoTen (@g.NgonNguDay)</option> }</select></div>
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="NgayKhaiGiang">Khai giảng</label><input id="NgayKhaiGiang" name="NgayKhaiGiang" type="date" value="@Model.NgayKhaiGiang?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="SiSoToiDa">Sĩ số tối đa</label><input id="SiSoToiDa" name="SiSoToiDa" value="@Model.SiSoToiDa" class="form-control" inputmode="numeric" /></div>
+            </div>
+            <table class="table table-sm table-bordered mt-2" style="max-width:32rem">
+                <thead><tr><th>Thứ</th><th>Giờ bắt đầu</th><th>Phòng</th></tr></thead>
+                <tbody>
+                    @for (int i = 0; i < Model.LichTuan.Count; i++)
+                    {
+                        var l = Model.LichTuan[i];
+                        <tr>
+                            <td><select name="LichTuan[@i].Thu" class="form-select form-select-sm"><option value="">–</option>@for (byte t = 2; t <= 8; t++) { <option value="@t" selected="@(l.Thu == t)">@HienThi.Thu(t)</option> }</select></td>
+                            <td><input name="LichTuan[@i].Gio" type="time" value="@l.Gio?.ToString("HH:mm")" class="form-control form-control-sm" /></td>
+                            <td><select name="LichTuan[@i].Phong" class="form-select form-select-sm"><option value="">–</option>@foreach (var p in Model.CacPhong) { <option value="@p.MaPhong" selected="@(p.MaPhong == l.Phong)">@p.MaPhong (@p.SucChua chỗ)</option> }</select></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary" asp-page-handler="Luu">Lưu lớp</button>
+        </fieldset>
+        @if (c?.TrangThai == "Dự kiến")
+        {
+            <button class="btn btn-outline-primary mt-2" asp-page-handler="Chot" onclick="return confirm('Chốt lớp @c.MaLop theo số đăng ký có hiệu lực? Lớp không đủ sĩ số sẽ bị hủy.')">Chốt lớp (ngày khai giảng)</button>
+        }
+    </form>
+}

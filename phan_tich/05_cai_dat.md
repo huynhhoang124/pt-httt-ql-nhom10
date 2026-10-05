@@ -222,6 +222,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC25 | 5.1 | Mọi thao tác ghi | Có dòng nhật ký cùng giao dịch | Đạt |
 | TC26 | 5.3, 3.4 | Mở báo cáo tình trạng lớp, doanh thu | Số liệu = truy vấn trên view | Đạt |
 | TC27 | 1.2–1.4 | Thêm GV trùng email, điện thoại "09ab"; khóa học trọng số 10 – 30 – 50, trình độ A2 → A1, trùng mã; phòng sức chứa 0; Giám đốc (chỉ xem) gửi form | Câu lỗi tiếng Việt cho từng ràng buộc (N7); thêm GV024, khóa JP1, sửa P102; Giám đốc bị chặn | Đạt |
+| TC28 | 2.1 | Mở lớp sĩ số 21; dùng phòng 16 chỗ cho sĩ số 20; phòng đang bảo trì; GV tiếng Anh dạy khóa tiếng Nhật; trùng mã lớp; sửa lớp đang học; chốt lớp chưa tới ngày khai giảng; chốt GT-2700 (khai giảng 02/01/2027, 0 đăng ký) | Từ chối (QT06, ngôn ngữ, trùng mã, trạng thái); lưu GT-2703 rồi đổi lịch tuần (bỏ T7, thêm T4); GT-2700 bị Hủy | Đạt |
 
 ### 4.3 Lỗi phát hiện khi kiểm thử và cách sửa
 

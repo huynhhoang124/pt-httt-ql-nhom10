@@ -176,6 +176,20 @@ public class KiemThuQuyTac
     public void CapChungNhan(string? ketQua, bool daDuyet, bool mong) =>
         Assert.Equal(mong, DuocCapChungNhan(ketQua, daDuyet ? new DateOnly(2027, 1, 4) : null));
 
+    // ---------------- 2.1 – Mở lớp (QT06) ----------------
+
+    [Theory]
+    [InlineData(20, 25, null)]
+    [InlineData(21, 25, "QT06#2")]     // vượt quy định 20
+    [InlineData(16, 12, "QT06#2")]     // vượt phòng nhỏ nhất (P102: 12 chỗ)
+    public void MoLop_SiSo(int siSo, int sucChua, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => KiemTraSiSo(siSo, 20, sucChua)) is LoiNghiepVu l ? l.Khoa : null);
+
+    [Theory]
+    [InlineData(8, "Đang học")]
+    [InlineData(7, "Hủy")]
+    public void ChotLop_TaiNgayKhaiGiang(int hieuLuc, string mong) => Assert.Equal(mong, ChotLop(hieuLuc, 8));
+
     // ---------------- 2.3 – Trùng lịch (QT07), ca TC06 ----------------
 
     static readonly Ca BuoiTOE = new("TOE-2611", 20, new(2027, 1, 6), new(19, 0), new(21, 0), "P305", "GV023");

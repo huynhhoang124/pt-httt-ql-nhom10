@@ -28,6 +28,7 @@ public static partial class ThongBaoLoi
         ["QT05"] = ("F3.2", "Đợt 1 phải nộp tối thiểu 50% số phải nộp.", "Nộp thêm, hoặc chọn đóng hai đợt"),
         ["QT05#2"] = ("F3.2", "Số tiền vượt số còn nợ của đợt.", "Kiểm tra lại đợt và số còn nợ"),
         ["QT06"] = ("F2.2", "Lớp đã đủ sĩ số.", "Hệ thống gợi ý lớp cùng khóa còn chỗ"),
+        ["QT06#2"] = ("F2.1", "Sĩ số tối đa vượt quy định (20) hoặc vượt sức chứa phòng.", "Giảm sĩ số tối đa hoặc chọn phòng lớn hơn"),
         ["QT07"] = ("F2.3", "Trùng lịch với lớp khác (cùng giáo viên hoặc cùng phòng).", "Đổi giờ, đổi phòng hoặc đổi giáo viên"),
         ["QT08"] = ("F2.4", "Đã quá 3 buổi đầu, không chuyển lớp được.", "Xét bảo lưu hoặc nghỉ học"),
         ["QT08#2"] = ("F2.4", "Chỉ chuyển sang lớp cùng khóa học.", "Chọn lớp đích cùng khóa; muốn học khóa khác thì đăng ký mới (F2.2)"),
