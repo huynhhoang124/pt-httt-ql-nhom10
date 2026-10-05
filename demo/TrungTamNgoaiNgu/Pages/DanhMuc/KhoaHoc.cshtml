@@ -1,0 +1,49 @@
+@page
+@model TrungTamNgoaiNgu.Pages.DanhMuc.KhoaHocModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F1.3";
+    ViewData["TroGiup"] = "Tổng ba trọng số chuyên cần – giữa kỳ – cuối kỳ phải bằng 100% (QT13), vd 10 – 30 – 60. Học phí, số buổi, thời lượng phải lớn hơn 0. Không đổi mã khóa đã có lớp.";
+    var ghi = User.Co("1.3", "S");
+    var td = new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.KhoaHocModel.TrinhDo);
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Mã</th><th>Tên khóa học</th><th>Trình độ</th><th class="so">Số buổi</th><th class="so">Phút/buổi</th><th class="so">Học phí</th><th>Trọng số</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+            @foreach (var k in Model.DanhSach)
+            {
+                <tr class="@(k.MaKH == Model.Ma ? "table-active" : "")">
+                    <td>@if (ghi) { <a href="?ma=@k.MaKH">@k.MaKH</a> } else { @k.MaKH }</td><td>@k.TenKH</td><td>@k.TrinhDoDauVao → @k.TrinhDoDauRa</td>
+                    <td class="so">@k.SoBuoi</td><td class="so">@k.ThoiLuongBuoi</td><td class="so">@HienThi.Tien(k.HocPhi)</td>
+                    <td>@k.TSChuyenCan – @k.TSGiuaKy – @k.TSCuoiKy</td><td>@k.TrangThai</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (ghi)
+{
+    <form method="post" class="col-lg-9">
+        <h2 class="h6 fw-bold">@(Model.Ma == null ? "Thêm khóa học" : $"Sửa {Model.Ma}") @if (Model.Ma != null) { <a class="small fw-normal ms-2" href="?">+ thêm mới</a> }</h2>
+        <input type="hidden" name="ma" value="@Model.Ma" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <div class="row g-2">
+            <div class="col-3 col-md-2"><label class="form-label bat-buoc" for="F_MaKH">Mã</label><input asp-for="F.MaKH" class="form-control" readonly="@(Model.Ma != null)" maxlength="10" /></div>
+            <div class="col-9 col-md-6"><label class="form-label bat-buoc" for="F_TenKH">Tên khóa học</label><input asp-for="F.TenKH" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_NgonNgu">Ngôn ngữ</label><select asp-for="F.NgonNgu" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel.NgonNgu))" class="form-select"></select></div>
+            <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauVao">Vào</label><select asp-for="F.TrinhDoDauVao" asp-items="td" class="form-select"></select></div>
+            <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauRa">Ra</label><select asp-for="F.TrinhDoDauRa" asp-items="td" class="form-select"></select></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_SoBuoi">Số buổi</label><input asp-for="F.SoBuoi" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_ThoiLuongBuoi">Phút/buổi</label><input asp-for="F.ThoiLuongBuoi" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_HocPhi">Học phí</label><input asp-for="F.HocPhi" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSChuyenCan">TS chuyên cần %</label><input asp-for="F.TSChuyenCan" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSGiuaKy">TS giữa kỳ %</label><input asp-for="F.TSGiuaKy" class="form-control" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSCuoiKy">TS cuối kỳ %</label><input asp-for="F.TSCuoiKy" class="form-control" /></div>
+            <div class="col-8"><label class="form-label" for="F_MoTa">Mô tả</label><input asp-for="F.MoTa" class="form-control" /></div>
+            <div class="col-4"><label class="form-label" for="F_TrangThai">Trạng thái</label><select asp-for="F.TrangThai" asp-items="@(new SelectList(new[] { "Đang mở", "Ngừng" }))" class="form-select"></select></div>
+        </div>
+        <button class="btn btn-primary mt-2">Lưu</button>
+    </form>
+}

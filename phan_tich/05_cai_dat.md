@@ -221,6 +221,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC24b | 5.1 | hv0480 (tài khoản mới cấp) đăng nhập lần đầu, mở trang khác; đổi mật khẩu trùng mật khẩu cũ (bảo trì B2) | Mọi trang chuyển về đổi mật khẩu; mật khẩu mới phải khác mật khẩu cũ; đổi xong dùng bình thường | Đạt |
 | TC25 | 5.1 | Mọi thao tác ghi | Có dòng nhật ký cùng giao dịch | Đạt |
 | TC26 | 5.3, 3.4 | Mở báo cáo tình trạng lớp, doanh thu | Số liệu = truy vấn trên view | Đạt |
+| TC27 | 1.2–1.4 | Thêm GV trùng email, điện thoại "09ab"; khóa học trọng số 10 – 30 – 50, trình độ A2 → A1, trùng mã; phòng sức chứa 0; Giám đốc (chỉ xem) gửi form | Câu lỗi tiếng Việt cho từng ràng buộc (N7); thêm GV024, khóa JP1, sửa P102; Giám đốc bị chặn | Đạt |
 
 ### 4.3 Lỗi phát hiện khi kiểm thử và cách sửa
 

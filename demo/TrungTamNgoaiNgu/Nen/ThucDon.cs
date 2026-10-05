@@ -18,6 +18,9 @@ public static partial class ThucDon
     public static readonly (string Ma, string Url, string Can)[] DaLam =
     {
         ("F1.1", "/DanhMuc/HocVien", ""),
+        ("F1.2", "/DanhMuc/GiaoVien", "X"),
+        ("F1.3", "/DanhMuc/KhoaHoc", ""),
+        ("F1.4", "/DanhMuc/PhongHoc", ""),
         ("F2.2", "/LopHoc/DangKy", "T"),
         ("R2.2", "/LopHoc/KetQuaDangKy", "X"),
         ("F2.3", "/LopHoc/XepLich", "T"),
