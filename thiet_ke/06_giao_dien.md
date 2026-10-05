@@ -193,6 +193,8 @@ Bản phác thảo (form layout, theo bài giảng) của 4 màn hình quan tr�
 | QT08 | F2.4 | Đã quá 3 buổi đầu, không chuyển lớp được. | Xét bảo lưu hoặc nghỉ học |
 | QT09 | F2.4 | Chưa đóng đủ học phí, không bảo lưu được. | Đóng đủ trước khi bảo lưu |
 | QT11 | F4.1 | Đã quá 24 giờ sau buổi học, không sửa điểm danh được. | Liên hệ QL đào tạo |
+| QT13 | F4.3 | Lớp chưa đủ điều kiện tổng kết (chưa dạy hết số buổi hoặc còn thiếu điểm). | Chờ giáo viên dạy hết khóa và nhập đủ điểm giữa kỳ, cuối kỳ |
+| QT15 | R4.4 | Học viên không đạt hoặc kết quả chưa được duyệt, không cấp chứng nhận được. | Chỉ cấp cho học viên có kết quả "Đạt" đã duyệt (F4.3) |
 
 ---
 

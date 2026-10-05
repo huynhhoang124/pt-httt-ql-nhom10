@@ -132,6 +132,42 @@ public class KiemThuQuyTac
     [InlineData(1_000_000_000, "Một tỷ đồng")]
     public void BangChu(long tien, string mong) => Assert.Equal(mong, HienThi.BangChu(tien));
 
+    // ---------------- 4.3 – Bảng quyết định xếp loại R1–R5 (QT13–QT15), ca TC22 ----------------
+
+    static readonly NguongXepLoai Nguong = new(8.5m, 7.0m, 5.0m, 70);
+
+    [Theory]
+    [InlineData("R1", 20, 18, 9.0, 9.0, 9.0, "Giỏi", "Đạt")]
+    [InlineData("R2", 20, 16, 7.0, 7.5, 8.0, "Khá", "Đạt")]
+    [InlineData("R3", 20, 14, 5.5, 5.0, 6.0, "Trung bình", "Đạt")]          // chuyên cần đúng 70% vẫn đạt
+    [InlineData("R4", 20, 13, 9.0, 9.0, 9.0, "Giỏi", "Không đạt")]          // 65% < 70%: giữ xếp loại theo điểm
+    [InlineData("R5", 20, 20, 4.0, 4.0, 4.5, "Không đạt", "Không đạt")]
+    public void BangQuyetDinh_XepLoai(string r, int daHoc, int coMat, double cc, double gk, double ck, string xepLoai, string ketQua)
+    {
+        _ = cc;  // điểm chuyên cần = tỷ lệ × 10, ghi trong ca để đọc cho dễ
+        var k = TongKet(daHoc, coMat, (decimal)gk, (decimal)ck, 10, 30, 60, Nguong);
+        Assert.True(xepLoai == k.XepLoai && ketQua == k.KetQua, $"{r}: {k.XepLoai}/{k.KetQua} (TK {k.DiemTongKet})");
+    }
+
+    [Fact]
+    public void ChungTuMau_BangDiemIEK2609()  // 04_dac_ta mục 1.7: HV0412 7,95 → 8,0 Khá; HV0398 4,5 Không đạt
+    {
+        var a = TongKet(10, 9, 7.5m, 8.0m, 10, 30, 60, Nguong);
+        Assert.Equal((8.0m, "Khá", "Đạt"), (a.DiemTongKet, a.XepLoai, a.KetQua));
+        var b = TongKet(10, 6, 5.0m, 4.0m, 10, 30, 60, Nguong);
+        Assert.Equal((4.5m, "Không đạt", "Không đạt"), (b.DiemTongKet, b.XepLoai, b.KetQua));
+        Assert.Equal(0, TongKet(0, 0, 10, 10, 10, 30, 60, Nguong).DiemChuyenCan);  // chưa có buổi nào: không chia cho 0
+    }
+
+    [Fact]
+    public void TongKet_LamTronTruocKhiXepLoai()
+    {
+        var k = TongKet(20, 19, 7.0m, 9.0m, 10, 30, 60, Nguong);   // 0,95 + 2,1 + 5,4 = 8,45 → 8,5
+        Assert.Equal((8.5m, "Giỏi"), (k.DiemTongKet, k.XepLoai));
+        k = TongKet(20, 19, 7.0m, 8.9m, 10, 30, 60, Nguong);       // 8,39 → 8,4
+        Assert.Equal((8.4m, "Khá"), (k.DiemTongKet, k.XepLoai));
+    }
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]

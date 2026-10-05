@@ -1,0 +1,65 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocTap.TongKetModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R4.3a, F4.3";
+    ViewData["TroGiup"] = "Tổng kết = TS chuyên cần × điểm chuyên cần + TS giữa kỳ × điểm giữa kỳ + TS cuối kỳ × điểm cuối kỳ, làm tròn 1 chữ số (QT13). Giỏi ≥ 8.5, Khá ≥ 7.0, Trung bình ≥ 5.0 (QT14). Đạt khi tổng kết ≥ 5.0 và chuyên cần ≥ 70% (QT15). Sau khi duyệt, điểm bị khóa.";
+    var c = Model.Chon;
+    string So(decimal? x) => x?.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) ?? "–";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <div>
+        <label class="form-label" for="lop">Lớp</label>
+        <select id="lop" name="lop" class="form-select">
+            @foreach (var l in Model.CacLop)
+            {
+                <option value="@l.MaLop" selected="@(l.MaLop == Model.Lop)">@l.MaLop – @l.MaKHNavigation.TenKH (@l.TrangThai)</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary">Chọn</button>
+</form>
+@if (c != null)
+{
+    var kh = c.MaKHNavigation;
+    <div class="hop-tb">
+        Lớp <b>@c.MaLop</b> · @kh.TenKH (@kh.TrinhDoDauVao → @kh.TrinhDoDauRa) · GV @c.MaGVNavigation.HoTen · Trọng số @kh.TSChuyenCan% – @kh.TSGiuaKy% – @kh.TSCuoiKy%<br />
+        @Model.SoBuoiDaDay/@kh.SoBuoi buổi đã dạy · Trạng thái:
+        <b>@(Model.DaDuyet ? "đã duyệt" : Model.SanSang ? "chờ duyệt" : "chưa đủ điều kiện tổng kết")</b>
+    </div>
+    @if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+    <div asp-validation-summary="All" class="hop-loi"></div>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle">
+            <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Chuyên cần</th><th>Giữa kỳ</th><th>Cuối kỳ</th><th>Tổng kết</th><th>Xếp loại</th><th>Kết quả</th></tr></thead>
+            <tbody>
+                @foreach (var d in Model.DanhSach)
+                {
+                    var t = d.Tinh;
+                    var kq = d.DaChot?.KetQua1 ?? t?.KetQua;
+                    <tr class="@(kq == "Không đạt" ? "table-secondary" : "")">
+                        <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td>
+                        <td class="so">@(t == null ? "–" : $"{So(t.DiemChuyenCan)} ({t.TyLeChuyenCan:0}%)")</td>
+                        <td class="so">@So(d.GiuaKy)</td><td class="so">@So(d.CuoiKy)</td>
+                        <td class="so"><b>@So(d.DaChot?.DiemTongKet ?? t?.DiemTongKet)</b></td>
+                        <td>@(d.DaChot?.XepLoai ?? t?.XepLoai ?? "thiếu điểm")</td><td>@kq</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <p class="small fst-italic">Chuyên cần, tổng kết, xếp loại do hệ thống tính (QT13–QT15, bảng quyết định 4.3); dòng tô xám là học viên không đạt.</p>
+    @if (Model.DuocDuyet)
+    {
+        <form method="post" class="d-flex flex-wrap gap-2 align-items-end">
+            <input type="hidden" name="lop" value="@c.MaLop" />
+            <button class="btn btn-primary" asp-page-handler="Duyet" disabled="@(!Model.SanSang)"
+                    onclick="return confirm('Duyệt kết quả của @Model.DanhSach.Count học viên lớp @c.MaLop?\nSau khi duyệt: điểm bị khóa, @Model.DanhSach.Count(d => d.Tinh?.KetQua == "Đạt") học viên đạt được chuyển sang cấp chứng nhận (4.4).')">Duyệt kết quả</button>
+            <div>
+                <label class="form-label" for="GhiChu">Ghi chú cho giáo viên</label>
+                <input id="GhiChu" name="GhiChu" class="form-control" value="@Model.GhiChu" maxlength="80" />
+            </div>
+            <button class="btn btn-outline-primary" asp-page-handler="XemLai">Yêu cầu xem lại</button>
+        </form>
+    }
+}

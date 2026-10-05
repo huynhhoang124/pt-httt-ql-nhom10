@@ -215,7 +215,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC19 | 4.1 | QL đào tạo (chỉ có quyền xem) gửi điểm danh | Chặn ở bộ lọc phân quyền | Đạt |
 | TC20 | 4.2 | Nhập điểm "abc", 11, "7,5" | Báo lỗi, gợi ý dùng dấu chấm | Đạt |
 | TC21 | 4.2 | Nhập rồi sửa điểm cuối kỳ | Lưu, ghi nhật ký "Sửa Diem TOE-2611/Cuối kỳ" | Đạt |
-| TC22 | 4.3 | Tổng kết lớp: các trường hợp R1–R5 của bảng quyết định 4.3 | Xếp loại, Đạt/Không đạt đúng bảng | – |
+| TC22 | 4.3 | Tổng kết lớp: các trường hợp R1–R5 của bảng quyết định 4.3; duyệt lại IEK-2609 (đã xóa kết quả cũ); duyệt lớp TOE-2611 mới dạy 18/24 buổi | Xếp loại, Đạt/Không đạt đúng bảng; 9/9 kết quả trùng bảng điểm mẫu; lớp chưa đủ buổi bị chặn (QT13); giáo viên gửi duyệt bị chặn | Đạt |
 | TC23 | 4.4 | Cấp chứng nhận cho HV không đạt | Từ chối (QT15) | – |
 | TC24 | 5.1 | Sai mật khẩu 5 lần | Khóa 15 phút | Đạt |
 | TC25 | 5.1 | Mọi thao tác ghi | Có dòng nhật ký cùng giao dịch | Đạt |

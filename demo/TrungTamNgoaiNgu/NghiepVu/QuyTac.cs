@@ -74,4 +74,23 @@ public static class QuyTac
         bay >= ngay.ToDateTime(batDau) && bay <= ngay.ToDateTime(ketThuc).AddHours((double)gioSua);
 
     public static readonly string[] TrangThaiDiemDanh = ["x", "M", "P", "K"];
+
+    // ---------------- 4.3 – Tổng kết, bảng quyết định xếp loại R1–R5 (04_dac_ta mục 1.7, 3.2; QT13–QT15) ----------------
+
+    /// <summary>Ngưỡng của QT14, QT15 (ThamSo DIEM_GIOI, DIEM_KHA, DIEM_DAT, NGUONG_CHUYEN_CAN_DAT).</summary>
+    public record NguongXepLoai(decimal Gioi, decimal Kha, decimal Dat, decimal ChuyenCanDat);
+
+    public record KetQuaTinh(decimal TyLeChuyenCan, decimal DiemChuyenCan, decimal DiemTongKet, string XepLoai, string KetQua);
+
+    /// <summary>Trọng số tính theo %. Cách làm tròn giống view dbo.v_KetQuaTinh (điểm chuyên cần 4 chữ số, tổng kết 1 chữ số).</summary>
+    public static KetQuaTinh TongKet(int soBuoiDaHoc, int soBuoiCoMat, decimal giuaKy, decimal cuoiKy,
+        decimal tsChuyenCan, decimal tsGiuaKy, decimal tsCuoiKy, NguongXepLoai n)
+    {
+        var tyLe = soBuoiDaHoc == 0 ? 0 : 100m * soBuoiCoMat / soBuoiDaHoc;
+        var cc = Math.Round(tyLe / 10, 4, MidpointRounding.AwayFromZero);
+        var tk = Math.Round((tsChuyenCan * cc + tsGiuaKy * giuaKy + tsCuoiKy * cuoiKy) / 100, 1, MidpointRounding.AwayFromZero);
+        var xepLoai = tk >= n.Gioi ? "Giỏi" : tk >= n.Kha ? "Khá" : tk >= n.Dat ? "Trung bình" : "Không đạt";
+        var dat = tk >= n.Dat && tyLe >= n.ChuyenCanDat;   // R4: điểm đủ nhưng chuyên cần < 70% → Không đạt, giữ xếp loại theo điểm
+        return new(Math.Round(tyLe, 1, MidpointRounding.AwayFromZero), cc, tk, xepLoai, dat ? "Đạt" : "Không đạt");
+    }
 }
