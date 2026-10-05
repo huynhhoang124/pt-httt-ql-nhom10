@@ -241,16 +241,20 @@ Bài tập 1 để ngỏ lựa chọn "Bootstrap/JavaScript hoặc React". Nhóm
 | Xử lý nghiệp vụ | Một lớp dịch vụ cho mỗi module x.y, chứa các quy tắc QT; module N2, N3, N7 là thành phần dùng chung (middleware) | Mục 3, đặc tả xử lý 2.4 |
 | Dữ liệu | EF Core + các view, hàm SQL | 3.4 |
 
-Tổ chức mã nguồn theo phân hệ, để mã module = mã thư mục:
+Tổ chức mã nguồn theo phân hệ, để mã module = mã thư mục. Khi cài đặt (GĐ4), bản demo dùng **Razor Pages** (mỗi form/báo cáo là một trang có lớp xử lý đi kèm) nên phân hệ là thư mục con của `Pages/` thay cho `Areas/` của MVC; cách chia theo phân hệ giữ nguyên:
 
 ```
-src/TrungTamNgoaiNgu/
-  Areas/DanhMuc   (1.1–1.4)   Areas/LopHoc (2.1–2.4)   Areas/HocPhi (3.1–3.4)
-  Areas/HocTap    (4.1–4.4)   Areas/HeThong (5.1–5.4)
-  Nen/            (N1–N7: đăng nhập, phân quyền, nhật ký, sao lưu, in/xuất, lưu nháp, báo lỗi)
-  Data/           (EF Core: 26 thực thể ánh xạ từ CSDL 3.4)
-tests/            (kiểm thử theo mục 8)
+demo/TrungTamNgoaiNgu/
+  Pages/DanhMuc  (1.1–1.4)   Pages/LopHoc (2.1–2.4)   Pages/HocPhi (3.1–3.4)
+  Pages/HocTap   (4.1–4.4)   Pages/BaoCao (báo cáo 3.4, 5.3, 5.4)
+  Pages/         (DangNhap, DoiMatKhau, KhongCoQuyen: giao diện của N1, N2)
+  Nen/           (N1–N7: đăng nhập, phân quyền, nhật ký, báo lỗi…; tệp *.g.cs sinh từ mục 5 và 06_giao_dien bằng demo/sinh_ma.py)
+  NghiepVu/      (QuyTac.cs: quy tắc không phụ thuộc CSDL – bảng quyết định 3.1, QT05, QT11)
+  Data/          (EF Core: 26 thực thể ánh xạ từ CSDL 3.4, database-first)
+demo/KiemThu/    (xUnit, kiểm thử đơn vị theo mục 8)
 ```
+
+Lớp xử lý nghiệp vụ không tách thành một lớp dịch vụ riêng cho mỗi module: quy tắc dùng chung nằm ở `NghiepVu/`, phần còn lại nằm trong lớp xử lý của trang (Razor Pages gộp controller và view model). Bản demo chưa có `Pages/HeThong` (5.1, 5.2).
 
 ---
 
