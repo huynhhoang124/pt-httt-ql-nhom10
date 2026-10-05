@@ -23,7 +23,12 @@ builder.Services.AddRazorPages(o =>
     o.Conventions.AuthorizeFolder("/");
     o.Conventions.AllowAnonymousToPage("/DangNhap");
     o.Conventions.AllowAnonymousToPage("/Error");
-}).AddMvcOptions(o => o.Filters.Add<KiemTraQuyen>()); // N2: mọi trang có [Quyen] đều qua ma trận phân quyền
+}).AddMvcOptions(o =>
+{
+    o.Filters.Add<KiemTraQuyen>();  // N2: mọi trang có [Quyen] đều qua ma trận phân quyền
+    // Trường bắt buộc do trang tự kiểm tra và báo bằng tiếng Việt (06_giao_dien mục 6); tắt [Required] ngầm của string không-null
+    o.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
 
 var app = builder.Build();
 

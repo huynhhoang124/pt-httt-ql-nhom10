@@ -550,9 +550,7 @@ public partial class TrungTamContext : DbContext
             entity.Property(e => e.DoiTuong)
                 .HasMaxLength(30)
                 .IsUnicode(false);
-            entity.Property(e => e.MaDoiTuong)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.MaDoiTuong).HasMaxLength(100);
             entity.Property(e => e.TenDangNhap)
                 .HasMaxLength(50)
                 .IsUnicode(false);

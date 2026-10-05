@@ -552,7 +552,7 @@ phan = [
            [(d["MaHV"], d["MaLop"], d["SoPhieuDK"], d["TrangThai"], d["NgayThayDoi"], d["LyDo"], d["HanBaoLuu"], d["MaLopGoc"])
             for d in sorted(DK, key=lambda d: d["MaLopGoc"] is not None)]),   # đăng ký gốc chèn trước
     insert("UuDai", ["MaUD", "TenUD", "LoaiUD", "TyLeGiam", "NgayBatDau", "NgayKetThuc", "DieuKien"],
-           [(m, t, l, p, date(2026, 1, 1), date(2026, 12, 31), dk_) for m, t, l, p, dk_ in UU_DAI]),
+           [(m, t, l, p, date(2026, 1, 1), date(2027, 12, 31), dk_) for m, t, l, p, dk_ in UU_DAI]),  # còn hiệu lực ở ngày demo 04/01/2027
     insert("HocPhi", list(hoc_phi[0]), [tuple(h.values()) for h in hoc_phi]),
     insert("DotHocPhi", list(dot_hp[0]), [tuple(x.values()) for x in dot_hp]),
     insert("ApDungUuDai", ["MaHV", "MaLop", "MaUD"], ap_dung),

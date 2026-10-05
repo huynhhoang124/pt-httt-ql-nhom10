@@ -428,9 +428,9 @@ INSERT INTO DangKy (MaHV, MaLop, SoPhieuDK, TrangThai, NgayThayDoi, LyDo, HanBao
 
 -- UuDai: 3 dòng
 INSERT INTO UuDai (MaUD, TenUD, LoaiUD, TyLeGiam, NgayBatDau, NgayKetThuc, DieuKien) VALUES
-    (N'UD-HVCU', N'Ưu đãi học viên cũ', N'Học viên cũ', 10, '2026-01-01', '2026-12-31', N'Đã học hết ít nhất 1 khóa (QT01)'),
-    (N'UD-NHOM', N'Ưu đãi đăng ký nhóm', N'Đăng ký nhóm', 5, '2026-01-01', '2026-12-31', N'Nhóm từ 3 người đăng ký cùng ngày (QT02)'),
-    (N'UD-1LAN', N'Ưu đãi đóng một lần', N'Đóng một lần', 5, '2026-01-01', '2026-12-31', N'Đóng toàn bộ học phí một lần (QT03)');
+    (N'UD-HVCU', N'Ưu đãi học viên cũ', N'Học viên cũ', 10, '2026-01-01', '2027-12-31', N'Đã học hết ít nhất 1 khóa (QT01)'),
+    (N'UD-NHOM', N'Ưu đãi đăng ký nhóm', N'Đăng ký nhóm', 5, '2026-01-01', '2027-12-31', N'Nhóm từ 3 người đăng ký cùng ngày (QT02)'),
+    (N'UD-1LAN', N'Ưu đãi đóng một lần', N'Đóng một lần', 5, '2026-01-01', '2027-12-31', N'Đóng toàn bộ học phí một lần (QT03)');
 
 -- HocPhi: 53 dòng
 INSERT INTO HocPhi (MaHV, MaLop, HocPhiGoc, TyLeGiam, SoDot, NgayLap) VALUES

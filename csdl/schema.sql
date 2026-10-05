@@ -397,7 +397,7 @@ CREATE TABLE NhatKy (
     TenDangNhap     VARCHAR(50)     NOT NULL,
     ThaoTac         NVARCHAR(20)    NOT NULL,
     DoiTuong        VARCHAR(30)     NOT NULL,
-    MaDoiTuong      VARCHAR(100)    NOT NULL,
+    MaDoiTuong      NVARCHAR(100)   NOT NULL,
     CONSTRAINT PK_NhatKy PRIMARY KEY (MaNK),
     CONSTRAINT FK_NhatKy_TaiKhoan FOREIGN KEY (TenDangNhap) REFERENCES TaiKhoan (TenDangNhap),
     CONSTRAINT CK_NhatKy_ThaoTac CHECK (ThaoTac IN (N'Đăng nhập', N'Thêm', N'Sửa', N'Ngừng', N'Duyệt', N'In'))

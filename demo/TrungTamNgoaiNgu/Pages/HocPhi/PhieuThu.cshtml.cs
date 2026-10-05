@@ -31,6 +31,7 @@ public class PhieuThuModel(TrungTamContext db, DongHo dongHo) : PageModel
     {
         if (!User.Co("3.2", "T")) return Forbid();
         await NapAsync();
+        if (HocVien != null) NguoiNop = PhuHuynh.FirstOrDefault() ?? HocVien.HoTen;  // gợi ý sẵn, chỉ khi mở form
         return Page();
     }
 
@@ -81,7 +82,6 @@ public class PhieuThuModel(TrungTamContext db, DongHo dongHo) : PageModel
         if (HocVien == null) return;
         var ma = HocVien.MaHV;
         PhuHuynh = await db.HocVienPhuHuynh.Where(x => x.MaHV == ma).Select(x => x.MaPHNavigation.HoTen).ToListAsync();
-        if (string.IsNullOrEmpty(NguoiNop)) NguoiNop = PhuHuynh.FirstOrDefault() ?? HocVien.HoTen;
 
         // Chỉ đăng ký hiện tại còn nợ, không tính đăng ký Nghỉ học (fn_CongNo, QT10)
         var no = await db.CongNoTai(dongHo.HomNay).Where(c => c.MaHV == ma).ToListAsync();

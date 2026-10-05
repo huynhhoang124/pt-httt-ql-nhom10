@@ -311,7 +311,7 @@ Ràng buộc trên nhiều trường: FK_ThongBao_GiamHo: khóa ngoại bổ sun
 | TenDangNhap | VARCHAR(50) | FK → TaiKhoan; NOT NULL | Tên đăng nhập |
 | ThaoTac | NVARCHAR(20) | NOT NULL; CHECK (ThaoTac IN (N'Đăng nhập', N'Thêm', N'Sửa', N'Ngừng', N'Duyệt', N'In')) | Thao tác. [Đăng nhập \| Thêm \| Sửa \| Ngừng \| Duyệt \| In] |
 | DoiTuong | VARCHAR(30) | NOT NULL | Đối tượng. Tên thực thể bị tác động, vd "DangKy" |
-| MaDoiTuong | VARCHAR(100) | NOT NULL | Mã đối tượng. Giá trị khóa của cá thể, vd "HV0412/IEK-2609" |
+| MaDoiTuong | NVARCHAR(100) | NOT NULL | Mã đối tượng. Giá trị khóa của cá thể, vd "HV0412/IEK-2609" |
 
 ## Bảng 26. ThamSo – Tham số (kho D5, thực thể chức năng)
 
