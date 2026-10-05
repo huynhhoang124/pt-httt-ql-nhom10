@@ -1,0 +1,71 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocTap.ChungNhanModel
+@using TrungTamNgoaiNgu.Nen
+@using TrungTamNgoaiNgu.NghiepVu
+@{
+    ViewData["Ma"] = "R4.4";
+    ViewData["TroGiup"] = "Chỉ học viên có kết quả Đạt đã được duyệt ở 4.3 mới được cấp chứng nhận (QT15). Số chứng nhận tăng dần theo năm, dạng CN2027-0001.";
+    var l = Model.LopChon;
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div>
+        <label class="form-label" for="lop">Lớp</label>
+        <select id="lop" name="lop" class="form-select">
+            @foreach (var x in Model.CacLop)
+            {
+                <option value="@x.MaLop" selected="@(x.MaLop == Model.Lop)">@x.MaLop – @x.MaKHNavigation.TenKH</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary">Chọn</button>
+</form>
+@if (l != null)
+{
+    <div class="d-print-none">
+        @if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <form method="post">
+            <input type="hidden" name="lop" value="@l.MaLop" />
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered align-middle">
+                    <thead><tr>@if (Model.DuocCap) { <th>Cấp</th> }<th>Mã HV</th><th>Họ tên</th><th>Tổng kết</th><th>Xếp loại</th><th>Kết quả</th><th>Số chứng nhận</th></tr></thead>
+                    <tbody>
+                        @foreach (var d in Model.DanhSach)
+                        {
+                            var k = d.Kq;
+                            <tr class="@(k.KetQua1 == "Đạt" ? "" : "table-secondary")">
+                                @if (Model.DuocCap)
+                                {
+                                    <td><input type="checkbox" name="Chon" value="@d.Hv.MaHV" class="form-check-input" disabled="@(k.ChungNhan != null || !QuyTac.DuocCapChungNhan(k.KetQua1, k.NgayDuyet))" /></td>
+                                }
+                                <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td><td class="so">@k.DiemTongKet.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)</td>
+                                <td>@k.XepLoai</td><td>@k.KetQua1</td><td>@(k.ChungNhan?.SoCN ?? "–")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (Model.DuocCap)
+            {
+                <button class="btn btn-primary" asp-page-handler="Cap">Cấp chứng nhận</button>
+                <button class="btn btn-outline-primary" asp-page-handler="In">In chứng nhận (Ctrl+P)</button>
+            }
+        </form>
+    </div>
+    @foreach (var d in Model.DanhSach.Where(d => d.Kq.ChungNhan != null))
+    {
+        var c = d.Kq.ChungNhan!;
+        <div class="lien mt-3 text-center">
+            <div class="small text-start"><b>TRUNG TÂM NGOẠI NGỮ</b> <span class="float-end">Số: <b>@c.SoCN</b></span></div>
+            <h2 class="h4 fw-bold mt-3">GIẤY CHỨNG NHẬN HOÀN THÀNH KHÓA HỌC</h2>
+            <div class="mt-2">Chứng nhận học viên: <b>@d.Hv.HoTen</b> &nbsp; Ngày sinh: @HienThi.Ngay(d.Hv.NgaySinh)</div>
+            <div>Đã hoàn thành khóa học: @l.MaKHNavigation.TenKH (lớp @l.MaLop), từ @HienThi.Ngay(l.NgayKhaiGiang) đến @HienThi.Ngay(Model.NgayKetThuc)</div>
+            <div>Kết quả: <b>@d.Kq.XepLoai (@d.Kq.DiemTongKet.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))</b> &nbsp; Ngày cấp: @HienThi.Ngay(c.NgayCap)</div>
+            <div class="text-end mt-3 me-4">Giám đốc trung tâm</div>
+        </div>
+    }
+}
+@if (Model.In)
+{
+    <script>print();</script>
+}

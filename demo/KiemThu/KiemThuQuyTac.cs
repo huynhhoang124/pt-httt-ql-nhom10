@@ -168,6 +168,14 @@ public class KiemThuQuyTac
         Assert.Equal((8.4m, "Khá"), (k.DiemTongKet, k.XepLoai));
     }
 
+    [Theory]  // 4.4 – QT15, ca TC23
+    [InlineData("Đạt", true, true)]
+    [InlineData("Không đạt", true, false)]
+    [InlineData("Đạt", false, false)]      // chưa duyệt
+    [InlineData(null, false, false)]       // chưa tổng kết
+    public void CapChungNhan(string? ketQua, bool daDuyet, bool mong) =>
+        Assert.Equal(mong, DuocCapChungNhan(ketQua, daDuyet ? new DateOnly(2027, 1, 4) : null));
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]

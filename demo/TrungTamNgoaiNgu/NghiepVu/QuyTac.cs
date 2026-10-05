@@ -93,4 +93,9 @@ public static class QuyTac
         var dat = tk >= n.Dat && tyLe >= n.ChuyenCanDat;   // R4: điểm đủ nhưng chuyên cần < 70% → Không đạt, giữ xếp loại theo điểm
         return new(Math.Round(tyLe, 1, MidpointRounding.AwayFromZero), cc, tk, xepLoai, dat ? "Đạt" : "Không đạt");
     }
+
+    // ---------------- 4.4 – Cấp chứng nhận (04_dac_ta mục 1.8, QT15) ----------------
+
+    /// <summary>Chỉ cấp cho học viên có kết quả "Đạt" đã được QL đào tạo duyệt (danh sách học viên đạt từ 4.3).</summary>
+    public static bool DuocCapChungNhan(string? ketQua, DateOnly? ngayDuyet) => ketQua == "Đạt" && ngayDuyet != null;
 }

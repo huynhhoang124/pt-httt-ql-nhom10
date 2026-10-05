@@ -26,6 +26,7 @@ public static partial class ThucDon
         ("F4.1", "/HocTap/DiemDanh", "T"),
         ("F4.2", "/HocTap/NhapDiem", "T"),
         ("R4.3a", "/HocTap/TongKet", ""),
+        ("R4.4", "/HocTap/ChungNhan", ""),
         ("R3.4", "/BaoCao/DoanhThu", "X"),
         ("R5.3b", "/BaoCao/TinhTrangLop", "X"),
         ("FN1", "/DoiMatKhau", ""),
