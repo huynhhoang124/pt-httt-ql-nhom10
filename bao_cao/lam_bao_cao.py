@@ -136,7 +136,7 @@ def noi_dung(p, text, size=12, bold=False, italic=False):
         if not m:
             continue
         if m.startswith("**"):
-            font(p.add_run(m[2:-2]), size, True, italic)
+            font(p.add_run(m[2:-2].replace("`", "")), size, True, italic)  # **`mã`** in đậm, bỏ dấu `
         elif m.startswith("`"):
             font(p.add_run(m[1:-1]), size - 1, bold, italic, MONO)
         elif m.startswith("*") and len(m) > 2:
@@ -265,9 +265,9 @@ def doc_md(doc, md, chuong, bo_muc=(), thay=(), giu_dau=False, thu_muc=GOC):
             SO_HINH[chuong] = SO_HINH.get(chuong, 0) + 1
             hinh(doc, (thu_muc / duong).resolve(), f"Hình {chuong}.{SO_HINH[chuong]}. {alt}", xoay=True)
             i += 1
-        elif d.startswith("```"):
+        elif d.lstrip().startswith("```"):  # kể cả khối mã thụt lề trong danh sách
             j = i + 1
-            while not dong[j].startswith("```"):
+            while not dong[j].lstrip().startswith("```"):
                 j += 1
             khoi_ma(doc, dong[i + 1:j])
             i = j + 1
@@ -548,7 +548,9 @@ def bao_cao_thiet_ke(doc=None):
     """doc=None: báo cáo riêng. Có doc: ghi phần nội dung vào báo cáo tổng (tham chiếu "báo cáo phân tích" → "Phần II")."""
     rieng = doc is None
     md = lambda ten: (GOC / ten).read_text(encoding="utf-8")
-    thay = THAY_TK if rieng else THAY_TK + [(r"báo cáo phân tích", "Phần II"), (r"KE_HOACH", "kế hoạch dự án")]
+    # bảng mô tả tệp (csdl/mo_ta_bang.md) là phụ lục: A ở báo cáo riêng, B ở báo cáo tổng
+    pl = [(r"`csdl/mo_ta_bang\.md`", "Phụ lục A" if rieng else "Phụ lục B")]
+    thay = pl + THAY_TK if rieng else pl + THAY_TK + [(r"báo cáo phân tích", "Phần II"), (r"KE_HOACH", "kế hoạch dự án")]
     if rieng:
         doc = Document()
         thiet_lap_kieu(doc)
