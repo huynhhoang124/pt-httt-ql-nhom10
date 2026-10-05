@@ -1,0 +1,37 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.CongNoModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R3.3";
+    ViewData["TroGiup"] = "Công nợ = phải nộp − đã thu của các đăng ký còn hiệu lực; đăng ký Nghỉ học không tính nợ (QT10). Quá hạn: đã qua hạn của đợt chưa đóng đủ; học viên nợ quá hạn được nhắc qua thông báo (QT16, 5.2).";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div>
+        <label class="form-label" for="lop">Lớp</label>
+        <select id="lop" name="lop" class="form-select">
+            <option value="">Tất cả</option>
+            @foreach (var l in Model.CacLop) { <option selected="@(l == Model.Lop)">@l</option> }
+        </select>
+    </div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="quaHan" name="quaHan" value="true" checked="@Model.QuaHan" /><label class="form-check-label" for="quaHan">Chỉ khoản quá hạn</label></div>
+    <button class="btn btn-primary">Lọc</button>
+</form>
+<partial name="_XuatBaoCao" />
+<div class="hop-tb">
+    Tại ngày @HienThi.Ngay(Model.Ngay): <b>@Model.DanhSach.Count</b> khoản, tổng còn nợ <b>@HienThi.Tien(Model.DanhSach.Sum(c => c.ConNo))</b>;
+    quá hạn <b>@Model.DanhSach.Count(c => c.QuaHan == 1)</b> khoản, <b>@HienThi.Tien(Model.DanhSach.Where(c => c.QuaHan == 1).Sum(c => c.ConNo))</b>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Lớp</th><th class="so">Phải nộp</th><th class="so">Đã thu</th><th class="so">Còn nợ</th><th>Hạn đóng</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var c in Model.DanhSach)
+            {
+                <tr>
+                    <td>@c.MaHV</td><td>@c.HoTen</td><td>@c.MaLop</td><td class="so">@HienThi.So(c.PhaiNop)</td><td class="so">@HienThi.So(c.DaThu)</td>
+                    <td class="so"><b>@HienThi.So(c.ConNo)</b></td><td>@HienThi.Ngay(c.HanDong)</td><td>@if (c.QuaHan == 1) { <span class="canh-bao">Quá hạn</span> }</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

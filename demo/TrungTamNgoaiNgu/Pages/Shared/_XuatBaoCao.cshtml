@@ -1,0 +1,5 @@
+@* N5 – Xuất báo cáo: Excel (trang tự trả tệp khi có ?xuat=excel) và In / lưu PDF bằng lệnh in của trình duyệt *@
+<div class="d-print-none mb-2 d-flex gap-2">
+    <a class="btn btn-sm btn-outline-primary" href="@(Context.Request.Path + Context.Request.QueryString.Add("xuat", "excel"))">Xuất Excel</a>
+    <button type="button" class="btn btn-sm btn-outline-primary" onclick="print()">In / lưu PDF</button>
+</div>
