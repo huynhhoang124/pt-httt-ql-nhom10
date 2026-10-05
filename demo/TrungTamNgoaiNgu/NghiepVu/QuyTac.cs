@@ -66,6 +66,24 @@ public static class QuyTac
         return kq;
     }
 
+    // ---------------- 2.4 – Cây quyết định chuyển lớp, bảo lưu (04_dac_ta mục 2.1; QT08, QT09) ----------------
+
+    /// <summary>Nhánh "Chuyển lớp": ném LoiNghiepVu ở lá TỪ CHỐI đầu tiên, theo đúng thứ tự xét của cây.</summary>
+    public static void XetChuyenLop(int daHoc, decimal toiDa, bool cungKhoa, bool conCho)
+    {
+        if (daHoc > toiDa) throw new LoiNghiepVu("QT08", $"lớp hiện tại đã học {daHoc} buổi");
+        if (!cungKhoa) throw new LoiNghiepVu("QT08#2");
+        if (!conCho) throw new LoiNghiepVu("QT08#3");
+    }
+
+    /// <summary>Nhánh "Bảo lưu". <paramref name="tyLeToiDa"/>: % số buổi (TY_LE_BUOI_BAO_LUU); đã học từ mức này trở lên thì từ chối.</summary>
+    public static void XetBaoLuu(decimal conNo, int daHoc, int soBuoi, decimal tyLeToiDa, bool daBaoLuu)
+    {
+        if (conNo > 0) throw new LoiNghiepVu("QT09", $"còn nợ {conNo:N0} đ");
+        if (daHoc * 100m >= soBuoi * tyLeToiDa) throw new LoiNghiepVu("QT09#2", $"đã học {daHoc}/{soBuoi} buổi");
+        if (daBaoLuu) throw new LoiNghiepVu("QT09#3");
+    }
+
     // ---------------- 3.2 – Lập phiếu thu (04_dac_ta mục 1.4, QT05) ----------------
 
     /// <summary>Một dòng trên phiếu thu. PhaiNop, DaThu: của cả đăng ký; ConNoDot: của riêng đợt này.</summary>

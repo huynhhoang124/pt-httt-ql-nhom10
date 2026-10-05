@@ -200,7 +200,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | TC04 | 2.2 | Đăng ký lại cùng lớp | Báo "Học viên đã có đăng ký ở lớp này" | Đạt |
 | TC05 | 2.2 | Đăng ký lớp đã đủ sĩ số (tạm hạ tham số SISO_TOI_DA = 7) | Báo QT06, gợi ý lớp cùng khóa còn chỗ | Đạt |
 | TC06 | 2.3 | Sinh lịch GT-2701; thêm buổi học bù 06/01/2027 trùng giáo viên GV023, trùng phòng P305 với TOE-2611; đổi buổi 2 sang giờ, phòng của TOE-2611; NV tuyển sinh gửi xếp lịch | Sinh 10 buổi 09/01–13/03/2027; từ chối, nêu rõ lớp, buổi, giáo viên hoặc phòng bị trùng (QT07); buổi không trùng thì lưu; TS bị chặn | Đạt |
-| TC07 | 2.4 | Chuyển lớp sau quá 3 buổi; bảo lưu quá 50% số buổi | Từ chối (QT08, QT09) | – |
+| TC07 | 2.4 | Mọi lá của cây quyết định 2.4: HV0480 chuyển lớp khi TOE-2611 đã học 18 buổi; chuyển sang lớp khác khóa, sang lớp đã kết thúc; HV0470 bảo lưu còn nợ; HV0480 bảo lưu khi đã học 18/24 buổi; HV0440 bảo lưu lần 2; HV0445 bảo lưu; HV0461 chuyển sang GT-2702 (lớp thêm tạm); HV0471 nghỉ học còn nợ | Từ chối đúng lá (QT08, QT09); bảo lưu đến 04/07/2027; đăng ký mới giữ số đã thu qua đăng ký gốc; khoản nợ của đăng ký nghỉ học không còn trong công nợ (QT10) | Đạt |
 | TC08 | 3.1 | HV cũ, một mình, 2 đợt (R4) | Giảm 10%: 2.400.000 → 2 × 1.080.000 | Đạt |
 | TC09 | 3.1 | HV cũ, đóng một lần (R3) | Giảm 15% (trần QT04): 2.040.000, 1 đợt | Đạt |
 | TC10 | 3.1 | Ưu đãi đã hết hạn tại ngày đăng ký | Không giảm | Đạt (đơn vị) |

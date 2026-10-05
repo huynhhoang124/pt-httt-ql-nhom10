@@ -204,6 +204,25 @@ public class KiemThuQuyTac
         Assert.Equal([new(2027, 1, 6), new(2027, 1, 11), new DateOnly(2027, 1, 13)], hai.Select(x => x.Ngay));  // khai giảng thứ 3
     }
 
+    // ---------------- 2.4 – Cây quyết định chuyển lớp, bảo lưu (QT08, QT09), ca TC07 ----------------
+
+    [Theory]  // mỗi lá của nhánh "Chuyển lớp"
+    [InlineData(4, true, true, "QT08")]
+    [InlineData(3, false, true, "QT08#2")]
+    [InlineData(3, true, false, "QT08#3")]
+    [InlineData(4, false, false, "QT08")]     // xét số buổi trước
+    [InlineData(0, true, true, null)]
+    public void CayQuyetDinh_ChuyenLop(int daHoc, bool cungKhoa, bool conCho, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => XetChuyenLop(daHoc, 3, cungKhoa, conCho)) is LoiNghiepVu l ? l.Khoa : null);
+
+    [Theory]  // mỗi lá của nhánh "Bảo lưu"; khóa 24 buổi, ngưỡng 50%
+    [InlineData(1_000, 0, false, "QT09")]
+    [InlineData(0, 12, false, "QT09#2")]      // đúng 50% đã bị từ chối
+    [InlineData(0, 11, true, "QT09#3")]
+    [InlineData(0, 11, false, null)]
+    public void CayQuyetDinh_BaoLuu(int conNo, int daHoc, bool daBaoLuu, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => XetBaoLuu(conNo, daHoc, 24, 50, daBaoLuu)) is LoiNghiepVu l ? l.Khoa : null);
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]

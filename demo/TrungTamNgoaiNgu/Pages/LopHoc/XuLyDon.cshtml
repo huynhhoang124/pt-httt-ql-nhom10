@@ -1,0 +1,72 @@
+@page
+@model TrungTamNgoaiNgu.Pages.LopHoc.XuLyDonModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F2.4, R2.4";
+    ViewData["TroGiup"] = "Chuyển lớp: trong 3 buổi đầu, sang lớp cùng khóa còn chỗ, không thu thêm phí (QT08). Bảo lưu: đã đóng đủ, học dưới 50% số buổi, tối đa 6 tháng, mỗi khóa 1 lần (QT09). Nghỉ học: không hoàn học phí, phần còn nợ được hủy (QT10).";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <div>
+        <label class="form-label" for="hv">Mã học viên</label>
+        <input id="hv" name="hv" class="form-control" value="@Model.Hv" placeholder="vd HV0445" />
+    </div>
+    <button class="btn btn-primary">Tìm</button>
+</form>
+@if (Model.ThongBao != null) { <div class="hop-tb"><b>@Model.ThongBao</b></div> }
+<div asp-validation-summary="All" class="hop-loi"></div>
+@if (Model.HocVien is { } hv)
+{
+    <div class="hop-tb"><b>@hv.MaHV</b> – @hv.HoTen · @hv.DienThoai</div>
+    @if (Model.CacDangKy.Count == 0)
+    {
+        <p>Học viên không có đăng ký nào đang học.</p>
+    }
+    else
+    {
+        <form method="post" onsubmit="return this.Loai.value != 'Nghỉ học' || confirm('Chuyển đăng ký sang Nghỉ học? Không hoàn học phí và không mở lại được.')">
+            <input type="hidden" name="hv" value="@hv.MaHV" />
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered align-middle">
+                    <thead><tr><th>Chọn</th><th>Lớp</th><th>Khóa học</th><th>Trạng thái lớp</th><th class="so">Buổi đã học</th><th class="so">Còn nợ</th></tr></thead>
+                    <tbody>
+                        @foreach (var d in Model.CacDangKy)
+                        {
+                            var l = d.Dk.MaLopNavigation;
+                            <tr>
+                                <td><input type="radio" name="Lop" value="@l.MaLop" class="form-check-input" checked="@(l.MaLop == (Model.Lop ?? Model.CacDangKy[0].Dk.MaLop))" /></td>
+                                <td>@l.MaLop</td><td>@l.MaKHNavigation.TenKH</td><td>@l.TrangThai</td>
+                                <td class="so">@d.DaHoc/@l.MaKHNavigation.SoBuoi</td><td class="so">@HienThi.Tien(d.ConNo)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-md-2"><label class="form-label bat-buoc" for="Loai">Loại đơn</label>
+                    <select id="Loai" name="Loai" class="form-select">
+                        @foreach (var t in TrungTamNgoaiNgu.Pages.LopHoc.XuLyDonModel.LoaiDon) { <option selected="@(t == Model.Loai)">@t</option> }
+                    </select></div>
+                <div class="col-md-3"><label class="form-label" for="LopDich">Lớp đích (khi chuyển lớp)</label>
+                    <select id="LopDich" name="LopDich" class="form-select">
+                        <option value="">–</option>
+                        @foreach (var l in Model.CacLopMo) { <option value="@l.MaLop" selected="@(l.MaLop == Model.LopDich)">@l.MaLop (@l.SoDangKy/@l.SiSoToiDa, @l.TrangThai)</option> }
+                    </select></div>
+                <div class="col-md-5"><label class="form-label bat-buoc" for="LyDo">Lý do</label>
+                    <input id="LyDo" name="LyDo" class="form-control" value="@Model.LyDo" maxlength="200" /></div>
+                <div class="col-md-2"><button class="btn btn-primary w-100">Xét đơn</button></div>
+            </div>
+        </form>
+    }
+}
+<h2 class="h6 fw-bold mt-4">@ThucDon.Ten("R2.4") – 10 đơn gần nhất</h2>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered">
+        <thead><tr><th>Ngày</th><th>Học viên</th><th>Lớp</th><th>Kết quả</th><th>Hạn bảo lưu</th><th>Lý do</th></tr></thead>
+        <tbody>
+            @foreach (var d in Model.GanDay)
+            {
+                <tr><td>@HienThi.Ngay(d.NgayThayDoi)</td><td>@d.MaHV – @d.MaHVNavigation.HoTen</td><td>@d.MaLop</td><td>@d.TrangThai</td><td>@HienThi.Ngay(d.HanBaoLuu)</td><td>@d.LyDo</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
