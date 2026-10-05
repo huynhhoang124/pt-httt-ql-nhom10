@@ -1,0 +1,56 @@
+@page
+@model TrungTamNgoaiNgu.Pages.BaoCao.DoanhThuModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F3.4, R3.4";
+    ViewData["TroGiup"] = "Doanh thu = tiền đã thu theo ngày trên phiếu thu. Công nợ tính tại ngày cuối kỳ, không tính đăng ký nghỉ học (QT10); quá hạn = đã qua hạn của đợt chưa đóng đủ (QT16).";
+    var chenh = Model.TongKyTruoc == 0 ? (decimal?)null : (Model.Tong - Model.TongKyTruoc) / Model.TongKyTruoc * 100;
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="tuNgay">Từ ngày</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">Đến ngày</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div>
+        <label class="form-label" for="khoa">Khóa học</label>
+        <select id="khoa" name="khoa" class="form-select">
+            <option value="">Tất cả</option>
+            @foreach (var (ma, ten) in Model.CacKhoa)
+            {
+                <option value="@ma" selected="@(ma == Model.Khoa)">@ma – @ten</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary">Lập báo cáo</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+</form>
+<p class="small">Kỳ báo cáo: @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay)@(Model.Khoa is null ? "" : $" · khóa {Model.Khoa}") · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")</p>
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <div class="the-module">
+            <h2>Doanh thu</h2>
+            <div class="fs-4 fw-bold">@HienThi.Tien(Model.Tong)</div>
+            <div class="small">Kỳ trước (@HienThi.Ngay(Model.KyTruoc.Tu) – @HienThi.Ngay(Model.KyTruoc.Den)): @HienThi.Tien(Model.TongKyTruoc)
+                @if (chenh is decimal c) { <span>· @(c >= 0 ? "tăng" : "giảm") @Math.Abs(c).ToString("0.0")%</span> }</div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="the-module">
+            <h2>Công nợ tại @HienThi.Ngay(Model.DenNgay)</h2>
+            <div class="fs-4 fw-bold">@HienThi.Tien(Model.CongNo)</div>
+            <div class="small">@Model.SoKhoanNo khoản còn nợ · <span class="@(Model.SoKhoanQuaHan > 0 ? "canh-bao" : "")">quá hạn: @Model.SoKhoanQuaHan khoản, @HienThi.Tien(Model.QuaHan)</span></div>
+        </div>
+    </div>
+</div>
+@foreach (var (tieuDe, ds) in new[] { ("Theo khóa học", Model.TheoKhoa), ("Theo hình thức thanh toán", Model.TheoHinhThuc), ("Theo tháng", Model.TheoThang) })
+{
+    <h2 class="h6 fw-bold">@tieuDe</h2>
+    <table class="table table-sm table-bordered" style="max-width:40rem">
+        <thead><tr><th></th><th class="so">Số phiếu</th><th class="so">Số tiền</th><th class="so">Tỷ trọng</th></tr></thead>
+        <tbody>
+            @foreach (var n in ds)
+            {
+                <tr><td>@n.Ten</td><td class="so">@n.SoPhieu</td><td class="so">@HienThi.So(n.Tien)</td><td class="so">@(Model.Tong == 0 ? "–" : (n.Tien / Model.Tong * 100).ToString("0.0") + "%")</td></tr>
+            }
+            <tr class="fw-bold"><td>Tổng</td><td></td><td class="so">@HienThi.So(ds.Sum(n => n.Tien))</td><td></td></tr>
+        </tbody>
+    </table>
+}

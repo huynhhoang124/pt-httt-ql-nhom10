@@ -1,0 +1,65 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocTap.DiemDanhModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F4.1";
+    ViewData["TroGiup"] = "x có mặt · M đi muộn · P vắng có phép · K vắng không phép. Sửa được trong 24 giờ sau buổi học (QT11). Học viên vắng quá 20% số buổi đã học được đánh dấu cảnh báo và hệ thống gửi thông báo cho phụ huynh (QT12).";
+    var c = Model.Chon;
+}
+<form method="get" class="mb-3" style="max-width:32rem">
+    <label class="form-label" for="buoi">Buổi học</label>
+    <select id="buoi" name="buoi" class="form-select" onchange="this.form.submit()">
+        @foreach (var b in Model.CacBuoi)
+        {
+            var ma = $"{b.MaLop}|{b.SoBuoi}";
+            <option value="@ma" selected="@(ma == Model.Buoi)">@b.MaLop · buổi @b.SoBuoi · @HienThi.Ngay(b.Ngay) @b.GioBatDau.ToString("HH\\:mm")</option>
+        }
+    </select>
+</form>
+@if (c == null)
+{
+    <p>Không có buổi học nào để điểm danh.</p>
+}
+else
+{
+    <div class="hop-tb">
+        <b>@c.MaLop</b> – @c.MaLopNavigation.MaKHNavigation.TenKH · buổi @c.SoBuoi (@c.Loai) · @HienThi.Ngay(c.Ngay)
+        @c.GioBatDau.ToString("HH\\:mm")–@c.GioKetThuc.ToString("HH\\:mm") · phòng @c.MaPhong
+        @if (!Model.DuocGhi) { <div class="canh-bao small mt-1">Chỉ xem: ngoài thời gian điểm danh của buổi (QT11) hoặc không phải buổi bạn dạy.</div> }
+    </div>
+    @if (Model.DaLuu != null) { <div class="hop-tb">@Model.DaLuu</div> }
+    <form method="post">
+        <input type="hidden" name="buoi" value="@Model.Buoi" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <fieldset disabled="@(!Model.DuocGhi)">
+            @foreach (var d in Model.DanhSach)
+            {
+                var ma = d.Hv.MaHV;
+                <div class="border p-2 mb-2">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <b>@ma @d.Hv.HoTen</b>
+                        @if (d.ChuyenCan is { SoBuoiDaHoc: > 0 } cc)
+                        {
+                            <span class="small @(cc.CanhBaoVang == 1 ? "canh-bao" : "")">
+                                có mặt @cc.SoBuoiCoMat/@cc.SoBuoiDaHoc buổi (@cc.TyLeChuyenCan%)@(cc.CanhBaoVang == 1 ? " – vắng > 20%: đã cảnh báo (QT12)" : "")
+                            </span>
+                        }
+                    </div>
+                    <div class="chon-dd d-flex mt-1">
+                        @foreach (var t in TrungTamNgoaiNgu.NghiepVu.QuyTac.TrangThaiDiemDanh)
+                        {
+                            var id = $"{ma}_{t}";
+                            <input type="radio" id="@id" name="TrangThai[@ma]" value="@t" checked="@((Model.TrangThai.GetValueOrDefault(ma) ?? d.TrangThai) == t)" />
+                            <label for="@id">@t</label>
+                        }
+                        <input name="GhiChu[@ma]" value="@(Model.GhiChu.GetValueOrDefault(ma) ?? d.GhiChu)" class="form-control form-control-sm ms-2" placeholder="Ghi chú" style="display:block" />
+                    </div>
+                </div>
+            }
+        </fieldset>
+        @if (Model.DuocGhi)
+        {
+            <button class="btn btn-primary w-100 mt-1">Lưu điểm danh</button>
+        }
+    </form>
+}

@@ -1,0 +1,23 @@
+@page
+@model DoiMatKhauModel
+@{
+    ViewData["Ma"] = "FN1";
+    ViewData["Title"] = "FN1 Đổi mật khẩu";
+    ViewData["TroGiup"] = "Mật khẩu mới ít nhất 8 ký tự; hệ thống chỉ lưu dạng băm (PBKDF2), không ai xem được mật khẩu.";
+}
+@if (Model.DaDoi)
+{
+    <div class="hop-tb">Đã đổi mật khẩu.</div>
+}
+<form method="post" class="col-sm-8 col-md-5">
+    <div asp-validation-summary="All" class="hop-loi"></div>
+    @foreach (var ten in new[] { "Cu", "Moi", "NhapLai" })
+    {
+        <div class="mb-2">
+            <label class="form-label bat-buoc" for="@ten">@Html.DisplayName(ten)</label>
+            <input type="password" class="form-control" id="@ten" name="@ten" />
+        </div>
+    }
+    <button class="btn btn-primary mt-2">Lưu</button>
+    <a class="btn btn-outline-primary mt-2" href="/">Thoát</a>
+</form>

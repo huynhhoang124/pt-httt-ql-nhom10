@@ -1,0 +1,77 @@
+// Sinh tự động bởi demo/sinh_ma.py từ thiet_ke/05_module.md mục 3 và 06_giao_dien.md mục 3, 4 – không sửa tay; sửa bảng trong .md rồi chạy lại.
+
+namespace TrungTamNgoaiNgu.Nen;
+
+public static partial class ThucDon
+{
+    public static readonly (string Ma, string Ten, string PhanHe)[] Module =
+    {
+        ("1.1", "Tiếp nhận hồ sơ, kiểm tra trình độ học viên", "1.0"),
+        ("1.2", "Quản lý hồ sơ giáo viên", "1.0"),
+        ("1.3", "Quản lý khóa học", "1.0"),
+        ("1.4", "Quản lý phòng học", "1.0"),
+        ("2.1", "Mở lớp, phân công giáo viên", "2.0"),
+        ("2.2", "Đăng ký học, xếp học viên vào lớp", "2.0"),
+        ("2.3", "Xếp lịch, kiểm tra trùng lịch", "2.0"),
+        ("2.4", "Xử lý chuyển lớp, bảo lưu, nghỉ học", "2.0"),
+        ("3.1", "Tính học phí, áp dụng ưu đãi", "3.0"),
+        ("3.2", "Lập phiếu thu", "3.0"),
+        ("3.3", "Theo dõi công nợ", "3.0"),
+        ("3.4", "Thống kê doanh thu", "3.0"),
+        ("4.1", "Điểm danh, tính chuyên cần", "4.0"),
+        ("4.2", "Nhập điểm thành phần", "4.0"),
+        ("4.3", "Tổng kết, xếp loại", "4.0"),
+        ("4.4", "Cấp chứng nhận hoàn thành khóa học", "4.0"),
+        ("5.1", "Quản lý tài khoản, phân quyền", "5.0"),
+        ("5.2", "Gửi thông báo", "5.0"),
+        ("5.3", "Lập báo cáo tuyển sinh, tình trạng lớp", "5.0"),
+        ("5.4", "Lập báo cáo chuyên cần, kết quả, giảng dạy", "5.0"),
+        ("N1", "Đăng nhập, đổi mật khẩu", "N"),
+        ("N2", "Kiểm tra quyền truy cập", "N"),
+        ("N3", "Ghi nhật ký thao tác", "N"),
+        ("N4", "Sao lưu, phục hồi dữ liệu", "N"),
+        ("N5", "In, xuất báo cáo", "N"),
+        ("N6", "Lưu nháp phiếu", "N"),
+        ("N7", "Trợ giúp và thông báo lỗi", "N"),
+    };
+
+    public static readonly Dictionary<string, (string Ten, string Module)> ManHinh = new()
+    {
+        ["F1.1"] = ("Hồ sơ học viên", "1.1"),
+        ["F1.2"] = ("Hồ sơ giáo viên", "1.2"),
+        ["F1.3"] = ("Khóa học", "1.3"),
+        ["F1.4"] = ("Phòng học", "1.4"),
+        ["F2.1"] = ("Mở lớp, phân công giáo viên", "2.1"),
+        ["F2.2"] = ("Phiếu đăng ký học", "2.2"),
+        ["F2.3"] = ("Xếp lịch, đổi lịch, học bù", "2.3"),
+        ["F2.4"] = ("Đơn chuyển lớp, bảo lưu, nghỉ học", "2.4"),
+        ["F3.1"] = ("Ưu đãi và khoản học phí", "3.1"),
+        ["F3.2"] = ("Phiếu thu học phí", "3.2"),
+        ["F3.4"] = ("Chọn kỳ báo cáo doanh thu", "3.4"),
+        ["F4.1"] = ("Điểm danh buổi học", "4.1"),
+        ["F4.2"] = ("Nhập điểm thành phần", "4.2"),
+        ["F4.3"] = ("Duyệt kết quả học tập", "4.3"),
+        ["F5.1a"] = ("Tài khoản, phân quyền", "5.1"),
+        ["F5.1b"] = ("Tham số hệ thống", "5.1"),
+        ["F5.3"] = ("Chọn báo cáo tổng hợp", "5.3"),
+        ["FN1"] = ("Đăng nhập, đổi mật khẩu", "N1"),
+        ["R2.2"] = ("Kết quả đăng ký, danh sách lớp", "2.2"),
+        ["R2.3a"] = ("Lịch học của học viên", "2.3"),
+        ["R2.3b"] = ("Lịch dạy, danh sách lớp", "2.3"),
+        ["R2.4"] = ("Kết quả xử lý đơn", "2.4"),
+        ["R3.1"] = ("Bảng học phí phải thu", "3.1"),
+        ["R3.2"] = ("Phiếu thu (2 liên)", "3.2"),
+        ["R3.3"] = ("Công nợ học phí", "3.3"),
+        ["R3.4"] = ("Báo cáo doanh thu, công nợ", "3.4"),
+        ["R4.1"] = ("Chuyên cần của học viên", "4.1"),
+        ["R4.3a"] = ("Bảng điểm lớp chờ duyệt", "4.3"),
+        ["R4.3b"] = ("Phiếu báo kết quả học tập", "4.3"),
+        ["R4.4"] = ("Giấy chứng nhận hoàn thành khóa học", "4.4"),
+        ["R5.1"] = ("Nhật ký hệ thống", "5.1"),
+        ["R5.2"] = ("Thông báo", "5.2"),
+        ["R5.3a"] = ("Báo cáo tuyển sinh", "5.3"),
+        ["R5.3b"] = ("Báo cáo tình trạng lớp", "5.3"),
+        ["R5.4a"] = ("Báo cáo kết quả học tập", "5.4"),
+        ["R5.4b"] = ("Báo cáo chuyên cần, kết quả, giảng dạy", "5.4"),
+    };
+}

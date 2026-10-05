@@ -1,0 +1,46 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.InPhieuThuModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R3.2";
+    ViewData["Title"] = $"R3.2 Phiếu thu {Model.Phieu.SoPT}";
+    ViewData["TroGiup"] = "Phiếu in 2 liên: liên 1 lưu kế toán, liên 2 giao người nộp; người nộp mang liên 2 khi nộp đợt sau để đối chiếu số còn nợ.";
+    var p = Model.Phieu;
+}
+<form method="post" class="mb-3 d-print-none">
+    <input type="hidden" name="so" value="@p.SoPT" />
+    <button class="btn btn-primary">In (Ctrl+P)</button>
+    <a class="btn btn-outline-primary" href="/HocPhi/DanhSachPhieuThu">Danh sách phiếu thu</a>
+</form>
+@foreach (var lien in new[] { "Liên 1: lưu tại kế toán", "Liên 2: giao người nộp" })
+{
+    <div class="lien">
+        <div class="d-flex justify-content-between small"><span><b>TRUNG TÂM NGOẠI NGỮ</b></span><span>@lien</span></div>
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline mt-2">
+            <h2 class="h4 fw-bold m-0">PHIẾU THU</h2>
+            <span>Số: <b>@p.SoPT</b> &nbsp; Ngày: @HienThi.Ngay(p.NgayThu)</span>
+        </div>
+        <div class="mt-2">Họ tên người nộp: <b>@p.NguoiNop</b></div>
+        <div>Học viên: @Model.HocVien.MaHV – @Model.HocVien.HoTen @if (Model.SoPhieuDK != null) { <span>&nbsp; Theo phiếu đăng ký: @Model.SoPhieuDK</span> }</div>
+        <table class="table table-sm table-bordered mt-2 mb-2">
+            <thead><tr><th>STT</th><th>Mã lớp</th><th>Khóa học</th><th>Đợt</th><th class="so">Học phí</th><th class="so">Giảm</th><th class="so">Phải nộp</th><th class="so">Nộp lần này</th></tr></thead>
+            <tbody>
+                @foreach (var (d, i) in Model.Dong.Select((d, i) => (d, i + 1)))
+                {
+                    <tr><td>@i</td><td>@d.MaLop</td><td>@d.TenKH</td><td>@d.Dot</td><td class="so">@HienThi.So(d.HocPhiGoc)</td><td class="so">@HienThi.So(d.Giam)</td><td class="so">@HienThi.So(d.PhaiNop)</td><td class="so">@HienThi.So(d.NopLanNay)</td></tr>
+                }
+            </tbody>
+        </table>
+        @{ var tong = Model.Dong.Sum(d => d.NopLanNay); }
+        <div>Tổng nộp lần này: <b>@HienThi.So(tong)</b> &nbsp; (@HienThi.BangChu(tong))</div>
+        <div>
+            Còn nợ sau phiếu này: <b>@HienThi.So(Model.ConNoSau)</b>
+            @if (Model.DotKeTiep is { } k) { <span>&nbsp; Hạn đợt @k.Dot: @HienThi.Ngay(k.Han)</span> }
+        </div>
+        <div>Hình thức: @p.HinhThuc &nbsp; Người thu: @p.MaNVNavigation.HoTen (kế toán)</div>
+    </div>
+}
+@if (Model.In)
+{
+    <script>print();</script>
+}

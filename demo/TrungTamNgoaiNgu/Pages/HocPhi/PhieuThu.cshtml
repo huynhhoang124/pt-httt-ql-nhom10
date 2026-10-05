@@ -1,0 +1,63 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.PhieuThuModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F3.2";
+    ViewData["TroGiup"] = "Đợt 1 tối thiểu 50% số phải nộp (QT05); không nộp vượt số còn nợ của đợt. Bỏ trống ô các đợt không nộp. Số phiếu, ngày thu, người thu do hệ thống điền; phiếu đã lập không sửa, thu sai thì lập phiếu điều chỉnh.";
+    var h = Model.HocVien;
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+    <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
+    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" />
+    <button class="btn btn-primary">Chọn</button>
+</form>
+@if (Model.Hv != null && h == null)
+{
+    <div class="hop-loi">Không có học viên mã @Model.Hv.</div>
+}
+@if (h != null)
+{
+    <div class="hop-tb"><b>@h.MaHV – @h.HoTen</b> · ĐT @h.DienThoai @if (Model.PhuHuynh.Count > 0) { <span>· phụ huynh: @string.Join(", ", Model.PhuHuynh)</span> }</div>
+    @if (Model.DanhSach.Count == 0)
+    {
+        <p>Học viên không còn khoản học phí nào chưa đóng.</p>
+    }
+    else
+    {
+        <form method="post" onsubmit="return confirm('Lập phiếu thu? Phiếu đã lập không sửa được.')">
+            <input type="hidden" name="hv" value="@h.MaHV" />
+            <div asp-validation-summary="All" class="hop-loi"></div>
+            <div class="row g-2 mb-2">
+                <div class="col-sm-5"><label class="form-label bat-buoc" for="NguoiNop">Người nộp</label><input asp-for="NguoiNop" class="form-control" /></div>
+                <div class="col-sm-5">
+                    <label class="form-label bat-buoc d-block">Hình thức</label>
+                    @foreach (var ht in new[] { "Tiền mặt", "Chuyển khoản" })
+                    {
+                        <label class="me-3"><input type="radio" name="HinhThuc" value="@ht" checked="@(Model.HinhThuc == ht)" /> @ht</label>
+                    }
+                </div>
+            </div>
+            <h2 class="h6 fw-bold">Các đợt còn nợ</h2>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered align-middle">
+                    <thead><tr><th>Lớp</th><th>Khóa học</th><th>Đợt</th><th>Hạn đóng</th><th class="so">Phải nộp đợt</th><th class="so">Đã nộp</th><th class="so">Còn nợ</th><th style="width:11rem">Nộp lần này</th></tr></thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.DanhSach.Count; i++)
+                        {
+                            var d = Model.DanhSach[i];
+                            <tr>
+                                <td>@d.MaLopHienTai @if (d.MaLopHienTai != d.MaLop) { <span class="small">(khoản của @d.MaLop)</span> }</td>
+                                <td>@d.TenKH</td><td>@d.SoDot</td>
+                                <td>@HienThi.Ngay(d.Han)</td>
+                                <td class="so">@HienThi.So(d.SoTienDot)</td><td class="so">@HienThi.So(d.DaThuDot)</td><td class="so">@HienThi.So(d.ConNoDot)</td>
+                                <td><input type="number" name="SoTien[@i]" value="@(i < Model.SoTien.Count ? Model.SoTien[i] : null)" min="0" step="1000" class="form-control form-control-sm so" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-primary">Lập phiếu thu</button>
+            <a class="btn btn-outline-primary" href="/">Thoát</a>
+        </form>
+    }
+}

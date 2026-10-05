@@ -1,0 +1,30 @@
+@page
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Title"] = "Thực đơn chính";
+    var vt = User.VaiTro();
+    // Thực đơn phân cấp (06_giao_dien mục 5.1): chỉ hiện phân hệ, module mà vai trò có quyền theo ma trận 05_module mục 5
+    var modules = ThucDon.Module.Where(m => PhanQuyen.Co(vt, m.Ma)).GroupBy(m => m.PhanHe);
+}
+<p>Mỗi vai trò chỉ thấy các mục được phép. Mục có liên kết là chức năng đã làm trong bản demo; mục màu xám có trong thiết kế nhưng chưa làm.</p>
+<div class="row g-3">
+    @foreach (var ph in modules)
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="the-module">
+                <h2>@ph.Key @ThucDon.PhanHe[ph.Key]</h2>
+                @foreach (var m in ph)
+                {
+                    var lam = ThucDon.DaLam.Where(d => ThucDon.ManHinh[d.Ma].Module == m.Ma && PhanQuyen.Co(vt, m.Ma, d.Can)).ToList();
+                    <div class="mb-1">
+                        <div class="@(lam.Count == 0 ? "chua-lam" : "fw-semibold")">@m.Ma @m.Ten</div>
+                        @foreach (var d in lam)
+                        {
+                            <div class="ms-3"><a href="@d.Url">@ThucDon.Ten(d.Ma)</a></div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

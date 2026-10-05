@@ -1,0 +1,50 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.KhoanPhaiThuModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F3.1";
+    ViewData["Title"] = "F3.1 Xác nhận khoản học phí";
+    ViewData["TroGiup"] = "Ưu đãi theo bảng quyết định 3.1: học viên cũ 10% (hệ thống tự xét), nhóm ≥ 3 người 5%, đóng một lần 5%; tổng giảm tối đa 15% (QT04). Đóng 2 đợt: đợt 1 = 50%, hạn ngày khai giảng; đợt 2 hạn buổi giữa khóa (QT05).";
+}
+@if (Model.VuaLap is { } v)
+{
+    <div class="hop-tb">
+        Đã lập khoản học phí <b>@v.MaHV / @v.MaLop</b>: học phí gốc @HienThi.Tien(v.HocPhiGoc), giảm @v.TyLeGiam.ToString("0.##")%
+        (@(v.MaUD.Count == 0 ? "không ưu đãi" : string.Join(", ", v.MaUD.Select(u => u.TenUD)))) –
+        @foreach (var d in v.DotHocPhi.OrderBy(d => d.Dot))
+        {
+            <span>đợt @d.Dot: <b>@HienThi.Tien(d.SoTien)</b>, hạn @HienThi.Ngay(d.HanDong); </span>
+        }
+        <a href="/HocPhi/PhieuThu?hv=@v.MaHV">Lập phiếu thu (F3.2)</a>
+    </div>
+}
+<div asp-validation-summary="All" class="hop-loi"></div>
+<h2 class="h6 fw-bold">Đăng ký chờ lập học phí</h2>
+@if (Model.DanhSach.Count == 0)
+{
+    <p>Không có đăng ký nào chờ lập học phí.</p>
+}
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Phiếu ĐK</th><th>Ngày ĐK</th><th>Học viên</th><th>Lớp</th><th class="so">Học phí gốc</th><th>HV cũ (C1)</th><th>Nhóm ≥ 3 (C2)</th><th>Số đợt (C3)</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var (c, i) in Model.DanhSach.Select((c, i) => (c, i)))
+            {
+                var f = $"f{i}";
+                <tr>
+                    <td>@c.Dk.SoPhieuDK</td><td>@HienThi.Ngay(c.NgayDK)</td><td>@c.Dk.MaHV @c.Dk.MaHVNavigation.HoTen</td><td>@c.Dk.MaLop</td>
+                    <td class="so">@HienThi.So(c.Dk.MaLopNavigation.MaKHNavigation.HocPhi)</td>
+                    <td>@(c.HocVienCu ? "Có" : "Không")</td>
+                    <td><input type="checkbox" name="nhom" value="true" class="form-check-input" form="@f" /></td>
+                    <td><select name="soDot" class="form-select form-select-sm" form="@f"><option value="2">2 đợt</option><option value="1">1 lần</option></select></td>
+                    <td>
+                        <form method="post" id="@f">
+                            <input type="hidden" name="hv" value="@c.Dk.MaHV" /><input type="hidden" name="lop" value="@c.Dk.MaLop" />
+                            <button class="btn btn-sm btn-primary">Lập</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

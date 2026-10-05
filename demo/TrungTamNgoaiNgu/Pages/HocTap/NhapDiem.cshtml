@@ -1,0 +1,62 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocTap.NhapDiemModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F4.2";
+    ViewData["TroGiup"] = "Điểm từ 0 đến 10, dùng dấu chấm cho phần lẻ (vd 7.5); bỏ trống nếu chưa có điểm. Điểm bị khóa khi học viên đã được tổng kết (4.3).";
+    var c = Model.Chon;
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <div>
+        <label class="form-label" for="lop">Lớp</label>
+        <select id="lop" name="lop" class="form-select">
+            @foreach (var l in Model.CacLop)
+            {
+                <option value="@l.MaLop" selected="@(l.MaLop == Model.Lop)">@l.MaLop – @l.MaKHNavigation.TenKH (@l.TrangThai)</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label class="form-label" for="loai">Loại điểm</label>
+        <select id="loai" name="loai" class="form-select">
+            @foreach (var t in TrungTamNgoaiNgu.Pages.HocTap.NhapDiemModel.LoaiDiemCo)
+            {
+                <option selected="@(t == Model.Loai)">@t</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary">Chọn</button>
+</form>
+@if (c != null)
+{
+    <div class="hop-tb">
+        <b>@c.MaLop</b> – @c.MaKHNavigation.TenKH · trọng số chuyên cần @c.MaKHNavigation.TSChuyenCan% – giữa kỳ @c.MaKHNavigation.TSGiuaKy% – cuối kỳ @c.MaKHNavigation.TSCuoiKy%
+        @if (!Model.DuocGhi) { <div class="canh-bao small mt-1">Chỉ xem: lớp không ở trạng thái Đang học hoặc không phải lớp bạn phụ trách.</div> }
+    </div>
+    @if (Model.DaLuu) { <div class="hop-tb">Đã lưu điểm @Model.Loai.ToLower().</div> }
+    <form method="post">
+        <input type="hidden" name="lop" value="@c.MaLop" /><input type="hidden" name="loai" value="@Model.Loai" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered align-middle">
+                <thead><tr><th>Mã HV</th><th>Họ tên</th><th style="width:7rem">Điểm @Model.Loai.ToLower()</th><th>Nhận xét</th></tr></thead>
+                <tbody>
+                    @foreach (var d in Model.DanhSach)
+                    {
+                        var ma = d.Hv.MaHV;
+                        var khoa = !Model.DuocGhi || d.Khoa;
+                        <tr>
+                            <td>@ma</td><td>@d.Hv.HoTen @if (d.Khoa) { <span class="small">(đã tổng kết)</span> }</td>
+                            <td><input name="DiemNhap[@ma]" value="@(Model.DiemNhap.GetValueOrDefault(ma) ?? d.Diem?.Diem1.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" class="form-control form-control-sm so" inputmode="decimal" disabled="@khoa" /></td>
+                            <td><input name="NhanXet[@ma]" value="@(Model.NhanXet.GetValueOrDefault(ma) ?? d.Diem?.NhanXet)" class="form-control form-control-sm" disabled="@khoa" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.DuocGhi)
+        {
+            <button class="btn btn-primary">Lưu</button>
+        }
+    </form>
+}

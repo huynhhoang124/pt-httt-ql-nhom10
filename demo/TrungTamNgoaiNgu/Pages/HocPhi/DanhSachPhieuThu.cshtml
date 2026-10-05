@@ -1,0 +1,36 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.DanhSachPhieuThuModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R3.2";
+    ViewData["Title"] = "R3.2 Phiếu thu – tra cứu, in lại";
+    ViewData["TroGiup"] = "Chọn khoảng ngày thu; bấm số phiếu để xem và in lại.";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <div><label class="form-label" for="tuNgay">Từ ngày</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">Đến ngày</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    @if (!PhanQuyen.ChiCuaMinh(User.VaiTro(), "3.2"))
+    {
+        <div><label class="form-label" for="hv">Mã HV</label><input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:9rem" /></div>
+    }
+    <button class="btn btn-primary">Xem</button>
+    @if (User.Co("3.2", "T"))
+    {
+        <a class="btn btn-outline-primary" href="/HocPhi/PhieuThu">Lập phiếu thu (F3.2)</a>
+    }
+</form>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Số phiếu</th><th>Ngày thu</th><th>Học viên</th><th>Người nộp</th><th>Hình thức</th><th class="so">Số tiền</th></tr></thead>
+        <tbody>
+            @foreach (var d in Model.DanhSach)
+            {
+                <tr>
+                    <td><a href="/HocPhi/InPhieuThu?so=@d.SoPT">@d.SoPT</a></td><td>@HienThi.Ngay(d.NgayThu)</td><td>@d.MaHV @d.HoTen</td>
+                    <td>@d.NguoiNop</td><td>@d.HinhThuc</td><td class="so">@HienThi.So(d.Tong)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<p class="small">@Model.DanhSach.Count phiếu · tổng @HienThi.Tien(Model.DanhSach.Sum(d => d.Tong))</p>

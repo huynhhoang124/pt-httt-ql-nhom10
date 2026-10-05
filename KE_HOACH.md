@@ -105,6 +105,13 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k để mã bước = số chương) → Kết luận → Phụ lục A mô tả tệp dữ liệu (`csdl/mo_ta_bang.md`). Tham chiếu chéo đổi tự động ("04_dac_ta mục 1.1" → "báo cáo phân tích, mục 6.1.1"); hình quá ngang (module, thực đơn) xoay dọc trang. Chạy `python bao_cao/lam_bao_cao.py thiet_ke`.
 
 ## Giai đoạn 4 – Cài đặt và khai thác
+### Tiến độ demo (đang làm, cập nhật 2026-10-05)
+`demo/TrungTamNgoaiNgu/` – ASP.NET Core 8 Razor Pages + Bootstrap, EF Core 8 database-first (`dotnet ef dbcontext scaffold`, công cụ cục bộ ở `demo/.config`). Chạy: `cd demo/TrungTamNgoaiNgu && dotnet run --launch-profile http` → http://localhost:5223. Tài khoản mẫu: tên đăng nhập = mật khẩu (nv001 GĐ, nv002 ĐT, nv003 QT, nv004 KT, nv005/nv007 TS, gv023, hv0412, ph0301).
+- Giờ hệ thống cố định `HeThong:ThoiDiem` = 04/01/2027 19:30 trong appsettings.json (giữa buổi 19 lớp TOE-2611 của gv023) để demo điểm danh.
+- `demo/sinh_ma.py` sinh `Nen/PhanQuyen.g.cs` (ma trận 05_module mục 5), `Nen/ThongBaoLoi.g.cs` (06_giao_dien mục 6), `Nen/ThucDon.g.cs` (module + màn hình) và kiểm tra mã nguồn dùng đúng module, khóa lỗi, mã màn hình. Chạy lại sau khi sửa .md.
+- **Đã làm và chạy thử:** N1 (đăng nhập, khóa tạm 5 lần sai, đổi mật khẩu PBKDF2; vẫn đọc dạng sha256 của seed), N2 (bộ lọc [Quyen] + lọc phạm vi x: HV/PH/GV), N3 (GhiNhatKy cùng SaveChanges), N7 (tên ràng buộc SQL → câu lỗi). F1.1 (+ kiểm tra trùng ĐT+ngày sinh, dưới 18 tuổi phải có PH), F2.2 + R2.2, F3.1 (bảng quyết định học phí, chia đợt), F3.2 + R3.2 (in 2 liên, số tiền bằng chữ; đã đối chiếu khớp PT2026-0731), F4.1 (QT11, cảnh báo QT12), F4.2, R3.4, R5.3b. Ma trận mã HTTP theo 8 vai trò đã đúng.
+- **Việc còn lại:** (1) thử POST thật: lập phiếu ĐK cho HV vào GT-2701 → F3.1 → F3.2 → in; điểm danh gv023 buổi 19 TOE-2611; nhập điểm (DB đã có seed – chạy lại `csdl/chay.ps1` để làm sạch sau khi thử); (2) dự án kiểm thử `demo/KiemThu` (xUnit): bảng quyết định 3.1 R1–R8, QT05, QT11, BangChu, MatKhau, NgayBuoiThu; (3) `phan_tich/05_cai_dat.md`; (4) cập nhật 05_module mục 7 (Razor Pages dùng thư mục Pages/DanhMuc, LopHoc, HocPhi, HocTap, BaoCao thay cho Areas); (5) commit, rồi GĐ5.
+
 - **Demo** (`demo/`, ASP.NET Core + EF Core theo BT1; nếu thiếu thời gian thì chỉ CSDL + truy vấn): đăng nhập theo vai trò, hồ sơ HV, đăng ký lớp, lập phiếu thu, điểm danh, nhập điểm, 2–3 báo cáo. Chỉ làm chức năng đã có trong DFD.
 - `phan_tich/05_cai_dat.md`: kế hoạch cài đặt (cài phần mềm, cấu hình, phân quyền, hồ sơ cấu hình); chuyển đổi dữ liệu từ Excel cũ; huấn luyện 3 mức; phương pháp chuyển đổi đề xuất **theo giai đoạn** (danh mục → lớp/lịch → học phí → học tập) có lý do; kế hoạch kiểm thử (test case theo tiến trình).
 

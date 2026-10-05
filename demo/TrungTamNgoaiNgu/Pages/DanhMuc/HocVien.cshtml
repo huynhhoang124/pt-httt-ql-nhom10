@@ -1,0 +1,31 @@
+@page
+@model TrungTamNgoaiNgu.Pages.DanhMuc.HocVienModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F1.1";
+    ViewData["TroGiup"] = "Tìm theo họ tên, số điện thoại hoặc mã học viên. Luôn tìm trước khi thêm để tránh trùng hồ sơ (trùng = cùng điện thoại và ngày sinh).";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+    <input name="q" value="@Model.Q" class="form-control" style="max-width:22rem" placeholder="Họ tên, điện thoại hoặc mã HV" />
+    <button class="btn btn-primary">Tìm</button>
+    @if (User.Co("1.1", "T"))
+    {
+        <a class="btn btn-outline-primary" href="/DanhMuc/HocVienSua">Thêm hồ sơ</a>
+    }
+</form>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Ngày sinh</th><th>Điện thoại</th><th>Trình độ đầu vào</th><th>Trạng thái</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var h in Model.DanhSach)
+            {
+                <tr>
+                    <td>@h.MaHV</td><td>@h.HoTen</td><td>@h.NgaySinh.ToString("dd/MM/yyyy")</td><td>@h.DienThoai</td>
+                    <td>@(h.TrinhDoDauVao ?? "–")</td><td>@h.TrangThai</td>
+                    <td><a href="/DanhMuc/HocVienSua?ma=@h.MaHV">@(User.Co("1.1", "S") ? "Sửa" : "Xem")</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<p class="small">@Model.DanhSach.Count hồ sơ (hiện tối đa 200).</p>

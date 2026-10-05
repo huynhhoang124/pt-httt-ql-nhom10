@@ -1,0 +1,35 @@
+@page
+@model TrungTamNgoaiNgu.Pages.BaoCao.TinhTrangLopModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F5.3, R5.3b";
+    ViewData["TroGiup"] = "Lọc theo ngày khai giảng. Sĩ số chỉ tính đăng ký còn giữ chỗ (không tính Chuyển lớp, Nghỉ học). Lớp dự kiến dưới sĩ số tối thiểu sẽ bị hủy nếu đến ngày khai giảng vẫn chưa đủ (QT06).";
+    var ds = Model.DanhSach;
+    var mo = ds.Where(d => d.TrangThai is "Đang học" or "Kết thúc").ToList();
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="tuNgay">Khai giảng từ</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">đến</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <button class="btn btn-primary">Lập báo cáo</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+</form>
+<p class="small">Khai giảng @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay) · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")</p>
+<div class="hop-tb">
+    @ds.Count lớp: <b>@mo.Count đã mở</b> (đang học, kết thúc) · @ds.Count(d => d.TrangThai == "Dự kiến") dự kiến · @ds.Count(d => d.TrangThai == "Hủy") hủy
+    · tỷ lệ lấp đầy bình quân các lớp đã mở: <b>@(mo.Count == 0 ? "–" : mo.Average(d => d.LapDay).ToString("0.0") + "%")</b>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Lớp</th><th>Khóa học</th><th>Giáo viên</th><th>Khai giảng</th><th>Trạng thái</th><th class="so">Sĩ số</th><th class="so">Lấp đầy</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+            @foreach (var d in ds)
+            {
+                <tr>
+                    <td>@d.MaLop</td><td>@d.Khoa</td><td>@d.GiaoVien</td><td>@HienThi.Ngay(d.KhaiGiang)</td><td>@d.TrangThai</td>
+                    <td class="so">@d.SoDangKy / @d.SiSoToiDa</td><td class="so">@d.LapDay.ToString("0.0")%</td>
+                    <td class="@(d.DuoiToiThieu ? "canh-bao" : "")">@(d.DuoiToiThieu ? $"Dưới sĩ số tối thiểu ({Model.ToiThieu:0})" : "")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

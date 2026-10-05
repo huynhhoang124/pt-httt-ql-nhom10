@@ -1,0 +1,54 @@
+@page
+@model TrungTamNgoaiNgu.Pages.LopHoc.DangKyModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F2.2";
+    ViewData["TroGiup"] = "Số phiếu, ngày đăng ký, nhân viên lập do hệ thống điền. Lớp đủ sĩ số thì hệ thống gợi ý lớp cùng khóa còn chỗ (QT06). Đăng ký chỉ có hiệu lực khi đã thu ít nhất 50% học phí (QT05).";
+    var h = Model.HocVien;
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+    <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
+    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" />
+    <button class="btn btn-primary">Chọn</button>
+    <a class="btn btn-outline-primary" href="/DanhMuc/HocVien" target="_blank">Tìm học viên (F1.1)</a>
+</form>
+@if (Model.Hv != null && h == null)
+{
+    <div class="hop-loi">Không có học viên mã @Model.Hv. Gợi ý: tìm theo tên hoặc điện thoại ở F1.1.</div>
+}
+@if (h != null)
+{
+    <div class="hop-tb">
+        <b>@h.MaHV – @h.HoTen</b> · sinh @HienThi.Ngay(h.NgaySinh) · ĐT @h.DienThoai ·
+        trình độ đầu vào: @(h.TrinhDoDauVao is null ? Html.Raw("<span class=\"canh-bao\">chưa kiểm tra</span>") : h.TrinhDoDauVao)
+        @if (Model.DaDangKy.Count > 0) { <span> · đã đăng ký: @string.Join(", ", Model.DaDangKy)</span> }
+    </div>
+    <form method="post">
+        <input type="hidden" name="hv" value="@h.MaHV" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <h2 class="h6 fw-bold">Các lớp đăng ký</h2>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered align-middle">
+                <thead><tr><th></th><th>Mã lớp</th><th>Khóa học</th><th>Lịch học</th><th>Khai giảng</th><th>Sĩ số</th><th class="so">Học phí</th></tr></thead>
+                <tbody>
+                    @foreach (var l in Model.DanhSachLop)
+                    {
+                        var da = Model.DaDangKy.Contains(l.Lop.MaLop);
+                        <tr class="@(da ? "chua-lam" : "")">
+                            <td><input type="checkbox" name="Lop" value="@l.Lop.MaLop" class="form-check-input" checked="@Model.Lop.Contains(l.Lop.MaLop)" disabled="@da" /></td>
+                            <td>@l.Lop.MaLop</td>
+                            <td>@l.Lop.MaKHNavigation.TenKH (@l.Lop.MaKHNavigation.TrinhDoDauVao → @l.Lop.MaKHNavigation.TrinhDoDauRa)</td>
+                            <td>@l.Lich</td>
+                            <td>@HienThi.Ngay(l.Lop.NgayKhaiGiang)</td>
+                            <td class="@(l.GiuCho >= l.Lop.SiSoToiDa ? "canh-bao" : "")">@l.GiuCho / @l.Lop.SiSoToiDa</td>
+                            <td class="so">@HienThi.Tien(l.Lop.MaKHNavigation.HocPhi)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="small">Học phí trên là học phí gốc của khóa; ưu đãi và số đợt do kế toán xác nhận ở F3.1.</p>
+        <button class="btn btn-primary">Lưu</button>
+        <a class="btn btn-outline-primary" href="/">Thoát</a>
+    </form>
+}

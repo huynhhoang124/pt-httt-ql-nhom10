@@ -1,0 +1,60 @@
+@using TrungTamNgoaiNgu.Nen
+@inject DongHo DongHo
+@{
+    // Mã màn hình (06_giao_dien) → tiêu đề và đường dẫn "phân hệ › module › màn hình" (quy ước bố cục 06_giao_dien mục 5.2)
+    var ma = ViewData["Ma"] as string;
+    string? tieuDe = ViewData["Title"] as string, duongDan = null;
+    if (ma != null)
+    {
+        var mh = ma.Split(", ").Select(ThucDon.Ten);
+        tieuDe ??= string.Join(" · ", mh);
+        var mod = ThucDon.Module.First(m => m.Ma == ThucDon.ManHinh[ma.Split(", ")[0]].Module);
+        duongDan = $"{mod.PhanHe} {ThucDon.PhanHe[mod.PhanHe]} › {mod.Ma} {mod.Ten}";
+    }
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(tieuDe ?? "Trang chủ") – Trung tâm ngoại ngữ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="thanh-tren d-print-none">
+        <div class="container-lg d-flex flex-wrap align-items-center gap-2 py-2">
+            <a class="ten-he-thong me-auto" href="/">Trung tâm ngoại ngữ – Hệ thống quản lý</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <span class="small">@User.Identity.Name · @User.VaiTro()</span>
+                <form method="post" action="/DangXuat" class="d-inline">
+                    <button class="btn btn-sm btn-outline-light">Đăng xuất</button>
+                </form>
+            }
+        </div>
+    </header>
+    <main class="container-lg py-3">
+        @if (duongDan != null)
+        {
+            <div class="duong-dan d-print-none">@duongDan</div>
+        }
+        @if (tieuDe != null)
+        {
+            <h1 class="tieu-de">@tieuDe</h1>
+        }
+        @RenderBody()
+    </main>
+    <footer class="tro-giup d-print-none">
+        <div class="container-lg py-2 small">
+            @if (ViewData["TroGiup"] is string tg)
+            {
+                <span><b>Trợ giúp:</b> @tg</span>
+                <span class="mx-2">·</span>
+            }
+            <span>Giờ hệ thống: @DongHo.Bay.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,52 @@
+@page
+@model TrungTamNgoaiNgu.Pages.LopHoc.KetQuaDangKyModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R2.2";
+    ViewData["TroGiup"] = "\"Đã xác nhận\" = đã thu ít nhất 50% học phí phải nộp (QT05). Sĩ số chỉ tính đăng ký còn giữ chỗ (không tính Chuyển lớp, Nghỉ học).";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 d-print-none">
+    <select name="lop" class="form-select" style="max-width:14rem">
+        <option value="">– Chọn lớp –</option>
+        @foreach (var l in Model.CacLop)
+        {
+            <option selected="@(l == Model.Lop)">@l</option>
+        }
+    </select>
+    <button class="btn btn-primary">Xem danh sách lớp</button>
+    @if (User.Co("2.2", "T"))
+    {
+        <a class="btn btn-outline-primary" href="/LopHoc/DangKy">Lập phiếu đăng ký (F2.2)</a>
+    }
+    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+</form>
+@if (Model.PhieuDK != null)
+{
+    <div class="hop-tb">Phiếu <b>@Model.PhieuDK.SoPhieuDK</b> · ngày @HienThi.Ngay(Model.PhieuDK.NgayDK) · nhân viên lập: @Model.PhieuDK.MaNVNavigation.HoTen</div>
+}
+@if (Model.SiSo != null)
+{
+    <div class="hop-tb">Lớp <b>@Model.SiSo.MaLop</b> (@Model.SiSo.TrangThai) · khai giảng @HienThi.Ngay(Model.SiSo.NgayKhaiGiang) · sĩ số @Model.SiSo.SoDangKy / @Model.SiSo.SiSoToiDa (@Model.SiSo.TyLeLapDay%)</div>
+}
+@if (Model.Phieu != null || Model.Lop != null)
+{
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered align-middle">
+            <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Lớp</th><th>Khóa học</th><th>Trạng thái</th><th class="so">Phải nộp</th><th class="so">Đã thu</th><th class="so">Còn nợ</th><th>Hiệu lực</th></tr></thead>
+            <tbody>
+                @foreach (var d in Model.DanhSach)
+                {
+                    <tr>
+                        <td>@d.Dk.MaHV</td><td>@d.Dk.MaHVNavigation.HoTen</td><td>@d.Dk.MaLop</td><td>@d.Dk.MaLopNavigation.MaKHNavigation.TenKH</td>
+                        <td>@d.Dk.TrangThai</td>
+                        <td class="so">@(d.Hp?.PhaiNop is decimal p ? HienThi.So(p) : "–")</td>
+                        <td class="so">@(d.Hp is null ? "–" : HienThi.So(d.Hp.DaThu))</td>
+                        <td class="so">@(d.Hp?.ConNo is decimal c ? HienThi.So(c) : "–")</td>
+                        <td class="@(d.HieuLuc == "Đã xác nhận" ? "" : "canh-bao")">@d.HieuLuc</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <p class="small">@Model.DanhSach.Count đăng ký · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")</p>
+}
