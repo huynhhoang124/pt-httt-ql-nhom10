@@ -205,17 +205,20 @@ Kết quả chạy `python so_do/src/module.py`: **đạt**.
 |---|---|---|
 | 1 | 20 module chức năng trùng mã và tên với 20 chức năng lá của BFD (`bfd.py`). Tổng 34 module, nhiều hơn 25 tiến trình DFD | Đạt |
 | 2 | Bảng mà module ghi/đọc nằm đúng kho mà tiến trình DFD mức 1 tương ứng ghi/đọc (kho của bảng theo 3.1). Cả 26 bảng đều có module tạo dữ liệu. Mọi view/hàm nêu tên đều có trong `csdl/views.sql` | Đạt |
-| 3 | Vai trò có quyền T/S/D ở module nào thì tác nhân tương ứng có luồng vào tiến trình đó. Tác nhân nhận luồng ra thì vai trò tương ứng được xem | Đạt, có 2 phát hiện bên dưới |
+| 3 | Vai trò có quyền T/S/D ở module nào thì tác nhân tương ứng có luồng vào tiến trình đó. Tác nhân nhận luồng ra thì vai trò tương ứng được xem | Đạt (sau khi bổ sung DFD, xem bên dưới) |
 
 Script đã được thử với dữ liệu sai: cho 3.3 đọc bảng KetQua (kho D4), bỏ quyền xem chuyên cần của học viên, đổi tên một module khác BFD. Cả 3 trường hợp đều bị báo lỗi. Có một giới hạn: script chỉ xét theo tác nhân. Học viên có luồng vào 3.2 ("Tiền học phí"), nên nếu cấp nhầm quyền T ở 3.2 cho vai trò HV thì script không phát hiện được. Ô này phải duyệt bằng mắt; ma trận hiện tại đúng (HV chỉ có x).
 
-**Phát hiện: DFD mức 1 thiếu 2 luồng.** Hai việc sau do QL đào tạo thực hiện và có ghi dữ liệu, nhưng DFD chưa có luồng vào từ QL đào tạo:
-- **2.3:** "Yêu cầu đổi lịch, học bù, dạy thay". Hiện 2.3 chỉ được kích hoạt bởi luồng nội bộ "Lớp đã mở".
-- **4.3:** "Phê duyệt kết quả học tập". Dữ liệu này chính là `KetQua.MaNVDuyet`, `NgayDuyet` (3.1 E20).
+**Phát hiện và đã bổ sung: DFD thiếu 3 luồng của QL đào tạo.** Lần chạy đầu, kiểm tra #3 cho thấy QL đào tạo thực hiện 2 việc có ghi dữ liệu nhưng DFD chưa vẽ luồng tương ứng:
+- **2.3 Xếp lịch:** đổi lịch, xếp học bù, phân công dạy thay. Trước đó, 2.3 chỉ được kích hoạt bởi luồng nội bộ "Lớp đã mở".
+- **4.3 Tổng kết:** duyệt kết quả. Dữ liệu này chính là `KetQua.MaNVDuyet`, `NgayDuyet` (3.1 E20). Muốn duyệt thì phải xem được kết quả, nên cũng cần một luồng ra.
 
-Để bổ sung, cần sửa `so_do/src/dfd.py` (luồng mức 0 của QL đào tạo vào 2.0, 4.0 và các sơ đồ mức 1), rồi sinh lại DFD và bảng cân bằng. Hai mục này đang được ghi trong `THIEU_LUONG` của `module.py`. Khi DFD đã sửa, script sẽ báo xóa chúng khỏi danh sách.
+Nhóm đã bổ sung vào `so_do/src/dfd.py`, ở cả mức ngữ cảnh, mức 0 và mức 1:
+- QL đào tạo → 2.0 / 2.3: "Yêu cầu đổi lịch, học bù, dạy thay";
+- QL đào tạo → 4.0 / 4.3: "Phê duyệt kết quả học tập";
+- 4.0 / 4.3 → QL đào tạo: "Bảng điểm chờ duyệt".
 
----
+Sau khi bổ sung, kiểm tra cân bằng DFD vẫn đạt. Cấu trúc 3 luồng mới đã thêm vào từ điển dữ liệu (`phan_tich/04_dac_ta.md` mục 4.2), và đầu vào, đầu ra của 2.3, 4.3 đã sửa trong `phan_tich/03_chuc_nang.md`. Đây là ví dụ cho việc thiết kế phát hiện thiếu sót của phân tích, rồi quay lại sửa đúng ở nguồn.
 
 ## 7. Bước 3 – Chọn ngôn ngữ lập trình và kiến trúc
 

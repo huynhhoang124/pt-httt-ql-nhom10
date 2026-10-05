@@ -301,6 +301,7 @@ Mỗi dòng là một luồng trên DFD mức 1. Luồng mức 0 tương ứng x
 | Kết quả xử lý đăng ký | Trả lời cho đơn | Số phiếu ĐK + Loại + [Chấp nhận \| Từ chối] + (Lý do từ chối) + (Hạn bảo lưu) + (Đăng ký mới) | 2.4 |
 | Lịch học | Lịch các buổi học gửi học viên | Mã lớp + {Ngày + Giờ bắt đầu + Giờ kết thúc + Phòng} | 2.3 |
 | Lịch dạy, danh sách lớp | Lịch gửi giáo viên | {Mã lớp + {Ngày + Giờ + Phòng}} + {Mã HV + Họ tên} | 2.3 |
+| Yêu cầu đổi lịch, học bù, dạy thay | Thay đổi lịch của một buổi học | Mã lớp + Số thứ tự buổi + Loại [Đổi lịch \| Học bù \| Dạy thay] + (Ngày mới + Giờ bắt đầu + Giờ kết thúc) + (Mã phòng) + (Mã GV dạy thay) + Lý do | QL đào tạo |
 | Ưu đãi | Thông tin ưu đãi do kế toán nhập | Ưu đãi | NV kế toán |
 | Học phí phải thu | Khoản học viên phải nộp | Số phiếu ĐK + Học phí gốc + Tỷ lệ giảm + Phải nộp + {Đợt + Số tiền đợt + Hạn đóng} | 3.1 |
 | Tiền học phí | Số tiền học viên nộp | Người nộp + Số tiền + Hình thức | HV/PH |
@@ -312,6 +313,8 @@ Mỗi dòng là một luồng trên DFD mức 1. Luồng mức 0 tương ứng x
 | Phiếu điểm danh buổi học | Trạng thái học viên trong một buổi | Mã lớp + Số thứ tự buổi + {Mã HV + Trạng thái [x \| M \| P \| K] + (Ghi chú)} | Giáo viên |
 | Chuyên cần | Tình hình đi học gửi học viên | Mã lớp + Số buổi đã học + Số buổi có mặt + Tỷ lệ chuyên cần (S) + (Cảnh báo) | 4.1 |
 | Điểm số, nhận xét | Điểm giáo viên nhập | Mã lớp + Loại điểm + {Mã HV + Điểm + (Nhận xét)} | Giáo viên |
+| Bảng điểm chờ duyệt | Kết quả đã tính, chờ QL đào tạo duyệt | Mã lớp + {Mã HV + Họ tên + Điểm chuyên cần (S) + Điểm giữa kỳ + Điểm cuối kỳ + Điểm tổng kết (S) + Xếp loại (S) + Kết quả (S)} | 4.3 |
+| Phê duyệt kết quả học tập | Xác nhận kết quả của QL đào tạo | Mã lớp + Mã NV duyệt + Ngày duyệt + [Duyệt \| Yêu cầu xem lại] + (Ghi chú) | QL đào tạo |
 | Kết quả học tập | Kết quả cuối khóa (02_thu_thap.md, mục 4.2.4) | Kết quả học tập | 4.3 |
 | Chứng nhận | Giấy chứng nhận (02_thu_thap.md, mục 4.2.5) | Chứng nhận + Họ tên + Ngày sinh + Tên KH + Xếp loại + Điểm tổng kết | 4.4 |
 | Tài khoản, phân quyền, cấu hình | Thao tác quản trị | Tài khoản + Vai trò + {Quyền} + (Tham số cấu hình) | Quản trị viên |

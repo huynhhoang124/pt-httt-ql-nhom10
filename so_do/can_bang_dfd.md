@@ -19,6 +19,9 @@
 | Giáo viên | Ra khỏi hệ thống | Lịch dạy, danh sách lớp | 2.0 |
 | Quản lý đào tạo | Vào hệ thống | Thông tin khóa học, giáo viên, phòng học | 1.0 |
 | Quản lý đào tạo | Vào hệ thống | Kế hoạch mở lớp, phân công giáo viên | 2.0 |
+| Quản lý đào tạo | Vào hệ thống | Yêu cầu đổi lịch, học bù, dạy thay | 2.0 |
+| Quản lý đào tạo | Vào hệ thống | Phê duyệt kết quả học tập | 4.0 |
+| Quản lý đào tạo | Ra khỏi hệ thống | Bảng điểm chờ duyệt | 4.0 |
 | Quản lý đào tạo | Ra khỏi hệ thống | Báo cáo lớp học, chuyên cần, kết quả, giảng dạy | 5.0 |
 | Quản trị viên | Vào hệ thống | Tài khoản, phân quyền, cấu hình | 5.0 |
 | Quản trị viên | Ra khỏi hệ thống | Nhật ký hệ thống | 5.0 |
@@ -68,6 +71,7 @@
 | Học viên/Phụ huynh | Vào | Yêu cầu đăng ký, chuyển lớp, bảo lưu | 2.2: Yêu cầu đăng ký; 2.4: Yêu cầu chuyển lớp, bảo lưu |
 | Nhân viên tuyển sinh/Chăm sóc học viên | Vào | Phiếu đăng ký, đơn chuyển lớp, bảo lưu | 2.2: Phiếu đăng ký; 2.4: Đơn chuyển lớp, bảo lưu |
 | Quản lý đào tạo | Vào | Kế hoạch mở lớp, phân công giáo viên | 2.1: Kế hoạch mở lớp, phân công giáo viên |
+| Quản lý đào tạo | Vào | Yêu cầu đổi lịch, học bù, dạy thay | 2.3: Yêu cầu đổi lịch, học bù, dạy thay |
 | Nhân viên tuyển sinh/Chăm sóc học viên | Ra | Kết quả đăng ký, danh sách lớp | 2.2: Kết quả đăng ký, danh sách lớp; 2.4: Kết quả xử lý đăng ký |
 | Học viên/Phụ huynh | Ra | Lịch học | 2.3: Lịch học |
 | Giáo viên | Ra | Lịch dạy, danh sách lớp | 2.3: Lịch dạy, danh sách lớp |
@@ -98,7 +102,9 @@
 | Tác nhân / kho | Hướng | Luồng mức 0 | Phân rã ở mức 1 |
 |---|---|---|---|
 | Giáo viên | Vào | Điểm danh, điểm số, nhận xét | 4.1: Phiếu điểm danh buổi học; 4.2: Điểm số, nhận xét |
+| Quản lý đào tạo | Vào | Phê duyệt kết quả học tập | 4.3: Phê duyệt kết quả học tập |
 | Học viên/Phụ huynh | Ra | Chuyên cần, kết quả học tập, chứng nhận | 4.1: Chuyên cần; 4.3: Kết quả học tập; 4.4: Chứng nhận |
+| Quản lý đào tạo | Ra | Bảng điểm chờ duyệt | 4.3: Bảng điểm chờ duyệt |
 | D1 Hồ sơ | Đọc từ kho | Trọng số điểm khóa học | 4.3: Trọng số điểm khóa học |
 | D2 Lớp và lịch học | Đọc từ kho | Danh sách lớp, buổi học | 4.1: Danh sách lớp, buổi học; 4.2: Danh sách lớp |
 | D4 Học tập | Ghi vào kho | Điểm danh, điểm, kết quả, chứng nhận | 4.1: Điểm danh đã ghi; 4.2: Điểm thành phần; 4.3: Kết quả học tập; 4.4: Chứng nhận |

@@ -28,7 +28,7 @@ Quy ước dùng trong tài liệu:
 |---|---|---|---|---|---|---|
 | 2.1 | Mở lớp, phân công giáo viên | Tạo lớp theo khóa học, đặt ngày khai giảng, sĩ số tối đa, phân công giáo viên. Chuyển lớp sang trạng thái *Đang học* khi đủ sĩ số tối thiểu, hoặc *Hủy* nếu không đủ. | Kế hoạch mở lớp, phân công giáo viên (QL đào tạo); khóa học, giáo viên (D1); sĩ số đăng ký (D2) | Lớp học (D2); lớp đã mở (sang 2.3) | QL đào tạo | QT06 |
 | 2.2 | Đăng ký học, xếp học viên vào lớp | Nhận yêu cầu và phiếu đăng ký, kiểm tra lớp còn chỗ, ghi đăng ký (trạng thái *Chờ đóng phí*). Đăng ký có hiệu lực khi học viên đã đóng đợt 1. | Yêu cầu đăng ký (HV/PH); phiếu đăng ký (NV tuyển sinh); học viên (D1); sĩ số lớp (D2); tình trạng đóng học phí (D3) | Đăng ký (D2); kết quả đăng ký, danh sách lớp (NV tuyển sinh) | NV tuyển sinh / CSHV | QT05, QT06 |
-| 2.3 | Xếp lịch, kiểm tra trùng lịch | Sinh các buổi học của lớp theo lịch tuần, gán phòng; từ chối nếu trùng giáo viên hoặc trùng phòng. Xử lý đổi lịch và học bù. | Lớp đã mở (từ 2.1); giáo viên, phòng học (D1); lịch đã xếp (D2) | Buổi học / lịch học (D2); lịch học (HV/PH); lịch dạy, danh sách lớp (Giáo viên) | QL đào tạo | QT07 |
+| 2.3 | Xếp lịch, kiểm tra trùng lịch | Sinh các buổi học của lớp theo lịch tuần, gán phòng; từ chối nếu trùng giáo viên hoặc trùng phòng. Xử lý đổi lịch và học bù. | Lớp đã mở (từ 2.1); yêu cầu đổi lịch, học bù, dạy thay (QL đào tạo); giáo viên, phòng học (D1); lịch đã xếp (D2) | Buổi học / lịch học (D2); lịch học (HV/PH); lịch dạy, danh sách lớp (Giáo viên) | QL đào tạo | QT07 |
 | 2.4 | Xử lý chuyển lớp, bảo lưu, nghỉ học | Kiểm tra điều kiện rồi cập nhật trạng thái đăng ký: *Chuyển lớp* (tạo đăng ký mới ở lớp đích), *Bảo lưu*, *Nghỉ học*. | Yêu cầu chuyển lớp, bảo lưu (HV/PH); đơn chuyển lớp, bảo lưu (NV tuyển sinh); đăng ký, sĩ số, buổi học (D2); tình trạng đóng học phí (D3) | Đăng ký cập nhật (D2); kết quả xử lý (NV tuyển sinh) | NV tuyển sinh / CSHV | QT08, QT09, QT10 |
 
 ### Chức năng 3.0 – Quản lý học phí
@@ -46,7 +46,7 @@ Quy ước dùng trong tài liệu:
 |---|---|---|---|---|---|---|
 | 4.1 | Điểm danh, tính chuyên cần | Giáo viên chọn buổi học và ghi trạng thái từng học viên. Hệ thống tính tỷ lệ chuyên cần và đánh dấu học viên vượt ngưỡng vắng. | Điểm danh (Giáo viên); danh sách lớp, buổi học (D2) | Điểm danh (D4); chuyên cần (HV/PH) | Giáo viên | QT11, QT12 |
 | 4.2 | Nhập điểm thành phần | Giáo viên nhập điểm giữa kỳ, cuối kỳ (thang 10) và nhận xét cho từng học viên. | Điểm số, nhận xét (Giáo viên); danh sách lớp (D2) | Điểm thành phần (D4) | Giáo viên | Điểm trong khoảng 0–10 |
-| 4.3 | Tổng kết, xếp loại | Khi lớp kết thúc: tính điểm chuyên cần, điểm tổng kết theo trọng số, xếp loại và xác định Đạt/Không đạt. | Điểm danh, điểm thành phần (D4); trọng số điểm khóa học (D1) | Kết quả học tập (D4); kết quả học tập (HV/PH); danh sách học viên đạt (sang 4.4) | Hệ thống tự tính, QL đào tạo duyệt | QT13, QT14, QT15 |
+| 4.3 | Tổng kết, xếp loại | Khi lớp kết thúc: tính điểm chuyên cần, điểm tổng kết theo trọng số, xếp loại và xác định Đạt/Không đạt. | Điểm danh, điểm thành phần (D4); trọng số điểm khóa học (D1); phê duyệt kết quả học tập (QL đào tạo) | Bảng điểm chờ duyệt (QL đào tạo); kết quả học tập (D4); kết quả học tập (HV/PH); danh sách học viên đạt (sang 4.4) | Hệ thống tự tính, QL đào tạo duyệt | QT13, QT14, QT15 |
 | 4.4 | Cấp chứng nhận hoàn thành khóa học | Cấp số chứng nhận cho học viên đạt và in chứng nhận. | Danh sách học viên đạt (từ 4.3) | Chứng nhận (D4); chứng nhận (HV/PH) | QL đào tạo | QT15 |
 
 ### Chức năng 5.0 – Quản lý hệ thống và báo cáo

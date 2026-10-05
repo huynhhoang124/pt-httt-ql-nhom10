@@ -15,7 +15,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from bfd import CHUC_NANG, GOC, hop
+from bfd import CHUC_NANG, hop
 from dfd import MUC_1
 
 THU_MUC = Path(__file__).resolve().parents[1]
@@ -24,10 +24,7 @@ VAI_TRO = {"HV": "HV", "PH": "HV", "GV": "GV", "TS": "TS", "KT": "KT", "DT": "DT
 NHAP = set("TSD")          # quyền đưa dữ liệu vào (cần luồng vào trên DFD)
 TU_DONG = {"5.2"}           # module tự chạy, không vai trò nào nhập
 # Thiếu sót của DFD mức 1 do bước này phát hiện: (vai trò, module) -> mô tả luồng cần bổ sung
-THIEU_LUONG = {
-    ("DT", "2.3"): "QL đào tạo → 2.3 \"Yêu cầu đổi lịch, học bù, dạy thay\"",
-    ("DT", "4.3"): "QL đào tạo → 4.3 \"Phê duyệt kết quả học tập\"",
-}
+THIEU_LUONG = {}  # 2.3 và 4.3 đã được bổ sung vào dfd.py (2026-10-05)
 
 
 def muc(text, so):
@@ -114,8 +111,7 @@ def ve(module):
     sau = max(len(c) for _, c in nhom.values())
     day = 4.85 - (sau - 1) * BUOC - 0.5
     fig, ax = plt.subplots(figsize=(tong * 0.75, (9.6 - day) * 0.75))
-    hop(ax, tong / 2 - 2.6, 8.2, 5.2, 1.1, GOC.replace("0. ", "").replace("HỆ THỐNG", "MODULE CHÍNH:\nHỆ THỐNG", 1)
-        .replace("\nTRUNG", " TRUNG"), dam=True, co=11)
+    hop(ax, tong / 2 - 3.4, 8.2, 6.8, 1.1, "MODULE CHÍNH:\nHỆ THỐNG QUẢN LÝ TRUNG TÂM NGOẠI NGỮ", dam=True, co=11)
     ax.plot([tong / 2] * 2, [8.2, 7.7], color="black", lw=1.2)
     ax.plot([W / 2, tong - W / 2], [7.7] * 2, color="black", lw=1.2)
     for i, (ma, (ten, cons)) in enumerate(nhom.items()):
