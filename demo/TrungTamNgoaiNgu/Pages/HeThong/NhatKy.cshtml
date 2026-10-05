@@ -1,0 +1,26 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HeThong.NhatKyModel
+@{
+    ViewData["Ma"] = "R5.1";
+    ViewData["TroGiup"] = "Mọi thao tác ghi dữ liệu đều có một dòng nhật ký, lưu cùng giao dịch với dữ liệu (N3). Hiện tối đa 500 dòng mới nhất.";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="ten">Người dùng</label><input id="ten" name="ten" value="@Model.Ten" class="form-control" /></div>
+    <div><label class="form-label" for="loai">Thao tác</label>
+        <select id="loai" name="loai" class="form-select"><option value="">Tất cả</option>@foreach (var t in TrungTamNgoaiNgu.Pages.HeThong.NhatKyModel.ThaoTac) { <option selected="@(t == Model.Loai)">@t</option> }</select></div>
+    <div><label class="form-label" for="tuNgay">Từ ngày</label><input id="tuNgay" name="tuNgay" type="date" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">Đến ngày</label><input id="denNgay" name="denNgay" type="date" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <button class="btn btn-primary">Lọc</button>
+</form>
+<partial name="_XuatBaoCao" />
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Thời điểm</th><th>Người dùng</th><th>Thao tác</th><th>Đối tượng</th><th>Mã đối tượng</th></tr></thead>
+        <tbody>
+            @foreach (var n in Model.DanhSach)
+            {
+                <tr><td>@n.ThoiDiem.ToString("dd/MM/yyyy HH:mm")</td><td>@n.TenDangNhap</td><td>@n.ThaoTac</td><td>@n.DoiTuong</td><td>@n.MaDoiTuong</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

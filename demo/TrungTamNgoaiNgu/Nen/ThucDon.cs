@@ -36,6 +36,9 @@ public static partial class ThucDon
         ("R4.4", "/HocTap/ChungNhan", ""),
         ("R3.4", "/BaoCao/DoanhThu", "X"),
         ("R5.3b", "/BaoCao/TinhTrangLop", "X"),
+        ("F5.1a", "/HeThong/TaiKhoan", "S"),
+        ("F5.1b", "/HeThong/ThamSo", "S"),
+        ("R5.1", "/HeThong/NhatKy", ""),
         ("FN1", "/DoiMatKhau", ""),
     };
 
