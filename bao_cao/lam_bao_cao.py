@@ -1,9 +1,10 @@
 """Dựng báo cáo Word + PDF từ các file .md của dự án (nội dung chỉ sửa ở .md, không sửa tay file Word).
 
 Định dạng giữ như Bài tập 1: Times New Roman, đen trắng, bảng viền xám nhạt, đầu bảng xám.
-Chạy: python bao_cao/lam_bao_cao.py  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10.docx và .pdf
+Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10 và Bao_cao_GD3_Nhom_10 (.docx, .pdf)
 (xuất PDF và cập nhật mục lục cần Microsoft Word trên Windows, qua pywin32).
 """
+import io
 import re
 import sys
 from pathlib import Path
@@ -187,34 +188,46 @@ def bang(doc, dau, dong, can=None):
     doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
 
-def hinh(doc, duong_dan, chu_thich):
-    w, h = Image.open(duong_dan).size
+def hinh(doc, duong_dan, chu_thich, xoay=False):
+    """xoay: hình quá ngang (rộng > 1,8 lần cao) được xoay dọc trang cho chữ đủ lớn."""
+    anh = Image.open(duong_dan)
+    if xoay and anh.width > 1.8 * anh.height:
+        anh = anh.rotate(90, expand=True)
+    w, h = anh.size
     rong = min(RONG_TRANG, CAO_TRANG * w / h)
+    tep = io.BytesIO()
+    anh.save(tep, "PNG")
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.keep_with_next = True
-    p.add_run().add_picture(str(duong_dan), width=Inches(rong))
+    p.add_run().add_picture(tep, width=Inches(rong))
     doan(doc, chu_thich, 11, italic=True, can=WD_ALIGN_PARAGRAPH.CENTER, sau=10)
 
 
 def tieu_de(doc, text, cap):
-    doc.add_paragraph(text, style=f"Heading {min(cap, 4)}")
+    doc.add_paragraph(text.replace("`", ""), style=f"Heading {min(cap, 4)}")
 
 
 # ---------- markdown -> docx ----------
 
-def doc_md(doc, md, chuong, bo_muc=(), thay=()):
+SO_HINH = {}  # chương -> số hình đã chèn, để đánh số "Hình <chương>.n"
+
+
+def doc_md(doc, md, chuong, bo_muc=(), thay=(), giu_dau=False, thu_muc=GOC):
     """Thêm nội dung một file .md vào báo cáo.
-    chuong: số chương để đánh số lại tiêu đề ("## 1. X" -> "2.1 X"); cap tiêu đề .md tụt 1 bậc.
-    Bỏ phần mở đầu (trước dấu --- đầu tiên) và các mục có tiêu đề nằm trong bo_muc."""
+    chuong: số chương để đánh số lại tiêu đề ("## 1. X" -> "2.1 X"); tiêu đề "#" thành Heading 1 sang trang mới.
+    Bỏ phần mở đầu (trước dấu --- đầu tiên, trừ khi giu_dau) và các mục có tiêu đề nằm trong bo_muc.
+    Hình "![chú thích](đường dẫn)": đường dẫn tính từ thu_muc, chú thích đánh số "Hình <chương>.n"."""
     for a, b in thay:
         md = re.sub(a, b, md)
-    if chuong:  # tham chiếu "mục x.y" trong cùng file -> "mục <chương>.x.y"; tham chiếu sang file khác đã đổi ở 'thay'
-        md = re.sub(r"(?<=mục )(\d+(?:\.\d+)*)", lambda k: f"{chuong}.{k.group(1)}", md)
-        md = re.sub(r"\((\d\.\d\.\d)\)", lambda k: f"({chuong}.{k.group(1)})", md)  # "(4.2.1)" trong 2.1
-    md = md.replace("mục\u00a0", "mục ")
+    if chuong:  # tham chiếu "mục x.y" trong cùng file -> "mục <chương>.x.y"; tham chiếu đã xử lý ở 'thay' viết "mục "
+        md = re.sub(r"(?<=[Mm]ục )(\d+(?:\.\d+)*)(?:–(\d+)\b)?",
+                    lambda k: f"{chuong}.{k.group(1)}" + (f"–{chuong}.{k.group(2)}" if k.group(2) else ""), md)
+        if not giu_dau:
+            md = re.sub(r"\((\d\.\d\.\d)\)", lambda k: f"({chuong}.{k.group(1)})", md)  # "(4.2.1)" trong 2.1
+    md = md.replace("mục ", "mục ").replace("Mục ", "Mục ")
     dong = md.split("\n")
-    if "---" in [d.strip() for d in dong]:
+    if "---" in [d.strip() for d in dong] and not giu_dau:
         dong = dong[[d.strip() for d in dong].index("---") + 1:]
     i, bo_cap = 0, None
     while i < len(dong):
@@ -230,8 +243,11 @@ def doc_md(doc, md, chuong, bo_muc=(), thay=()):
                 bo_cap = cap
                 i += 1
                 continue
-            text = re.sub(r"^(\d+(?:\.\d+)*)\.?\s", lambda k: f"{chuong}.{k.group(1)} ", text) if chuong else text
-            tieu_de(doc, text, cap)
+            if cap == 1:
+                sang_chuong(doc, text)
+            else:
+                text = re.sub(r"^(\d+(?:\.\d+)*)\.?\s", lambda k: f"{chuong}.{k.group(1)} ", text) if chuong else text
+                tieu_de(doc, text, cap)
             i += 1
             continue
         if bo_cap is not None:
@@ -239,15 +255,20 @@ def doc_md(doc, md, chuong, bo_muc=(), thay=()):
             continue
         if d.strip() in ("", "---"):
             i += 1
+        elif re.match(r"^!\[.*\]\(.*\)$", d.strip()):
+            alt, duong = re.match(r"^!\[(.*)\]\((.*)\)$", d.strip()).groups()
+            SO_HINH[chuong] = SO_HINH.get(chuong, 0) + 1
+            hinh(doc, (thu_muc / duong).resolve(), f"Hình {chuong}.{SO_HINH[chuong]}. {alt}", xoay=True)
+            i += 1
         elif d.startswith("```"):
             j = i + 1
             while not dong[j].startswith("```"):
                 j += 1
             khoi_ma(doc, dong[i + 1:j])
             i = j + 1
-        elif d.startswith("|"):
+        elif d.lstrip().startswith("|"):
             j = i
-            while j < len(dong) and dong[j].startswith("|"):
+            while j < len(dong) and dong[j].lstrip().startswith("|"):
                 j += 1
             o = [[x.strip() for x in re.split(r"(?<!\\)\|", r.strip())[1:-1]] for r in dong[i:j]]
             can = [WD_ALIGN_PARAGRAPH.CENTER if x.startswith(":") and x.endswith(":") else WD_ALIGN_PARAGRAPH.LEFT
@@ -320,7 +341,7 @@ def muc_luc(doc):
     doc.add_page_break()
 
 
-def chuong(doc, text):
+def sang_chuong(doc, text):
     p = doc.add_paragraph(text, style="Heading 1")
     p.paragraph_format.page_break_before = True
 
@@ -367,13 +388,13 @@ def bao_cao_phan_tich():
               "module *x.y* ở giai đoạn thiết kế. Các quy tắc nghiệp vụ được đánh mã QT01–QT16 (mục 3.9.3) và được "
               "dẫn chiếu lại ở các chương sau.")
     # Chương 2: GĐ1
-    chuong(doc, "CHƯƠNG 2. XÁC ĐỊNH, LỰA CHỌN VÀ LẬP KẾ HOẠCH HỆ THỐNG")
+    sang_chuong(doc, "CHƯƠNG 2. XÁC ĐỊNH, LỰA CHỌN VÀ LẬP KẾ HOẠCH HỆ THỐNG")
     doc_md(doc, md("phan_tich/01_ke_hoach.md"), 2, thay=THAY_CHUNG)
 
     # Chương 3–4
-    chuong(doc, "CHƯƠNG 3. KẾT QUẢ THU THẬP THÔNG TIN")
+    sang_chuong(doc, "CHƯƠNG 3. KẾT QUẢ THU THẬP THÔNG TIN")
     doc_md(doc, md("phan_tich/02_thu_thap.md"), 3, thay=THAY_CHUNG)
-    chuong(doc, "CHƯƠNG 4. PHÂN TÍCH CHỨC NĂNG VÀ SƠ ĐỒ BFD")
+    sang_chuong(doc, "CHƯƠNG 4. PHÂN TÍCH CHỨC NĂNG VÀ SƠ ĐỒ BFD")
     doan(doc, "Sơ đồ chức năng kinh doanh được xây dựng theo ba bước của bài giảng: khảo sát chức năng (tên, mô tả, đầu "
               "vào, đầu ra) → mô tả bằng văn bản → vẽ sơ đồ hình cây. Cột *Đầu vào / Đầu ra* ghi tên tác nhân và kho "
               "D1–D5 đúng như trên DFD (chương 5); mã QTxx là quy tắc nghiệp vụ ở mục 3.9.3.")
@@ -384,7 +405,7 @@ def bao_cao_phan_tich():
     doc_md(doc, "---\n" + phan[1], 4, bo_muc=["Đầu ra cho các bước sau"], thay=THAY_CHUNG)
 
     # Chương 4
-    chuong(doc, "CHƯƠNG 5. SƠ ĐỒ LUỒNG DỮ LIỆU (DFD)")
+    sang_chuong(doc, "CHƯƠNG 5. SƠ ĐỒ LUỒNG DỮ LIỆU (DFD)")
     tieu_de(doc, "5.1 Ký pháp và nguyên tắc", 2)
     doan(doc, "Các sơ đồ dùng ký pháp Gane & Sarson: xử lý là hình chữ nhật góc tròn, phần trên ghi số định danh, phần "
               "dưới ghi tên (trùng tên chức năng trên BFD); kho dữ liệu là hình chữ nhật hở một đầu, ghi mã D1–D5; tác "
@@ -441,11 +462,11 @@ def bao_cao_phan_tich():
         hinh(doc, sd / f"DFD_muc_1_{ma}.png", f"Hình 5.{k + 2}. DFD mức 1 của xử lý {ma}.0 – {from_bfd}")
 
     # Chương 5
-    chuong(doc, "CHƯƠNG 6. ĐẶC TẢ XỬ LÝ VÀ TỪ ĐIỂN DỮ LIỆU")
+    sang_chuong(doc, "CHƯƠNG 6. ĐẶC TẢ XỬ LÝ VÀ TỪ ĐIỂN DỮ LIỆU")
     doc_md(doc, md("phan_tich/04_dac_ta.md"), 6, bo_muc=["Đầu ra cho các bước sau"], thay=THAY_CHUNG)
 
     # Kết luận
-    chuong(doc, "KẾT LUẬN")
+    sang_chuong(doc, "KẾT LUẬN")
     doan(doc, "Hai giai đoạn đầu đã xác định được dự án và mô hình hóa đầy đủ hệ thống quản lý trung tâm ngoại ngữ "
               "ở cả hai mặt chức năng và dữ liệu. Các kết quả chính:")
     for t in ["Xác định 6 mục tiêu đo được; so sánh 3 phương án và chọn tự xây dựng (4,05 điểm); dự án khả thi về "
@@ -465,12 +486,100 @@ def bao_cao_phan_tich():
               "kế module theo mã chức năng và thiết kế biểu mẫu, báo cáo theo các luồng vào/ra của DFD.")
 
     # Phụ lục
-    chuong(doc, "PHỤ LỤC A. BẢNG CÂN BẰNG DFD")
+    sang_chuong(doc, "PHỤ LỤC A. BẢNG CÂN BẰNG DFD")
     doan(doc, "Bảng được sinh tự động từ dữ liệu dùng để vẽ sơ đồ DFD, bảo đảm sơ đồ và bảng luôn khớp nhau.", italic=True)
     can_bang = md("so_do/can_bang_dfd.md")
     doc_md(doc, "---\n" + can_bang.split("\n", 1)[1], None)
 
     ra = GOC / "bao_cao" / "Bao_cao_GD1_GD2_Nhom_10.docx"
+    doc.save(ra)
+    print("Đã ghi", ra)
+    return ra
+
+
+# ---------- báo cáo thiết kế ----------
+
+SO = r"(\d+(?:\.\d+)*)"
+CHUONG_PT = {"1": 2, "2": 3, "3": 4, "4": 6}  # phan_tich/0k_*.md -> chương trong báo cáo phân tích
+TEP_PT = r"`?(?:phan_tich/)?0([1-4])_(?:ke_hoach|thu_thap|chuc_nang|dac_ta)(?:\.md)?`?"
+TEP_TK = r"`?(?:thiet_ke/)?0([1-6])_(?:thuc_the|quan_he|chuan_hoa|csdl|module|giao_dien)(?:\.md)?`?"
+NB = " "  # "mục" + khoảng trắng không ngắt = tham chiếu đã xử lý, doc_md không đánh số lại
+
+THAY_TK = [
+    (r"(?m) – Hệ thống quản lý trung tâm ngoại ngữ$", ""),
+    (r"\s*\(KE_HOACH\.md, mục [\d.]+\)", ""),
+    (r"([Bb]ài giảng,? \(?)mục ", rf"\1mục{NB}"),                                  # mục của bài giảng: giữ nguyên
+    (TEP_PT + r",? mục " + SO, lambda k: f"báo cáo phân tích, mục{NB}{CHUONG_PT[k[1]]}.{k[2]}"),
+    (r"\b2\.1 mục " + SO, rf"báo cáo phân tích, mục{NB}3.\1"),                     # 2.1 = thu thập thông tin
+    (r"\b2\.1, GĐ1 mục " + SO, rf"báo cáo phân tích, chương 3 và mục{NB}2.\1"),
+    (r"\bGĐ1 mục " + SO, rf"báo cáo phân tích, mục{NB}2.\1"),
+    (r"mục (\d+), mục (\d+) của " + TEP_TK, rf"mục{NB}3.\3.\1, mục{NB}3.\3.\2"),
+    (TEP_TK + r",? mục " + SO, rf"mục{NB}3.\1.\2"),
+    (r"mục " + SO + r" của " + TEP_TK, rf"mục{NB}3.\2.\1"),
+    (r"\b3\.([1-6]) mục " + SO, rf"mục{NB}3.\1.\2"),
+    (r"\b3\.([1-6]) \(mục " + SO, rf"3.\1 (mục{NB}3.\1.\2"),
+    (r"\b([Mm]ục) 3\.([1-6]) \(", rf"\1{NB}3.\2 ("),                               # "Mục 3.3 (chuẩn hóa)" = bước 3.3
+    (TEP_PT, lambda k: f"báo cáo phân tích, chương {CHUONG_PT[k[1]]}"),
+    (TEP_TK, rf"mục{NB}3.\1"),
+]
+
+
+def bao_cao_thiet_ke():
+    md = lambda ten: (GOC / ten).read_text(encoding="utf-8")
+    doc = Document()
+    thiet_lap_kieu(doc)
+    doc.core_properties.title = "Báo cáo thiết kế hệ thống quản lý trung tâm ngoại ngữ"
+    doc.core_properties.author = "Nhóm 10"
+    bia(doc, "BÁO CÁO THIẾT KẾ HỆ THỐNG", "Tháng 10 năm 2026")
+    so_trang(doc)
+    muc_luc(doc)
+
+    doc.add_paragraph("MỞ ĐẦU", style="Heading 1")
+    doan(doc, "Báo cáo trình bày kết quả **giai đoạn 3 – thiết kế hệ thống** của đề tài *Hệ thống quản lý trung tâm "
+              "ngoại ngữ*. Đầu vào là báo cáo xác định và phân tích hệ thống (giai đoạn 1–2): BFD, DFD các mức, đặc tả "
+              "xử lý, từ điển dữ liệu, 5 chứng từ mẫu và 16 quy tắc nghiệp vụ QT01–QT16. Khi báo cáo này dẫn "
+              "*báo cáo phân tích, mục x.y* là chỉ mục x.y của báo cáo đó.")
+    doan(doc, "Thiết kế gồm sáu bước theo bài giảng, mỗi bước là một chương mang mã 3.1–3.6:")
+    for t in ["3.1 Xác định thực thể và thuộc tính, lập bảng thực thể.",
+              "3.2 Xác định quan hệ giữa các thực thể và vẽ sơ đồ ERD.",
+              "3.3 Chuẩn hóa các chứng từ mẫu đến dạng chuẩn 3 và đối chiếu với 3.1–3.2.",
+              "3.4 Thiết kế cơ sở dữ liệu vật lý trên SQL Server.",
+              "3.5 Thiết kế phần mềm: sơ đồ module Top-down, liên kết module – dữ liệu, ma trận phân quyền.",
+              "3.6 Thiết kế giao diện: form, báo cáo, thực đơn, phác thảo màn hình, trợ giúp và thông báo lỗi."]:
+        p = doan(doc, "– " + t, sau=3)
+        p.paragraph_format.left_indent, p.paragraph_format.first_line_indent = Cm(0.8), Cm(-0.45)
+    doan(doc, "Mã thống nhất xuyên suốt: chức năng *x.y* trên BFD = xử lý *x.y* trên DFD mức 1 = module *x.y* = mục "
+              "*x.y* trên thực đơn. Các bảng, sơ đồ trong báo cáo được sinh bằng chương trình từ cùng một nguồn dữ liệu; "
+              "chương trình kiểm tra các quy tắc (cân bằng DFD, nhất quán DFD – ERD, chuẩn hóa, phân quyền, ánh xạ "
+              "form – luồng dữ liệu) trước khi vẽ, nên sơ đồ và bảng luôn khớp nhau.")
+
+    for k, ten in enumerate(["01_thuc_the", "02_quan_he", "03_chuan_hoa", "04_csdl", "05_module", "06_giao_dien"], 1):
+        doc_md(doc, md(f"thiet_ke/{ten}.md"), f"3.{k}", bo_muc=["Đầu ra cho các bước sau"], thay=THAY_TK,
+               giu_dau=True, thu_muc=GOC / "thiet_ke")
+
+    sang_chuong(doc, "KẾT LUẬN")
+    doan(doc, "Giai đoạn thiết kế đã chuyển kết quả phân tích thành bản thiết kế đủ để cài đặt. Các kết quả chính:")
+    for t in ["26 thực thể (1 xác thực, 9 chức năng, 10 sự kiện, 6 quan hệ) chia theo kho D1–D5, đã đối chiếu từng "
+              "trường của 5 chứng từ mẫu.",
+              "29 quan hệ và ERD hai hình theo ký pháp bài giảng; mọi luồng đọc, ghi kho và mọi báo cáo đều có đường đi trên ERD.",
+              "Chuẩn hóa 5 chứng từ đến dạng chuẩn 3, trộn bảng; kết quả trùng với tập thực thể ở 3.1.",
+              "CSDL SQL Server 26 bảng, 35 khóa ngoại, 63 ràng buộc CHECK, 16 chỉ mục, 9 view và 2 hàm cho báo cáo MIS; "
+              "dữ liệu mẫu sinh tự động, 24/24 kiểm tra đạt.",
+              "34 module theo mã BFD/DFD và ma trận phân quyền cho 8 vai trò.",
+              "18 form ứng với luồng vào, 18 báo cáo ứng với luồng ra của DFD, thực đơn phân cấp, 4 phác thảo màn hình "
+              "và 22 thông báo lỗi."]:
+        p = doan(doc, "– " + t, sau=3)
+        p.paragraph_format.left_indent, p.paragraph_format.first_line_indent = Cm(0.8), Cm(-0.45)
+    doan(doc, "Giai đoạn tiếp theo là **cài đặt và khai thác**: xây dựng bản demo trên CSDL đã có cho các module chính, "
+              "lập kế hoạch cài đặt, chuyển đổi dữ liệu, huấn luyện và kiểm thử.")
+
+    sang_chuong(doc, "PHỤ LỤC A. MÔ TẢ CÁC TỆP DỮ LIỆU")
+    doan(doc, "Phụ lục được sinh tự động từ tệp tạo CSDL (schema.sql) sau khi đối chiếu với bảng thực thể ở 3.1.",
+         italic=True)
+    mo_ta = md("csdl/mo_ta_bang.md").split("\n", 3)[3]
+    doc_md(doc, "---\n" + re.sub(r"(?m)^## ", "#### ", mo_ta), None, thay=THAY_TK)
+
+    ra = GOC / "bao_cao" / "Bao_cao_GD3_Nhom_10.docx"
     doc.save(ra)
     print("Đã ghi", ra)
     return ra
@@ -499,4 +608,6 @@ def xuat_pdf(docx):
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
-    xuat_pdf(bao_cao_phan_tich())
+    chon = sys.argv[1:] or ["phan_tich", "thiet_ke"]
+    for ten in chon:
+        xuat_pdf({"phan_tich": bao_cao_phan_tich, "thiet_ke": bao_cao_thiet_ke}[ten]())

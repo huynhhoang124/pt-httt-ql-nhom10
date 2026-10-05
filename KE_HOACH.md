@@ -101,6 +101,9 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - Form chính: hồ sơ HV, đăng ký lớp, xếp lịch, phiếu thu, điểm danh, nhập điểm. Report: phiếu thu, danh sách lớp, lịch dạy, bảng điểm, công nợ, BC tuyển sinh/doanh thu/chuyên cần.
 - Sơ đồ thực đơn phân cấp theo BFD; mockup đen trắng; quy tắc trợ giúp và thông báo lỗi.
 
+### 3.7 Báo cáo thiết kế (nộp) ✅ (xong 2026-10-05 – `bao_cao/Bao_cao_GD3_Nhom_10.docx/.pdf`, 105 trang)
+Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k để mã bước = số chương) → Kết luận → Phụ lục A mô tả tệp dữ liệu (`csdl/mo_ta_bang.md`). Tham chiếu chéo đổi tự động ("04_dac_ta mục 1.1" → "báo cáo phân tích, mục 6.1.1"); hình quá ngang (module, thực đơn) xoay dọc trang. Chạy `python bao_cao/lam_bao_cao.py thiet_ke`.
+
 ## Giai đoạn 4 – Cài đặt và khai thác
 - **Demo** (`demo/`, ASP.NET Core + EF Core theo BT1; nếu thiếu thời gian thì chỉ CSDL + truy vấn): đăng nhập theo vai trò, hồ sơ HV, đăng ký lớp, lập phiếu thu, điểm danh, nhập điểm, 2–3 báo cáo. Chỉ làm chức năng đã có trong DFD.
 - `phan_tich/05_cai_dat.md`: kế hoạch cài đặt (cài phần mềm, cấu hình, phân quyền, hồ sơ cấu hình); chuyển đổi dữ liệu từ Excel cũ; huấn luyện 3 mức; phương pháp chuyển đổi đề xuất **theo giai đoạn** (danh mục → lớp/lịch → học phí → học tập) có lý do; kế hoạch kiểm thử (test case theo tiến trình).
