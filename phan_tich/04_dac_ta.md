@@ -302,7 +302,7 @@ Mỗi dòng là một luồng trên DFD mức 1. Luồng mức 0 tương ứng x
 | Lịch học | Lịch các buổi học gửi học viên | Mã lớp + {Ngày + Giờ bắt đầu + Giờ kết thúc + Phòng} | 2.3 |
 | Lịch dạy, danh sách lớp | Lịch gửi giáo viên | {Mã lớp + {Ngày + Giờ + Phòng}} + {Mã HV + Họ tên} | 2.3 |
 | Yêu cầu đổi lịch, học bù, dạy thay | Thay đổi lịch của một buổi học | Mã lớp + Số thứ tự buổi + Loại [Đổi lịch \| Học bù \| Dạy thay] + (Ngày mới + Giờ bắt đầu + Giờ kết thúc) + (Mã phòng) + (Mã GV dạy thay) + Lý do | QL đào tạo |
-| Ưu đãi | Thông tin ưu đãi do kế toán nhập | Ưu đãi | NV kế toán |
+| Ưu đãi | Danh mục ưu đãi, và lựa chọn của học viên cho từng khoản học phí, do kế toán nhập | Ưu đãi + {Số phiếu ĐK + Mã lớp + Số đợt [1 \| 2] + (Mã UĐ đăng ký nhóm)} | NV kế toán |
 | Học phí phải thu | Khoản học viên phải nộp | Số phiếu ĐK + Học phí gốc + Tỷ lệ giảm + Phải nộp + {Đợt + Số tiền đợt + Hạn đóng} | 3.1 |
 | Tiền học phí | Số tiền học viên nộp | Người nộp + Số tiền + Hình thức | HV/PH |
 | Thông tin thu tiền | Thông tin kế toán ghi khi thu tiền | Mã HV + {Số phiếu ĐK + Mã lớp + Đợt + Số tiền} + Hình thức | NV kế toán |

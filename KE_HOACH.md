@@ -92,11 +92,11 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - `seed.sql` do `sinh_du_lieu.py` sinh, chốt ngày 31/12/2026, bám đúng 5 chứng từ mẫu. Có 46 học viên, 7 lớp, 940 lượt điểm danh, 92 phiếu thu, đủ các tình huống: chuyển lớp, bảo lưu, nghỉ học, lớp hủy, nợ quá hạn…
 - Kiểm tra: `chay.ps1` chạy schema → views → seed → `kiem_tra.sql`, kết quả 24/24 đạt (có thử chèn 5 bản ghi sai đều bị chặn). `sinh_mo_ta.py` đối chiếu schema với 3.1 rồi sinh `csdl/mo_ta_bang.md`.
 
-### 3.5 Thiết kế phần mềm – `thiet_ke/05_module.md` ✅ (xong 2026-10-05; `so_do/So_do_module.png`, `so_do/src/module.py`). Phát hiện DFD-2.0 và DFD-4.0 thiếu luồng QL đào tạo → 2.3 và → 4.3, chưa sửa
+### 3.5 Thiết kế phần mềm – `thiet_ke/05_module.md` ✅ (xong 2026-10-05; `so_do/So_do_module.png`, `so_do/src/module.py`). Đã bổ sung 3 luồng QL đào tạo ↔ 2.3, 4.3 vào DFD
 - Sơ đồ module Top-down: module chính → 5 phân hệ ↔ 1.0–5.0 → module con ↔ x.y; thêm đăng nhập/phân quyền, sao lưu (số module ≥ số tiến trình).
 - Ma trận phân quyền: vai trò (7 tác nhân + Quản trị) × chức năng.
 
-### 3.6 Thiết kế giao diện – `thiet_ke/06_giao_dien.md`
+### 3.6 Thiết kế giao diện – `thiet_ke/06_giao_dien.md` ✅ (xong 2026-10-05; 18 form, 18 báo cáo, thực đơn `so_do/Thuc_don.png`, 4 phác thảo `so_do/Mau_*.png`, kiểm tra `so_do/src/giao_dien.py`)
 - Bảng ánh xạ: luồng vào DFD → Form (điền mẫu), luồng ra DFD → Report.
 - Form chính: hồ sơ HV, đăng ký lớp, xếp lịch, phiếu thu, điểm danh, nhập điểm. Report: phiếu thu, danh sách lớp, lịch dạy, bảng điểm, công nợ, BC tuyển sinh/doanh thu/chuyên cần.
 - Sơ đồ thực đơn phân cấp theo BFD; mockup đen trắng; quy tắc trợ giúp và thông báo lỗi.
