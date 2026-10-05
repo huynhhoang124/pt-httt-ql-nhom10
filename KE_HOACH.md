@@ -134,6 +134,12 @@ Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo c
 5. Bảo trì nhỏ (06_bao_tri mục 4): B2 bắt đổi mật khẩu lần đầu, B4 đếm đăng nhập sai trong CSDL, B7 nhập điểm chấp nhận "7,5".
 6. Các module còn lại: 1.2–1.4, 2.1, 3.3, 5.1, 5.2, 5.4; N4 sao lưu, N5 xuất Excel/PDF, N6 lưu nháp.
 7. B1 nâng .NET 8 → .NET 10 (hỏi người dùng trước khi làm).
+
+**Tiến độ (cập nhật 2026-10-05, tạm dừng giữa bước 6):** xong bước 1–5 và một phần bước 6, mỗi phần một commit "Code bổ sung N…" (1fd15cc → 58d4a30). Đã có: R4.3a/F4.3 `HocTap/TongKet`, R4.4 `HocTap/ChungNhan`, F2.3 `LopHoc/XepLich`, F2.4/R2.4 `LopHoc/XuLyDon`, B2/B4/B7 (TaiKhoan thêm 3 cột → 164 trường, `csdl/nang_cap/001_tai_khoan_b2_b4.sql`), F1.2–F1.4 `DanhMuc/GiaoVien|KhoaHoc|PhongHoc`, F2.1 `LopHoc/MoLop`, R3.3 `HocPhi/CongNo`, N5 (`Nen/XuatExcel.cs` + `Shared/_XuatBaoCao`), 5.1 `HeThong/TaiKhoan|ThamSo|NhatKy`, 5.2 lô `Nen/ThongBaoTuDong.cs` + `HeThong/ThongBao`. `dotnet test` 79/79; ca kiểm thử TC06, TC07, TC20, TC22–TC24b, TC27–TC31 đã ghi ở 05_cai_dat mục 4.2.
+- **Đang dở:** 5.4 `Pages/BaoCao/HocTap.cshtml(.cs)` (R5.4a + R5.4b) đã viết, CHƯA commit; ThucDon.cs đã thêm mục R5.4a. Build còn 1 lỗi: `HocTap.cshtml.cs` dòng 47 `d.SoBuoi` là `int?` (sửa `g.Sum(x => x.SoBuoiDaDay) ?? 0` hoặc `d.SoBuoi ?? 0`), rồi mới thử.
+- **Còn lại bước 6:** thử + commit 5.4 (thêm TC32); N4 sao lưu (`HeThong/SaoLuu`, BACKUP DATABASE, quyền QT "TX"); N6 lưu nháp (localStorage cho form F2.2/F3.2).
+- **Sau bước 6:** cập nhật 05_module mục 7 (thêm `Pages/HeThong`, bỏ câu "chưa có Pages/HeThong"), 06_bao_tri B5 (module đã làm), số trường 161 → 164 ở 04_csdl/KE_HOACH/báo cáo, KE_HOACH "Tiến độ demo"; dựng lại báo cáo tổng. Bước 7 (.NET 10) phải hỏi người dùng.
+- Mẹo thử: script curl trong scratchpad không còn ở chat mới; đăng nhập lấy `__RequestVerificationToken` từ /DangNhap, giá trị tiếng Việt gửi bằng `--data-urlencode "ten@tệp"`; hv0480 bị bắt đổi mật khẩu (B2) nên dùng hv0412 khi thử; sau mỗi lần thử chạy lại `csdl/chay.ps1`.
 Xong: cập nhật 05_cai_dat (kết quả kiểm thử), 05_module mục 7, 06_bao_tri mục 4, KE_HOACH "Tiến độ demo"; dựng lại báo cáo tổng (`python bao_cao/lam_bao_cao.py tong`). Rồi mới làm slide.
 
 ### Thuyết trình (làm SAU code)
