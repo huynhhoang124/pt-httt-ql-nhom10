@@ -122,6 +122,7 @@ Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k 
 
 ## Báo cáo tổng cuối kỳ
 `bao_cao/Bao_cao_tong_Nhom_10.docx/.pdf` = BT1 + GĐ1 → GĐ5 theo khung báo cáo phân tích trong lý thuyết.
+- **Xong (2026-10-05), 181 trang:** `python bao_cao/lam_bao_cao.py tong`. Bìa → mục lục → Lời giới thiệu → Phần I (BT1, chép từ `bai_tap_1/*.docx`) → Phần II (GĐ1–2, giữ số chương của báo cáo phân tích) → Phần III (GĐ3, chương 3.1–3.6) → Phần IV (chương 1 = 05_cai_dat, chương 2 = 06_bao_tri) → Kết luận → Phụ lục A (cân bằng DFD), B (mô tả tệp dữ liệu). Tham chiếu chéo ghi "Phần II, mục …". Hai báo cáo giai đoạn cũ dựng lại vẫn giống hệt (đã so từng đoạn). Còn lại: nhóm đọc duyệt, chuẩn bị thuyết trình.
 
 ## Phân công gợi ý (sửa theo nhóm)
 | Thành viên | Phần chính |

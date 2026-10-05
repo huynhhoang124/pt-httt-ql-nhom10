@@ -15,7 +15,7 @@ Hệ thống chạy trên **một máy chủ** đặt tại trung tâm; người
 |---|---|---|---|
 | 1 | Máy chủ | Windows 10/11 Pro hoặc Windows Server | Dùng 1 trong 12 máy hiện có nếu đủ cấu hình (≥ 8 GB RAM, ổ SSD) |
 | 2 | Máy chủ | SQL Server 2022 **Express** | Miễn phí, giới hạn 10 GB/CSDL – đủ cho nhiều năm dữ liệu của 1 cơ sở |
-| 3 | Máy chủ | ASP.NET Core 8 Hosting Bundle + IIS | Chạy ứng dụng web; bật HTTPS bằng chứng chỉ của tên miền nội bộ |
+| 3 | Máy chủ | ASP.NET Core 8 Hosting Bundle + IIS | Chạy ứng dụng web; bật HTTPS bằng chứng chỉ của tên miền nội bộ. .NET 8 hết hỗ trợ 10/11/2026: khi đưa vào sử dụng thật thì cài .NET 10 (06_bao_tri mục 4, B1) |
 | 4 | Máy chủ | Tạo CSDL: `csdl/chay.ps1` chạy `schema.sql` → `views.sql` → (`seed.sql` chỉ ở môi trường thử) → `kiem_tra.sql` | Bản chính thức thay `seed.sql` bằng dữ liệu chuyển đổi (mục 2.4) |
 | 5 | Máy chủ | Xuất bản ứng dụng: `dotnet publish -c Release`, chép vào thư mục site IIS | Bản demo chạy thử bằng `dotnet run --launch-profile http` (http://localhost:5223) |
 | 6 | Máy chủ | Lịch sao lưu (module N4): `BACKUP DATABASE` hằng ngày lúc 23:00 bằng Task Scheduler, giữ 30 bản; chép bản tuần ra ổ ngoài | Express không có SQL Agent nên dùng Task Scheduler |
