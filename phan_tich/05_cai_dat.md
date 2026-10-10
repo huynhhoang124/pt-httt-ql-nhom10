@@ -178,17 +178,17 @@ Sau giai đoạn 4, ngừng ghi sổ giấy và Excel; lưu trữ bản cuối c
 
 Theo `thiet_ke/05_module.md` mục 8, bước 5. Mọi ca kiểm thử đều trỏ về một quy tắc hoặc một chứng từ đã có.
 
-| Mức | Công cụ | Kết quả trên bản demo (05/10/2026) |
+| Mức | Công cụ | Kết quả trên bản demo (11/10/2026) |
 |---|---|---|
-| Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **38/38 đạt**: bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm |
+| Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **80/80 đạt**: bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm; bảng quyết định 4.3, chứng nhận QT15, trùng lịch QT07, cây quyết định 2.4, điểm "7,5", tổng hợp báo cáo 5.4 |
 | Tích hợp (CSDL) | `csdl/kiem_tra.sql` qua `csdl/chay.ps1` | **24/24 đạt** |
-| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (81 tệp) |
+| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (115 tệp) |
 | Phân quyền | Đăng nhập 8 vai trò, mở từng trang, so mã HTTP với ma trận | Đạt – cho phép/chặn khớp ma trận |
 | Chấp nhận | Nhập lại chứng từ mẫu qua giao diện, so bản in với chứng từ | PT2026-0731 khớp; luồng đăng ký → học phí → phiếu thu chạy thật đạt (mục 4.2) |
 
 ### 4.2 Ca kiểm thử theo tiến trình
 
-Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = module chưa có trong bản demo, sẽ chạy khi cài đặt đầy đủ.
+Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 37 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung).
 
 | Mã | Tiến trình | Dữ liệu vào / thao tác | Kết quả mong đợi | Kết quả |
 |---|---|---|---|---|
@@ -239,7 +239,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng; **–** = mod
 | Bỏ trống người nộp vẫn lưu được | TC13 | Trang tự điền người nộp cả khi lưu | Chỉ gợi ý người nộp khi mở form |
 | Nhật ký ghi "Cu?i k?" | TC21 | Cột `NhatKy.MaDoiTuong` kiểu VARCHAR | Đổi thành NVARCHAR(100) (`csdl/schema.sql`) |
 
-Sau mỗi lần sửa: chạy lại `csdl/chay.ps1` (24/24), `dotnet test` (38/38) và ca kiểm thử liên quan.
+Sau mỗi lần sửa: chạy lại `csdl/chay.ps1` (24/24), `dotnet test` (80/80) và ca kiểm thử liên quan.
 
 ---
 

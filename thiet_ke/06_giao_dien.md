@@ -215,7 +215,7 @@ Kết quả chạy `python so_do/src/giao_dien.py`: **đạt**.
 | # | Nội dung kiểm tra | Kết quả |
 |---|---|---|
 | 1 | Mỗi luồng giữa tác nhân và hệ thống trên DFD mức 1 đều có form (luồng vào) hoặc báo cáo (luồng ra). Ngược lại, mỗi form, báo cáo (trừ chức năng nền) đều trỏ về một luồng có thật, nên không có màn hình "mồ côi" | Đạt: 39/39 luồng |
-| 2 | Trường nhập trên form có trong CSDL (3.1/3.4) và thuộc bảng mà module được ghi (3.5 mục 4). Người dùng của form có quyền nhập (T/S/D) ở module đó | Đạt: 18 form, 106 trường |
+| 2 | Trường nhập trên form có trong CSDL (3.1/3.4) và thuộc bảng mà module được ghi (3.5 mục 4). Người dùng của form có quyền nhập (T/S/D) ở module đó | Đạt: 19 form, 106 trường |
 | 3 | Nguồn của báo cáo nằm trong các bảng, view mà module đọc được. Người nhận có quyền xem | Đạt: 18 báo cáo |
 | 4 | Cả 20 module chức năng đều có ít nhất một màn hình, nên thực đơn không có mục rỗng | Đạt |
 | 5 | Mỗi thông báo lỗi trỏ về ràng buộc có trong `csdl/schema.sql` hoặc quy tắc QT có trong 2.1, và về màn hình có thật | Đạt: 22 thông báo |

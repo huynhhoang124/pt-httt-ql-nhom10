@@ -103,9 +103,9 @@ Kho mã không chứa dữ liệu thật hay mật khẩu thật: `seed.sql` là
 |:-:|---|---|---|---|
 | B1 | Nâng .NET 8 / EF Core 8 lên .NET 10 / EF Core 10 | Thích nghi | Cao | .NET 8 hết hỗ trợ 10/11/2026, sau đó không còn bản vá bảo mật |
 | B2 | Bắt đổi mật khẩu ở lần đăng nhập đầu | Phòng ngừa | Cao | **Đã làm:** cột `TaiKhoan.PhaiDoiMatKhau` (tệp nâng cấp `csdl/nang_cap/001_tai_khoan_b2_b4.sql`); ca TC24b |
-| B3 | Lịch sao lưu tự động + thử phục hồi (module N4) | Phòng ngừa | Cao | Chưa có trong bản demo |
+| B3 | Lịch sao lưu tự động + thử phục hồi (module N4) | Phòng ngừa | Cao | **Đã làm một phần:** sao lưu tay FN4 (`Pages/HeThong/SaoLuu`, ca TC33). Còn lại khi cài máy chủ: lịch 23:00 bằng Task Scheduler, xóa bản cũ quá 30, thử phục hồi mỗi quý |
 | B4 | Đếm số lần đăng nhập sai lưu trong CSDL thay vì bộ nhớ | Phòng ngừa | Thường | **Đã làm:** cột `SoLanSai`, `KhoaDen` (tệp nâng cấp 001); ca TC24 |
-| B5 | Cài nốt các module chưa có trong demo: 1.2–1.4, 2.1, 2.3, 2.4, 3.3, 4.3, 4.4, 5.1, 5.2, 5.4, N4–N6 | Hoàn thiện | Cao | Các ca kiểm thử "–" ở 05_cai_dat mục 4.2 |
+| B5 | Cài nốt các module chưa có trong demo: 1.2–1.4, 2.1, 2.3, 2.4, 3.3, 4.3, 4.4, 5.1, 5.2, 5.4, N4–N6 | Hoàn thiện | Cao | **Đã làm:** mọi ca ở 05_cai_dat mục 4.2 đã chạy (TC06, TC07, TC22–TC34) |
 | B6 | Cập nhật danh mục ưu đãi theo chính sách năm 2028 trước 31/12/2027 | Thích nghi | Thường | Ưu đãi mẫu hết hạn 31/12/2027 |
 | B7 | Nhập điểm chấp nhận dấu phẩy thập phân ("7,5") | Cải tiến | Thấp | **Đã làm:** `QuyTac.DocDiem`; chặn luôn số có 2 chữ số lẻ (cột DECIMAL(3, 1) làm tròn ngầm); ca TC20 |
 | B8 | Số tiền bằng chữ chỉ đọc tới hàng tỷ | – | Thấp | Đủ cho học phí; không cần làm |

@@ -87,7 +87,7 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - `thiet_ke/kiem_tra_chuan_hoa.py`: 22/26 thực thể tìm lại được từ chứng từ, khóa trùng thiết kế, 0 thuộc tính thừa. Kết quả 3NF trùng với 3.1.
 
 ### 3.4 CSDL vật lý – `thiet_ke/04_csdl.md`, `csdl/` ✅ (xong 2026-10-05)
-- SQL Server (chạy trên 2022 Express, bảng mã `Vietnamese_100_CI_AS`). Có 26 bảng, 161 trường, 35 khóa ngoại (34 theo 3.1 + `FK_ThongBao_GiamHo`), 63 CHECK, 16 chỉ mục. CHECK chỉ dùng cho bất biến; con số chính sách đọc từ bảng ThamSo.
+- SQL Server (chạy trên 2022 Express, bảng mã `Vietnamese_100_CI_AS`). Có 26 bảng, 164 trường (161 + 3 cột bảo trì B2/B4), 35 khóa ngoại (34 theo 3.1 + `FK_ThongBao_GiamHo`), 63 CHECK, 16 chỉ mục. CHECK chỉ dùng cho bất biến; con số chính sách đọc từ bảng ThamSo.
 - `views.sql`: 9 view và 2 hàm tính thuộc tính thứ sinh và báo cáo MIS (doanh thu, `fn_CongNo(@Ngay)`, sĩ số – lấp đầy, chuyên cần, kết quả, giảng dạy, tuyển sinh).
 - `seed.sql` do `sinh_du_lieu.py` sinh, chốt ngày 31/12/2026, bám đúng 5 chứng từ mẫu. Có 46 học viên, 7 lớp, 940 lượt điểm danh, 92 phiếu thu, đủ các tình huống: chuyển lớp, bảo lưu, nghỉ học, lớp hủy, nợ quá hạn…
 - Kiểm tra: `chay.ps1` chạy schema → views → seed → `kiem_tra.sql`, kết quả 24/24 đạt (có thử chèn 5 bản ghi sai đều bị chặn). `sinh_mo_ta.py` đối chiếu schema với 3.1 rồi sinh `csdl/mo_ta_bang.md`.
@@ -96,7 +96,7 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 - Sơ đồ module Top-down: module chính → 5 phân hệ ↔ 1.0–5.0 → module con ↔ x.y; thêm đăng nhập/phân quyền, sao lưu (số module ≥ số tiến trình).
 - Ma trận phân quyền: vai trò (7 tác nhân + Quản trị) × chức năng.
 
-### 3.6 Thiết kế giao diện – `thiet_ke/06_giao_dien.md` ✅ (xong 2026-10-05; 18 form, 18 báo cáo, thực đơn `so_do/Thuc_don.png`, 4 phác thảo `so_do/Mau_*.png`, kiểm tra `so_do/src/giao_dien.py`)
+### 3.6 Thiết kế giao diện – `thiet_ke/06_giao_dien.md` ✅ (xong 2026-10-05; 19 form (thêm FN4 khi code bổ sung), 18 báo cáo, thực đơn `so_do/Thuc_don.png`, 4 phác thảo `so_do/Mau_*.png`, kiểm tra `so_do/src/giao_dien.py`)
 - Bảng ánh xạ: luồng vào DFD → Form (điền mẫu), luồng ra DFD → Report.
 - Form chính: hồ sơ HV, đăng ký lớp, xếp lịch, phiếu thu, điểm danh, nhập điểm. Report: phiếu thu, danh sách lớp, lịch dạy, bảng điểm, công nợ, BC tuyển sinh/doanh thu/chuyên cần.
 - Sơ đồ thực đơn phân cấp theo BFD; mockup đen trắng; quy tắc trợ giúp và thông báo lỗi.
@@ -105,7 +105,7 @@ Tiêu đề → Mục lục → Giới thiệu → Phương pháp luận → K�
 Mở đầu → 3.1–3.6 (gộp từ `thiet_ke/01–06`, giữ đánh số 3.k để mã bước = số chương) → Kết luận → Phụ lục A mô tả tệp dữ liệu (`csdl/mo_ta_bang.md`). Tham chiếu chéo đổi tự động ("04_dac_ta mục 1.1" → "báo cáo phân tích, mục 6.1.1"); hình quá ngang (module, thực đơn) xoay dọc trang. Chạy `python bao_cao/lam_bao_cao.py thiet_ke`.
 
 ## Giai đoạn 4 – Cài đặt và khai thác
-### Tiến độ demo (đang làm, cập nhật 2026-10-05)
+### Tiến độ demo (xong, cập nhật 2026-10-11)
 `demo/TrungTamNgoaiNgu/` – ASP.NET Core 8 Razor Pages + Bootstrap, EF Core 8 database-first (`dotnet ef dbcontext scaffold`, công cụ cục bộ ở `demo/.config`). Chạy: `cd demo/TrungTamNgoaiNgu && dotnet run --launch-profile http` → http://localhost:5223. Tài khoản mẫu: tên đăng nhập = mật khẩu (nv001 GĐ, nv002 ĐT, nv003 QT, nv004 KT, nv005/nv007 TS, gv023, hv0412, ph0301).
 - Giờ hệ thống cố định `HeThong:ThoiDiem` = 04/01/2027 19:30 trong appsettings.json (giữa buổi 19 lớp TOE-2611 của gv023) để demo điểm danh.
 - `demo/sinh_ma.py` sinh `Nen/PhanQuyen.g.cs` (ma trận 05_module mục 5), `Nen/ThongBaoLoi.g.cs` (06_giao_dien mục 6), `Nen/ThucDon.g.cs` (module + màn hình) và kiểm tra mã nguồn dùng đúng module, khóa lỗi, mã màn hình. Chạy lại sau khi sửa .md.
@@ -135,16 +135,14 @@ Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo c
 6. Các module còn lại: 1.2–1.4, 2.1, 3.3, 5.1, 5.2, 5.4; N4 sao lưu, N5 xuất Excel/PDF, N6 lưu nháp.
 7. B1 nâng .NET 8 → .NET 10 (hỏi người dùng trước khi làm).
 
-**Tiến độ (cập nhật 2026-10-05, tạm dừng giữa bước 6):** xong bước 1–5 và một phần bước 6, mỗi phần một commit "Code bổ sung N…" (1fd15cc → 58d4a30). Đã có: R4.3a/F4.3 `HocTap/TongKet`, R4.4 `HocTap/ChungNhan`, F2.3 `LopHoc/XepLich`, F2.4/R2.4 `LopHoc/XuLyDon`, B2/B4/B7 (TaiKhoan thêm 3 cột → 164 trường, `csdl/nang_cap/001_tai_khoan_b2_b4.sql`), F1.2–F1.4 `DanhMuc/GiaoVien|KhoaHoc|PhongHoc`, F2.1 `LopHoc/MoLop`, R3.3 `HocPhi/CongNo`, N5 (`Nen/XuatExcel.cs` + `Shared/_XuatBaoCao`), 5.1 `HeThong/TaiKhoan|ThamSo|NhatKy`, 5.2 lô `Nen/ThongBaoTuDong.cs` + `HeThong/ThongBao`. `dotnet test` 79/79; ca kiểm thử TC06, TC07, TC20, TC22–TC24b, TC27–TC31 đã ghi ở 05_cai_dat mục 4.2.
-- **Đang dở:** 5.4 `Pages/BaoCao/HocTap.cshtml(.cs)` (R5.4a + R5.4b) đã viết, CHƯA commit; ThucDon.cs đã thêm mục R5.4a. Build còn 1 lỗi: `HocTap.cshtml.cs` dòng 47 `d.SoBuoi` là `int?` (sửa `g.Sum(x => x.SoBuoiDaDay) ?? 0` hoặc `d.SoBuoi ?? 0`), rồi mới thử.
-- **Còn lại bước 6:** thử + commit 5.4 (thêm TC32); N4 sao lưu (`HeThong/SaoLuu`, BACKUP DATABASE, quyền QT "TX"); N6 lưu nháp (localStorage cho form F2.2/F3.2).
-- **Sau bước 6:** cập nhật 05_module mục 7 (thêm `Pages/HeThong`, bỏ câu "chưa có Pages/HeThong"), 06_bao_tri B5 (module đã làm), số trường 161 → 164 ở 04_csdl/KE_HOACH/báo cáo, KE_HOACH "Tiến độ demo"; dựng lại báo cáo tổng. Bước 7 (.NET 10) phải hỏi người dùng.
-- Mẹo thử: script curl trong scratchpad không còn ở chat mới; đăng nhập lấy `__RequestVerificationToken` từ /DangNhap, giá trị tiếng Việt gửi bằng `--data-urlencode "ten@tệp"`; hv0480 bị bắt đổi mật khẩu (B2) nên dùng hv0412 khi thử; sau mỗi lần thử chạy lại `csdl/chay.ps1`.
-Xong: cập nhật 05_cai_dat (kết quả kiểm thử), 05_module mục 7, 06_bao_tri mục 4, KE_HOACH "Tiến độ demo"; dựng lại báo cáo tổng (`python bao_cao/lam_bao_cao.py tong`). Rồi mới làm slide.
+**Tiến độ (cập nhật 2026-10-11): xong bước 1–6**, mỗi phần một commit "Code bổ sung N…" (1fd15cc → 47cc644). Đã có: R4.3a/F4.3 `HocTap/TongKet`, R4.4 `HocTap/ChungNhan`, F2.3 `LopHoc/XepLich`, F2.4/R2.4 `LopHoc/XuLyDon`, B2/B4/B7 (TaiKhoan thêm 3 cột → 164 trường, `csdl/nang_cap/001_tai_khoan_b2_b4.sql`), F1.2–F1.4 `DanhMuc/GiaoVien|KhoaHoc|PhongHoc`, F2.1 `LopHoc/MoLop`, R3.3 `HocPhi/CongNo`, N5 (`Nen/XuatExcel.cs` + `Shared/_XuatBaoCao`), 5.1 `HeThong/TaiKhoan|ThamSo|NhatKy`, 5.2 lô `Nen/ThongBaoTuDong.cs` + `HeThong/ThongBao`, 5.4 `BaoCao/HocTap` (R5.4a/b), N4 `HeThong/SaoLuu` (form mới FN4 → 19 form), N6 `Shared/_LuuNhap` (localStorage, gắn F2.2, F3.2). `dotnet test` 80/80; 37/37 ca ở 05_cai_dat mục 4.2 đạt (thêm TC32–TC34).
+- Đã cập nhật tài liệu sau bước 6: 05_module mục 7, 06_bao_tri B3/B5, 164 trường (03, 04_csdl, KE_HOACH), 19 form, 05_cai_dat mục 4.1; dựng lại báo cáo tổng.
+- **Còn lại:** bước 7 (B1 nâng .NET 10) – phải hỏi người dùng; N4 chưa thử phục hồi (RESTORE) và chưa có lịch tự động (Task Scheduler, làm khi cài máy chủ).
+- Mẹo thử: script curl trong scratchpad không còn ở chat mới; đăng nhập lấy `__RequestVerificationToken` từ /DangNhap, giá trị tiếng Việt gửi bằng `--data-urlencode "ten@tệp"`; hv0480 bị bắt đổi mật khẩu (B2) nên dùng hv0412 khi thử; sau mỗi lần thử chạy lại `csdl/chay.ps1`. Thử JS (N6) bằng trình duyệt tích hợp.
 
 ### Thuyết trình (làm SAU code)
 Slide là Artifact loại Slides: https://claude.ai/artifact/PBqgA262dz8XCm871dM9vB (đã tạo, **chưa có slide nào**). Ảnh đã tải lên: BFD `/_blob/4f44929d59767147a3218aae6b4bb92f` (2012×853), DFD mức 0 `/_blob/bb0a3a96a55674c45241dcfbccf47775` (1761×2990, dọc), ERD 1 `/_blob/203cbb97774d9fea4d5815a720c80353` (1960×1535), sơ đồ module `/_blob/07f6d6e157a0bac5917387c1266c342d` (2417×1291).
-Dự kiến ~16 slide, đen trắng, Times New Roman, ghi chú người trình bày theo bảng phân công: bìa · bài toán (1 cơ sở, ~500 HV, 30 GV, 25–30 lớp; V4–V5, V2–V3, V8) · lộ trình 5 giai đoạn · GĐ1 (phương án C 4,05 điểm; hoàn vốn 1,3–3,7 năm) · thu thập (6 phương pháp, 5 chứng từ, 16 QT) · BFD · DFD · bảng quyết định học phí R1–R8 · ERD · CSDL & module (26 bảng, 35 FK, 63 CHECK, 9 view, 34 module, 8 vai trò, 18 form/18 báo cáo) · một bộ mã thống nhất + sinh tự động · demo (10 màn hình) · kiểm thử (38 xUnit, 24 kiểm tra CSDL, 8 vai trò, 24/28 ca; 4 lỗi đã sửa) · chuyển đổi theo giai đoạn · bảo trì (.NET 8 hết hỗ trợ 10/11/2026) + hướng phát triển · kết luận, hỏi đáp.
+Dự kiến ~16 slide, đen trắng, Times New Roman, ghi chú người trình bày theo bảng phân công: bìa · bài toán (1 cơ sở, ~500 HV, 30 GV, 25–30 lớp; V4–V5, V2–V3, V8) · lộ trình 5 giai đoạn · GĐ1 (phương án C 4,05 điểm; hoàn vốn 1,3–3,7 năm) · thu thập (6 phương pháp, 5 chứng từ, 16 QT) · BFD · DFD · bảng quyết định học phí R1–R8 · ERD · CSDL & module (26 bảng, 35 FK, 63 CHECK, 9 view, 34 module, 8 vai trò, 19 form/18 báo cáo) · một bộ mã thống nhất + sinh tự động · demo (26 màn hình, đủ 20 chức năng lá + N1–N7) · kiểm thử (80 xUnit, 24 kiểm tra CSDL, 8 vai trò, 37/37 ca; 4 lỗi đã sửa) · chuyển đổi theo giai đoạn · bảo trì (.NET 8 hết hỗ trợ 10/11/2026) + hướng phát triển · kết luận, hỏi đáp.
 
 ## Phân công gợi ý (sửa theo nhóm)
 | Thành viên | Phần chính |

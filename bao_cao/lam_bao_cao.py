@@ -593,7 +593,7 @@ def bao_cao_thiet_ke(doc=None):
               "CSDL SQL Server 26 bảng, 35 khóa ngoại, 63 ràng buộc CHECK, 16 chỉ mục, 9 view và 2 hàm cho báo cáo MIS; "
               "dữ liệu mẫu sinh tự động, 24/24 kiểm tra đạt.",
               "34 module theo mã BFD/DFD và ma trận phân quyền cho 8 vai trò.",
-              "18 form ứng với luồng vào, 18 báo cáo ứng với luồng ra của DFD, thực đơn phân cấp, 4 phác thảo màn hình "
+              "19 form ứng với luồng vào, 18 báo cáo ứng với luồng ra của DFD, thực đơn phân cấp, 4 phác thảo màn hình "
               "và 22 thông báo lỗi."]:
         p = doan(doc, "– " + t, sau=3)
         p.paragraph_format.left_indent, p.paragraph_format.first_line_indent = Cm(0.8), Cm(-0.45)
@@ -705,11 +705,12 @@ def bao_cao_tong():
         "tại, 16 quy tắc nghiệp vụ; BFD 5 chức năng cấp 1 và 20 chức năng lá; DFD ba mức với 7 tác nhân, 5 kho, được "
         "kiểm tra tự động về quy tắc vẽ và cân bằng (Phụ lục A).",
         "Thiết kế: 26 thực thể và ERD; chuẩn hóa 5 chứng từ đến dạng chuẩn 3; CSDL SQL Server 26 bảng với các ràng "
-        "buộc, view, hàm cho báo cáo (Phụ lục B); 34 module theo mã chức năng, ma trận phân quyền 8 vai trò; 18 form, "
+        "buộc, view, hàm cho báo cáo (Phụ lục B); 34 module theo mã chức năng, ma trận phân quyền 8 vai trò; 19 form, "
         "18 báo cáo ứng với các luồng vào, ra của DFD.",
-        "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, gồm đăng nhập, phân quyền, nhật ký, báo lỗi và 10 màn "
-        "hình chính (hồ sơ học viên, đăng ký, học phí, phiếu thu, điểm danh, nhập điểm, báo cáo). Kiểm thử: 38 ca kiểm "
-        "thử đơn vị, 24 kiểm tra CSDL, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ mẫu; 4 lỗi phát hiện đã sửa.",
+        "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, đủ 20 chức năng lá và các chức năng nền (đăng nhập, "
+        "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi) với 26 màn hình. Kiểm thử: 80 ca kiểm thử "
+        "đơn vị, 24 kiểm tra CSDL, 37 ca theo tiến trình đều đạt, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ "
+        "mẫu; 4 lỗi phát hiện đã sửa.",
         "Kế hoạch cài đặt theo giai đoạn (danh mục → lớp, lịch → học phí → học tập), huấn luyện 3 mức, chuyển đổi dữ "
         "liệu từ Excel; quy trình bảo trì, quản lý cấu hình bằng Git và 7 hướng phát triển.",
     ])
