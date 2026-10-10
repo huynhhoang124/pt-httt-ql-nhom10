@@ -53,6 +53,16 @@
     document.addEventListener('input', xoaLoi, true);
     document.addEventListener('change', xoaLoi, true);
 
+    // F4.1: một chạm cho cả lớp – học viên chưa chọn trạng thái thì đánh "x" (có mặt), người đã chọn giữ nguyên
+    document.querySelectorAll('[data-co-mat-het]').forEach(b => b.addEventListener('click', () => {
+        const nhom = new Set([...b.form.querySelectorAll('input[type=radio][name^="TrangThai["]')].map(r => r.name));
+        nhom.forEach(ten => {
+            const ds = [...b.form.querySelectorAll(`input[type=radio][name="${CSS.escape(ten)}"]`)];
+            if (!ds.some(r => r.checked)) { const x = ds.find(r => r.value === 'x'); if (x) x.checked = true; }
+        });
+        b.form.dispatchEvent(new Event('change', { bubbles: true }));
+    }));
+
     // Đăng xuất: xóa nháp (N6) của người dùng này trên máy
     const dx = document.querySelector('form[data-dang-xuat]');
     if (dx) dx.addEventListener('submit', () => {

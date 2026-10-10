@@ -31,6 +31,13 @@ else
     <form method="post">
         <input type="hidden" name="buoi" value="@Model.Buoi" />
         <div asp-validation-summary="All" class="hop-loi"></div>
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <span class="small">@string.Join(" · ", TrungTamNgoaiNgu.Pages.HocTap.DiemDanhModel.TenTrangThai.Select(t => $"{t.Key} {t.Value.ToLower()}"))</span>
+            @if (Model.DuocGhi)
+            {
+                <button type="button" class="btn btn-sm btn-outline-primary ms-auto" data-co-mat-het title="Học viên nào chưa chọn trạng thái thì đánh x (có mặt); người đã chọn giữ nguyên">Có mặt hết (người chưa chọn)</button>
+            }
+        </div>
         <fieldset disabled="@(!Model.DuocGhi)">
             @foreach (var d in Model.DanhSach)
             {

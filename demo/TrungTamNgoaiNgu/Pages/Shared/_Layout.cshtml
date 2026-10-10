@@ -24,13 +24,15 @@
 <body>
     <header class="thanh-tren d-print-none">
         <div class="container-lg d-flex flex-wrap align-items-center gap-2 py-2">
-            <a class="ten-he-thong me-auto" href="/">Trung tâm ngoại ngữ – Hệ thống quản lý</a>
+            <a class="ten-he-thong me-auto" href="/"><span class="d-none d-sm-inline">Trung tâm ngoại ngữ – </span>Hệ thống quản lý</a>
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <span class="small">@User.Identity.Name · @User.VaiTro()</span>
-                <form method="post" asp-page="/DangXuat" class="d-inline" data-dang-xuat="@User.Identity.Name">
-                    <button class="btn btn-sm btn-outline-light">Đăng xuất</button>
-                </form>
+                <div class="d-flex align-items-center gap-2 text-nowrap">
+                    <span class="small">@User.Identity.Name · @User.VaiTro()</span>
+                    <form method="post" asp-page="/DangXuat" class="d-inline" data-dang-xuat="@User.Identity.Name">
+                        <button class="btn btn-sm btn-outline-light">Đăng xuất</button>
+                    </form>
+                </div>
             }
         </div>
     </header>
