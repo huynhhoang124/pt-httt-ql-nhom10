@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TrungTamNgoaiNgu.Data;
@@ -9,7 +10,7 @@ namespace TrungTamNgoaiNgu.Pages.HeThong;
 /// <summary>FN4 – Sao lưu dữ liệu (module N4). BACKUP DATABASE toàn bộ CSDL vào thư mục sao lưu mặc định của SQL Server;
 /// danh sách lấy từ lịch sử sao lưu msdb. Phục hồi làm ngoài chương trình (dừng ứng dụng rồi RESTORE), xem trợ giúp trang.</summary>
 [Quyen("N4", "T")]
-public class SaoLuuModel(TrungTamContext db, DongHo dongHo) : PageModel
+public class SaoLuuModel(TrungTamContext db, DongHo dongHo, ILogger<SaoLuuModel> log) : PageModel
 {
     public class BanSaoLuu
     {
@@ -28,7 +29,17 @@ public class SaoLuuModel(TrungTamContext db, DongHo dongHo) : PageModel
         var csdl = db.Database.GetDbConnection().Database;
         var tep = $"{csdl}_{DateTime.Now:yyyyMMdd_HHmmss}.bak";   // giờ thật của máy chủ, không theo giờ demo, để tên tệp không trùng
         db.Database.SetCommandTimeout(TimeSpan.FromMinutes(10));
-        await db.Database.ExecuteSqlInterpolatedAsync($"BACKUP DATABASE {csdl} TO DISK = {tep} WITH CHECKSUM, INIT");
+        try
+        {
+            await db.Database.ExecuteSqlInterpolatedAsync($"BACKUP DATABASE {csdl} TO DISK = {tep} WITH CHECKSUM, INIT");
+        }
+        catch (SqlException e)
+        {
+            log.LogError(e, "Sao lưu {Tep} lỗi", tep);
+            ModelState.AddModelError("", "Chưa sao lưu được. Gợi ý: kiểm tra ổ đĩa còn trống và tài khoản chạy SQL Server có quyền ghi vào thư mục Backup; chi tiết ghi ở cửa sổ máy chủ.");
+            DanhSach = await LichSuAsync();
+            return Page();
+        }
         db.GhiNhatKy(User, "Thêm", "SaoLuu", tep, dongHo.Bay);
         await db.SaveChangesAsync();
         DanhSach = await LichSuAsync();

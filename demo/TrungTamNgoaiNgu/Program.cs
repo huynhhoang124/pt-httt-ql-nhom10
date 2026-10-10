@@ -32,8 +32,9 @@ builder.Services.AddRazorPages(o =>
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-    app.UseExceptionHandler("/Error");
+// N7: kể cả khi chạy demo (Development) người dùng chỉ thấy trang lỗi tiếng Việt; chi tiết lỗi ghi ở cửa sổ máy chủ
+app.UseExceptionHandler("/Error");
+app.UseStatusCodePagesWithReExecute("/Error", "?ma={0}");
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

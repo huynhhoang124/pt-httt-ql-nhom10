@@ -6,6 +6,7 @@
 }
 @if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
 <form method="post" class="mb-3">
+    <div asp-validation-summary="All" class="hop-loi"></div>
     <button class="btn btn-primary">Sao lưu ngay</button>
 </form>
 <div class="table-responsive">
