@@ -133,11 +133,11 @@ Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo c
 4. 2.4 Chuyển lớp, bảo lưu, nghỉ học (QT08–QT10, cây quyết định 2.4) – ca TC07.
 5. Bảo trì nhỏ (06_bao_tri mục 4): B2 bắt đổi mật khẩu lần đầu, B4 đếm đăng nhập sai trong CSDL, B7 nhập điểm chấp nhận "7,5".
 6. Các module còn lại: 1.2–1.4, 2.1, 3.3, 5.1, 5.2, 5.4; N4 sao lưu, N5 xuất Excel/PDF, N6 lưu nháp.
-7. B1 nâng .NET 8 → .NET 10 (hỏi người dùng trước khi làm).
+7. ~~B1 nâng .NET 8 → .NET 10~~ – **bỏ qua** (người dùng chốt 2026-10-11); B1 giữ trong 06_bao_tri là việc bảo trì khi đưa vào sử dụng.
 
 **Tiến độ (cập nhật 2026-10-11): xong bước 1–6**, mỗi phần một commit "Code bổ sung N…" (1fd15cc → 47cc644). Đã có: R4.3a/F4.3 `HocTap/TongKet`, R4.4 `HocTap/ChungNhan`, F2.3 `LopHoc/XepLich`, F2.4/R2.4 `LopHoc/XuLyDon`, B2/B4/B7 (TaiKhoan thêm 3 cột → 164 trường, `csdl/nang_cap/001_tai_khoan_b2_b4.sql`), F1.2–F1.4 `DanhMuc/GiaoVien|KhoaHoc|PhongHoc`, F2.1 `LopHoc/MoLop`, R3.3 `HocPhi/CongNo`, N5 (`Nen/XuatExcel.cs` + `Shared/_XuatBaoCao`), 5.1 `HeThong/TaiKhoan|ThamSo|NhatKy`, 5.2 lô `Nen/ThongBaoTuDong.cs` + `HeThong/ThongBao`, 5.4 `BaoCao/HocTap` (R5.4a/b), N4 `HeThong/SaoLuu` (form mới FN4 → 19 form), N6 `Shared/_LuuNhap` (localStorage, gắn F2.2, F3.2). `dotnet test` 80/80; 37/37 ca ở 05_cai_dat mục 4.2 đạt (thêm TC32–TC34).
 - Đã cập nhật tài liệu sau bước 6: 05_module mục 7, 06_bao_tri B3/B5, 164 trường (03, 04_csdl, KE_HOACH), 19 form, 05_cai_dat mục 4.1; dựng lại báo cáo tổng.
-- **Còn lại:** bước 7 (B1 nâng .NET 10) – phải hỏi người dùng; N4 chưa thử phục hồi (RESTORE) và chưa có lịch tự động (Task Scheduler, làm khi cài máy chủ).
+- **Code bổ sung đã xong** (bước 7 bỏ qua; đã vào main 2026-10-11). Tiếp theo: slide (mục "Thuyết trình"). Ghi chú: N4 chưa thử phục hồi (RESTORE) và chưa có lịch tự động (Task Scheduler, làm khi cài máy chủ).
 - Mẹo thử: script curl trong scratchpad không còn ở chat mới; đăng nhập lấy `__RequestVerificationToken` từ /DangNhap, giá trị tiếng Việt gửi bằng `--data-urlencode "ten@tệp"`; hv0480 bị bắt đổi mật khẩu (B2) nên dùng hv0412 khi thử; sau mỗi lần thử chạy lại `csdl/chay.ps1`. Thử JS (N6) bằng trình duyệt tích hợp.
 
 ### Thuyết trình (làm SAU code)
