@@ -28,7 +28,7 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <span class="small">@User.Identity.Name · @User.VaiTro()</span>
-                <form method="post" action="/DangXuat" class="d-inline">
+                <form method="post" asp-page="/DangXuat" class="d-inline">
                     <button class="btn btn-sm btn-outline-light">Đăng xuất</button>
                 </form>
             }
