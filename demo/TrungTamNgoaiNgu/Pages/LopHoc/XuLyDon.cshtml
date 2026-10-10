@@ -8,7 +8,7 @@
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
     <div>
         <label class="form-label" for="hv">Mã học viên</label>
-        <input id="hv" name="hv" class="form-control" value="@Model.Hv" placeholder="vd HV0445" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0445; gõ tên để được gợi ý" />
+        <input id="hv" name="hv" list="ds-hoc-vien" autocomplete="off" class="form-control" value="@Model.Hv" placeholder="vd HV0445" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0445; gõ tên để được gợi ý" />
     </div>
     <button class="btn btn-primary">Tìm</button>
 </form>
@@ -70,3 +70,4 @@
         </tbody>
     </table>
 </div>
+<partial name="_GoiYHocVien" />

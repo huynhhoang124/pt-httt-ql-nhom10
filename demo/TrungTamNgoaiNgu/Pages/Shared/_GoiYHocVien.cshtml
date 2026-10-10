@@ -1,0 +1,13 @@
+@using Microsoft.EntityFrameworkCore
+@inject TrungTamNgoaiNgu.Data.TrungTamContext Db
+@* Gợi ý khi gõ mã hoặc tên học viên (06_giao_dien mục 1, "tốc độ thao tác"): danh sách có sẵn của trình duyệt (datalist),
+   ô nhập gắn list="ds-hoc-vien". Chỉ vai trò được xem toàn bộ hồ sơ (quyền X ở 1.1) mới nhận danh sách. *@
+@if (User.Co("1.1", "X"))
+{
+    <datalist id="ds-hoc-vien">
+        @foreach (var h in Db.HocVien.AsNoTracking().Where(h => h.TrangThai == "Hoạt động").OrderBy(h => h.MaHV).Select(h => new { h.MaHV, h.HoTen, h.DienThoai }))
+        {
+            <option value="@h.MaHV">@h.HoTen · @h.DienThoai</option>
+        }
+    </datalist>
+}

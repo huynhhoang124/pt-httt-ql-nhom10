@@ -8,7 +8,7 @@
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
-    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
+    <input id="hv" name="hv" list="ds-hoc-vien" autocomplete="off" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
     <a class="btn btn-outline-primary" href="/DanhMuc/HocVien" target="_blank">Tìm học viên (F1.1)</a>
 </form>
@@ -51,3 +51,4 @@
         <partial name="_NutLenh" model='new NutLenh(Nhap: $"F2.2:{h.MaHV}:{string.Join(",", Model.DanhSachLop.Select(l => l.Lop.MaLop))}")' />
     </form>
 }
+<partial name="_GoiYHocVien" />

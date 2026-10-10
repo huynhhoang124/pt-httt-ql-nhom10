@@ -11,7 +11,7 @@
     <div><label class="form-label" for="denNgay">Đến ngày</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     @if (!PhanQuyen.ChiCuaMinh(User.VaiTro(), "3.2"))
     {
-        <div><label class="form-label" for="hv">Mã HV</label><input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:9rem" /></div>
+        <div><label class="form-label" for="hv">Mã HV</label><input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:9rem" list="ds-hoc-vien" autocomplete="off" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" /></div>
     }
     <button class="btn btn-primary">Xem</button>
     @if (User.Co("3.2", "T"))
@@ -34,3 +34,4 @@
     </table>
 </div>
 <p class="small">@Model.DanhSach.Count phiếu · tổng @HienThi.Tien(Model.DanhSach.Sum(d => d.Tong))</p>
+<partial name="_GoiYHocVien" />
