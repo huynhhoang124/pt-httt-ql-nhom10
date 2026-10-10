@@ -47,7 +47,7 @@
                         var khoa = !Model.DuocGhi || d.Khoa;
                         <tr>
                             <td>@ma</td><td>@d.Hv.HoTen @if (d.Khoa) { <span class="small">(đã tổng kết)</span> }</td>
-                            <td><input name="DiemNhap[@ma]" value="@(Model.DiemNhap.GetValueOrDefault(ma) ?? d.Diem?.Diem1.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" class="form-control form-control-sm so" inputmode="decimal" disabled="@khoa" aria-label="Điểm @Model.Loai.ToLower() của @ma" title="Từ 0 đến 10, một chữ số lẻ, vd 7,5; bỏ trống nếu chưa có điểm" /></td>
+                            <td><input name="DiemNhap[@ma]" value="@(Model.DiemNhap.GetValueOrDefault(ma) ?? d.Diem?.Diem1.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" class="form-control form-control-sm so" inputmode="decimal" pattern="\s*(10([.,]0)?|[0-9]([.,][0-9])?)\s*" disabled="@khoa" aria-label="Điểm @Model.Loai.ToLower() của @ma" title="Từ 0 đến 10, một chữ số lẻ, vd 7,5; bỏ trống nếu chưa có điểm" /></td>
                             <td><input name="NhanXet[@ma]" value="@(Model.NhanXet.GetValueOrDefault(ma) ?? d.Diem?.NhanXet)" class="form-control form-control-sm" disabled="@khoa" aria-label="Nhận xét cho @ma" /></td>
                         </tr>
                     }

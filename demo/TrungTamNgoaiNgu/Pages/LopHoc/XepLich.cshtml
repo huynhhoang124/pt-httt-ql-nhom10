@@ -39,7 +39,7 @@
         <form method="post" asp-page-handler="LuuBuoi" class="row g-2 align-items-end mb-3">
             <input type="hidden" name="lop" value="@c.MaLop" />
             <div class="col-6 col-md-1"><label class="form-label" for="SoBuoi">Số buổi</label>
-                <input id="SoBuoi" name="SoBuoi" class="form-control" value="@Model.SoBuoi" placeholder="bù" inputmode="numeric" /></div>
+                <input id="SoBuoi" name="SoBuoi" class="form-control" value="@Model.SoBuoi" placeholder="bù" type="number" min="1" step="1" title="Số thứ tự buổi cần đổi; bỏ trống để thêm buổi học bù" /></div>
             <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="Ngay">Ngày</label>
                 <input id="Ngay" name="Ngay" type="date" class="form-control" value="@Model.Ngay?.ToString("yyyy-MM-dd")" /></div>
             <div class="col-6 col-md-1"><label class="form-label bat-buoc" for="GioBatDau">Từ</label>

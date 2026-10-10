@@ -35,12 +35,12 @@
             <div class="col-4 col-md-2"><label class="form-label" for="F_NgonNgu">Ngôn ngữ</label><select asp-for="F.NgonNgu" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel.NgonNgu))" class="form-select"></select></div>
             <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauVao">Vào</label><select asp-for="F.TrinhDoDauVao" asp-items="td" class="form-select"></select></div>
             <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauRa">Ra</label><select asp-for="F.TrinhDoDauRa" asp-items="td" class="form-select"></select></div>
-            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_SoBuoi">Số buổi</label><input asp-for="F.SoBuoi" class="form-control" /></div>
-            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_ThoiLuongBuoi">Phút/buổi</label><input asp-for="F.ThoiLuongBuoi" class="form-control" /></div>
-            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_HocPhi">Học phí</label><input asp-for="F.HocPhi" class="form-control" title="Học phí cả khóa (đồng), lớn hơn 0" /></div>
-            <div class="col-4 col-md-2"><label class="form-label" for="F_TSChuyenCan">TS chuyên cần %</label><input asp-for="F.TSChuyenCan" class="form-control" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
-            <div class="col-4 col-md-2"><label class="form-label" for="F_TSGiuaKy">TS giữa kỳ %</label><input asp-for="F.TSGiuaKy" class="form-control" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
-            <div class="col-4 col-md-2"><label class="form-label" for="F_TSCuoiKy">TS cuối kỳ %</label><input asp-for="F.TSCuoiKy" class="form-control" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_SoBuoi">Số buổi</label><input asp-for="F.SoBuoi" class="form-control" min="1" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_ThoiLuongBuoi">Phút/buổi</label><input asp-for="F.ThoiLuongBuoi" class="form-control" min="1" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_HocPhi">Học phí</label><input asp-for="F.HocPhi" class="form-control" min="1" title="Học phí cả khóa (đồng), lớn hơn 0" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSChuyenCan">TS chuyên cần %</label><input asp-for="F.TSChuyenCan" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSGiuaKy">TS giữa kỳ %</label><input asp-for="F.TSGiuaKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
+            <div class="col-4 col-md-2"><label class="form-label" for="F_TSCuoiKy">TS cuối kỳ %</label><input asp-for="F.TSCuoiKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
             <div class="col-8"><label class="form-label" for="F_MoTa">Mô tả</label><input asp-for="F.MoTa" class="form-control" /></div>
             <div class="col-4"><label class="form-label" for="F_TrangThai">Trạng thái</label><select asp-for="F.TrangThai" asp-items="@(new SelectList(new[] { "Đang mở", "Ngừng" }))" class="form-select"></select></div>
         </div>

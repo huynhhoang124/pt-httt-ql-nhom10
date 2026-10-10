@@ -38,7 +38,8 @@
     document.addEventListener('invalid', e => {
         const o = e.target, v = o.validity, ten = tenTruong(o);
         let cau = '';
-        if (v.valueMissing) cau = (o.tagName === 'SELECT' || o.type === 'radio' || o.type === 'checkbox' ? 'Chọn ' : 'Nhập ') + ten.toLowerCase() + '.';
+        // chỉ hạ chữ cái đầu: giữ nguyên chữ viết tắt (HV, PH, GV)
+        if (v.valueMissing) cau = (o.tagName === 'SELECT' || o.type === 'radio' || o.type === 'checkbox' ? 'Chọn ' : 'Nhập ') + ten.charAt(0).toLowerCase() + ten.slice(1) + '.';
         else if (v.patternMismatch) cau = o.title || ten + ' chưa đúng dạng.';
         else if (v.typeMismatch) cau = ten + (o.type === 'email' ? ' chưa đúng dạng, vd ten@gmail.com.' : ' chưa đúng dạng.');
         else if (v.badInput) cau = ten + ': chỉ nhập số.';

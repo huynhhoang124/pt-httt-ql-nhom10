@@ -8,7 +8,7 @@
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
-    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
+    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
 </form>
 @if (Model.Hv != null && h == null)

@@ -24,7 +24,7 @@
         <div class="row g-2">
             <div class="col-4"><label class="form-label bat-buoc" for="F_MaPhong">Mã</label><input asp-for="F.MaPhong" class="form-control" readonly="@(Model.Ma != null)" maxlength="10" /></div>
             <div class="col-8"><label class="form-label bat-buoc" for="F_TenPhong">Tên phòng</label><input asp-for="F.TenPhong" class="form-control" /></div>
-            <div class="col-4"><label class="form-label bat-buoc" for="F_SucChua">Sức chứa</label><input asp-for="F.SucChua" class="form-control" title="Số chỗ ngồi, lớn hơn 0; sĩ số lớp học ở phòng này không vượt số này" /></div>
+            <div class="col-4"><label class="form-label bat-buoc" for="F_SucChua">Sức chứa</label><input asp-for="F.SucChua" class="form-control" min="1" title="Số chỗ ngồi, lớn hơn 0; sĩ số lớp học ở phòng này không vượt số này" /></div>
             <div class="col-8"><label class="form-label" for="F_TinhTrang">Tình trạng</label><select asp-for="F.TinhTrang" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.PhongHocModel.TinhTrang))" class="form-select"></select></div>
             <div class="col-12"><label class="form-label" for="F_ThietBi">Thiết bị</label><input asp-for="F.ThietBi" class="form-control" /></div>
         </div>

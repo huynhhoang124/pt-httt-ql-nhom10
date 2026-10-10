@@ -33,7 +33,7 @@
                 <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaGV">Giáo viên</label>
                     <select id="MaGV" name="MaGV" class="form-select">@foreach (var g in Model.CacGV) { <option value="@g.MaGV" selected="@(g.MaGV == Model.MaGV)">@g.MaGV – @g.HoTen (@g.NgonNguDay)</option> }</select></div>
                 <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="NgayKhaiGiang">Khai giảng</label><input id="NgayKhaiGiang" name="NgayKhaiGiang" type="date" value="@Model.NgayKhaiGiang?.ToString("yyyy-MM-dd")" class="form-control" /></div>
-                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="SiSoToiDa">Sĩ số tối đa</label><input id="SiSoToiDa" name="SiSoToiDa" value="@Model.SiSoToiDa" class="form-control" inputmode="numeric" title="Không quá sĩ số tối đa của trung tâm và không quá sức chứa phòng (QT06)" /></div>
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="SiSoToiDa">Sĩ số tối đa</label><input id="SiSoToiDa" name="SiSoToiDa" value="@Model.SiSoToiDa" class="form-control" type="number" min="1" step="1" title="Không quá sĩ số tối đa của trung tâm và không quá sức chứa phòng (QT06)" /></div>
             </div>
             <table class="table table-sm table-bordered mt-2" style="max-width:32rem">
                 <thead><tr><th>Thứ</th><th>Giờ bắt đầu</th><th>Phòng</th></tr></thead>
