@@ -1,0 +1,32 @@
+@model string
+@* N6 – Lưu nháp phiếu trên bộ nhớ trình duyệt (localStorage, không cần bảng): tự lưu mỗi lần nhập và khi bấm Lưu nháp;
+   mở lại phiếu cùng khóa (học viên + các dòng của phiếu) thì điền lại; gửi phiếu đi thì xóa nháp. Đặt bên trong <form>. *@
+<button type="button" class="btn btn-outline-primary" data-luu-nhap>Lưu nháp</button>
+<script>
+(() => {
+    const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(Model);
+    const tb = document.createElement('span');
+    tb.className = 'small ms-2';
+    form.querySelector('[data-luu-nhap]').after(tb);
+    const o = () => [...form.elements].filter(e => e.name && !['hidden', 'submit', 'button'].includes(e.type) && !e.disabled);
+    const chon = e => e.type === 'checkbox' || e.type === 'radio';
+    const gio = () => new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    function luu() {
+        try {
+            localStorage.setItem(khoa, JSON.stringify({ luc: gio(), d: o().map(e => chon(e) ? e.checked : e.value) }));
+            tb.textContent = 'Đã lưu nháp lúc ' + gio() + '.';
+        } catch { tb.textContent = 'Trình duyệt không cho lưu nháp.'; }
+    }
+    let nhap = null;
+    try { nhap = JSON.parse(localStorage.getItem(khoa)); } catch { }
+    if (nhap && nhap.d.length === o().length) {
+        o().forEach((e, i) => chon(e) ? e.checked = nhap.d[i] : e.value = nhap.d[i]);
+        tb.textContent = 'Đã mở lại bản nháp lưu lúc ' + nhap.luc + '.';
+    }
+    form.querySelector('[data-luu-nhap]').onclick = luu;
+    form.addEventListener('input', luu);
+    form.addEventListener('change', luu);
+    // onsubmit="return confirm(...)" chạy trước; người dùng bấm Hủy thì giữ nháp
+    form.addEventListener('submit', e => { if (!e.defaultPrevented) try { localStorage.removeItem(khoa); } catch { } });
+})();
+</script>
