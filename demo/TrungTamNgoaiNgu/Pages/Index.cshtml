@@ -2,34 +2,25 @@
 @using TrungTamNgoaiNgu.Nen
 @{
     ViewData["Title"] = "Thực đơn chính";
-    var vt = User.VaiTro();
-    // Thực đơn phân cấp (06_giao_dien mục 5.1): phân hệ → module → màn hình. Chỉ hiện module có ít nhất một màn hình
-    // vai trò này dùng được. Học viên, phụ huynh: "Thông báo của tôi" (R5.2) nằm ở mục Cá nhân.
-    var caNhan = PhanQuyen.ChiCuaMinh(vt, "5.2");
-    var nhom = ThucDon.Module.Where(m => PhanQuyen.Co(vt, m.Ma))
-        .Select(m => (M: m, Lam: ThucDon.DaLam.Where(d => ThucDon.ManHinh[d.Ma].Module == m.Ma && PhanQuyen.Co(vt, m.Ma, d.Can)).ToList()))
-        .Where(x => x.Lam.Count > 0)
-        .GroupBy(x => caNhan && x.M.Ma == "5.2" ? "N" : x.M.PhanHe)
-        .OrderBy(g => g.Key == "N" ? "Z" : g.Key);
+    // Thực đơn phân cấp (06_giao_dien mục 5.1): phân hệ → module → màn hình, trình bày như mục lục
+    var thucDon = ThucDon.ChoVaiTro(User.VaiTro());
 }
-<p>Chọn chức năng cần làm. Mỗi tài khoản chỉ thấy các chức năng được phép.</p>
-<div class="row g-3">
-    @foreach (var g in nhom)
+<p class="dan-nhap">Chọn chức năng cần làm. Mỗi tài khoản chỉ thấy các chức năng được phép.</p>
+<div class="muc-luc">
+    @foreach (var ph in thucDon)
     {
-        <div class="col-md-6 col-lg-4">
-            <div class="the-module">
-                <h2>@ThucDon.TenPhanHe(g.Key)</h2>
-                @foreach (var (m, lam) in g)
-                {
-                    <div class="mb-1">
-                        <div class="fw-semibold">@m.Ma @m.Ten</div>
-                        @foreach (var d in lam)
-                        {
-                            <div class="ms-3"><a href="@d.Url">@ThucDon.Ten(d.Ma)</a></div>
-                        }
-                    </div>
-                }
-            </div>
-        </div>
+        <section class="muc-luc-nhom" aria-labelledby="ph-@ph.Ma.Replace(".", "")">
+            <h2 id="ph-@ph.Ma.Replace(".", "")">@ph.Ten</h2>
+            @foreach (var m in ph.Module)
+            {
+                <div class="muc-luc-module">@m.Ma @m.Ten</div>
+                <ul>
+                    @foreach (var d in m.ManHinh)
+                    {
+                        <li><a href="@d.Url"><span class="ma">@d.Ma</span><span>@d.Ten</span></a></li>
+                    }
+                </ul>
+            }
+        </section>
     }
 </div>

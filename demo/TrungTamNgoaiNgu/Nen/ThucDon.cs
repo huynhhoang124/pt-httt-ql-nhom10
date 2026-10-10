@@ -49,6 +49,28 @@ public static partial class ThucDon
     };
 
     public static string Ten(string maManHinh) => $"{maManHinh} {ManHinh[maManHinh].Ten}";
+
+    public record MucManHinh(string Ma, string Ten, string Url);
+    public record MucModule(string Ma, string Ten, List<MucManHinh> ManHinh);
+    public record MucPhanHe(string Ma, string Ten, List<MucModule> Module);
+
+    /// <summary>Thực đơn của một vai trò (trang chủ và thanh bên dùng chung): chỉ module có ít nhất một màn hình vai trò này
+    /// dùng được; học viên, phụ huynh: "Thông báo của tôi" (R5.2) nằm ở mục Cá nhân (06_giao_dien mục 5.1).</summary>
+    public static List<MucPhanHe> ChoVaiTro(string? vt)
+    {
+        var caNhan = PhanQuyen.ChiCuaMinh(vt, "5.2");
+        return Module.Where(m => PhanQuyen.Co(vt, m.Ma))
+            .Select(m => (m, ds: DaLam.Where(d => ManHinh[d.Ma].Module == m.Ma && PhanQuyen.Co(vt, m.Ma, d.Can))
+                                     .Select(d => new MucManHinh(d.Ma, ManHinh[d.Ma].Ten, d.Url)).ToList()))
+            .Where(x => x.ds.Count > 0)
+            .GroupBy(x => caNhan && x.m.Ma == "5.2" ? "N" : x.m.PhanHe)
+            .OrderBy(g => g.Key == "N" ? "Z" : g.Key)
+            .Select(g => new MucPhanHe(g.Key, TenPhanHe(g.Key), g.Select(x => new MucModule(x.m.Ma, x.m.Ten, x.ds)).ToList()))
+            .ToList();
+    }
+
+    /// <summary>Tên đầy đủ của vai trò để hiện (mã cột ma trận → tên trong CSDL).</summary>
+    public static string TenVaiTro(string? vt) => PhanQuyen.TuVaiTroCsdl.FirstOrDefault(p => p.Value == vt).Key ?? vt ?? "";
 }
 
 /// <summary>N2 – Lọc dữ liệu theo phạm vi cho quyền "x": HV của mình, PH các con, GV học viên các lớp mình dạy.</summary>
