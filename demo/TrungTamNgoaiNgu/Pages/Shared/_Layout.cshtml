@@ -9,7 +9,7 @@
         var mh = ma.Split(", ").Select(ThucDon.Ten);
         tieuDe ??= string.Join(" · ", mh);
         var mod = ThucDon.Module.First(m => m.Ma == ThucDon.ManHinh[ma.Split(", ")[0]].Module);
-        duongDan = $"{mod.PhanHe} {ThucDon.PhanHe[mod.PhanHe]} › {mod.Ma} {mod.Ten}";
+        duongDan = $"{ThucDon.TenPhanHe(mod.PhanHe)} › {mod.Ma} {mod.Ten}";
     }
 }
 <!DOCTYPE html>

@@ -7,12 +7,15 @@ namespace TrungTamNgoaiNgu.Nen;
 /// <summary>Thực đơn phân cấp (06_giao_dien mục 5.1): phân hệ → module → màn hình. Tên module, màn hình lấy từ ThucDon.g.cs.</summary>
 public static partial class ThucDon
 {
-    /// <summary>Tên phân hệ = tên chức năng cấp 1 trên BFD.</summary>
+    /// <summary>Tên phân hệ = tên chức năng cấp 1 trên BFD; các module nền (N) hiện thành mục "Cá nhân" (06_giao_dien mục 5.1).</summary>
     public static readonly Dictionary<string, string> PhanHe = new()
     {
         ["1.0"] = "Quản lý danh mục và hồ sơ", ["2.0"] = "Quản lý lớp học và lịch học", ["3.0"] = "Quản lý học phí",
-        ["4.0"] = "Quản lý học tập", ["5.0"] = "Quản lý hệ thống và báo cáo", ["N"] = "Chức năng nền",
+        ["4.0"] = "Quản lý học tập", ["5.0"] = "Quản lý hệ thống và báo cáo", ["N"] = "Cá nhân, tiện ích",
     };
+
+    /// <summary>Tên phân hệ để hiện: mục nền không ghi mã "N".</summary>
+    public static string TenPhanHe(string ma) => ma == "N" ? PhanHe[ma] : $"{ma} {PhanHe[ma]}";
 
     /// <summary>Các màn hình đã làm trong bản demo (05_module mục 8): mã màn hình → địa chỉ trang, quyền cần để thấy mục.</summary>
     public static readonly (string Ma, string Url, string Can)[] DaLam =
