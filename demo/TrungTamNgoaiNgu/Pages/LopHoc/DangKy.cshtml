@@ -48,8 +48,6 @@
             </table>
         </div>
         <p class="small">Học phí trên là học phí gốc của khóa; ưu đãi và số đợt do kế toán xác nhận ở F3.1.</p>
-        <button class="btn btn-primary">Lưu</button>
-        <partial name="_LuuNhap" model="@($"F2.2:{h.MaHV}:{string.Join(",", Model.DanhSachLop.Select(l => l.Lop.MaLop))}")" />
-        <a class="btn btn-outline-primary" href="/">Thoát</a>
+        <partial name="_NutLenh" model='new NutLenh(Nhap: $"F2.2:{h.MaHV}:{string.Join(",", Model.DanhSachLop.Select(l => l.Lop.MaLop))}")' />
     </form>
 }

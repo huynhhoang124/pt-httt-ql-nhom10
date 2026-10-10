@@ -56,9 +56,7 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-primary">Lập phiếu thu</button>
-            <partial name="_LuuNhap" model="@($"F3.2:{h.MaHV}:{string.Join(",", Model.DanhSach.Select(d => $"{d.MaLop}-{d.SoDot}"))}")" />
-            <a class="btn btn-outline-primary" href="/">Thoát</a>
+            <partial name="_NutLenh" model='new NutLenh(Nhap: $"F3.2:{h.MaHV}:{string.Join(",", Model.DanhSach.Select(d => $"{d.MaLop}-{d.SoDot}"))}")' />
         </form>
     }
 }

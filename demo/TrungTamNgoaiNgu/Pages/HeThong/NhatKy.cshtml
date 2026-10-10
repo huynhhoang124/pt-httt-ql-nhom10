@@ -10,7 +10,7 @@
         <select id="loai" name="loai" class="form-select"><option value="">Tất cả</option>@foreach (var t in TrungTamNgoaiNgu.Pages.HeThong.NhatKyModel.ThaoTac) { <option selected="@(t == Model.Loai)">@t</option> }</select></div>
     <div><label class="form-label" for="tuNgay">Từ ngày</label><input id="tuNgay" name="tuNgay" type="date" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" class="form-control" /></div>
     <div><label class="form-label" for="denNgay">Đến ngày</label><input id="denNgay" name="denNgay" type="date" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" class="form-control" /></div>
-    <button class="btn btn-primary">Lọc</button>
+    <button class="btn btn-primary">Xem</button>
 </form>
 <partial name="_XuatBaoCao" />
 <div class="table-responsive">

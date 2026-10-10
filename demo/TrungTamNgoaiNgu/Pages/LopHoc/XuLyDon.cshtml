@@ -53,7 +53,7 @@
                     </select></div>
                 <div class="col-md-5"><label class="form-label bat-buoc" for="LyDo">Lý do</label>
                     <input id="LyDo" name="LyDo" class="form-control" value="@Model.LyDo" maxlength="200" /></div>
-                <div class="col-md-2"><button class="btn btn-primary w-100">Xét đơn</button></div>
+                <div class="col-12"><partial name="_NutLenh" model='new NutLenh("Xét đơn")' /></div>
             </div>
         </form>
     }

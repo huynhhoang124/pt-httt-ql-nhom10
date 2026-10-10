@@ -28,6 +28,6 @@
             <div class="col-8"><label class="form-label" for="F_TinhTrang">Tình trạng</label><select asp-for="F.TinhTrang" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.PhongHocModel.TinhTrang))" class="form-select"></select></div>
             <div class="col-12"><label class="form-label" for="F_ThietBi">Thiết bị</label><input asp-for="F.ThietBi" class="form-control" /></div>
         </div>
-        <button class="btn btn-primary mt-2">Lưu</button>
+        <partial name="_NutLenh" model="new NutLenh()" />
     </form>
 </div>

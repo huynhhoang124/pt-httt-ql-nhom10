@@ -49,7 +49,7 @@
                     }
                 </tbody>
             </table>
-            <button class="btn btn-primary" asp-page-handler="Luu">Lưu lớp</button>
+            <partial name="_NutLenh" model='new NutLenh(XuLy: "Luu")' />
         </fieldset>
         @if (c?.TrangThai == "Dự kiến")
         {

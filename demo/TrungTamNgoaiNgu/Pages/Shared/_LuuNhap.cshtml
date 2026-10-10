@@ -1,10 +1,11 @@
 @model string
 @* N6 – Lưu nháp phiếu trên bộ nhớ trình duyệt (localStorage, không cần bảng): tự lưu mỗi lần nhập và khi bấm Lưu nháp;
-   mở lại phiếu cùng khóa (học viên + các dòng của phiếu) thì điền lại; gửi phiếu đi thì xóa nháp. Đặt bên trong <form>. *@
+   mở lại phiếu cùng khóa (người dùng + học viên + các dòng của phiếu) thì điền lại; gửi phiếu đi, bấm Hủy hoặc đăng xuất thì xóa nháp
+   (máy dùng chung không lộ nháp của người trước). Đặt bên trong <form>. *@
 <button type="button" class="btn btn-outline-primary" data-luu-nhap>Lưu nháp</button>
 <script>
 (() => {
-    const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(Model);
+    const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(User.Identity?.Name + ":" + Model);
     const tb = document.createElement('span');
     tb.className = 'small ms-2';
     form.querySelector('[data-luu-nhap]').after(tb);
@@ -28,5 +29,6 @@
     form.addEventListener('change', luu);
     // onsubmit="return confirm(...)" chạy trước; người dùng bấm Hủy thì giữ nháp
     form.addEventListener('submit', e => { if (!e.defaultPrevented) try { localStorage.removeItem(khoa); } catch { } });
+    form.addEventListener('reset', () => { try { localStorage.removeItem(khoa); } catch { } tb.textContent = ''; });
 })();
 </script>

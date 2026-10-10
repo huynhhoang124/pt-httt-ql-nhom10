@@ -19,8 +19,8 @@
             }
         </select>
     </div>
-    <button class="btn btn-primary">Lập báo cáo</button>
-    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+    <button class="btn btn-primary">Xem</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()" title="In hoặc lưu PDF (Ctrl+P)">In</button>
 </form>
 <p class="small">Kỳ báo cáo: @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay)@(Model.Khoa is null ? "" : $" · khóa {Model.Khoa}") · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")</p>
 <div class="row g-3 mb-3">

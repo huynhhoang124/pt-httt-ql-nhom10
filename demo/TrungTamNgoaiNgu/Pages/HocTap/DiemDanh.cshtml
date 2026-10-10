@@ -57,9 +57,6 @@ else
                 </div>
             }
         </fieldset>
-        @if (Model.DuocGhi)
-        {
-            <button class="btn btn-primary w-100 mt-1">Lưu điểm danh</button>
-        }
+        <partial name="_NutLenh" model='new NutLenh(Model.DuocGhi ? "Lưu" : null)' />
     </form>
 }

@@ -10,8 +10,8 @@
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
     <div><label class="form-label" for="tuNgay">Khai giảng từ</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     <div><label class="form-label" for="denNgay">đến</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
-    <button class="btn btn-primary">Lập báo cáo</button>
-    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+    <button class="btn btn-primary">Xem</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()" title="In hoặc lưu PDF (Ctrl+P)">In</button>
 </form>
 <p class="small">Khai giảng @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay) · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")</p>
 <div class="hop-tb">

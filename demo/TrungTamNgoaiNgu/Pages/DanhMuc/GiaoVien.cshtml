@@ -38,7 +38,7 @@
                 <div class="col-12"><label class="form-label" for="F_ChuyenMon">Chuyên môn</label><input asp-for="F.ChuyenMon" class="form-control" /></div>
                 <div class="col-12"><label class="form-label" for="F_BangCap">Bằng cấp</label><input asp-for="F.BangCap" class="form-control" /></div>
             </div>
-            <button class="btn btn-primary mt-2">Lưu</button>
+            <partial name="_NutLenh" model="new NutLenh()" />
         </form>
     }
 </div>

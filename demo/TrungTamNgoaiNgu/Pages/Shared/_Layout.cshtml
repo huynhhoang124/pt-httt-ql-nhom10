@@ -28,7 +28,7 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <span class="small">@User.Identity.Name · @User.VaiTro()</span>
-                <form method="post" asp-page="/DangXuat" class="d-inline">
+                <form method="post" asp-page="/DangXuat" class="d-inline" data-dang-xuat="@User.Identity.Name">
                     <button class="btn btn-sm btn-outline-light">Đăng xuất</button>
                 </form>
             }
@@ -41,7 +41,13 @@
         }
         @if (tieuDe != null)
         {
-            <h1 class="tieu-de">@tieuDe</h1>
+            <div class="d-flex align-items-start gap-2">
+                <h1 class="tieu-de me-auto">@tieuDe</h1>
+                @if (ViewData["TroGiup"] is string goiY)
+                {
+                    <button type="button" class="btn btn-sm btn-outline-primary nut-tro-giup d-print-none" data-tro-giup title="Trợ giúp (F1): @goiY" aria-label="Trợ giúp (F1)">?</button>
+                }
+            </div>
         }
         @RenderBody()
     </main>
@@ -49,12 +55,13 @@
         <div class="container-lg py-2 small">
             @if (ViewData["TroGiup"] is string tg)
             {
-                <span><b>Trợ giúp:</b> @tg</span>
+                <span id="tro-giup" tabindex="-1"><b>Trợ giúp:</b> @tg</span>
                 <span class="mx-2">·</span>
             }
             <span>Giờ hệ thống: @DongHo.Bay.ToString("dd/MM/yyyy HH:mm")</span>
         </div>
     </footer>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

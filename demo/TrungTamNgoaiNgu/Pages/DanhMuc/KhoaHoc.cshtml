@@ -44,6 +44,6 @@
             <div class="col-8"><label class="form-label" for="F_MoTa">Mô tả</label><input asp-for="F.MoTa" class="form-control" /></div>
             <div class="col-4"><label class="form-label" for="F_TrangThai">Trạng thái</label><select asp-for="F.TrangThai" asp-items="@(new SelectList(new[] { "Đang mở", "Ngừng" }))" class="form-select"></select></div>
         </div>
-        <button class="btn btn-primary mt-2">Lưu</button>
+        <partial name="_NutLenh" model="new NutLenh()" />
     </form>
 }

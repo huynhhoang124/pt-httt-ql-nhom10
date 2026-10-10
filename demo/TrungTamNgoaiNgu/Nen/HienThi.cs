@@ -45,3 +45,7 @@ public static class HienThi
     public static string Lich(IEnumerable<LichTuan> lich) => string.Join("; ", lich.GroupBy(l => (l.GioBatDau, l.MaPhong))
         .Select(g => $"{string.Join(", ", g.OrderBy(x => x.Thu).Select(x => Thu(x.Thu)))} {g.Key.GioBatDau:HH\\:mm} · {g.Key.MaPhong}"));
 }
+
+/// <summary>Hàng nút lệnh cuối form (06_giao_dien mục 5.2): Lưu (Ctrl+S) · Lưu nháp · Hủy · Thoát (Esc), cùng tên, cùng vị trí.
+/// Luu = null: form chỉ xem, chỉ còn Thoát. Nhap: khóa lưu nháp N6 (chỉ F2.2, F3.2). XuLy: handler của nút Lưu nếu form có nhiều handler.</summary>
+public record NutLenh(string? Luu = "Lưu", string Thoat = "/", string? Nhap = null, string? XuLy = null);

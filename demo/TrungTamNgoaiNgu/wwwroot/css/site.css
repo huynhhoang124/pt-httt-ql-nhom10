@@ -32,3 +32,9 @@ main { flex: 1; }
 .lien { border: 1px solid #111; padding: 1rem 1.25rem; margin-bottom: 1.5rem; page-break-inside: avoid; }
 @media print { body { font-size: 12px; } main { padding: 0 !important; } .lien + .lien { border-top: 1px dashed #111; } }
 .validation-summary-valid { display: none; }
+/* Hàng nút lệnh chung (_NutLenh): Lưu · Lưu nháp · Hủy · Thoát */
+.nut-lenh { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .75rem; }
+.nut-tro-giup { min-width: 2rem; font-weight: 700; }
+#tro-giup:focus { outline: none; }
+.noi-bat { animation: noi-bat 1.6s ease-out; }
+@keyframes noi-bat { from { background: #ffe9a8; } to { background: transparent; } }

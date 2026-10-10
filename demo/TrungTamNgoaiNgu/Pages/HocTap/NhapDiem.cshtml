@@ -54,9 +54,6 @@
                 </tbody>
             </table>
         </div>
-        @if (Model.DuocGhi)
-        {
-            <button class="btn btn-primary">Lưu</button>
-        }
+        <partial name="_NutLenh" model='new NutLenh(Model.DuocGhi ? "Lưu" : null)' />
     </form>
 }

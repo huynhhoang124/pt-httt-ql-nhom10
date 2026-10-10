@@ -56,7 +56,7 @@
                 </select></div>
             <div class="col-12 col-md-2"><label class="form-label" for="NoiDung">Nội dung</label>
                 <input id="NoiDung" name="NoiDung" class="form-control" value="@Model.NoiDung" maxlength="200" /></div>
-            <div class="col-12 col-md-2"><button class="btn btn-primary w-100">Lưu buổi</button></div>
+            <div class="col-12"><partial name="_NutLenh" model="new NutLenh()" /></div>
         </form>
     }
     <div class="table-responsive">
