@@ -2,7 +2,7 @@
 @model TrungTamNgoaiNgu.Pages.HeThong.NhatKyModel
 @{
     ViewData["Ma"] = "R5.1";
-    ViewData["TroGiup"] = "Mọi thao tác ghi dữ liệu đều có một dòng nhật ký, lưu cùng giao dịch với dữ liệu (N3). Hiện tối đa 500 dòng mới nhất.";
+    ViewData["TroGiup"] = "Mọi thao tác ghi dữ liệu đều có một dòng nhật ký, lưu cùng giao dịch với dữ liệu (N3). Dòng mới nhất ở trên; xuất Excel lấy toàn bộ kết quả lọc.";
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
     <div><label class="form-label" for="ten">Người dùng</label><input id="ten" name="ten" value="@Model.Ten" class="form-control" /></div>
@@ -24,3 +24,4 @@
         </tbody>
     </table>
 </div>
+<partial name="_PhanTrang" model="Model.Trang" />

@@ -45,3 +45,5 @@ a:hover { color: #000; }
 .form-check-input:checked { background-color: #111; border-color: #111; }
 .btn:focus, .btn-check:focus + .btn { box-shadow: 0 0 0 .2rem rgba(17, 17, 17, .2); }
 .btn-outline-primary:active, .btn-outline-primary.active { background: #111; border-color: #111; color: #fff; }
+/* Thanh phân trang (_PhanTrang) */
+.phan-trang { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .9rem; margin: .5rem 0 1rem; }

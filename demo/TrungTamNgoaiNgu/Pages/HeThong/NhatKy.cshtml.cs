@@ -17,8 +17,9 @@ public class NhatKyModel(TrungTamContext db, DongHo dongHo) : PageModel
     [BindProperty(SupportsGet = true)] public DateOnly? TuNgay { get; set; }
     [BindProperty(SupportsGet = true)] public DateOnly? DenNgay { get; set; }
     public List<Data.Entities.NhatKy> DanhSach { get; set; } = [];
+    public TrangDs Trang { get; set; } = new(1, 50, 0);
 
-    public async Task<IActionResult> OnGetAsync(string? xuat)
+    public async Task<IActionResult> OnGetAsync(string? xuat, int? trang, int? so)
     {
         DenNgay ??= dongHo.HomNay;
         TuNgay ??= DenNgay.Value.AddDays(-30);
@@ -26,10 +27,14 @@ public class NhatKyModel(TrungTamContext db, DongHo dongHo) : PageModel
         var q = db.NhatKy.AsNoTracking().Where(n => n.ThoiDiem >= tu && n.ThoiDiem <= den);
         if (!string.IsNullOrWhiteSpace(Ten)) q = q.Where(n => n.TenDangNhap == Ten.Trim().ToLower());
         if (!string.IsNullOrEmpty(Loai)) q = q.Where(n => n.ThaoTac == Loai);
-        DanhSach = await q.OrderByDescending(n => n.MaNK).Take(500).ToListAsync();   // ponytail: 500 dòng mới nhất, cần hơn thì phân trang
-        if (xuat == "excel")
+        var sx = q.OrderByDescending(n => n.MaNK);
+        if (xuat == "excel")   // Excel lấy toàn bộ kết quả lọc, không theo trang
+        {
+            DanhSach = await sx.ToListAsync();
             return XuatExcel.Tep($"NhatKy_{TuNgay:yyyyMMdd}_{DenNgay:yyyyMMdd}", ["Thời điểm", "Người dùng", "Thao tác", "Đối tượng", "Mã đối tượng"],
                 DanhSach.Select(n => new object?[] { n.ThoiDiem.ToString("dd/MM/yyyy HH:mm"), n.TenDangNhap, n.ThaoTac, n.DoiTuong, n.MaDoiTuong }));
+        }
+        (DanhSach, Trang) = await sx.LayTrangAsync(trang, so);
         return Page();
     }
 }

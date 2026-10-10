@@ -17,6 +17,8 @@ public class TaiKhoanModel(TrungTamContext db, DongHo dongHo) : PageModel
     [BindProperty] public string VaiTro { get; set; } = "Học viên";
     [BindProperty] public string? MaChu { get; set; }
     public List<Data.Entities.TaiKhoan> DanhSach { get; set; } = [];
+    [BindProperty(SupportsGet = true)] public string? Tim { get; set; }
+    public TrangDs Trang { get; set; } = new(1, 50, 0);
     public string? ThongBao { get; set; }
     public string? MatKhauTam { get; set; }
 
@@ -101,5 +103,16 @@ public class TaiKhoanModel(TrungTamContext db, DongHo dongHo) : PageModel
     /// <summary>Mật khẩu tạm 10 ký tự, bỏ các chữ dễ nhầm (0/O, 1/l/I).</summary>
     static string TaoMatKhau() => RandomNumberGenerator.GetString("abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789", 10);
 
-    async Task NapAsync() => DanhSach = await db.TaiKhoan.AsNoTracking().OrderBy(t => t.VaiTro).ThenBy(t => t.TenDangNhap).ToListAsync();
+    async Task NapAsync()
+    {
+        var q = db.TaiKhoan.AsNoTracking();
+        if (!string.IsNullOrWhiteSpace(Tim))
+        {
+            var t = Tim.Trim();
+            q = q.Where(x => x.TenDangNhap.Contains(t) || x.MaNV == t || x.MaGV == t || x.MaHV == t || x.MaPH == t);
+        }
+        int.TryParse(Request.Query["trang"], out var trang);
+        int.TryParse(Request.Query["so"], out var so);
+        (DanhSach, Trang) = await q.OrderBy(t => t.VaiTro).ThenBy(t => t.TenDangNhap).LayTrangAsync(trang, so);
+    }
 }

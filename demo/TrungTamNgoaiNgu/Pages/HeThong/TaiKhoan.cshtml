@@ -14,6 +14,10 @@
     <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaChu">Mã chủ tài khoản</label><input id="MaChu" name="MaChu" value="@Model.MaChu" class="form-control" placeholder="NV…, GV…, HV…, PH…" title="Mã hồ sơ của người dùng, phải khớp vai trò: nhân viên NV…, giáo viên GV…, học viên HV…, phụ huynh PH…" /></div>
     <div class="col-6 col-md-3"><button class="btn btn-primary w-100">Cấp tài khoản</button></div>
 </form>
+<form method="get" class="d-flex flex-wrap gap-2 mb-2">
+    <input name="tim" value="@Model.Tim" class="form-control" style="max-width:18rem" placeholder="Tên đăng nhập hoặc mã chủ tài khoản" aria-label="Tìm tài khoản" />
+    <button class="btn btn-outline-primary">Tìm</button>
+</form>
 <div class="table-responsive">
     <table class="table table-sm table-bordered align-middle">
         <thead><tr><th>Tên đăng nhập</th><th>Vai trò</th><th>Chủ tài khoản</th><th>Trạng thái</th><th>Ghi chú</th><th></th></tr></thead>
@@ -34,3 +38,4 @@
         </tbody>
     </table>
 </div>
+<partial name="_PhanTrang" model="Model.Trang" />

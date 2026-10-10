@@ -16,8 +16,9 @@ public class ThongBaoModel(TrungTamContext db) : PageModel
     [BindProperty(SupportsGet = true)] public string? LoaiTB { get; set; }
     [BindProperty(SupportsGet = true)] public string? Hv { get; set; }
     public List<Data.Entities.ThongBao> DanhSach { get; set; } = [];
+    public TrangDs Trang { get; set; } = new(1, 50, 0);
 
-    public async Task<IActionResult> OnGetAsync(string? xuat)
+    public async Task<IActionResult> OnGetAsync(string? xuat, int? trang, int? so)
     {
         var q = db.ThongBao.AsNoTracking().Include(t => t.MaHVNavigation).AsQueryable();
         if (PhanQuyen.ChiCuaMinh(User.VaiTro(), "5.2"))
@@ -27,10 +28,14 @@ public class ThongBaoModel(TrungTamContext db) : PageModel
         }
         if (!string.IsNullOrEmpty(LoaiTB)) q = q.Where(t => t.Loai == LoaiTB);
         if (!string.IsNullOrWhiteSpace(Hv)) q = q.Where(t => t.MaHV == Hv.Trim().ToUpper());
-        DanhSach = await q.OrderByDescending(t => t.ThoiGianGui).ThenByDescending(t => t.MaTB).Take(300).ToListAsync();
-        if (xuat == "excel")
+        var sx = q.OrderByDescending(t => t.ThoiGianGui).ThenByDescending(t => t.MaTB);
+        if (xuat == "excel")   // Excel lấy toàn bộ kết quả lọc, không theo trang
+        {
+            DanhSach = await sx.ToListAsync();
             return XuatExcel.Tep("ThongBao", ["Thời gian", "Loại", "Mã HV", "Học viên", "Gửi phụ huynh", "Nội dung", "Trạng thái"],
                 DanhSach.Select(t => new object?[] { t.ThoiGianGui.ToString("dd/MM/yyyy HH:mm"), t.Loai, t.MaHV, t.MaHVNavigation.HoTen, t.MaPH, t.NoiDung, t.TrangThaiGui }));
+        }
+        (DanhSach, Trang) = await sx.LayTrangAsync(trang, so);
         return Page();
     }
 }
