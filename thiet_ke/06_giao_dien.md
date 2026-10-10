@@ -78,6 +78,7 @@ Mã form: `F` + mã module. Cột *Luồng DFD* ghi theo dạng `tác nhân: tê
 | F5.1b | Tham số hệ thống | 5.1 | QT: Tài khoản, phân quyền, cấu hình | QT | Điền mẫu dạng bảng | ThamSo: GiaTri |
 | F5.3 | Chọn báo cáo tổng hợp | 5.3, 5.4 | GD: Yêu cầu báo cáo tổng hợp | GD | Đối thoại | Tham số: Loại báo cáo, Từ ngày, Đến ngày, Khóa học, Lớp, Giáo viên |
 | FN1 | Đăng nhập, đổi mật khẩu | N1 | – | HV, PH, GV, TS, KT, DT, GD, QT | Đối thoại | TaiKhoan: TenDangNhap, MatKhauBam |
+| FN4 | Sao lưu dữ liệu | N4 | – | QT | Đối thoại, danh sách bản sao lưu | Tham số: Sao lưu ngay |
 
 Ghi chú:
 - **F2.2 và F2.4:** yêu cầu của học viên đến quầy bằng lời hoặc bằng giấy. Nhân viên tuyển sinh nhập thay, nên một form phục vụ cả 2 luồng vào (của HV và của TS).

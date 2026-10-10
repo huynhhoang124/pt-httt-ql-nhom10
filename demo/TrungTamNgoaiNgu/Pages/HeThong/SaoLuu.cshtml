@@ -1,0 +1,22 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HeThong.SaoLuuModel
+@{
+    ViewData["Ma"] = "FN4";
+    ViewData["TroGiup"] = "Sao lưu toàn bộ CSDL vào thư mục sao lưu của SQL Server; lịch tự động 23:00 hằng ngày chạy bằng Task Scheduler. Phục hồi: dừng ứng dụng, chạy RESTORE DATABASE … FROM DISK = '<tệp>' WITH REPLACE trên máy chủ, rồi mở lại ứng dụng.";
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+<form method="post" class="mb-3">
+    <button class="btn btn-primary">Sao lưu ngay</button>
+</form>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Thời gian</th><th>Tệp sao lưu</th><th class="so">Dung lượng (MB)</th></tr></thead>
+        <tbody>
+            @foreach (var b in Model.DanhSach)
+            {
+                <tr><td class="text-nowrap">@b.ThoiGian.ToString("dd/MM/yyyy HH:mm:ss")</td><td>@b.Tep</td><td class="so">@b.MB.ToString("0.0")</td></tr>
+            }
+            @if (Model.DanhSach.Count == 0) { <tr><td colspan="3">Chưa có bản sao lưu nào.</td></tr> }
+        </tbody>
+    </table>
+</div>

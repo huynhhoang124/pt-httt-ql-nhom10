@@ -42,6 +42,7 @@ public static partial class ThucDon
         ("R5.1", "/HeThong/NhatKy", ""),
         ("R5.2", "/HeThong/ThongBao", ""),
         ("FN1", "/DoiMatKhau", ""),
+        ("FN4", "/HeThong/SaoLuu", "T"),
     };
 
     public static string Ten(string maManHinh) => $"{maManHinh} {ManHinh[maManHinh].Ten}";
