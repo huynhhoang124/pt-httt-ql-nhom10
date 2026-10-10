@@ -3,7 +3,7 @@
 @using TrungTamNgoaiNgu.Nen
 @{
     ViewData["Ma"] = "F5.1a";
-    ViewData["TroGiup"] = "Mỗi người một tài khoản, gắn với hồ sơ đã có. Mật khẩu tạm chỉ hiện một lần: giao trực tiếp cho người dùng; họ phải đổi ở lần đăng nhập đầu. Quyền của từng vai trò theo ma trận phân quyền (05_module mục 5).";
+    ViewData["TroGiup"] = "Mỗi người một tài khoản, gắn với hồ sơ đã có. Mật khẩu tạm chỉ hiện một lần: giao trực tiếp cho người dùng; họ phải đổi ở lần đăng nhập đầu. Mỗi vai trò chỉ dùng được các chức năng của vai trò đó.";
 }
 @if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao @if (Model.MatKhauTam != null) { <span>Mật khẩu tạm: <b class="font-monospace">@Model.MatKhauTam</b></span> }</div> }
 <div asp-validation-summary="All" class="hop-loi"></div>

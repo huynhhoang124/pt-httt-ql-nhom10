@@ -6,7 +6,7 @@
     // Thực đơn phân cấp (06_giao_dien mục 5.1): chỉ hiện phân hệ, module mà vai trò có quyền theo ma trận 05_module mục 5
     var modules = ThucDon.Module.Where(m => PhanQuyen.Co(vt, m.Ma)).GroupBy(m => m.PhanHe);
 }
-<p>Mỗi vai trò chỉ thấy các mục được phép. Mục có liên kết là chức năng đã làm trong bản demo; mục màu xám có trong thiết kế nhưng chưa làm.</p>
+<p>Chọn chức năng cần làm. Mỗi tài khoản chỉ thấy các chức năng được phép.</p>
 <div class="row g-3">
     @foreach (var ph in modules)
     {
