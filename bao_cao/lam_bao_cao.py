@@ -1,8 +1,8 @@
 """Dựng báo cáo Word + PDF từ các file .md của dự án (nội dung chỉ sửa ở .md, không sửa tay file Word).
 
 Định dạng giữ như Bài tập 1: Times New Roman, đen trắng, bảng viền xám nhạt, đầu bảng xám.
-Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
-Bao_cao_tong_Nhom_10 (.docx, .pdf; báo cáo tổng = BT1 + GĐ1 → GĐ5)
+Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong] [phan_cong]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
+Bao_cao_tong_Nhom_10 (.docx, .pdf; báo cáo tổng = BT1 + GĐ1 → GĐ5), Phan_cong_sua_Nhom_10.docx (từ PHAN_CONG_SUA.md)
 (xuất PDF và cập nhật mục lục cần Microsoft Word trên Windows, qua pywin32).
 """
 import copy
@@ -727,6 +727,21 @@ def bao_cao_tong():
     return ra
 
 
+def phan_cong():
+    """PHAN_CONG_SUA.md -> bao_cao/Phan_cong_sua_Nhom_10.docx (giao cho nhóm; không mục lục, không PDF)."""
+    doc = Document()
+    thiet_lap_kieu(doc)
+    doc.core_properties.title = "Phân công sửa demo và tài liệu"
+    doc.core_properties.author = "Nhóm 10"
+    so_trang(doc)
+    doc_md(doc, (GOC / "PHAN_CONG_SUA.md").read_text(encoding="utf-8"), None, giu_dau=True)
+    doc.paragraphs[0].paragraph_format.page_break_before = False
+    ra = GOC / "bao_cao" / "Phan_cong_sua_Nhom_10.docx"
+    doc.save(ra)
+    print("Đã ghi", ra)
+    return ra
+
+
 def xuat_pdf(docx):
     """Mở bằng Word để cập nhật mục lục, số trang rồi lưu lại và xuất PDF."""
     import win32com.client
@@ -752,4 +767,7 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     chon = sys.argv[1:] or ["phan_tich", "thiet_ke", "tong"]
     for ten in chon:
+        if ten == "phan_cong":
+            phan_cong()
+            continue
         xuat_pdf({"phan_tich": bao_cao_phan_tich, "thiet_ke": bao_cao_thiet_ke, "tong": bao_cao_tong}[ten]())
