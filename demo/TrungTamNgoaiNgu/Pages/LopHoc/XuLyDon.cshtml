@@ -8,7 +8,7 @@
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
     <div>
         <label class="form-label" for="hv">Mã học viên</label>
-        <input id="hv" name="hv" class="form-control" value="@Model.Hv" placeholder="vd HV0445" />
+        <input id="hv" name="hv" class="form-control" value="@Model.Hv" placeholder="vd HV0445" title="Mã học viên, vd HV0445; gõ tên để được gợi ý" />
     </div>
     <button class="btn btn-primary">Tìm</button>
 </form>
@@ -33,7 +33,7 @@
                         {
                             var l = d.Dk.MaLopNavigation;
                             <tr>
-                                <td><input type="radio" name="Lop" value="@l.MaLop" class="form-check-input" checked="@(l.MaLop == (Model.Lop ?? Model.CacDangKy[0].Dk.MaLop))" /></td>
+                                <td><input type="radio" name="Lop" value="@l.MaLop" class="form-check-input" aria-label="Chọn lớp @l.MaLop" checked="@(l.MaLop == (Model.Lop ?? Model.CacDangKy[0].Dk.MaLop))" /></td>
                                 <td>@l.MaLop</td><td>@l.MaKHNavigation.TenKH</td><td>@l.TrangThai</td>
                                 <td class="so">@d.DaHoc/@l.MaKHNavigation.SoBuoi</td><td class="so">@HienThi.Tien(d.ConNo)</td>
                             </tr>

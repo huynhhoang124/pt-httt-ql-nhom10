@@ -12,15 +12,15 @@
     <div asp-validation-summary="All" class="hop-loi"></div>
     <fieldset disabled="@(!Model.ChoSua)">
         <div class="row g-2">
-            <div class="col-sm-3"><label class="form-label">Mã HV</label><input class="form-control" value="@(Model.Ma ?? "(hệ thống cấp)")" disabled /></div>
+            <div class="col-sm-3"><label class="form-label" for="MaHV">Mã HV</label><input id="MaHV" class="form-control" value="@(Model.Ma ?? "(hệ thống cấp)")" disabled /></div>
             <div class="col-sm-5"><label asp-for="F.HoTen" class="form-label bat-buoc"></label><input asp-for="F.HoTen" class="form-control" /></div>
             <div class="col-sm-2"><label asp-for="F.NgaySinh" class="form-label bat-buoc"></label><input asp-for="F.NgaySinh" type="date" class="form-control" /></div>
             <div class="col-sm-2">
                 <label asp-for="F.GioiTinh" class="form-label bat-buoc"></label>
                 <select asp-for="F.GioiTinh" class="form-select"><option>Nam</option><option>Nữ</option></select>
             </div>
-            <div class="col-sm-3"><label asp-for="F.DienThoai" class="form-label bat-buoc"></label><input asp-for="F.DienThoai" class="form-control" inputmode="numeric" /></div>
-            <div class="col-sm-4"><label asp-for="F.Email" class="form-label"></label><input asp-for="F.Email" class="form-control" /></div>
+            <div class="col-sm-3"><label asp-for="F.DienThoai" class="form-label bat-buoc"></label><input asp-for="F.DienThoai" class="form-control" inputmode="numeric" title="10 chữ số, bắt đầu bằng 0, vd 0912345678" /></div>
+            <div class="col-sm-4"><label asp-for="F.Email" class="form-label"></label><input asp-for="F.Email" class="form-control" title="vd ten@gmail.com" /></div>
             <div class="col-sm-5"><label asp-for="F.DiaChi" class="form-label"></label><input asp-for="F.DiaChi" class="form-control" /></div>
             <div class="col-sm-3">
                 <label asp-for="F.TrinhDoDauVao" class="form-label"></label>
@@ -50,8 +50,8 @@
         {
             <div class="row g-2">
                 <div class="col-sm-4"><label asp-for="F.PhHoTen" class="form-label"></label><input asp-for="F.PhHoTen" class="form-control" /></div>
-                <div class="col-sm-3"><label asp-for="F.PhDienThoai" class="form-label"></label><input asp-for="F.PhDienThoai" class="form-control" inputmode="numeric" /></div>
-                <div class="col-sm-3"><label asp-for="F.PhEmail" class="form-label"></label><input asp-for="F.PhEmail" class="form-control" /></div>
+                <div class="col-sm-3"><label asp-for="F.PhDienThoai" class="form-label"></label><input asp-for="F.PhDienThoai" class="form-control" inputmode="numeric" title="10 chữ số, bắt đầu bằng 0, vd 0912345678; số đã có thì dùng lại hồ sơ phụ huynh đó" /></div>
+                <div class="col-sm-3"><label asp-for="F.PhEmail" class="form-label"></label><input asp-for="F.PhEmail" class="form-control" title="vd ten@gmail.com" /></div>
                 <div class="col-sm-2">
                     <label asp-for="F.QuanHe" class="form-label"></label>
                     <select asp-for="F.QuanHe" class="form-select" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.HocVienSuaModel.QuanHeCo))"><option value="">–</option></select>

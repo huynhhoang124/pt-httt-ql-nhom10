@@ -6,7 +6,7 @@
     ViewData["TroGiup"] = "\"Đã xác nhận\" = đã thu ít nhất 50% học phí phải nộp (QT05). Sĩ số chỉ tính đăng ký còn giữ chỗ (không tính Chuyển lớp, Nghỉ học).";
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 d-print-none">
-    <select name="lop" class="form-select" style="max-width:14rem">
+    <select name="lop" class="form-select" style="max-width:14rem" aria-label="Lớp">
         <option value="">– Chọn lớp –</option>
         @foreach (var l in Model.CacLop)
         {

@@ -27,13 +27,13 @@
         <div asp-validation-summary="All" class="hop-loi"></div>
         <fieldset disabled="@(!Model.SuaDuoc)">
             <div class="row g-2">
-                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="MaLop">Mã lớp</label><input id="MaLop" name="MaLop" value="@Model.MaLop" class="form-control" readonly="@(c != null)" maxlength="15" placeholder="GT-2702" /></div>
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="MaLop">Mã lớp</label><input id="MaLop" name="MaLop" value="@Model.MaLop" class="form-control" readonly="@(c != null)" maxlength="15" placeholder="GT-2702" title="Mã khóa – năm, tháng khai giảng, vd GT-2702; không đổi sau khi lưu" /></div>
                 <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaKH">Khóa học</label>
                     <select id="MaKH" name="MaKH" class="form-select">@foreach (var k in Model.CacKhoa) { <option value="@k.MaKH" selected="@(k.MaKH == Model.MaKH)">@k.MaKH – @k.TenKH</option> }</select></div>
                 <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaGV">Giáo viên</label>
                     <select id="MaGV" name="MaGV" class="form-select">@foreach (var g in Model.CacGV) { <option value="@g.MaGV" selected="@(g.MaGV == Model.MaGV)">@g.MaGV – @g.HoTen (@g.NgonNguDay)</option> }</select></div>
                 <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="NgayKhaiGiang">Khai giảng</label><input id="NgayKhaiGiang" name="NgayKhaiGiang" type="date" value="@Model.NgayKhaiGiang?.ToString("yyyy-MM-dd")" class="form-control" /></div>
-                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="SiSoToiDa">Sĩ số tối đa</label><input id="SiSoToiDa" name="SiSoToiDa" value="@Model.SiSoToiDa" class="form-control" inputmode="numeric" /></div>
+                <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="SiSoToiDa">Sĩ số tối đa</label><input id="SiSoToiDa" name="SiSoToiDa" value="@Model.SiSoToiDa" class="form-control" inputmode="numeric" title="Không quá sĩ số tối đa của trung tâm và không quá sức chứa phòng (QT06)" /></div>
             </div>
             <table class="table table-sm table-bordered mt-2" style="max-width:32rem">
                 <thead><tr><th>Thứ</th><th>Giờ bắt đầu</th><th>Phòng</th></tr></thead>
@@ -42,9 +42,9 @@
                     {
                         var l = Model.LichTuan[i];
                         <tr>
-                            <td><select name="LichTuan[@i].Thu" class="form-select form-select-sm"><option value="">–</option>@for (byte t = 2; t <= 8; t++) { <option value="@t" selected="@(l.Thu == t)">@HienThi.Thu(t)</option> }</select></td>
-                            <td><input name="LichTuan[@i].Gio" type="time" value="@l.Gio?.ToString("HH:mm")" class="form-control form-control-sm" /></td>
-                            <td><select name="LichTuan[@i].Phong" class="form-select form-select-sm"><option value="">–</option>@foreach (var p in Model.CacPhong) { <option value="@p.MaPhong" selected="@(p.MaPhong == l.Phong)">@p.MaPhong (@p.SucChua chỗ)</option> }</select></td>
+                            <td><select name="LichTuan[@i].Thu" class="form-select form-select-sm" aria-label="Thứ, dòng @(i + 1)"><option value="">–</option>@for (byte t = 2; t <= 8; t++) { <option value="@t" selected="@(l.Thu == t)">@HienThi.Thu(t)</option> }</select></td>
+                            <td><input name="LichTuan[@i].Gio" type="time" value="@l.Gio?.ToString("HH:mm")" class="form-control form-control-sm" aria-label="Giờ bắt đầu, dòng @(i + 1)" /></td>
+                            <td><select name="LichTuan[@i].Phong" class="form-select form-select-sm" aria-label="Phòng, dòng @(i + 1)"><option value="">–</option>@foreach (var p in Model.CacPhong) { <option value="@p.MaPhong" selected="@(p.MaPhong == l.Phong)">@p.MaPhong (@p.SucChua chỗ)</option> }</select></td>
                         </tr>
                     }
                 </tbody>

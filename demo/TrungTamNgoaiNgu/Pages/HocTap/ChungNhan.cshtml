@@ -36,7 +36,7 @@
                             <tr class="@(k.KetQua1 == "Đạt" ? "" : "table-secondary")">
                                 @if (Model.DuocCap)
                                 {
-                                    <td><input type="checkbox" name="Chon" value="@d.Hv.MaHV" class="form-check-input" disabled="@(k.ChungNhan != null || !QuyTac.DuocCapChungNhan(k.KetQua1, k.NgayDuyet))" /></td>
+                                    <td><input type="checkbox" name="Chon" value="@d.Hv.MaHV" class="form-check-input" aria-label="Cấp chứng nhận cho @d.Hv.MaHV"disabled="@(k.ChungNhan != null || !QuyTac.DuocCapChungNhan(k.KetQua1, k.NgayDuyet))" /></td>
                                 }
                                 <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td><td class="so">@k.DiemTongKet.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)</td>
                                 <td>@k.XepLoai</td><td>@k.KetQua1</td><td>@(k.ChungNhan?.SoCN ?? "–")</td>

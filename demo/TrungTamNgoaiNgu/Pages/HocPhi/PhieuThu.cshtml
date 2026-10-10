@@ -8,7 +8,7 @@
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
-    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" />
+    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
 </form>
 @if (Model.Hv != null && h == null)
@@ -50,7 +50,7 @@
                                 <td>@d.TenKH</td><td>@d.SoDot</td>
                                 <td>@HienThi.Ngay(d.Han)</td>
                                 <td class="so">@HienThi.So(d.SoTienDot)</td><td class="so">@HienThi.So(d.DaThuDot)</td><td class="so">@HienThi.So(d.ConNoDot)</td>
-                                <td><input type="number" name="SoTien[@i]" value="@(i < Model.SoTien.Count ? Model.SoTien[i] : null)" min="0" step="1000" class="form-control form-control-sm so" /></td>
+                                <td><input type="number" name="SoTien[@i]" value="@(i < Model.SoTien.Count ? Model.SoTien[i] : null)" min="0" step="1000" class="form-control form-control-sm so" aria-label="Nộp lần này, lớp @d.MaLop đợt @d.SoDot" title="Số tiền (đồng), bội số 1.000; bỏ trống nếu không nộp đợt này" /></td>
                             </tr>
                         }
                     </tbody>

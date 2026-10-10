@@ -50,9 +50,9 @@ else
                         {
                             var id = $"{ma}_{t}";
                             <input type="radio" id="@id" name="TrangThai[@ma]" value="@t" checked="@((Model.TrangThai.GetValueOrDefault(ma) ?? d.TrangThai) == t)" />
-                            <label for="@id">@t</label>
+                            <label for="@id" title="@TrungTamNgoaiNgu.Pages.HocTap.DiemDanhModel.TenTrangThai[t]">@t<span class="visually-hidden"> – @TrungTamNgoaiNgu.Pages.HocTap.DiemDanhModel.TenTrangThai[t]</span></label>
                         }
-                        <input name="GhiChu[@ma]" value="@(Model.GhiChu.GetValueOrDefault(ma) ?? d.GhiChu)" class="form-control form-control-sm ms-2" placeholder="Ghi chú" style="display:block" />
+                        <input name="GhiChu[@ma]" value="@(Model.GhiChu.GetValueOrDefault(ma) ?? d.GhiChu)" class="form-control form-control-sm ms-2" placeholder="Ghi chú" aria-label="Ghi chú cho @ma" style="display:block" />
                     </div>
                 </div>
             }

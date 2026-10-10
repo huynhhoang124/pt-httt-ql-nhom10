@@ -8,7 +8,7 @@
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
-    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" />
+    <input id="hv" name="hv" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
     <a class="btn btn-outline-primary" href="/DanhMuc/HocVien" target="_blank">Tìm học viên (F1.1)</a>
 </form>
@@ -35,7 +35,7 @@
                     {
                         var da = Model.DaDangKy.Contains(l.Lop.MaLop);
                         <tr class="@(da ? "chua-lam" : "")">
-                            <td><input type="checkbox" name="Lop" value="@l.Lop.MaLop" class="form-check-input" checked="@Model.Lop.Contains(l.Lop.MaLop)" disabled="@da" /></td>
+                            <td><input type="checkbox" name="Lop" value="@l.Lop.MaLop" class="form-check-input" checked="@Model.Lop.Contains(l.Lop.MaLop)" disabled="@da" aria-label="Đăng ký lớp @l.Lop.MaLop" /></td>
                             <td>@l.Lop.MaLop</td>
                             <td>@l.Lop.MaKHNavigation.TenKH (@l.Lop.MaKHNavigation.TrinhDoDauVao → @l.Lop.MaKHNavigation.TrinhDoDauRa)</td>
                             <td>@l.Lich</td>
