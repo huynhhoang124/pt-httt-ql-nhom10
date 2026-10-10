@@ -304,4 +304,15 @@ public class KiemThuQuyTac
         Assert.Equal(doc, DocDiem(s, out var d));
         if (doc) Assert.Equal((decimal)mong, d);
     }
+
+    [Fact]  // R5.4a – ca TC32: tỷ lệ đạt trên kết quả đã duyệt, chuyên cần bình quân theo số HV
+    public void BaoCaoHocTap_TongHopKy()
+    {
+        static TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.Lop L(int hv, decimal? cc, int kq, int dat) =>
+            new("L", "", "", "", hv, cc, 0, kq, dat, 0, 0, 0, 0, null);
+        var (dat, cc) = TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.TongHop([L(10, 90, 10, 9), L(30, 70, 0, 0), L(5, null, 5, 1)]);
+        Assert.Equal(10m * 100 / 15, dat);          // lớp chưa tổng kết không làm giảm tỷ lệ
+        Assert.Equal(75m, cc);                      // (10·90 + 30·70) / 40; lớp chưa điểm danh bị bỏ
+        Assert.Equal((null, null), TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.TongHop([]));
+    }
 }

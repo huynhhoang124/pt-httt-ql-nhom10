@@ -1,0 +1,45 @@
+@page
+@model TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R5.4a, R5.4b";
+    ViewData["TroGiup"] = "Tính theo lớp khai giảng trong kỳ (lớp đang học hoặc đã kết thúc). Chuyên cần TB: trung bình tỷ lệ có mặt của học viên đang học; tỷ lệ đạt tính trên kết quả đã duyệt. Kỳ trước: cùng số ngày, ngay trước kỳ đang xem.";
+    string P(decimal? x) => x is null ? "–" : $"{x:0.0}%";
+    string D(decimal? a, decimal? b) => a is null || b is null ? "" : $" ({(a >= b ? "+" : "")}{a - b:0.0} điểm % so với kỳ trước)";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="tuNgay">Từ ngày</label><input id="tuNgay" name="tuNgay" type="date" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">Đến ngày</label><input id="denNgay" name="denNgay" type="date" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <button class="btn btn-primary">Xem</button>
+</form>
+<partial name="_XuatBaoCao" />
+<div class="hop-tb">
+    Kỳ @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay) · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")<br />
+    Tỷ lệ đạt: <b>@P(Model.KyNay.Dat)</b>@D(Model.KyNay.Dat, Model.KyTruoc.Dat) · Chuyên cần TB: <b>@P(Model.KyNay.ChuyenCan)</b>@D(Model.KyNay.ChuyenCan, Model.KyTruoc.ChuyenCan)
+</div>
+<h2 class="h6 fw-bold">@ThucDon.Ten("R5.4a") – theo lớp</h2>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Lớp</th><th>Khóa học</th><th>Giáo viên</th><th>Trạng thái</th><th class="so">Số HV</th><th class="so">Chuyên cần TB</th><th class="so">Cảnh báo vắng</th><th class="so">Đạt / tổng kết</th><th class="so">Giỏi</th><th class="so">Khá</th><th class="so">TB</th><th class="so">Không đạt</th><th class="so">Điểm TB</th></tr></thead>
+        <tbody>
+            @foreach (var c in Model.CacLop)
+            {
+                <tr><td>@c.MaLop</td><td>@c.Khoa</td><td>@c.GiaoVien</td><td>@c.TrangThai</td><td class="so">@c.SoHV</td><td class="so">@P(c.ChuyenCan)</td><td class="so">@c.CanhBao</td>
+                    <td class="so">@(c.SoKQ == 0 ? "chưa tổng kết" : $"{c.Dat}/{c.SoKQ}")</td><td class="so">@c.Gioi</td><td class="so">@c.Kha</td><td class="so">@c.TrungBinh</td><td class="so">@c.KhongDat</td>
+                    <td class="so">@(c.DiemTB?.ToString("0.0") ?? "–")</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<h2 class="h6 fw-bold">@ThucDon.Ten("R5.4b") – giảng dạy</h2>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle" style="max-width:44rem">
+        <thead><tr><th>Mã GV</th><th>Họ tên</th><th class="so">Buổi đã dạy trong kỳ</th><th class="so">Lớp khai giảng trong kỳ</th><th class="so">Tỷ lệ đạt</th></tr></thead>
+        <tbody>
+            @foreach (var g in Model.CacGV)
+            {
+                <tr><td>@g.MaGV</td><td>@g.HoTen</td><td class="so">@g.SoBuoi</td><td class="so">@g.SoLop</td><td class="so">@P(g.TyLeDat)</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
