@@ -7,7 +7,7 @@
 (() => {
     const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(User.Identity?.Name + ":" + Model);
     const tb = document.createElement('span');
-    tb.className = 'small ms-2';
+    tb.className = 'small tb-nhap';
     form.querySelector('[data-luu-nhap]').after(tb);
     const o = () => [...form.elements].filter(e => e.name && !['hidden', 'submit', 'button'].includes(e.type) && !e.disabled);
     const chon = e => e.type === 'checkbox' || e.type === 'radio';

@@ -109,6 +109,8 @@ h2.h6 { font-size: 1rem; margin-top: .5rem; }
 .btn:focus, .btn-check:focus + .btn { box-shadow: 0 0 0 .2rem rgba(27, 27, 27, .2); }
 .btn:disabled { opacity: .45; }
 .nut-lenh { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--vien); }
+.nut-lenh .tb-nhap { order: 9; flex-basis: 100%; color: var(--phu); }   /* "Đã lưu nháp lúc…" xuống dòng dưới hàng nút */
+.nut-lenh .tb-nhap:empty { display: none; }
 
 /* ---------- Bảng: đầu bảng xám như bảng trong báo cáo ---------- */
 .table { --bs-table-border-color: var(--vien); margin-bottom: .75rem; }
