@@ -1,11 +1,11 @@
-@* Thanh thực đơn bên trái (trên điện thoại nằm trong nút "Thực đơn"): cùng dữ liệu với trang chủ.
+@* Thanh thực đơn bên trái (trên điện thoại nằm trong nút "Chức năng"): cùng dữ liệu với trang chủ.
    Mục đang mở xác định theo mã màn hình của trang (trang con như sửa hồ sơ, in phiếu vẫn sáng đúng mục). *@
 @{
     var maTrang = (ViewData["Ma"] as string)?.Split(", ") ?? [];
     var laTrangChu = Context.Request.Path == "/";
 }
-<nav class="thuc-don" aria-label="Thực đơn">
-    <a class="thuc-don-chinh" href="/" aria-current="@(laTrangChu ? "page" : null)">Thực đơn chính</a>
+<nav class="thuc-don" aria-label="Chức năng">
+    <a class="thuc-don-chinh" href="/" aria-current="@(laTrangChu ? "page" : null)">Trang chủ</a>
     @foreach (var ph in ThucDon.ChoVaiTro(User.VaiTro()))
     {
         <div class="thuc-don-nhom">@ph.Ten</div>

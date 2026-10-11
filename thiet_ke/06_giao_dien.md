@@ -130,7 +130,7 @@ Mỗi vai trò chỉ thấy các mục mà ma trận 3.5 cho phép. Ví dụ, gi
 
 ![Sơ đồ thực đơn](../so_do/Thuc_don.png)
 
-Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ liệu: trang chủ trình bày như mục lục (phân hệ → module → màn hình), và thanh bên trái luôn mở ở mọi màn hình (trên điện thoại thu vào nút "Thực đơn"), mục đang mở được tô đậm. Module chưa có màn hình nào cho vai trò thì không hiện.
+Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ liệu: trang chủ trình bày như mục lục (phân hệ → module → màn hình), và thanh bên trái luôn mở ở mọi màn hình (trên điện thoại thu vào nút "Chức năng"), mục đang mở được tô đậm. Module chưa có màn hình nào cho vai trò thì không hiện. Trên màn hình không dùng chữ "thực đơn" (người dùng dễ hiểu nhầm là thực đơn món ăn): thực đơn chính hiện là **Trang chủ**, nút thu gọn là **Chức năng**.
 
 ### 5.2 Quy ước chung cho mọi màn hình
 
