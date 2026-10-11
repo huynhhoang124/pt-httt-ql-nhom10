@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đề xuất giao diện v2 – Vở ô li và mực tím</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&display=swap">
+<style>
+/* ===== Bộ màu, chữ đề xuất (v2) ===== */
+:root {
+    --muc: #43307f;          /* mực tím: màu chính – nút, mục đang chọn, tiêu đề */
+    --muc-dam: #33245f;
+    --chu: #22203a;          /* chữ thường */
+    --giay: #ffffff;
+    --vo: #f7f6fc;           /* nền giấy vở nhạt: thanh thực đơn, ô thông tin */
+    --ke: #dcd6ee;           /* đường kẻ vở: viền bảng, ô nhập */
+    --phu: #625d7a;          /* chữ phụ */
+    --but-do: #c62828;       /* bút đỏ: lỗi, cảnh báo, không đạt – màu nhấn duy nhất */
+    --but-do-nhat: #fdeceb;
+    --le: #efb4b1;           /* đường lề đỏ nhạt của vở (chỉ trang trí ở dải đầu trang) */
+    --bo: 6px;
+    --sans: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+    --serif: "Literata", "Noto Serif", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--sans); color: var(--chu); background: #eceaf3; font-size: 15px; line-height: 1.5; font-feature-settings: "tnum" 1; }
+.trang-gioi-thieu { max-width: 1240px; margin: 0 auto; padding: 28px 20px 8px; }
+.trang-gioi-thieu h1 { font-family: var(--serif); font-size: 1.9rem; margin: 0 0 6px; color: var(--muc-dam); }
+.trang-gioi-thieu p { margin: 0 0 6px; max-width: 78ch; color: var(--phu); }
+.bang-mau { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 14px 0 4px; font-size: .85rem; }
+.bang-mau span { display: inline-flex; align-items: center; gap: 6px; }
+.bang-mau i { width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0,0,0,.15); display: inline-block; }
+.khu { max-width: 1240px; margin: 0 auto; padding: 18px 20px 40px; display: grid; gap: 28px; }
+.nhan-khu { font-weight: 600; color: var(--phu); font-size: .9rem; margin-bottom: 8px; }
+.cac-khung { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 28px; align-items: start; }
+@media (max-width: 1100px) { .cac-khung { grid-template-columns: 1fr; } }
+
+/* ===== Khung ứng dụng ===== */
+.ung-dung { background: var(--giay); border: 1px solid #d6d2e4; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+.thanh-tren { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px; border-bottom: 3px solid var(--muc); }
+.ten { font-weight: 700; font-size: 1.02rem; display: flex; align-items: center; gap: 10px; }
+.ten .dau-sach { width: 26px; height: 26px; border-radius: 6px; background: var(--muc); color: #fff; display: grid; place-items: center; font-family: var(--serif); font-size: .95rem; }
+.ten .phu { font-weight: 400; color: var(--phu); }
+.nguoi { font-size: .88rem; color: var(--phu); display: flex; gap: 10px; align-items: center; }
+.nguoi b { color: var(--chu); }
+.nut { font: inherit; font-weight: 500; font-size: .9rem; padding: 7px 14px; border-radius: var(--bo); border: 1.5px solid var(--muc); background: var(--giay); color: var(--muc); cursor: pointer; }
+.nut.chinh { background: var(--muc); color: #fff; }
+.nut.nho { padding: 4px 10px; font-size: .82rem; }
+.than { display: grid; grid-template-columns: 236px 1fr; min-height: 560px; }
+
+.thuc-don { background: var(--vo); border-right: 1px solid var(--ke); padding: 14px 10px; font-size: .88rem; }
+.thuc-don .nhom { font-size: .76rem; font-weight: 600; color: var(--phu); margin: 12px 8px 4px; }
+.thuc-don a { display: flex; gap: 8px; padding: 6px 8px; border-radius: 0 var(--bo) var(--bo) 0; color: var(--chu); text-decoration: none; border-left: 3px solid transparent; }
+.thuc-don a .ma { color: var(--phu); flex: 0 0 38px; }
+.thuc-don a.dang { border-left-color: var(--muc); background: #ece8f8; color: var(--muc-dam); font-weight: 600; }
+.thuc-don a.dang .ma { color: var(--muc); }
+
+/* ===== Dải đầu trang: trang đầu cuốn vở ô li ===== */
+.dau-trang {
+    position: relative; padding: 16px 22px 14px 40px; border-bottom: 1px solid var(--ke);
+    background-color: var(--giay);
+    background-image:
+        linear-gradient(to right, transparent 27px, var(--le) 27px, var(--le) 29px, transparent 29px),
+        repeating-linear-gradient(to bottom, transparent 0 23px, #e7e2f5 23px 24px),
+        repeating-linear-gradient(to right, transparent 0 23px, #f1eef9 23px 24px);
+}
+.duong-dan { font-size: .82rem; color: var(--phu); }
+.hang-tieu-de { display: flex; align-items: flex-start; gap: 12px; }
+.hang-tieu-de h2 { font-family: var(--serif); font-weight: 600; font-size: 1.65rem; line-height: 1.2; margin: 2px auto 0 0; color: var(--muc-dam); letter-spacing: -.01em; }
+.o-mau { border: 1.5px solid var(--muc); border-radius: 4px; background: #fff; padding: 2px 12px 4px; text-align: center; line-height: 1.15; }
+.o-mau small { display: block; font-size: .68rem; color: var(--phu); }
+.o-mau b { color: var(--muc); }
+.nut-hoi { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--muc); background: #fff; color: var(--muc); font-weight: 700; }
+
+.noi-dung { padding: 18px 22px 22px 40px; }
+.tb { background: var(--vo); border-left: 3px solid var(--muc); padding: 9px 14px; border-radius: 0 var(--bo) var(--bo) 0; margin-bottom: 14px; }
+.loi { background: var(--but-do-nhat); border-left: 3px solid var(--but-do); color: var(--but-do); padding: 9px 14px; border-radius: 0 var(--bo) var(--bo) 0; margin-bottom: 14px; }
+.hang { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; margin-bottom: 14px; }
+label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: 4px; }
+label .sao { color: var(--but-do); }
+.o { width: 100%; font: inherit; padding: 8px 11px; border: 1px solid #cfc8e6; border-radius: var(--bo); background: #fff; }
+.o.dang-nhap { border-color: var(--muc); box-shadow: 0 0 0 3px rgba(67,48,127,.15); }
+.o.sai { border-color: var(--but-do); background: #fff; text-decoration: underline wavy var(--but-do); text-underline-offset: 4px; }
+.goi-y-loi { color: var(--but-do); font-size: .82rem; margin-top: 4px; }
+.chon { display: flex; gap: 16px; padding-top: 8px; }
+
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { text-align: left; font-weight: 600; font-size: .82rem; color: var(--muc-dam); background: #efecf8; padding: 8px 10px; border-bottom: 2px solid var(--muc); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--ke); }
+td.so, th.so { text-align: right; }
+tr.khong-dat td { color: var(--but-do); }
+.xep { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: .78rem; font-weight: 600; border: 1px solid var(--ke); background: var(--vo); color: var(--muc-dam); }
+.xep.gioi { background: var(--muc); color: #fff; border-color: var(--muc); }
+.xep.hong { background: #fff; color: var(--but-do); border-color: var(--but-do); }
+.diem { font-family: var(--serif); font-weight: 600; font-size: 1rem; }
+.hang-nut { display: flex; gap: 8px; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--ke); }
+.chan { display: flex; justify-content: space-between; gap: 16px; padding: 9px 22px 9px 40px; background: var(--vo); border-top: 1px solid var(--ke); font-size: .8rem; color: var(--phu); }
+
+/* ===== Điện thoại ===== */
+.dien-thoai { width: 380px; border: 10px solid #1f1d2e; border-radius: 34px; overflow: hidden; background: #fff; }
+.dien-thoai .thanh-tren { padding: 10px 14px; }
+.dien-thoai .dau-trang { padding: 12px 14px 10px 30px; background-image:
+        linear-gradient(to right, transparent 18px, var(--le) 18px, var(--le) 20px, transparent 20px),
+        repeating-linear-gradient(to bottom, transparent 0 23px, #e7e2f5 23px 24px),
+        repeating-linear-gradient(to right, transparent 0 23px, #f1eef9 23px 24px); }
+.dien-thoai .hang-tieu-de h2 { font-size: 1.35rem; }
+.dien-thoai .noi-dung { padding: 12px 14px 16px; }
+.mo-thuc-don { margin: 10px 14px 0; border: 1px solid var(--ke); border-radius: var(--bo); background: var(--vo); padding: 8px 12px; font-weight: 600; font-size: .9rem; }
+.hv { border: 1px solid var(--ke); border-radius: 8px; padding: 9px 10px; margin-bottom: 8px; }
+.hv .dong1 { display: flex; justify-content: space-between; gap: 6px; font-size: .88rem; }
+.hv .dong1 span { color: var(--phu); font-size: .8rem; }
+.hv .dong1 span.canh { color: var(--but-do); font-weight: 600; }
+.chon-dd { display: flex; gap: 6px; margin-top: 7px; }
+.chon-dd b { flex: 0 0 44px; text-align: center; padding: 7px 0; border: 1.5px solid var(--muc); border-radius: 8px; color: var(--muc); font-weight: 600; }
+.chon-dd b.chon-roi { background: var(--muc); color: #fff; }
+.chon-dd input { flex: 1; min-width: 0; font: inherit; font-size: .85rem; padding: 6px 8px; border: 1px solid #cfc8e6; border-radius: 8px; }
+.chu-giai { font-size: .8rem; color: var(--phu); margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<header class="trang-gioi-thieu">
+    <h1>Đề xuất giao diện v2: Vở ô li và mực tím</h1>
+    <p>Lấy hình ảnh quen thuộc nhất của việc học ở Việt Nam: chữ mực tím trên trang vở ô li, lỗi được thầy cô sửa bằng bút đỏ. Màu chính là tím mực cho mọi thứ người dùng bấm hoặc đang chọn; đỏ bút chấm chỉ dùng cho lỗi, cảnh báo, không đạt. Dải đầu trang kẻ ô li có đường lề như trang đầu cuốn vở là điểm nhấn duy nhất; phần nhập liệu vẫn trắng, gọn để làm việc nhanh.</p>
+    <p>Bản mẫu tĩnh dựng bằng dữ liệu mẫu thật của demo (HV0485, lớp GT-2604, TOE-2611).</p>
+    <div class="bang-mau">
+        <span><i style="background:#43307f"></i>Tím mực #43307f – nút, mục đang chọn, tiêu đề</span>
+        <span><i style="background:#22203a"></i>Chữ #22203a</span>
+        <span><i style="background:#f7f6fc"></i>Giấy vở #f7f6fc</span>
+        <span><i style="background:#dcd6ee"></i>Đường kẻ #dcd6ee</span>
+        <span><i style="background:#c62828"></i>Bút đỏ #c62828 – chỉ cho lỗi, không đạt</span>
+        <span>Chữ tiêu đề: <b style="font-family:var(--serif)">Literata</b> · chữ giao diện: <b>Be Vietnam Pro</b></span>
+    </div>
+</header>
+
+<main class="khu">
+    <section>
+        <div class="nhan-khu">Máy tính – kế toán lập phiếu thu (F3.2), đang có một ô nhập sai</div>
+        <div class="ung-dung">
+            <div class="thanh-tren">
+                <div class="ten">Trung tâm ngoại ngữ <span class="phu">Hệ thống quản lý</span></div>
+                <div class="nguoi"><span><b>nv004</b> NV kế toán</span><button class="nut nho">Đăng xuất</button></div>
+            </div>
+            <div class="than">
+                <nav class="thuc-don">
+                    <a href="#"><span class="ma"></span>Thực đơn chính</a>
+                    <div class="nhom">3.0 Quản lý học phí</div>
+                    <a href="#"><span class="ma">F3.1</span>Ưu đãi và khoản học phí</a>
+                    <a href="#" class="dang"><span class="ma">F3.2</span>Phiếu thu học phí</a>
+                    <a href="#"><span class="ma">R3.2</span>Phiếu thu (2 liên)</a>
+                    <a href="#"><span class="ma">R3.3</span>Công nợ học phí</a>
+                    <a href="#"><span class="ma">R3.4</span>Báo cáo doanh thu, công nợ</a>
+                    <div class="nhom">1.0 Quản lý danh mục và hồ sơ</div>
+                    <a href="#"><span class="ma">F1.1</span>Hồ sơ học viên</a>
+                    <a href="#"><span class="ma">F1.3</span>Khóa học</a>
+                    <div class="nhom">Cá nhân, tiện ích</div>
+                    <a href="#"><span class="ma">R5.2</span>Thông báo</a>
+                    <a href="#"><span class="ma">FN1</span>Đổi mật khẩu</a>
+                </nav>
+                <div>
+                    <div class="dau-trang">
+                        <div class="duong-dan">3.0 Quản lý học phí › 3.2 Lập phiếu thu</div>
+                        <div class="hang-tieu-de">
+                            <h2>Phiếu thu học phí</h2>
+                            <div class="o-mau"><small>Mẫu</small><b>F3.2</b></div>
+                            <button class="nut-hoi" title="Trợ giúp (F1)">?</button>
+                        </div>
+                    </div>
+                    <div class="noi-dung">
+                        <div class="tb"><b>HV0485 – Nguyễn Minh Thảo</b>, điện thoại 0957212835. Còn nợ đợt 2 lớp TOE-2611: 2.800.000 đ, hạn 09/12/2026.</div>
+                        <div class="hang">
+                            <div><label>Người nộp <span class="sao">*</span></label><input class="o dang-nhap" value="Nguyễn Minh Thảo"></div>
+                            <div><label>Hình thức <span class="sao">*</span></label><div class="chon"><span>◉ Tiền mặt</span><span>○ Chuyển khoản</span></div></div>
+                        </div>
+                        <table>
+                            <thead><tr><th>Lớp</th><th>Khóa học</th><th>Đợt</th><th>Hạn đóng</th><th class="so">Còn nợ</th><th class="so" style="width:170px">Nộp lần này</th></tr></thead>
+                            <tbody><tr><td>TOE-2611</td><td>TOEIC 550</td><td>2</td><td>09/12/2026</td><td class="so">2.800.000</td>
+                                <td class="so"><input class="o sai" value="3.000.000" style="text-align:right"><div class="goi-y-loi">Vượt số còn nợ của đợt (2.800.000 đ).</div></td></tr></tbody>
+                        </table>
+                        <div class="hang-nut"><button class="nut chinh">Lưu</button><button class="nut">Lưu nháp</button><button class="nut">Hủy</button><button class="nut">Thoát</button></div>
+                    </div>
+                    <div class="chan"><span><b>Trợ giúp.</b> Đợt 1 tối thiểu 50% số phải nộp (QT05); không nộp vượt số còn nợ của đợt.</span><span>Giờ hệ thống: 04/01/2027 19:30</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cac-khung">
+        <section>
+            <div class="nhan-khu">Máy tính – bảng điểm lớp (R4.3a): xếp loại thành nhãn, không đạt viết bằng bút đỏ</div>
+            <div class="ung-dung">
+                <div class="dau-trang">
+                    <div class="duong-dan">4.0 Quản lý học tập › 4.3 Tổng kết, xếp loại</div>
+                    <div class="hang-tieu-de">
+                        <h2>Bảng điểm lớp GT-2604</h2>
+                        <div class="o-mau"><small>Mẫu</small><b>R4.3a</b></div>
+                        <button class="nut-hoi">?</button>
+                    </div>
+                </div>
+                <div class="noi-dung">
+                    <div class="tb">Giao tiếp cơ bản (A1 → A2), giáo viên Hoàng Đức Minh. Trọng số 10% – 30% – 60%, đã dạy 10/10 buổi, <b>đã duyệt</b>.</div>
+                    <table>
+                        <thead><tr><th>Mã HV</th><th>Họ tên</th><th class="so">Chuyên cần</th><th class="so">Tổng kết</th><th>Xếp loại</th><th>Kết quả</th></tr></thead>
+                        <tbody>
+                            <tr><td>HV0412</td><td>Nguyễn Minh Anh</td><td class="so">80%</td><td class="so diem">7,4</td><td><span class="xep">Khá</span></td><td>Đạt</td></tr>
+                            <tr><td>HV0441</td><td>Đỗ Tuấn Huy</td><td class="so">100%</td><td class="so diem">8,5</td><td><span class="xep gioi">Giỏi</span></td><td>Đạt</td></tr>
+                            <tr><td>HV0442</td><td>Lê Thu Hương</td><td class="so">70%</td><td class="so diem">8,8</td><td><span class="xep gioi">Giỏi</span></td><td>Đạt</td></tr>
+                            <tr class="khong-dat"><td>HV0443</td><td>Phạm Minh Trang</td><td class="so">60%</td><td class="so diem">4,4</td><td><span class="xep hong">Không đạt</span></td><td>Không đạt</td></tr>
+                            <tr><td>HV0445</td><td>Vũ Đức Đạt</td><td class="so">100%</td><td class="so diem">5,5</td><td><span class="xep">Trung bình</span></td><td>Đạt</td></tr>
+                            <tr class="khong-dat"><td>HV0447</td><td>Bùi Minh Phúc</td><td class="so">60%</td><td class="so diem">8,6</td><td><span class="xep hong">Không đạt</span></td><td>Không đạt</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="nhan-khu">Điện thoại – giáo viên điểm danh (F4.1)</div>
+            <div class="dien-thoai">
+                <div class="thanh-tren"><div class="ten">Trung tâm ngoại ngữ</div><button class="nut nho">Đăng xuất</button></div>
+                <div class="mo-thuc-don">▸ Thực đơn</div>
+                <div class="dau-trang" style="margin-top:10px">
+                    <div class="duong-dan">4.1 Điểm danh, tính chuyên cần</div>
+                    <div class="hang-tieu-de"><h2>Điểm danh buổi 19</h2><div class="o-mau"><small>Mẫu</small><b>F4.1</b></div></div>
+                </div>
+                <div class="noi-dung">
+                    <div class="tb" style="font-size:.85rem"><b>TOE-2611</b> TOEIC 550, 04/01/2027 19:00–21:00, phòng P305</div>
+                    <p class="chu-giai">x có mặt, M đi muộn, P vắng có phép, K vắng không phép <button class="nut nho" style="float:right">Có mặt hết</button></p>
+                    <div style="clear:both"></div>
+                    <div class="hv"><div class="dong1"><b>HV0480 Lê Đức Đạt</b><span>16/18 buổi</span></div><div class="chon-dd"><b class="chon-roi">x</b><b>M</b><b>P</b><b>K</b><input placeholder="Ghi chú"></div></div>
+                    <div class="hv"><div class="dong1"><b>HV0481 Phạm Bảo Ngân</b><span>15/18 buổi</span></div><div class="chon-dd"><b class="chon-roi">x</b><b>M</b><b>P</b><b>K</b><input placeholder="Ghi chú"></div></div>
+                    <div class="hv"><div class="dong1"><b>HV0486 Lý Hoàng Đạt</b><span class="canh">9/18 – vắng quá 20%</span></div><div class="chon-dd"><b>x</b><b>M</b><b>P</b><b class="chon-roi">K</b><input placeholder="Ghi chú" value="Không báo"></div></div>
+                    <div class="hang-nut" style="margin-top:12px"><button class="nut chinh">Lưu</button><button class="nut">Hủy</button><button class="nut">Thoát</button></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+</body>
+</html>
