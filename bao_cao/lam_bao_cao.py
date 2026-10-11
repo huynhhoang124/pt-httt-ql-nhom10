@@ -709,7 +709,7 @@ def bao_cao_tong():
         "18 báo cáo ứng với các luồng vào, ra của DFD.",
         "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, đủ 20 chức năng lá và các chức năng nền (đăng nhập, "
         "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi) với 26 màn hình. Kiểm thử: 80 ca kiểm thử "
-        "đơn vị, 24 kiểm tra CSDL, 37 ca theo tiến trình đều đạt, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ "
+        "đơn vị, 24 kiểm tra CSDL, 38 ca theo tiến trình đều đạt, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ "
         "mẫu; 4 lỗi phát hiện đã sửa.",
         "Kế hoạch cài đặt theo giai đoạn (danh mục → lớp, lịch → học phí → học tập), huấn luyện 3 mức, chuyển đổi dữ "
         "liệu từ Excel; quy trình bảo trì, quản lý cấu hình bằng Git và 7 hướng phát triển.",

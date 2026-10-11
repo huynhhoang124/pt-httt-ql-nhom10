@@ -8,7 +8,7 @@ Lập ngày 11/10/2026 từ đợt rà soát demo và tài liệu sau khi xong "
 | Vũ Văn Hùng | H1 R3.1 bảng học phí phải thu · H2 ghi phiên bản CSDL vào bảng ThamSo | TC37, TC38 |
 | Nguyễn Văn Luận | L1 R4.1 chuyên cần của học viên · L2 R4.3b phiếu báo kết quả học tập | TC39, TC40 |
 | Trần Thu Thủy | T1 R5.3a báo cáo tuyển sinh · T2 sửa R5.4b đếm buổi dạy theo ngày, thêm xuất Excel | TC41, (sửa TC32) |
-| Trần Minh Quân | Q1 trang lỗi tiếng Việt + bắt lỗi sao lưu · Q2 lưu nháp theo tài khoản · Q3 script kiểm tra phân quyền · Q4 sửa 06_bao_tri | (sửa TC33, TC34), TC42 |
+| Trần Minh Quân | Q3 script kiểm tra phân quyền · Q4 sửa 06_bao_tri · Q5 thử giao diện trên điện thoại thật và bản in (Q1, Q2 đã làm) | TC42, (TC43) |
 
 Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/06_giao_dien.md` (hiện có 31).
 
@@ -28,6 +28,13 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 - Trang `.cshtml`: `ViewData["Ma"] = "<mã màn hình>"` và `ViewData["TroGiup"] = "..."` (câu ngắn, tiếng Việt). Báo cáo nội bộ thêm `<partial name="_XuatBaoCao" />` (Excel + in PDF; lớp xử lý trả `XuatExcel.Tep(...)` khi `xuat == "excel"`). Báo cáo theo kỳ in "lập lúc …" ở đầu trang.
 - Thêm một dòng vào `ThucDon.DaLam` trong `Nen/ThucDon.cs` để trang hiện trên thực đơn. **Đặt đúng thứ tự mã** để đỡ xung đột khi gộp.
 - Ngày, tiền, số: dùng `HienThi.Ngay`, `HienThi.Tien`, `HienThi.So`.
+- Quy ước giao diện (06_giao_dien 5.2, đã làm sẵn, chỉ cần dùng đúng):
+  - hàng nút cuối form: `<partial name="_NutLenh" model="new NutLenh()" />` (Lưu · Hủy · Thoát; Ctrl+S, Esc tự có); form chỉ xem: `new NutLenh(null)`;
+  - mỗi ô nhập có nhãn `<label for="…">`; ô trong bảng không có nhãn thì thêm `aria-label`; trường có quy tắc định dạng thêm `title="…"` (chú thích khi trỏ chuột, cũng là câu báo khi nhập sai `pattern`);
+  - trường bắt buộc: chỉ cần nhãn có lớp `bat-buoc` (hiện dấu `*`), trình duyệt tự chặn để trống;
+  - ô nhập mã học viên: `list="ds-hoc-vien"` và thêm `<partial name="_GoiYHocVien" />` cuối trang;
+  - danh sách có thể dài: `.LayTrangAsync(trang, so)` (`Nen/PhanTrang.cs`) và `<partial name="_PhanTrang" model="Model.Trang" />`;
+  - chỉ dùng màu có sẵn (đen, xám, đỏ `canh-bao` cho cảnh báo); không thêm màu riêng.
 
 **Xong một việc khi**
 1. `dotnet build` không lỗi; `dotnet test demo/KiemThu` đạt hết (hiện 80/80). Quy tắc có tính toán thì thêm test vào `demo/KiemThu/KiemThuQuyTac.cs`.
@@ -119,19 +126,14 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 
 ## 5. Trần Minh Quân – nền, phân quyền, bảo trì
 
-### Q1. Trang lỗi tiếng Việt, bắt lỗi khi sao lưu (N7, N4)
-- **Lỗi:** `Pages/Error.cshtml` còn nguyên mẫu tiếng Anh ("An error occurred while processing your request"), trái quy tắc thông báo lỗi tiếng Việt (`06_giao_dien.md` mục 6). Trang sao lưu `Pages/HeThong/SaoLuu.cshtml.cs` không bắt lỗi: ổ đầy, thiếu quyền ghi thư mục sao lưu → ra trang lỗi.
-- **Sửa:** Việt hóa `Error.cshtml` (câu báo, gợi ý quay lại, mã yêu cầu để báo quản trị viên). Ở `SaoLuu.OnPostAsync` bắt `SqlException`, hiện câu lỗi tiếng Việt kèm gợi ý (kiểm tra dung lượng ổ, quyền của dịch vụ SQL Server với thư mục Backup), vẫn ghi nhật ký khi thành công. Thử trang lỗi bằng `--launch-profile` có `ASPNETCORE_ENVIRONMENT=Production` (thêm hồ sơ vào `launchSettings.json` nếu cần).
-- **Ca kiểm thử:** sửa dòng TC33 (thêm trường hợp sao lưu lỗi).
-
-### Q2. Lưu nháp theo tài khoản (N6)
-- **Lỗi:** `Pages/Shared/_LuuNhap.cshtml` lưu nháp trong trình duyệt theo khóa "phiếu + học viên + các dòng", **không có tên đăng nhập**. Máy dùng chung: người sau mở F3.2 cùng học viên thấy nháp của người trước (tên người nộp, số tiền).
-- **Sửa:** thêm tên đăng nhập (`User.TenDangNhap()`) vào khóa; khi đăng xuất (`Pages/DangXuat`) xóa các khóa `nhap:` của người đó.
-- **Ca kiểm thử:** sửa dòng TC34 (nv004 lưu nháp, đăng xuất; tài khoản kế toán khác không thấy nháp).
+Q1 (trang lỗi tiếng Việt, bắt lỗi sao lưu) và Q2 (lưu nháp theo tài khoản) **đã làm** trong đợt sửa giao diện ngày 11/10 (ca TC33, TC34 đã cập nhật).
 
 ### Q3. Script kiểm tra phân quyền 8 vai trò (làm sau cùng, khi các trang mới đã gộp)
 - **Vì sao:** "Phân quyền: đạt" ở `05_cai_dat.md` mục 4.1 đang kiểm tra bằng tay (curl) mỗi lần, không lưu lại được.
-- **Làm:** `demo/kiem_tra_quyen.py` (hoặc `.ps1`): đọc `ThucDon.DaLam` và ma trận `Nen/PhanQuyen.g.cs`; đăng nhập 8 tài khoản mẫu (lấy `__RequestVerificationToken` từ /DangNhap); mở mọi trang bằng GET; so: có quyền → 200, không quyền → chuyển về /KhongCoQuyen. In bảng vai trò × trang, cuối cùng "đạt" / danh sách sai. Dùng hv0412 thay hv0480 (hv0480 bị bắt đổi mật khẩu).
+- **Làm:** `demo/kiem_tra_quyen.py` (hoặc `.ps1`): đăng nhập 8 tài khoản mẫu (lấy `__RequestVerificationToken` từ /DangNhap; dùng hv0412 thay hv0480 vì hv0480 bị bắt đổi mật khẩu); với mỗi vai trò:
+  - mọi liên kết trên thực đơn chính (trang `/`) phải mở được (200);
+  - mọi trang trong `ThucDon.DaLam` không có trên thực đơn: vai trò **không có quyền nào** ở module đó (ma trận `Nen/PhanQuyen.g.cs`) phải bị chuyển về /KhongCoQuyen; vai trò có quyền xem thì được mở (vd Giám đốc xem F2.3).
+  - In bảng vai trò × trang, cuối cùng "đạt" / danh sách sai.
 - **Ca kiểm thử:** TC42; ghi lệnh chạy vào `05_cai_dat.md` mục 4.1 dòng "Phân quyền".
 
 ### Q4. Sửa `phan_tich/06_bao_tri.md` cho khớp hiện trạng
@@ -140,10 +142,14 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 - Mục 5, hướng SMS/Zalo: bảng `ThongBao` **đã có** cột `TrangThaiGui` → chỉ cần thêm cột kênh gửi.
 - Mục 3.3: thống nhất câu về phiên bản CSDL với việc H2 của Hùng (gộp sau H2).
 
+### Q5. Thử giao diện trên máy thật
+- Giao diện mới mới được thử trên trình duyệt máy tính và giả lập điện thoại. Cần thử: điện thoại thật (Android, iPhone) cho F4.1 điểm danh, F4.2 nhập điểm; in thật ra giấy hoặc "Lưu PDF" cho R3.2 phiếu thu 2 liên và R4.4 giấy chứng nhận (chữ Times New Roman, không mất viền bảng, không cắt trang giữa một liên).
+- Ghi kết quả vào dòng TC43 ở `05_cai_dat.md`; lỗi tìm thấy thì sửa ở `wwwroot/css/site.css` (mục `@media print`).
+
 ---
 
 ## 6. Hoàng Văn Huynh – điều phối
 
-1. Trước khi giao: đẩy 19 commit đang có trên `main` máy mình lên GitHub (qua nhánh + pull request đúng quy trình 06_bao_tri), báo nhóm `git pull`.
+1. Trước khi giao: đẩy các commit đang có trên `main` máy mình (code bổ sung, sửa giao diện, giao diện mới) lên GitHub (qua nhánh + pull request đúng quy trình 06_bao_tri), báo nhóm `git pull`.
 2. Duyệt từng pull request theo mục 0 "Xong khi"; gộp lần lượt, nhắc người sau `git pull` khi có xung đột ở `ThucDon.cs`, `05_cai_dat.md`.
 3. Gộp xong tất cả: chạy `python demo/sinh_ma.py`, `python so_do/src/giao_dien.py`, `dotnet test`, `csdl/chay.ps1`, script Q3; cập nhật KE_HOACH.

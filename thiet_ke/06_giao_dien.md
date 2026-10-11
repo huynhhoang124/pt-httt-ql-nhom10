@@ -130,6 +130,8 @@ Mỗi vai trò chỉ thấy các mục mà ma trận 3.5 cho phép. Ví dụ, gi
 
 ![Sơ đồ thực đơn](../so_do/Thuc_don.png)
 
+Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ liệu: trang chủ trình bày như mục lục (phân hệ → module → màn hình), và thanh bên trái luôn mở ở mọi màn hình (trên điện thoại thu vào nút "Thực đơn"), mục đang mở được tô đậm. Module chưa có màn hình nào cho vai trò thì không hiện.
+
 ### 5.2 Quy ước chung cho mọi màn hình
 
 | Quy ước | Nội dung |
@@ -141,6 +143,11 @@ Mỗi vai trò chỉ thấy các mục mà ma trận 3.5 cho phép. Ví dụ, gi
 | Danh sách chọn | Mọi miền giá trị `[a \| b]` của 3.1 (trạng thái, giới tính, loại ưu đãi…) hiện thành danh sách chọn, không cho gõ tự do |
 | Xác nhận | Hỏi lại trước khi ghi những thao tác không sửa được: lập phiếu thu, duyệt kết quả, chuyển trạng thái Nghỉ học |
 | Màn hình hẹp | Form F4.1, F4.2 và các report của HV, PH xếp thành một cột trên điện thoại |
+| Mã màn hình | Ô "Mẫu" ở góc phải tiêu đề ghi mã form/báo cáo (vd *Mẫu F3.2*), như ô "Mẫu số" trên chứng từ giấy; người dùng báo lỗi chỉ cần đọc mã này |
+| Chữ | Giao diện dùng Be Vietnam Pro (thiết kế cho tiếng Việt, máy không có Internet dùng Segoe UI); chứng từ in (phiếu thu, chứng nhận) dùng Times New Roman |
+| Kiểm tra khi nhập | Trường có \* không để trống được; điện thoại 10 chữ số, email, điểm 0–10 một chữ số lẻ, mã học viên kiểm tra ngay trên trình duyệt, câu báo bằng tiếng Việt; máy chủ vẫn kiểm tra lại theo mục 6 |
+| Gợi ý khi gõ | Ô mã học viên gợi ý theo mã hoặc họ tên (chỉ cho vai trò được xem toàn bộ hồ sơ) |
+| Danh sách dài | Phân trang, người dùng chọn 20 / 50 / 100 dòng một trang; xuất Excel lấy toàn bộ kết quả lọc |
 
 ### 5.3 Phác thảo màn hình
 

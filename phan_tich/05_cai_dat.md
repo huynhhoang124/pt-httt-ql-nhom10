@@ -182,13 +182,13 @@ Theo `thiet_ke/05_module.md` mục 8, bước 5. Mọi ca kiểm thử đều tr
 |---|---|---|
 | Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **80/80 đạt**: bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm; bảng quyết định 4.3, chứng nhận QT15, trùng lịch QT07, cây quyết định 2.4, điểm "7,5", tổng hợp báo cáo 5.4 |
 | Tích hợp (CSDL) | `csdl/kiem_tra.sql` qua `csdl/chay.ps1` | **24/24 đạt** |
-| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (115 tệp) |
+| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (120 tệp) |
 | Phân quyền | Đăng nhập 8 vai trò, mở từng trang, so mã HTTP với ma trận | Đạt – cho phép/chặn khớp ma trận |
 | Chấp nhận | Nhập lại chứng từ mẫu qua giao diện, so bản in với chứng từ | PT2026-0731 khớp; luồng đăng ký → học phí → phiếu thu chạy thật đạt (mục 4.2) |
 
 ### 4.2 Ca kiểm thử theo tiến trình
 
-Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 37 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung).
+Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung; TC43 sau đợt sửa giao diện).
 
 | Mã | Tiến trình | Dữ liệu vào / thao tác | Kết quả mong đợi | Kết quả |
 |---|---|---|---|---|
@@ -227,8 +227,9 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 37 ca đ
 | TC31 | 5.2 | Khởi động máy chủ ngày 04/01/2027 (lô đầu ngày); thêm buổi học bù TOE-2611 ngày 09/01, duyệt lại kết quả HV0412; chạy lô lần 2, lần 3; học viên, phụ huynh, NV tuyển sinh, giáo viên mở R5.2 | Lần 1: 3 nhắc nợ quá hạn (QT16) + 1 cảnh báo vắng, nguy cơ không đạt (HV0486); lần 2: 10 thông báo lịch học bù, kết quả HV0412 không gửi lại vì đã có; lần 3: 0; HV/PH chỉ thấy thông báo của mình; giáo viên bị chặn | Đạt |
 | TC30 | 5.1 | Quản trị viên cấp tài khoản hv0413; cấp trùng chủ (HV0412), sai vai trò, trùng tên; khóa nv005, tự khóa mình; đặt lại mật khẩu nv004 đang bị khóa tạm; tham số TY_LE_DOT_1 = 150, SISO_TOI_DA = 18; xem nhật ký; QL đào tạo mở trang | Cấp được, mật khẩu tạm 10 ký tự hiện một lần, đăng nhập phải đổi mật khẩu; các trường hợp sai bị từ chối; nv005 không vào được; nv004 hết khóa; tham số sai bị chặn, tham số đúng lưu và ghi nhật ký "20→18"; QL đào tạo bị chặn | Đạt |
 | TC32 | 5.4, N5 | QL đào tạo mở R5.4a/R5.4b kỳ 04/01/2026 – 04/01/2027, kỳ 01/07 – 31/12/2026, nhập ngày đảo ngược, xuất Excel; giáo viên GV023 mở; kế toán, NV tuyển sinh, học viên mở | 5 lớp, tỷ lệ đạt 88,6%, chuyên cần 85,9%; số đạt, điểm TB, chuyên cần, buổi dạy = truy vấn KetQua, v_ChuyenCan, v_GiangDay; kỳ 6 tháng có so sánh kỳ trước; ngày đảo tự đổi lại; GV chỉ thấy TOE-2611 và dòng của mình; vai trò khác bị chặn | Đạt |
-| TC33 | N4 | Quản trị viên bấm "Sao lưu ngay"; 7 vai trò khác mở trang; Giám đốc gửi form sao lưu | Tạo tệp .bak (9 MB) trong thư mục sao lưu của SQL Server, hiện trong danh sách (lịch sử msdb), ghi nhật ký "Thêm SaoLuu"; vai trò khác bị chặn. Phục hồi (RESTORE … WITH REPLACE) làm tay trên máy chủ, chưa chạy thử trong demo | Đạt |
-| TC34 | N6, 3.2, 2.2 | Kế toán nhập dở phiếu thu HV0485 (người nộp, chuyển khoản, 500.000) rồi mở lại trang; bấm Lập phiếu thu rồi Hủy; gửi với số tiền vượt nợ; NV tuyển sinh chọn lớp GT-2701 cho HV0412, bấm Lưu nháp, mở lại | Mở lại điền đủ các ô, báo "Đã mở lại bản nháp lưu lúc …"; Hủy thì nháp còn; gửi đi thì nháp bị xóa, form lỗi vẫn giữ số đã nhập; F2.2 mở lại đã chọn GT-2701 | Đạt |
+| TC33 | N4 | Quản trị viên bấm "Sao lưu ngay"; 7 vai trò khác mở trang; Giám đốc gửi form sao lưu; mở địa chỉ không có, gây lỗi máy chủ | Tạo tệp .bak (9 MB) trong thư mục sao lưu của SQL Server, hiện trong danh sách (lịch sử msdb), ghi nhật ký "Thêm SaoLuu"; vai trò khác bị chặn; sao lưu lỗi và mọi lỗi chưa lường trước hiện trang lỗi tiếng Việt kèm mã lỗi (404, 500), chi tiết chỉ ghi ở máy chủ. Phục hồi (RESTORE … WITH REPLACE) làm tay trên máy chủ, chưa chạy thử trong demo | Đạt |
+| TC34 | N6, 3.2, 2.2 | Kế toán nhập dở phiếu thu HV0485 (người nộp, chuyển khoản, 500.000) rồi mở lại trang; bấm Lưu rồi chọn Hủy ở hộp xác nhận; gửi với số tiền vượt nợ; bấm nút Hủy của form; đăng xuất; NV tuyển sinh chọn lớp GT-2701 cho HV0412, bấm Lưu nháp, mở lại | Mở lại điền đủ các ô, báo "Đã mở lại bản nháp lưu lúc …"; chọn Hủy ở hộp xác nhận thì nháp còn; gửi đi thì nháp bị xóa, form lỗi vẫn giữ số đã nhập; nút Hủy đưa form về giá trị ban đầu và xóa nháp; nháp gắn tên đăng nhập, đăng xuất thì xóa; F2.2 mở lại đã chọn GT-2701 | Đạt |
+| TC43 | Giao diện chung (06_giao_dien 5.2, 6) | Đăng nhập 8 vai trò, mở mọi mục thực đơn và các trang ngoài quyền; mở mọi trang ở bề rộng 375 và 1280 px; Ctrl+S, Esc, F1, nút Hủy trên F3.2; điện thoại "09ab", email "abc", điểm "11", "8.25", mã HV "Minh"; F4.1 bấm "Có mặt hết"; đăng xuất | Mọi mục thực đơn mở được, trang ngoài quyền bị chặn; không trang nào tràn ngang, mọi ô nhập có nhãn, chỉ một màu nhấn; phím tắt đúng; trình duyệt chặn và báo bằng tiếng Việt; học viên chưa chọn được đánh x; đăng xuất về trang đăng nhập | Đạt |
 
 ### 4.3 Lỗi phát hiện khi kiểm thử và cách sửa
 
