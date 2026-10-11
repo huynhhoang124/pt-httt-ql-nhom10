@@ -1,0 +1,44 @@
+@page
+@model TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F1.2";
+    ViewData["TroGiup"] = "Không trùng điện thoại, email với giáo viên khác. Giáo viên nghỉ thì đổi Tình trạng, không xóa (dữ liệu cũ còn tham chiếu).";
+    var f = Model.F;
+    var ghi = User.Co("1.2", "S");
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+<div class="row g-3">
+    <div class="col-lg-7 table-responsive">
+        <table class="table table-sm table-bordered align-middle">
+            <thead><tr><th>Mã</th><th>Họ tên</th><th>Điện thoại</th><th>Email</th><th>Ngôn ngữ</th><th>Tình trạng</th></tr></thead>
+            <tbody>
+                @foreach (var g in Model.DanhSach)
+                {
+                    <tr class="@(g.MaGV == Model.Ma ? "table-active" : "")"><td><a href="?ma=@g.MaGV">@g.MaGV</a></td><td>@g.HoTen</td><td>@g.DienThoai</td><td>@g.Email</td><td>@g.NgonNguDay</td><td>@g.TinhTrang</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (ghi)
+    {
+        <form method="post" class="col-lg-5">
+            <h2 class="h6 fw-bold">@(Model.Ma == null ? "Thêm giáo viên" : $"Sửa {Model.Ma}") @if (Model.Ma != null) { <a class="small fw-normal ms-2" href="?">+ thêm mới</a> }</h2>
+            <input type="hidden" name="ma" value="@Model.Ma" />
+            <div asp-validation-summary="All" class="hop-loi"></div>
+            <div class="row g-2">
+                <div class="col-8"><label class="form-label bat-buoc" for="F_HoTen">Họ tên</label><input asp-for="F.HoTen" class="form-control" /></div>
+                <div class="col-4"><label class="form-label bat-buoc" for="F_NgaySinh">Ngày sinh</label><input asp-for="F.NgaySinh" type="date" class="form-control" /></div>
+                <div class="col-5"><label class="form-label bat-buoc" for="F_DienThoai">Điện thoại</label><input asp-for="F.DienThoai" class="form-control" inputmode="tel" pattern="0[0-9]{9}" maxlength="10" title="10 chữ số, bắt đầu bằng 0, vd 0912345678; không trùng giáo viên khác" /></div>
+                <div class="col-7"><label class="form-label bat-buoc" for="F_Email">Email</label><input asp-for="F.Email" class="form-control" type="email" title="vd ten@gmail.com; không trùng giáo viên khác" /></div>
+                <div class="col-6"><label class="form-label bat-buoc" for="F_NgonNguDay">Ngôn ngữ dạy</label>
+                    <select asp-for="F.NgonNguDay" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel.NgonNgu))" class="form-select"></select></div>
+                <div class="col-6"><label class="form-label bat-buoc" for="F_TinhTrang">Tình trạng</label>
+                    <select asp-for="F.TinhTrang" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel.TinhTrang))" class="form-select"></select></div>
+                <div class="col-12"><label class="form-label" for="F_ChuyenMon">Chuyên môn</label><input asp-for="F.ChuyenMon" class="form-control" /></div>
+                <div class="col-12"><label class="form-label" for="F_BangCap">Bằng cấp</label><input asp-for="F.BangCap" class="form-control" /></div>
+            </div>
+            <partial name="_NutLenh" model="new NutLenh()" />
+        </form>
+    }
+</div>

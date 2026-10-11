@@ -132,6 +132,131 @@ public class KiemThuQuyTac
     [InlineData(1_000_000_000, "Một tỷ đồng")]
     public void BangChu(long tien, string mong) => Assert.Equal(mong, HienThi.BangChu(tien));
 
+    // ---------------- 4.3 – Bảng quyết định xếp loại R1–R5 (QT13–QT15), ca TC22 ----------------
+
+    static readonly NguongXepLoai Nguong = new(8.5m, 7.0m, 5.0m, 70);
+
+    [Theory]
+    [InlineData("R1", 20, 18, 9.0, 9.0, 9.0, "Giỏi", "Đạt")]
+    [InlineData("R2", 20, 16, 7.0, 7.5, 8.0, "Khá", "Đạt")]
+    [InlineData("R3", 20, 14, 5.5, 5.0, 6.0, "Trung bình", "Đạt")]          // chuyên cần đúng 70% vẫn đạt
+    [InlineData("R4", 20, 13, 9.0, 9.0, 9.0, "Giỏi", "Không đạt")]          // 65% < 70%: giữ xếp loại theo điểm
+    [InlineData("R5", 20, 20, 4.0, 4.0, 4.5, "Không đạt", "Không đạt")]
+    public void BangQuyetDinh_XepLoai(string r, int daHoc, int coMat, double cc, double gk, double ck, string xepLoai, string ketQua)
+    {
+        _ = cc;  // điểm chuyên cần = tỷ lệ × 10, ghi trong ca để đọc cho dễ
+        var k = TongKet(daHoc, coMat, (decimal)gk, (decimal)ck, 10, 30, 60, Nguong);
+        Assert.True(xepLoai == k.XepLoai && ketQua == k.KetQua, $"{r}: {k.XepLoai}/{k.KetQua} (TK {k.DiemTongKet})");
+    }
+
+    [Fact]
+    public void ChungTuMau_BangDiemIEK2609()  // 04_dac_ta mục 1.7: HV0412 7,95 → 8,0 Khá; HV0398 4,5 Không đạt
+    {
+        var a = TongKet(10, 9, 7.5m, 8.0m, 10, 30, 60, Nguong);
+        Assert.Equal((8.0m, "Khá", "Đạt"), (a.DiemTongKet, a.XepLoai, a.KetQua));
+        var b = TongKet(10, 6, 5.0m, 4.0m, 10, 30, 60, Nguong);
+        Assert.Equal((4.5m, "Không đạt", "Không đạt"), (b.DiemTongKet, b.XepLoai, b.KetQua));
+        Assert.Equal(0, TongKet(0, 0, 10, 10, 10, 30, 60, Nguong).DiemChuyenCan);  // chưa có buổi nào: không chia cho 0
+    }
+
+    [Fact]
+    public void TongKet_LamTronTruocKhiXepLoai()
+    {
+        var k = TongKet(20, 19, 7.0m, 9.0m, 10, 30, 60, Nguong);   // 0,95 + 2,1 + 5,4 = 8,45 → 8,5
+        Assert.Equal((8.5m, "Giỏi"), (k.DiemTongKet, k.XepLoai));
+        k = TongKet(20, 19, 7.0m, 8.9m, 10, 30, 60, Nguong);       // 8,39 → 8,4
+        Assert.Equal((8.4m, "Khá"), (k.DiemTongKet, k.XepLoai));
+    }
+
+    [Theory]  // 4.4 – QT15, ca TC23
+    [InlineData("Đạt", true, true)]
+    [InlineData("Không đạt", true, false)]
+    [InlineData("Đạt", false, false)]      // chưa duyệt
+    [InlineData(null, false, false)]       // chưa tổng kết
+    public void CapChungNhan(string? ketQua, bool daDuyet, bool mong) =>
+        Assert.Equal(mong, DuocCapChungNhan(ketQua, daDuyet ? new DateOnly(2027, 1, 4) : null));
+
+    // ---------------- 2.1 – Mở lớp (QT06) ----------------
+
+    [Theory]
+    [InlineData(20, 25, null)]
+    [InlineData(21, 25, "QT06#2")]     // vượt quy định 20
+    [InlineData(16, 12, "QT06#2")]     // vượt phòng nhỏ nhất (P102: 12 chỗ)
+    public void MoLop_SiSo(int siSo, int sucChua, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => KiemTraSiSo(siSo, 20, sucChua)) is LoiNghiepVu l ? l.Khoa : null);
+
+    [Theory]
+    [InlineData(8, "Đang học")]
+    [InlineData(7, "Hủy")]
+    public void ChotLop_TaiNgayKhaiGiang(int hieuLuc, string mong) => Assert.Equal(mong, ChotLop(hieuLuc, 8));
+
+    // ---------------- 2.3 – Trùng lịch (QT07), ca TC06 ----------------
+
+    static readonly Ca BuoiTOE = new("TOE-2611", 20, new(2027, 1, 6), new(19, 0), new(21, 0), "P305", "GV023");
+
+    [Theory]
+    [InlineData("19:30", "21:00", "P101", "GV023", true)]   // cùng giáo viên, chồng giờ
+    [InlineData("18:00", "19:30", "P305", "GV011", true)]   // cùng phòng, chồng giờ
+    [InlineData("17:00", "19:00", "P305", "GV023", false)]  // nối tiếp đúng 19:00: không trùng
+    [InlineData("19:00", "21:00", "P101", "GV011", false)]  // cùng giờ nhưng khác giáo viên, khác phòng
+    public void TrungLich_QT07(string tu, string den, string phong, string gv, bool trung)
+    {
+        var b = new Ca("GT-2701", 11, new(2027, 1, 6), TimeOnly.Parse(tu), TimeOnly.Parse(den), phong, gv);
+        Assert.Equal(trung, TrungLich(b, [BuoiTOE]) != null);
+        Assert.Null(TrungLich(b with { Ngay = new(2027, 1, 7) }, [BuoiTOE]));       // khác ngày
+        Assert.Null(TrungLich(BuoiTOE with { MaPhong = "P101" }, [BuoiTOE]));       // đổi lịch: không so với chính nó
+    }
+
+    [Fact]
+    public void SinhBuoi_TheoLichTuan()  // GT-2701: thứ 7 08:00, 10 buổi × 120 phút, khai giảng 09/01/2027 (thứ 7)
+    {
+        var b = SinhBuoi("GT-2701", new(2027, 1, 9), [(7, new(8, 0), "P101")], 10, 120, "GV011");
+        Assert.Equal(10, b.Count);
+        Assert.Equal((new DateOnly(2027, 1, 9), new TimeOnly(10, 0)), (b[0].Ngay, b[0].KetThuc));
+        Assert.Equal(new DateOnly(2027, 3, 13), b[^1].Ngay);
+        var hai = SinhBuoi("TOE", new(2027, 1, 5), [(2, new(19, 0), "P305"), (4, new(19, 0), "P305")], 3, 120, "GV023");
+        Assert.Equal([new(2027, 1, 6), new(2027, 1, 11), new DateOnly(2027, 1, 13)], hai.Select(x => x.Ngay));  // khai giảng thứ 3
+    }
+
+    // ---------------- 2.4 – Cây quyết định chuyển lớp, bảo lưu (QT08, QT09), ca TC07 ----------------
+
+    [Theory]  // mỗi lá của nhánh "Chuyển lớp"
+    [InlineData(4, true, true, "QT08")]
+    [InlineData(3, false, true, "QT08#2")]
+    [InlineData(3, true, false, "QT08#3")]
+    [InlineData(4, false, false, "QT08")]     // xét số buổi trước
+    [InlineData(0, true, true, null)]
+    public void CayQuyetDinh_ChuyenLop(int daHoc, bool cungKhoa, bool conCho, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => XetChuyenLop(daHoc, 3, cungKhoa, conCho)) is LoiNghiepVu l ? l.Khoa : null);
+
+    [Theory]  // mỗi lá của nhánh "Bảo lưu"; khóa 24 buổi, ngưỡng 50%
+    [InlineData(1_000, 0, false, "QT09")]
+    [InlineData(0, 12, false, "QT09#2")]      // đúng 50% đã bị từ chối
+    [InlineData(0, 11, true, "QT09#3")]
+    [InlineData(0, 11, false, null)]
+    public void CayQuyetDinh_BaoLuu(int conNo, int daHoc, bool daBaoLuu, string? loi) =>
+        Assert.Equal(loi, Record.Exception(() => XetBaoLuu(conNo, daHoc, 24, 50, daBaoLuu)) is LoiNghiepVu l ? l.Khoa : null);
+
+    // ---------------- 5.2 – Thông báo (QT12, QT16) ----------------
+
+    [Fact]
+    public void ThongBao_NguoiNhan_PhuHuynhKhiDuoi18()
+    {
+        Assert.Equal([null, "PH0301", "PH0302"], NguoiNhan(new(2012, 3, 14), ["PH0301", "PH0302"], NgayDK));   // HV0412, 14 tuổi
+        Assert.Equal([null], NguoiNhan(new(2009, 1, 4), ["PH0301"], NgayDK));                                  // đúng 18 tuổi
+    }
+
+    [Theory]
+    [InlineData(2_800_000, "2026-12-09", "quá hạn ngày 09/12/2026, còn nợ 2.800.000 đ")]
+    [InlineData(1_000, "2027-01-07", "hạn đóng 07/01/2027")]   // còn 3 ngày
+    [InlineData(1_000, "2027-01-08", null)]                      // còn 4 ngày: chưa nhắc
+    [InlineData(0, "2026-12-09", null)]                          // đã đóng đủ
+    public void ThongBao_NhacHocPhi_QT16(int conNo, string han, string? chua)
+    {
+        var nd = NhacHocPhi("TOE-2611", conNo, DateOnly.Parse(han), NgayDK, 3);
+        if (chua == null) Assert.Null(nd); else Assert.Contains(chua, nd);
+    }
+
     // ---------------- N1 – Mật khẩu, khóa tạm ----------------
 
     [Fact]
@@ -156,15 +281,38 @@ public class KiemThuQuyTac
     [Fact]
     public void KhoaDangNhap_5LanSai_Khoa15Phut()
     {
-        var k = new KhoaDangNhap();
         var t = new DateTime(2027, 1, 4, 19, 30, 0);
-        for (int i = 0; i < 4; i++) k.Sai("nv004", t);
-        Assert.False(k.DangKhoa("nv004", t));
-        k.Sai("nv004", t);
-        Assert.True(k.DangKhoa("nv004", t.AddMinutes(14)));
-        Assert.False(k.DangKhoa("nv004", t.AddMinutes(15)));
-        Assert.False(k.DangKhoa("nv005", t));
-        k.Dung("nv004");
-        Assert.False(k.DangKhoa("nv004", t));
+        (int Lan, DateTime? Den) s = (0, null);          // TaiKhoan.SoLanSai, KhoaDen (bảo trì B4)
+        for (int i = 0; i < 4; i++) s = KhoaDangNhap.Sai(s.Lan, s.Den, t);
+        Assert.False(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t));
+        s = KhoaDangNhap.Sai(s.Lan, s.Den, t);
+        Assert.True(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t.AddMinutes(14)));
+        Assert.False(KhoaDangNhap.DangKhoa(s.Lan, s.Den, t.AddMinutes(15)));
+        Assert.Equal(1, KhoaDangNhap.Sai(s.Lan, s.Den, t.AddMinutes(15)).Lan);   // hết khóa: đếm lại từ đầu
+        Assert.False(KhoaDangNhap.DangKhoa(0, null, t));
+    }
+
+    [Theory]  // B7: nhận dấu phẩy thập phân
+    [InlineData("7.5", true, 7.5)]
+    [InlineData("7,5", true, 7.5)]
+    [InlineData(" 10 ", true, 10)]
+    [InlineData("abc", false, 0)]
+    [InlineData("7,5,1", false, 0)]
+    [InlineData("8.25", false, 0)]     // DECIMAL(3, 1) sẽ làm tròn ngầm
+    public void DocDiem_DauPhayHoacDauCham(string s, bool doc, double mong)
+    {
+        Assert.Equal(doc, DocDiem(s, out var d));
+        if (doc) Assert.Equal((decimal)mong, d);
+    }
+
+    [Fact]  // R5.4a – ca TC32: tỷ lệ đạt trên kết quả đã duyệt, chuyên cần bình quân theo số HV
+    public void BaoCaoHocTap_TongHopKy()
+    {
+        static TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.Lop L(int hv, decimal? cc, int kq, int dat) =>
+            new("L", "", "", "", hv, cc, 0, kq, dat, 0, 0, 0, 0, null);
+        var (dat, cc) = TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.TongHop([L(10, 90, 10, 9), L(30, 70, 0, 0), L(5, null, 5, 1)]);
+        Assert.Equal(10m * 100 / 15, dat);          // lớp chưa tổng kết không làm giảm tỷ lệ
+        Assert.Equal(75m, cc);                      // (10·90 + 30·70) / 40; lớp chưa điểm danh bị bỏ
+        Assert.Equal((null, null), TrungTamNgoaiNgu.Pages.BaoCao.HocTapModel.TongHop([]));
     }
 }

@@ -1,0 +1,41 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HeThong.TaiKhoanModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F5.1a";
+    ViewData["TroGiup"] = "Mỗi người một tài khoản, gắn với hồ sơ đã có. Mật khẩu tạm chỉ hiện một lần: giao trực tiếp cho người dùng; họ phải đổi ở lần đăng nhập đầu. Mỗi vai trò chỉ dùng được các chức năng của vai trò đó.";
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao @if (Model.MatKhauTam != null) { <span>Mật khẩu tạm: <b class="font-monospace">@Model.MatKhauTam</b></span> }</div> }
+<div asp-validation-summary="All" class="hop-loi"></div>
+<form method="post" asp-page-handler="Them" class="row g-2 align-items-end mb-3">
+    <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="Ten">Tên đăng nhập</label><input id="Ten" name="Ten" value="@Model.Ten" class="form-control" maxlength="50" /></div>
+    <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="VaiTro">Vai trò</label>
+        <select id="VaiTro" name="VaiTro" class="form-select">@foreach (var v in PhanQuyen.TuVaiTroCsdl.Keys) { <option selected="@(v == Model.VaiTro)">@v</option> }</select></div>
+    <div class="col-6 col-md-3"><label class="form-label bat-buoc" for="MaChu">Mã chủ tài khoản</label><input id="MaChu" name="MaChu" value="@Model.MaChu" class="form-control" placeholder="NV…, GV…, HV…, PH…" title="Mã hồ sơ của người dùng, phải khớp vai trò: nhân viên NV…, giáo viên GV…, học viên HV…, phụ huynh PH…" /></div>
+    <div class="col-6 col-md-3"><button class="btn btn-primary w-100">Cấp tài khoản</button></div>
+</form>
+<form method="get" class="d-flex flex-wrap gap-2 mb-2">
+    <input name="tim" value="@Model.Tim" class="form-control" style="max-width:18rem" placeholder="Tên đăng nhập hoặc mã chủ tài khoản" aria-label="Tìm tài khoản" />
+    <button class="btn btn-outline-primary">Tìm</button>
+</form>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Tên đăng nhập</th><th>Vai trò</th><th>Chủ tài khoản</th><th>Trạng thái</th><th>Ghi chú</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var t in Model.DanhSach)
+            {
+                <tr class="@(t.TrangThai == "Khóa" ? "table-secondary" : "")">
+                    <td>@t.TenDangNhap</td><td>@t.VaiTro</td><td>@(t.MaNV ?? t.MaGV ?? t.MaHV ?? t.MaPH)</td><td>@t.TrangThai</td>
+                    <td class="small">@(t.PhaiDoiMatKhau ? "chưa đổi mật khẩu tạm" : "")@(t.SoLanSai > 0 ? $" sai {t.SoLanSai} lần" : "")</td>
+                    <td class="text-nowrap">
+                        <form method="post" class="d-inline"><input type="hidden" name="ten" value="@t.TenDangNhap" />
+                            <button class="btn btn-sm btn-outline-primary" asp-page-handler="DatLai" onclick="return confirm('Đặt lại mật khẩu của @t.TenDangNhap?')">Đặt lại mật khẩu</button>
+                            <button class="btn btn-sm btn-outline-primary" asp-page-handler="Khoa">@(t.TrangThai == "Khóa" ? "Mở" : "Khóa")</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_PhanTrang" model="Model.Trang" />

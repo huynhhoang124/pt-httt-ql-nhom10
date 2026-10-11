@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TrungTamContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("TrungTam")));
 builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All)); // giữ nguyên chữ tiếng Việt trong HTML
 builder.Services.AddSingleton<DongHo>();
-builder.Services.AddSingleton<KhoaDangNhap>();
+builder.Services.AddHostedService<LoThongBao>();   // 5.2: lô thông báo hằng ngày
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
     {
@@ -32,8 +32,9 @@ builder.Services.AddRazorPages(o =>
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-    app.UseExceptionHandler("/Error");
+// N7: kể cả khi chạy demo (Development) người dùng chỉ thấy trang lỗi tiếng Việt; chi tiết lỗi ghi ở cửa sổ máy chủ
+app.UseExceptionHandler("/Error");
+app.UseStatusCodePagesWithReExecute("/Error", "?ma={0}");
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

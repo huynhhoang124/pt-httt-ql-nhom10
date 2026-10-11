@@ -1,0 +1,33 @@
+@page
+@model TrungTamNgoaiNgu.Pages.DanhMuc.PhongHocModel
+@{
+    ViewData["Ma"] = "F1.4";
+    ViewData["TroGiup"] = "Sức chứa lớn hơn 0; sĩ số tối đa của lớp không được vượt sức chứa phòng (QT06, kiểm tra ở F2.1). Phòng không dùng nữa thì đổi Tình trạng.";
+}
+@if (Model.ThongBao != null) { <div class="hop-tb">@Model.ThongBao</div> }
+<div class="row g-3">
+    <div class="col-lg-7 table-responsive">
+        <table class="table table-sm table-bordered align-middle">
+            <thead><tr><th>Mã</th><th>Tên phòng</th><th class="so">Sức chứa</th><th>Thiết bị</th><th>Tình trạng</th></tr></thead>
+            <tbody>
+                @foreach (var p in Model.DanhSach)
+                {
+                    <tr class="@(p.MaPhong == Model.Ma ? "table-active" : "")"><td><a href="?ma=@p.MaPhong">@p.MaPhong</a></td><td>@p.TenPhong</td><td class="so">@p.SucChua</td><td>@p.ThietBi</td><td>@p.TinhTrang</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <form method="post" class="col-lg-5">
+        <h2 class="h6 fw-bold">@(Model.Ma == null ? "Thêm phòng" : $"Sửa {Model.Ma}") @if (Model.Ma != null) { <a class="small fw-normal ms-2" href="?">+ thêm mới</a> }</h2>
+        <input type="hidden" name="ma" value="@Model.Ma" />
+        <div asp-validation-summary="All" class="hop-loi"></div>
+        <div class="row g-2">
+            <div class="col-4"><label class="form-label bat-buoc" for="F_MaPhong">Mã</label><input asp-for="F.MaPhong" class="form-control" readonly="@(Model.Ma != null)" maxlength="10" /></div>
+            <div class="col-8"><label class="form-label bat-buoc" for="F_TenPhong">Tên phòng</label><input asp-for="F.TenPhong" class="form-control" /></div>
+            <div class="col-4"><label class="form-label bat-buoc" for="F_SucChua">Sức chứa</label><input asp-for="F.SucChua" class="form-control" min="1" title="Số chỗ ngồi, lớn hơn 0; sĩ số lớp học ở phòng này không vượt số này" /></div>
+            <div class="col-8"><label class="form-label" for="F_TinhTrang">Tình trạng</label><select asp-for="F.TinhTrang" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.PhongHocModel.TinhTrang))" class="form-select"></select></div>
+            <div class="col-12"><label class="form-label" for="F_ThietBi">Thiết bị</label><input asp-for="F.ThietBi" class="form-control" /></div>
+        </div>
+        <partial name="_NutLenh" model="new NutLenh()" />
+    </form>
+</div>

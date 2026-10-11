@@ -285,6 +285,9 @@ Ràng buộc trên nhiều trường: UNIQUE (MaHV, MaLop); FOREIGN KEY (MaHV, M
 | MaHV | VARCHAR(10) | FK → HocVien; NULL | Mã học viên |
 | MaPH | VARCHAR(10) | FK → PhuHuynh; NULL | Mã phụ huynh |
 | TrangThai | NVARCHAR(20) | NOT NULL; mặc định N'Hoạt động'; CHECK (TrangThai IN (N'Hoạt động', N'Khóa')) | Trạng thái. [Hoạt động \| Khóa] |
+| PhaiDoiMatKhau | BIT | NOT NULL; mặc định 1 | Phải đổi mật khẩu. Có / Không; tài khoản mới cấp = Có (thêm ở GĐ5, bảo trì B2) |
+| SoLanSai | TINYINT | NOT NULL; mặc định 0 | Số lần đăng nhập sai. Số nguyên ≥ 0 (thêm ở GĐ5, bảo trì B4) |
+| KhoaDen | DATETIME2(0) | NULL | Khóa đến. Hết thời điểm này thì đếm lại từ đầu; đủ 5 lần sai thì khóa đến thời điểm này (bảo trì B4) |
 
 Ràng buộc trên nhiều trường: CHECK ((VaiTro = N'Giáo viên' AND MaGV IS NOT NULL AND MaNV IS NULL AND MaHV IS NULL AND MaPH IS NULL) OR (VaiTro = N'Học viên' AND MaHV IS NOT NULL AND MaNV IS NULL AND MaGV IS NULL AND MaPH IS NULL) OR (VaiTro = N'Phụ huynh' AND MaPH IS NOT NULL AND MaNV IS NULL AND MaGV IS NULL AND MaHV IS NULL) OR (VaiTro IN (N'NV tuyển sinh', N'NV kế toán', N'QL đào tạo', N'Giám đốc', N'Quản trị viên') AND MaNV IS NOT NULL AND MaGV IS NULL AND MaHV IS NULL AND MaPH IS NULL)).
 

@@ -1,0 +1,23 @@
+@model TrungTamNgoaiNgu.Nen.TrangDs
+@{
+    // Giữ nguyên các điều kiện lọc đang có trên địa chỉ, chỉ đổi trang / số dòng
+    string Url(int trang, int co)
+    {
+        var q = Context.Request.Query.Where(k => k.Key is not ("trang" or "so" or "xuat"))
+            .Select(k => new KeyValuePair<string, string?>(k.Key, k.Value.ToString())).ToList();
+        q.Add(new("trang", trang.ToString()));
+        q.Add(new("so", co.ToString()));
+        return Context.Request.Path + QueryString.Create(q).ToString();
+    }
+}
+<nav class="phan-trang d-print-none" aria-label="Phân trang">
+    <span>@Model.Tong dòng · trang @Model.So/@Model.SoTrang</span>
+    @if (Model.So > 1) { <a class="btn btn-sm btn-outline-primary" href="@Url(Model.So - 1, Model.Co)">‹ Trước</a> }
+    @if (Model.So < Model.SoTrang) { <a class="btn btn-sm btn-outline-primary" href="@Url(Model.So + 1, Model.Co)">Sau ›</a> }
+    <span class="ms-2">Số dòng một trang:</span>
+    @foreach (var c in TrungTamNgoaiNgu.Nen.TrangDs.CoChon)
+    {
+        if (c == Model.Co) { <b aria-current="true">@c</b> }
+        else { <a href="@Url(1, c)">@c</a> }
+    }
+</nav>

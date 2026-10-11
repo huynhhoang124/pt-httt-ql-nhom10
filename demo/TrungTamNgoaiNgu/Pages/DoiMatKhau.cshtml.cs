@@ -1,4 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TrungTamNgoaiNgu.Data;
@@ -22,6 +25,7 @@ public class DoiMatKhauModel(TrungTamContext db, DongHo dongHo) : PageModel
     public string NhapLai { get; set; } = "";
 
     public bool DaDoi { get; set; }
+    public bool BatBuoc => User.HasClaim(c => c.Type == DangNhapModel.PhaiDoiMatKhau);
 
     public void OnGet() { }
 
@@ -34,9 +38,21 @@ public class DoiMatKhauModel(TrungTamContext db, DongHo dongHo) : PageModel
             ModelState.AddModelError(nameof(Cu), "Mật khẩu hiện tại không đúng.");
             return Page();
         }
+        if (Moi == Cu)
+        {
+            ModelState.AddModelError(nameof(Moi), "Mật khẩu mới phải khác mật khẩu hiện tại.");
+            return Page();
+        }
         tk.MatKhauBam = MatKhau.Bam(Moi);
+        tk.PhaiDoiMatKhau = false;
         db.GhiNhatKy(User, "Sửa", "TaiKhoan", tk.TenDangNhap, dongHo.Bay);
         await db.SaveChangesAsync();
+        if (BatBuoc)  // B2: cấp lại phiên không còn dấu "phải đổi mật khẩu"
+        {
+            var id = new ClaimsIdentity(User.Claims.Where(c => c.Type != DangNhapModel.PhaiDoiMatKhau), CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            return Redirect("/");
+        }
         DaDoi = true;
         return Page();
     }

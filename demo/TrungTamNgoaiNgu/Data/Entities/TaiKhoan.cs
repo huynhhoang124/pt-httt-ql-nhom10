@@ -21,6 +21,12 @@ public partial class TaiKhoan
 
     public string TrangThai { get; set; } = null!;
 
+    public bool PhaiDoiMatKhau { get; set; }
+
+    public byte SoLanSai { get; set; }
+
+    public DateTime? KhoaDen { get; set; }
+
     public virtual GiaoVien? MaGVNavigation { get; set; }
 
     public virtual HocVien? MaHVNavigation { get; set; }

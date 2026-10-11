@@ -77,7 +77,7 @@ public class HocVienSuaModel(TrungTamContext db, DongHo dongHo) : PageModel
         var homNay = dongHo.HomNay;
         if (F.NgaySinh!.Value.AddYears(18) > homNay && !themPh && !PhuHuynh.Any())
         {
-            ModelState.AddModelError("", "Học viên dưới 18 tuổi bắt buộc có ít nhất 1 phụ huynh (04_dac_ta mục 1.1). Gợi ý: nhập phụ huynh ở phần dưới.");
+            ModelState.AddModelError("", "Học viên dưới 18 tuổi bắt buộc có ít nhất 1 phụ huynh. Gợi ý: nhập phụ huynh ở phần dưới.");
             return Page();
         }
 

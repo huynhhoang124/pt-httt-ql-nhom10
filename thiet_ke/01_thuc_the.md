@@ -450,6 +450,9 @@ Quyền đăng nhập vào hệ thống. Được tạo ở 5.1.
 | Mã học viên | MaHV | QH → HocVien | Không | |
 | Mã phụ huynh | MaPH | QH → PhuHuynh | Không | |
 | Trạng thái | TrangThai | | Có | [Hoạt động \| Khóa] |
+| Phải đổi mật khẩu | PhaiDoiMatKhau | | Có | Có / Không; tài khoản mới cấp = Có (thêm ở GĐ5, bảo trì B2) |
+| Số lần đăng nhập sai | SoLanSai | | Có | Số nguyên ≥ 0 (thêm ở GĐ5, bảo trì B4) |
+| Khóa đến | KhoaDen | | Không | Hết thời điểm này thì đếm lại từ đầu; đủ 5 lần sai thì khóa đến thời điểm này (bảo trì B4) |
 
 Ràng buộc: trong 4 thuộc tính quan hệ, **đúng một** có giá trị và phải khớp với Vai trò (Giáo viên → MaGV; Học viên → MaHV; Phụ huynh → MaPH; các vai trò còn lại → MaNV). Bốn thuộc tính được để riêng, không gộp thành một "Mã người dùng", vì nếu gộp thì không đặt được khóa ngoại.
 
@@ -705,7 +708,7 @@ Mỗi `QH → X` phải trỏ đúng tới các thuộc tính `#` của X, đủ
 | 20 | Kết quả học tập | KetQua | Sự kiện | D4 | #MaHV, #MaLop, DiemTongKet, XepLoai, KetQua, MaNVDuyet, NgayDuyet |
 | 21 | Chứng nhận | ChungNhan | Sự kiện | D4 | #SoCN, MaHV, MaLop, NgayCap |
 | 22 | Nhân viên | NhanVien | Chức năng | D5 | #MaNV, HoTen, BoPhan, ChucVu, DienThoai, Email, TrangThai |
-| 23 | Tài khoản | TaiKhoan | Chức năng | D5 | #TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai |
+| 23 | Tài khoản | TaiKhoan | Chức năng | D5 | #TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai, PhaiDoiMatKhau, SoLanSai, KhoaDen |
 | 24 | Thông báo | ThongBao | Sự kiện | D5 | #MaTB, Loai, MaHV, MaPH, NoiDung, ThoiGianGui, TrangThaiGui |
 | 25 | Nhật ký | NhatKy | Sự kiện | D5 | #MaNK, ThoiDiem, TenDangNhap, ThaoTac, DoiTuong, MaDoiTuong |
 | 26 | Tham số | ThamSo | Chức năng | D5 | #MaThamSo, TenThamSo, GiaTri, DonVi, QuyTac |

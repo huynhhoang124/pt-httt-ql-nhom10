@@ -6,19 +6,19 @@
     ViewData["TroGiup"] = "\"Đã xác nhận\" = đã thu ít nhất 50% học phí phải nộp (QT05). Sĩ số chỉ tính đăng ký còn giữ chỗ (không tính Chuyển lớp, Nghỉ học).";
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 d-print-none">
-    <select name="lop" class="form-select" style="max-width:14rem">
+    <select name="lop" class="form-select" style="max-width:14rem" aria-label="Lớp">
         <option value="">– Chọn lớp –</option>
         @foreach (var l in Model.CacLop)
         {
             <option selected="@(l == Model.Lop)">@l</option>
         }
     </select>
-    <button class="btn btn-primary">Xem danh sách lớp</button>
+    <button class="btn btn-primary">Xem</button>
     @if (User.Co("2.2", "T"))
     {
         <a class="btn btn-outline-primary" href="/LopHoc/DangKy">Lập phiếu đăng ký (F2.2)</a>
     }
-    <button type="button" class="btn btn-outline-primary" onclick="print()">In</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()" title="In hoặc lưu PDF (Ctrl+P)">In</button>
 </form>
 @if (Model.PhieuDK != null)
 {

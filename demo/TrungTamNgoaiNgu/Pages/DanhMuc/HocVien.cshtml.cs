@@ -12,13 +12,14 @@ public class HocVienModel(TrungTamContext db) : PageModel
 {
     public string? Q { get; set; }
     public List<HocVien> DanhSach { get; set; } = [];
+    public TrangDs Trang { get; set; } = new(1, 50, 0);
 
-    public async Task OnGetAsync(string? q)
+    public async Task OnGetAsync(string? q, int? trang, int? so)
     {
         Q = q?.Trim();
         var ds = db.HocVien.AsNoTracking();
         if (PhamVi.HocVien(db, User, "1.1") is { } duocXem) ds = ds.Where(h => duocXem.Contains(h.MaHV));
         if (!string.IsNullOrEmpty(Q)) ds = ds.Where(h => h.HoTen.Contains(Q) || h.DienThoai.Contains(Q) || h.MaHV == Q);
-        DanhSach = await ds.OrderBy(h => h.MaHV).Take(200).ToListAsync();
+        (DanhSach, Trang) = await ds.OrderBy(h => h.MaHV).LayTrangAsync(trang, so);
     }
 }

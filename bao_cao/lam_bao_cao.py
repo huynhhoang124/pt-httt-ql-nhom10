@@ -1,8 +1,8 @@
 """Dựng báo cáo Word + PDF từ các file .md của dự án (nội dung chỉ sửa ở .md, không sửa tay file Word).
 
 Định dạng giữ như Bài tập 1: Times New Roman, đen trắng, bảng viền xám nhạt, đầu bảng xám.
-Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
-Bao_cao_tong_Nhom_10 (.docx, .pdf; báo cáo tổng = BT1 + GĐ1 → GĐ5)
+Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong] [phan_cong]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
+Bao_cao_tong_Nhom_10 (.docx, .pdf; báo cáo tổng = BT1 + GĐ1 → GĐ5), Phan_cong_sua_Nhom_10.docx (từ PHAN_CONG_SUA.md)
 (xuất PDF và cập nhật mục lục cần Microsoft Word trên Windows, qua pywin32).
 """
 import copy
@@ -136,7 +136,7 @@ def noi_dung(p, text, size=12, bold=False, italic=False):
         if not m:
             continue
         if m.startswith("**"):
-            font(p.add_run(m[2:-2]), size, True, italic)
+            font(p.add_run(m[2:-2].replace("`", "")), size, True, italic)  # **`mã`** in đậm, bỏ dấu `
         elif m.startswith("`"):
             font(p.add_run(m[1:-1]), size - 1, bold, italic, MONO)
         elif m.startswith("*") and len(m) > 2:
@@ -265,9 +265,9 @@ def doc_md(doc, md, chuong, bo_muc=(), thay=(), giu_dau=False, thu_muc=GOC):
             SO_HINH[chuong] = SO_HINH.get(chuong, 0) + 1
             hinh(doc, (thu_muc / duong).resolve(), f"Hình {chuong}.{SO_HINH[chuong]}. {alt}", xoay=True)
             i += 1
-        elif d.startswith("```"):
+        elif d.lstrip().startswith("```"):  # kể cả khối mã thụt lề trong danh sách
             j = i + 1
-            while not dong[j].startswith("```"):
+            while not dong[j].lstrip().startswith("```"):
                 j += 1
             khoi_ma(doc, dong[i + 1:j])
             i = j + 1
@@ -548,7 +548,9 @@ def bao_cao_thiet_ke(doc=None):
     """doc=None: báo cáo riêng. Có doc: ghi phần nội dung vào báo cáo tổng (tham chiếu "báo cáo phân tích" → "Phần II")."""
     rieng = doc is None
     md = lambda ten: (GOC / ten).read_text(encoding="utf-8")
-    thay = THAY_TK if rieng else THAY_TK + [(r"báo cáo phân tích", "Phần II"), (r"KE_HOACH", "kế hoạch dự án")]
+    # bảng mô tả tệp (csdl/mo_ta_bang.md) là phụ lục: A ở báo cáo riêng, B ở báo cáo tổng
+    pl = [(r"`csdl/mo_ta_bang\.md`", "Phụ lục A" if rieng else "Phụ lục B")]
+    thay = pl + THAY_TK if rieng else pl + THAY_TK + [(r"báo cáo phân tích", "Phần II"), (r"KE_HOACH", "kế hoạch dự án")]
     if rieng:
         doc = Document()
         thiet_lap_kieu(doc)
@@ -591,7 +593,7 @@ def bao_cao_thiet_ke(doc=None):
               "CSDL SQL Server 26 bảng, 35 khóa ngoại, 63 ràng buộc CHECK, 16 chỉ mục, 9 view và 2 hàm cho báo cáo MIS; "
               "dữ liệu mẫu sinh tự động, 24/24 kiểm tra đạt.",
               "34 module theo mã BFD/DFD và ma trận phân quyền cho 8 vai trò.",
-              "18 form ứng với luồng vào, 18 báo cáo ứng với luồng ra của DFD, thực đơn phân cấp, 4 phác thảo màn hình "
+              "19 form ứng với luồng vào, 18 báo cáo ứng với luồng ra của DFD, thực đơn phân cấp, 4 phác thảo màn hình "
               "và 22 thông báo lỗi."]:
         p = doan(doc, "– " + t, sau=3)
         p.paragraph_format.left_indent, p.paragraph_format.first_line_indent = Cm(0.8), Cm(-0.45)
@@ -703,11 +705,12 @@ def bao_cao_tong():
         "tại, 16 quy tắc nghiệp vụ; BFD 5 chức năng cấp 1 và 20 chức năng lá; DFD ba mức với 7 tác nhân, 5 kho, được "
         "kiểm tra tự động về quy tắc vẽ và cân bằng (Phụ lục A).",
         "Thiết kế: 26 thực thể và ERD; chuẩn hóa 5 chứng từ đến dạng chuẩn 3; CSDL SQL Server 26 bảng với các ràng "
-        "buộc, view, hàm cho báo cáo (Phụ lục B); 34 module theo mã chức năng, ma trận phân quyền 8 vai trò; 18 form, "
+        "buộc, view, hàm cho báo cáo (Phụ lục B); 34 module theo mã chức năng, ma trận phân quyền 8 vai trò; 19 form, "
         "18 báo cáo ứng với các luồng vào, ra của DFD.",
-        "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, gồm đăng nhập, phân quyền, nhật ký, báo lỗi và 10 màn "
-        "hình chính (hồ sơ học viên, đăng ký, học phí, phiếu thu, điểm danh, nhập điểm, báo cáo). Kiểm thử: 38 ca kiểm "
-        "thử đơn vị, 24 kiểm tra CSDL, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ mẫu; 4 lỗi phát hiện đã sửa.",
+        "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, đủ 20 chức năng lá và các chức năng nền (đăng nhập, "
+        "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi) với 26 màn hình. Kiểm thử: 80 ca kiểm thử "
+        "đơn vị, 24 kiểm tra CSDL, 38 ca theo tiến trình đều đạt, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ "
+        "mẫu; 4 lỗi phát hiện đã sửa.",
         "Kế hoạch cài đặt theo giai đoạn (danh mục → lớp, lịch → học phí → học tập), huấn luyện 3 mức, chuyển đổi dữ "
         "liệu từ Excel; quy trình bảo trì, quản lý cấu hình bằng Git và 7 hướng phát triển.",
     ])
@@ -719,6 +722,21 @@ def bao_cao_tong():
     phu_luc_can_bang(doc, "PHỤ LỤC A. BẢNG CÂN BẰNG DFD")
     phu_luc_mo_ta_bang(doc, "PHỤ LỤC B. MÔ TẢ CÁC TỆP DỮ LIỆU", THAY_TK + [(r"báo cáo phân tích", "Phần II")])
     ra = GOC / "bao_cao" / "Bao_cao_tong_Nhom_10.docx"
+    doc.save(ra)
+    print("Đã ghi", ra)
+    return ra
+
+
+def phan_cong():
+    """PHAN_CONG_SUA.md -> bao_cao/Phan_cong_sua_Nhom_10.docx (giao cho nhóm; không mục lục, không PDF)."""
+    doc = Document()
+    thiet_lap_kieu(doc)
+    doc.core_properties.title = "Phân công sửa demo và tài liệu"
+    doc.core_properties.author = "Nhóm 10"
+    so_trang(doc)
+    doc_md(doc, (GOC / "PHAN_CONG_SUA.md").read_text(encoding="utf-8"), None, giu_dau=True)
+    doc.paragraphs[0].paragraph_format.page_break_before = False
+    ra = GOC / "bao_cao" / "Phan_cong_sua_Nhom_10.docx"
     doc.save(ra)
     print("Đã ghi", ra)
     return ra
@@ -749,4 +767,7 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     chon = sys.argv[1:] or ["phan_tich", "thiet_ke", "tong"]
     for ten in chon:
+        if ten == "phan_cong":
+            phan_cong()
+            continue
         xuat_pdf({"phan_tich": bao_cao_phan_tich, "thiet_ke": bao_cao_thiet_ke, "tong": bao_cao_tong}[ten]())

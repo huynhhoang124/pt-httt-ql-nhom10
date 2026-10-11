@@ -3,7 +3,7 @@
 @using TrungTamNgoaiNgu.Nen
 @{
     ViewData["Ma"] = "F4.2";
-    ViewData["TroGiup"] = "Điểm từ 0 đến 10, dùng dấu chấm cho phần lẻ (vd 7.5); bỏ trống nếu chưa có điểm. Điểm bị khóa khi học viên đã được tổng kết (4.3).";
+    ViewData["TroGiup"] = "Điểm từ 0 đến 10, phần lẻ dùng dấu chấm hoặc dấu phẩy (vd 7.5 hoặc 7,5); bỏ trống nếu chưa có điểm. Điểm bị khóa khi học viên đã được tổng kết (4.3).";
     var c = Model.Chon;
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
@@ -47,16 +47,13 @@
                         var khoa = !Model.DuocGhi || d.Khoa;
                         <tr>
                             <td>@ma</td><td>@d.Hv.HoTen @if (d.Khoa) { <span class="small">(đã tổng kết)</span> }</td>
-                            <td><input name="DiemNhap[@ma]" value="@(Model.DiemNhap.GetValueOrDefault(ma) ?? d.Diem?.Diem1.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" class="form-control form-control-sm so" inputmode="decimal" disabled="@khoa" /></td>
-                            <td><input name="NhanXet[@ma]" value="@(Model.NhanXet.GetValueOrDefault(ma) ?? d.Diem?.NhanXet)" class="form-control form-control-sm" disabled="@khoa" /></td>
+                            <td><input name="DiemNhap[@ma]" value="@(Model.DiemNhap.GetValueOrDefault(ma) ?? d.Diem?.Diem1.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))" class="form-control form-control-sm so" inputmode="decimal" pattern="\s*(10([.,]0)?|[0-9]([.,][0-9])?)\s*" disabled="@khoa" aria-label="Điểm @Model.Loai.ToLower() của @ma" title="Từ 0 đến 10, một chữ số lẻ, vd 7,5; bỏ trống nếu chưa có điểm" /></td>
+                            <td><input name="NhanXet[@ma]" value="@(Model.NhanXet.GetValueOrDefault(ma) ?? d.Diem?.NhanXet)" class="form-control form-control-sm" disabled="@khoa" aria-label="Nhận xét cho @ma" /></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        @if (Model.DuocGhi)
-        {
-            <button class="btn btn-primary">Lưu</button>
-        }
+        <partial name="_NutLenh" model='new NutLenh(Model.DuocGhi ? "Lưu" : null)' />
     </form>
 }

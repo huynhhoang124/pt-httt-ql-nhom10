@@ -99,7 +99,7 @@ Bảng mô tả chi tiết của 26 tệp (Tên trường – Kiểu dữ liệu
 - `NOT NULL` không khớp cột "Bắt buộc";
 - khóa ngoại không khớp 34 thuộc tính quan hệ.
 
-Kết quả chạy: *26 bảng, 161 trường, 35 khóa ngoại, 16 chỉ mục: đạt*. Script đã được thử với dữ liệu sai: đổi một cột sang NULL, hoặc bỏ một khóa ngoại, thì script đều báo lỗi.
+Kết quả chạy: *26 bảng, 164 trường, 35 khóa ngoại, 16 chỉ mục: đạt*. Script đã được thử với dữ liệu sai: đổi một cột sang NULL, hoặc bỏ một khóa ngoại, thì script đều báo lỗi.
 
 Tổng hợp:
 
@@ -127,11 +127,11 @@ Tổng hợp:
 | 20 | KetQua | Kết quả học tập | D4 | 7 | MaHV, MaLop | 35 |
 | 21 | ChungNhan | Chứng nhận | D4 | 4 | SoCN | 31 |
 | 22 | NhanVien | Nhân viên | D5 | 7 | MaNV | 7 |
-| 23 | TaiKhoan | Tài khoản | D5 | 8 | TenDangNhap | 17 |
+| 23 | TaiKhoan | Tài khoản | D5 | 11 | TenDangNhap | 17 |
 | 24 | ThongBao | Thông báo | D5 | 7 | MaTB | 27 |
 | 25 | NhatKy | Nhật ký | D5 | 6 | MaNK | 7 |
 | 26 | ThamSo | Tham số | D5 | 5 | MaThamSo | 14 |
-| | **Tổng** | | | **161** | | **1.872** |
+| | **Tổng** | | | **164** | | **1.872** |
 
 ---
 

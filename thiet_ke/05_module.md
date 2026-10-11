@@ -247,14 +247,15 @@ Tổ chức mã nguồn theo phân hệ, để mã module = mã thư mục. Khi 
 demo/TrungTamNgoaiNgu/
   Pages/DanhMuc  (1.1–1.4)   Pages/LopHoc (2.1–2.4)   Pages/HocPhi (3.1–3.4)
   Pages/HocTap   (4.1–4.4)   Pages/BaoCao (báo cáo 3.4, 5.3, 5.4)
-  Pages/         (DangNhap, DoiMatKhau, KhongCoQuyen: giao diện của N1, N2)
+  Pages/HeThong  (5.1, 5.2, N4 sao lưu)
+  Pages/         (DangNhap, DoiMatKhau, KhongCoQuyen: giao diện của N1, N2; Shared/_XuatBaoCao N5, _LuuNhap N6)
   Nen/           (N1–N7: đăng nhập, phân quyền, nhật ký, báo lỗi…; tệp *.g.cs sinh từ mục 5 và 06_giao_dien bằng demo/sinh_ma.py)
   NghiepVu/      (QuyTac.cs: quy tắc không phụ thuộc CSDL – bảng quyết định 3.1, QT05, QT11)
   Data/          (EF Core: 26 thực thể ánh xạ từ CSDL 3.4, database-first)
 demo/KiemThu/    (xUnit, kiểm thử đơn vị theo mục 8)
 ```
 
-Lớp xử lý nghiệp vụ không tách thành một lớp dịch vụ riêng cho mỗi module: quy tắc dùng chung nằm ở `NghiepVu/`, phần còn lại nằm trong lớp xử lý của trang (Razor Pages gộp controller và view model). Bản demo chưa có `Pages/HeThong` (5.1, 5.2).
+Lớp xử lý nghiệp vụ không tách thành một lớp dịch vụ riêng cho mỗi module: quy tắc dùng chung nằm ở `NghiepVu/`, phần còn lại nằm trong lớp xử lý của trang (Razor Pages gộp controller và view model).
 
 ---
 

@@ -15,6 +15,12 @@ public class DiemDanhModel(TrungTamContext db, DongHo dongHo) : PageModel
 {
     public record Dong(HocVien Hv, string? TrangThai, string? GhiChu, v_ChuyenCan? ChuyenCan);
 
+    /// <summary>Chú giải mã trạng thái (06_giao_dien mục 1: mã hiện kèm chú giải đầy đủ).</summary>
+    public static readonly Dictionary<string, string> TenTrangThai = new()
+    {
+        ["x"] = "Có mặt", ["M"] = "Đi muộn", ["P"] = "Vắng có phép", ["K"] = "Vắng không phép",
+    };
+
     [BindProperty(SupportsGet = true)] public string? Buoi { get; set; }   // "MaLop|SoBuoi"
     [BindProperty] public Dictionary<string, string> TrangThai { get; set; } = [];
     [BindProperty] public Dictionary<string, string?> GhiChu { get; set; } = [];

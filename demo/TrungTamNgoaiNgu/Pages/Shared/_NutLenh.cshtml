@@ -1,0 +1,20 @@
+@model TrungTamNgoaiNgu.Nen.NutLenh
+<div class="nut-lenh d-print-none">
+    @if (Model.Luu != null)
+    {
+        if (Model.XuLy != null)
+        {
+            <button class="btn btn-primary" asp-page-handler="@Model.XuLy" data-phim="luu" title="@Model.Luu (Ctrl+S)">@Model.Luu</button>
+        }
+        else
+        {
+            <button class="btn btn-primary" data-phim="luu" title="@Model.Luu (Ctrl+S)">@Model.Luu</button>
+        }
+        if (Model.Nhap != null)
+        {
+            <partial name="_LuuNhap" model="Model.Nhap" />
+        }
+        <button type="reset" class="btn btn-outline-primary" title="Bỏ các thay đổi chưa lưu">Hủy</button>
+    }
+    <a class="btn btn-outline-primary" href="@Model.Thoat" data-phim="thoat" title="Thoát (Esc)">Thoát</a>
+</div>

@@ -52,6 +52,10 @@ public static class CsdlMoRong
     public static async Task<decimal> ThamSoAsync(this TrungTamContext db, string ma) =>
         (await db.ThamSo.FindAsync(ma))?.GiaTri ?? throw new InvalidOperationException($"Thiếu tham số {ma}");
 
+    /// <summary>Mã danh mục tiếp theo dạng TIỀNTỐ + số có <paramref name="chuSo"/> chữ số (GV024, HV0491).</summary>
+    public static string MaMoi(IEnumerable<string> daCo, string tienTo, int chuSo) =>
+        tienTo + (daCo.Select(m => int.TryParse(m[tienTo.Length..], out var n) ? n : 0).DefaultIfEmpty(0).Max() + 1).ToString($"D{chuSo}");
+
     /// <summary>Số chứng từ tiếp theo dạng TIỀNTỐ + năm + "-" + 4 chữ số (DK2026-0158, PT2026-0731).</summary>
     public static string SoTiepTheo(IEnumerable<string> daCo, string tienTo, int nam)
     {

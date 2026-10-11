@@ -5,7 +5,7 @@ Thuộc giai đoạn Thiết kế hệ thống (KE_HOACH.md, mục 3.2). Làm ti
 2. **Xác định quan hệ giữa các thực thể**: mối quan hệ, bậc quan hệ, kiểu quan hệ (mục 2 dưới đây).
 3. **Vẽ sơ đồ Quan hệ – Thực thể** (mục 3).
 
-Nguồn đầu vào: 26 thực thể ở `thiet_ke/01_thuc_the.md` mục 8, và 34 thuộc tính quan hệ ở mục 9 của cùng tài liệu.
+Nguồn đầu vào: 26 thực thể ở `thiet_ke/01_thuc_the.md` mục 8, và 34 thuộc tính quan hệ ở `thiet_ke/01_thuc_the.md` mục 9.
 
 Sơ đồ ERD sinh từ `so_do/src/erd.py`. Script này đọc **bảng quan hệ ở mục 2 của chính tài liệu này** cùng mục 8, mục 9 của 01_thuc_the.md, kiểm tra các quy tắc ở mục 4, rồi mới vẽ. Muốn sửa quan hệ thì sửa bảng ở mục 2, sau đó chạy lại `python so_do/src/erd.py`.
 

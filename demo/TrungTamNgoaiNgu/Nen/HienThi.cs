@@ -12,6 +12,10 @@ public static class HienThi
     public static string So(decimal x) => x.ToString("N0", Vi);
     public static string Ngay(DateOnly? d) => d?.ToString("dd/MM/yyyy") ?? "–";
     public static string Thu(byte thu) => thu == 8 ? "CN" : $"T{thu}";
+    /// <summary>Điểm một chữ số lẻ, dấu phẩy kiểu Việt Nam (7,4); chỉ để xem, ô nhập điểm vẫn dùng dấu chấm.</summary>
+    public static string Diem(decimal? x) => x?.ToString("0.0", Vi) ?? "–";
+    /// <summary>Lớp CSS của nhãn xếp loại trong bảng điểm (site.css .xep): Giỏi nền tím, Không đạt viền đỏ.</summary>
+    public static string Xep(string? xepLoai) => xepLoai switch { "Giỏi" => "xep gioi", "Không đạt" => "xep hong", null => "", _ => "xep" };
 
     static readonly string[] ChuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
     static readonly string[] DonVi = ["", " nghìn", " triệu", " tỷ"];
@@ -45,3 +49,7 @@ public static class HienThi
     public static string Lich(IEnumerable<LichTuan> lich) => string.Join("; ", lich.GroupBy(l => (l.GioBatDau, l.MaPhong))
         .Select(g => $"{string.Join(", ", g.OrderBy(x => x.Thu).Select(x => Thu(x.Thu)))} {g.Key.GioBatDau:HH\\:mm} · {g.Key.MaPhong}"));
 }
+
+/// <summary>Hàng nút lệnh cuối form (06_giao_dien mục 5.2): Lưu (Ctrl+S) · Lưu nháp · Hủy · Thoát (Esc), cùng tên, cùng vị trí.
+/// Luu = null: form chỉ xem, chỉ còn Thoát. Nhap: khóa lưu nháp N6 (chỉ F2.2, F3.2). XuLy: handler của nút Lưu nếu form có nhiều handler.</summary>
+public record NutLenh(string? Luu = "Lưu", string Thoat = "/", string? Nhap = null, string? XuLy = null);

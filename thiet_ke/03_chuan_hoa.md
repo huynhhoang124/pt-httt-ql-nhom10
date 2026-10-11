@@ -421,7 +421,7 @@ Cột 2 là thuộc tính thu được từ chuẩn hóa các chứng từ, vi�
 | KetQua | #MaHV, #MaLop, DiemTongKet, XepLoai, KetQua | C, E | MaNVDuyet, NgayDuyet (4.3, QL đào tạo duyệt) |
 | ChungNhan | #SoCN, MaHV, MaLop, NgayCap | E | – |
 | NhanVien | #MaNV, HoTen | A, B | BoPhan, ChucVu, DienThoai, Email, TrangThai (5.1) |
-| TaiKhoan | – | – | TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai (5.1; không có chứng từ) |
+| TaiKhoan | – | – | TenDangNhap, MatKhauBam, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai, PhaiDoiMatKhau, SoLanSai, KhoaDen (5.1; không có chứng từ) |
 | ThongBao | – | – | MaTB, Loai, MaHV, MaPH, NoiDung, ThoiGianGui, TrangThaiGui (5.2; không có chứng từ) |
 | NhatKy | – | – | MaNK, ThoiDiem, TenDangNhap, ThaoTac, DoiTuong, MaDoiTuong (dữ liệu hệ thống) |
 | ThamSo | – | – | MaThamSo, TenThamSo, GiaTri, DonVi, QuyTac (dữ liệu cấu hình) |
@@ -433,7 +433,7 @@ Chạy `python thiet_ke/kiem_tra_chuan_hoa.py`: **đạt**.
 | Kết quả | Số liệu |
 |---|---|
 | Thực thể tìm lại được bằng chuẩn hóa 5 chứng từ | **22/26**, khóa trùng đúng khóa đã thiết kế ở 3.1 |
-| Thuộc tính lấy từ chứng từ | 86/161. 75 thuộc tính còn lại là dữ liệu chỉ nhập trên màn hình danh mục hoặc do hệ thống sinh, không in trên chứng từ nào; nguồn của chúng ghi ở cột 4 |
+| Thuộc tính lấy từ chứng từ | 86/164. 78 thuộc tính còn lại là dữ liệu chỉ nhập trên màn hình danh mục hoặc do hệ thống sinh, không in trên chứng từ nào; nguồn của chúng ghi ở cột 4 |
 | Bảng hoặc thuộc tính chuẩn hóa ra mà 3.1 không có | **0** |
 | Thực thể không có chứng từ | 4: TaiKhoan, ThongBao (D5, nhập qua 5.1 và 5.2), NhatKy (dữ liệu hệ thống), ThamSo (dữ liệu cấu hình) |
 

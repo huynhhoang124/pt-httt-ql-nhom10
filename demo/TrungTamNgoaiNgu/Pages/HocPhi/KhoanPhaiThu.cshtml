@@ -35,8 +35,8 @@
                     <td>@c.Dk.SoPhieuDK</td><td>@HienThi.Ngay(c.NgayDK)</td><td>@c.Dk.MaHV @c.Dk.MaHVNavigation.HoTen</td><td>@c.Dk.MaLop</td>
                     <td class="so">@HienThi.So(c.Dk.MaLopNavigation.MaKHNavigation.HocPhi)</td>
                     <td>@(c.HocVienCu ? "Có" : "Không")</td>
-                    <td><input type="checkbox" name="nhom" value="true" class="form-check-input" form="@f" /></td>
-                    <td><select name="soDot" class="form-select form-select-sm" form="@f"><option value="2">2 đợt</option><option value="1">1 lần</option></select></td>
+                    <td><input type="checkbox" name="nhom" value="true" class="form-check-input" form="@f" aria-label="Nhóm từ 3 người – @c.Dk.MaHV" /></td>
+                    <td><select name="soDot" class="form-select form-select-sm" form="@f" aria-label="Số đợt – @c.Dk.MaHV"><option value="2">2 đợt</option><option value="1">1 lần</option></select></td>
                     <td>
                         <form method="post" id="@f">
                             <input type="hidden" name="hv" value="@c.Dk.MaHV" /><input type="hidden" name="lop" value="@c.Dk.MaLop" />

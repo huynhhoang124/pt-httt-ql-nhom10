@@ -55,6 +55,7 @@ public static partial class ThucDon
         ["F5.1b"] = ("Tham số hệ thống", "5.1"),
         ["F5.3"] = ("Chọn báo cáo tổng hợp", "5.3"),
         ["FN1"] = ("Đăng nhập, đổi mật khẩu", "N1"),
+        ["FN4"] = ("Sao lưu dữ liệu", "N4"),
         ["R2.2"] = ("Kết quả đăng ký, danh sách lớp", "2.2"),
         ["R2.3a"] = ("Lịch học của học viên", "2.3"),
         ["R2.3b"] = ("Lịch dạy, danh sách lớp", "2.3"),
