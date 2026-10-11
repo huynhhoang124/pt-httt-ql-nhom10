@@ -13,7 +13,7 @@
             : ten.StartsWith(maTrang[0] + " ") ? ten[(maTrang[0].Length + 1)..] : ten;
     }
     var daDangNhap = User.Identity?.IsAuthenticated == true;
-    var coThucDon = daDangNhap && Context.Request.Path != "/";
+    var coThucDon = daDangNhap && Context.Request.Path != "/" && !Context.Request.Path.StartsWithSegments("/DangNhap");
 }
 <!DOCTYPE html>
 <html lang="vi">
