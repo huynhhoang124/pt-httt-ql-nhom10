@@ -43,8 +43,9 @@
 @foreach (var (tieuDe, ds) in new[] { ("Theo khóa học", Model.TheoKhoa), ("Theo hình thức thanh toán", Model.TheoHinhThuc), ("Theo tháng", Model.TheoThang) })
 {
     <h2 class="h6 fw-bold">@tieuDe</h2>
-    <table class="table table-sm table-bordered" style="max-width:40rem">
-        <thead><tr><th></th><th class="so">Số phiếu</th><th class="so">Số tiền</th><th class="so">Tỷ trọng</th></tr></thead>
+    <div class="table-responsive" style="max-width:40rem">
+    <table class="table table-sm table-bordered">
+        <thead><tr><th>@(char.ToUpper(tieuDe[5]) + tieuDe[6..])</th><th class="so">Số phiếu</th><th class="so">Số tiền</th><th class="so">Tỷ trọng</th></tr></thead>
         <tbody>
             @foreach (var n in ds)
             {
@@ -53,4 +54,5 @@
             <tr class="fw-bold"><td>Tổng</td><td></td><td class="so">@HienThi.So(ds.Sum(n => n.Tien))</td><td></td></tr>
         </tbody>
     </table>
+    </div>
 }

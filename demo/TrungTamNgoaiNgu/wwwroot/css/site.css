@@ -88,7 +88,7 @@ a:hover { color: #000; text-decoration-thickness: 2px; }
 .validation-summary-errors ul { margin: 0; padding-left: 1.1rem; }
 .loi, .validation-summary-errors, .field-validation-error, .text-danger { color: var(--dau) !important; }
 .canh-bao { color: var(--dau); font-weight: 600; }
-.chua-lam { color: var(--phu); }
+.chua-lam, .text-secondary { color: var(--phu) !important; }
 .bat-buoc::after { content: " *"; color: var(--dau); }
 
 /* ---------- Form ---------- */
@@ -135,10 +135,11 @@ h2.h6 { font-size: 1rem; margin-top: .5rem; }
 .the-module h2 { font-size: .95rem; font-weight: 600; color: var(--phu); margin-bottom: .2rem; }
 
 /* ---------- F4.1: một chạm mỗi học viên trên điện thoại ---------- */
-.chon-dd input { position: absolute; opacity: 0; pointer-events: none; }
+.chon-dd { position: relative; }
+.chon-dd input[type=radio] { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .chon-dd label { min-width: 2.75rem; border: 1px solid var(--muc); border-radius: var(--bo); text-align: center; padding: .4rem 0; margin-right: .25rem; cursor: pointer; font-weight: 500; }
-.chon-dd input:checked + label { background: var(--muc); color: var(--giay); }
-.chon-dd input:focus-visible + label { outline: 2px solid var(--muc); outline-offset: 2px; }
+.chon-dd input[type=radio]:checked + label { background: var(--muc); color: var(--giay); }
+.chon-dd input[type=radio]:focus-visible + label { outline: 2px solid var(--muc); outline-offset: 2px; }
 
 /* ---------- Phân trang ---------- */
 .phan-trang { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .9rem; margin: .5rem 0 1rem; color: var(--phu); }
@@ -154,7 +155,7 @@ h2.h6 { font-size: 1rem; margin-top: .5rem; }
 @media (prefers-reduced-motion: reduce) { .noi-bat { animation: none; outline: 2px solid var(--muc); } }
 
 /* ---------- Chứng từ in: phiếu thu 2 liên, giấy chứng nhận ---------- */
-.lien { font-family: var(--chu-in); font-size: 1.05rem; border: 1px solid var(--muc); padding: 1rem 1.25rem; margin-bottom: 1.5rem; page-break-inside: avoid; }
+.lien { font-family: var(--chu-in); font-size: 1.05rem; border: 1px solid var(--muc); padding: 1rem 1.25rem; margin-bottom: 1.5rem; page-break-inside: avoid; overflow-x: auto; }
 .lien .table { font-size: .95rem; }
 .lien .table thead th { font-size: .9rem; }
 
