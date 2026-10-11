@@ -1,6 +1,6 @@
 # Đề xuất giao diện v2 – "Vở ô li và mực tím"
 
-Trạng thái: **đề xuất, chờ nhóm chốt** (12/10/2026). Bản mẫu xem trực tiếp: `thiet_ke/de_xuat_giao_dien_v2.html` (mở bằng trình duyệt). Giao diện đang chạy (v1, đen – trắng – xám) giữ nguyên cho tới khi nhóm đồng ý.
+Trạng thái: **đã chốt và áp dụng vào demo** (mục 5 đã làm: `site.css`, `_Layout`, bảng điểm R4.3a/R4.4, 06_giao_dien 5.2; quét lại 8 vai trò ở 375/1280 px không trang nào tràn ngang). Bản mẫu xem trực tiếp: `thiet_ke/de_xuat_giao_dien_v2.html` (mở bằng trình duyệt).
 
 ## 1. Ý tưởng
 

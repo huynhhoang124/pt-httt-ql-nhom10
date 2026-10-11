@@ -137,14 +137,15 @@ Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ li
 | Quy ước | Nội dung |
 |---|---|
 | Bố cục | Đường dẫn (vd *2.0 Lớp học › 2.2 Đăng ký học*) ở trên cùng; tiêu đề có mã form; vùng nhập theo thứ tự của chứng từ giấy; nút lệnh ở dưới cùng; dòng trợ giúp ở đáy màn hình |
-| Màu sắc | Đen, trắng, xám; chỉ dùng **một màu nhấn** cho lỗi và cảnh báo (bài giảng: không dùng quá nhiều màu gây rối mắt) |
+| Màu sắc | Trắng, xám và **tím mực** làm màu chính (nút, mục đang chọn, tiêu đề); chỉ dùng **một màu nhấn** đỏ (bút đỏ) cho lỗi, cảnh báo, không đạt (bài giảng: không dùng quá nhiều màu gây rối mắt). Điểm nhấn duy nhất: dải đầu trang kẻ ô li có đường lề như trang đầu cuốn vở (giao diện v2 "Vở ô li và mực tím", `thiet_ke/de_xuat_giao_dien_v2.md`). Chữ đạt độ tương phản ≥ 4,5:1 |
 | Nút lệnh | Cùng tên, cùng vị trí trên mọi form: **Lưu** (Ctrl+S), **Lưu nháp** (2.2, 3.2), **Hủy**, **Thoát** (Esc), **In** (Ctrl+P), **Trợ giúp** (F1) |
 | Trường bắt buộc | Có dấu \*. Trường bắt buộc lấy theo cột "Bắt buộc" của 3.1 (NOT NULL trong 3.4) |
 | Danh sách chọn | Mọi miền giá trị `[a \| b]` của 3.1 (trạng thái, giới tính, loại ưu đãi…) hiện thành danh sách chọn, không cho gõ tự do |
 | Xác nhận | Hỏi lại trước khi ghi những thao tác không sửa được: lập phiếu thu, duyệt kết quả, chuyển trạng thái Nghỉ học |
 | Màn hình hẹp | Form F4.1, F4.2 và các report của HV, PH xếp thành một cột trên điện thoại |
 | Mã màn hình | Ô "Mẫu" ở góc phải tiêu đề ghi mã form/báo cáo (vd *Mẫu F3.2*), như ô "Mẫu số" trên chứng từ giấy; người dùng báo lỗi chỉ cần đọc mã này |
-| Chữ | Giao diện dùng Be Vietnam Pro (thiết kế cho tiếng Việt, máy không có Internet dùng Segoe UI); chứng từ in (phiếu thu, chứng nhận) dùng Times New Roman |
+| Chữ | Giao diện dùng Be Vietnam Pro (thiết kế cho tiếng Việt, máy không có Internet dùng Segoe UI); tiêu đề màn hình và điểm số dùng Literata (chữ có chân); chứng từ in (phiếu thu, chứng nhận) dùng Times New Roman |
+| Bảng điểm | Điểm hiện dấu phẩy (7,4); xếp loại thành nhãn (Giỏi nền tím, Không đạt viền đỏ); dòng học viên không đạt viết chữ đỏ |
 | Kiểm tra khi nhập | Trường có \* không để trống được; điện thoại 10 chữ số, email, điểm 0–10 một chữ số lẻ, mã học viên kiểm tra ngay trên trình duyệt, câu báo bằng tiếng Việt; máy chủ vẫn kiểm tra lại theo mục 6 |
 | Gợi ý khi gõ | Ô mã học viên gợi ý theo mã hoặc họ tên (chỉ cho vai trò được xem toàn bộ hồ sơ) |
 | Danh sách dài | Phân trang, người dùng chọn 20 / 50 / 100 dòng một trang; xuất Excel lấy toàn bộ kết quả lọc |

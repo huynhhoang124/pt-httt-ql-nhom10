@@ -24,7 +24,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     @* Phông tải không chặn hiển thị: máy không có Internet vẫn mở trang ngay, dùng Segoe UI thay *@
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Literata:opsz,wght@7..72,600&display=swap" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -55,28 +55,31 @@
                     <partial name="_ThucDon" />
                 </details>
             }
-            @if (duongDan != null)
-            {
-                <div class="duong-dan d-print-none">@duongDan</div>
-            }
             @if (ten != null)
             {
+                @* Dải đầu trang kẻ ô li, có đường lề như trang đầu cuốn vở (thiet_ke/de_xuat_giao_dien_v2.md) *@
                 <div class="dau-trang">
-                    <h1 class="tieu-de">@ten</h1>
-                    @if (maTrang.Length > 0)
+                    @if (duongDan != null)
                     {
-                        <div class="o-mau" title="Mã màn hình trong thiết kế (06_giao_dien)">
-                            <span>Mẫu</span>
-                            @foreach (var m in maTrang) { <b>@m</b> }
-                        </div>
+                        <div class="duong-dan d-print-none">@duongDan</div>
                     }
-                    @if (ViewData["TroGiup"] is string goiY)
-                    {
-                        <button type="button" class="btn btn-sm btn-outline-primary nut-tro-giup d-print-none" data-tro-giup title="Trợ giúp (F1): @goiY" aria-label="Trợ giúp (F1)">?</button>
-                    }
+                    <div class="hang-tieu-de">
+                        <h1 class="tieu-de">@ten</h1>
+                        @if (maTrang.Length > 0)
+                        {
+                            <div class="o-mau" title="Mã màn hình trong thiết kế (06_giao_dien)">
+                                <span>Mẫu</span>
+                                @foreach (var m in maTrang) { <b>@m</b> }
+                            </div>
+                        }
+                        @if (ViewData["TroGiup"] is string goiY)
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-primary nut-tro-giup d-print-none" data-tro-giup title="Trợ giúp (F1): @goiY" aria-label="Trợ giúp (F1)">?</button>
+                        }
+                    </div>
                 </div>
             }
-            @RenderBody()
+            <div class="than-trang">@RenderBody()</div>
         </main>
     </div>
     <footer class="tro-giup d-print-none">

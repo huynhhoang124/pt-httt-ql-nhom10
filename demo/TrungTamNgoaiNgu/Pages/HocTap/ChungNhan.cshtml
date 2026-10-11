@@ -33,13 +33,13 @@
                         @foreach (var d in Model.DanhSach)
                         {
                             var k = d.Kq;
-                            <tr class="@(k.KetQua1 == "Đạt" ? "" : "table-secondary")">
+                            <tr class="@(k.KetQua1 == "Đạt" ? "" : "khong-dat")">
                                 @if (Model.DuocCap)
                                 {
                                     <td><input type="checkbox" name="Chon" value="@d.Hv.MaHV" class="form-check-input" aria-label="Cấp chứng nhận cho @d.Hv.MaHV"disabled="@(k.ChungNhan != null || !QuyTac.DuocCapChungNhan(k.KetQua1, k.NgayDuyet))" /></td>
                                 }
-                                <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td><td class="so">@k.DiemTongKet.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)</td>
-                                <td>@k.XepLoai</td><td>@k.KetQua1</td><td>@(k.ChungNhan?.SoCN ?? "–")</td>
+                                <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td><td class="so diem">@HienThi.Diem(k.DiemTongKet)</td>
+                                <td><span class="@HienThi.Xep(k.XepLoai)">@k.XepLoai</span></td><td>@k.KetQua1</td><td>@(k.ChungNhan?.SoCN ?? "–")</td>
                             </tr>
                         }
                     </tbody>
@@ -60,7 +60,7 @@
             <h2 class="h4 fw-bold mt-3">GIẤY CHỨNG NHẬN HOÀN THÀNH KHÓA HỌC</h2>
             <div class="mt-2">Chứng nhận học viên: <b>@d.Hv.HoTen</b> &nbsp; Ngày sinh: @HienThi.Ngay(d.Hv.NgaySinh)</div>
             <div>Đã hoàn thành khóa học: @l.MaKHNavigation.TenKH (lớp @l.MaLop), từ @HienThi.Ngay(l.NgayKhaiGiang) đến @HienThi.Ngay(Model.NgayKetThuc)</div>
-            <div>Kết quả: <b>@d.Kq.XepLoai (@d.Kq.DiemTongKet.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture))</b> &nbsp; Ngày cấp: @HienThi.Ngay(c.NgayCap)</div>
+            <div>Kết quả: <b>@d.Kq.XepLoai (@HienThi.Diem(d.Kq.DiemTongKet))</b> &nbsp; Ngày cấp: @HienThi.Ngay(c.NgayCap)</div>
             <div class="text-end mt-3 me-4">Giám đốc trung tâm</div>
         </div>
     }

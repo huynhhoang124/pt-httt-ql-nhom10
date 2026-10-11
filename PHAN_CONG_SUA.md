@@ -34,7 +34,8 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
   - trường bắt buộc: chỉ cần nhãn có lớp `bat-buoc` (hiện dấu `*`), trình duyệt tự chặn để trống;
   - ô nhập mã học viên: `list="ds-hoc-vien"` và thêm `<partial name="_GoiYHocVien" />` cuối trang;
   - danh sách có thể dài: `.LayTrangAsync(trang, so)` (`Nen/PhanTrang.cs`) và `<partial name="_PhanTrang" model="Model.Trang" />`;
-  - chỉ dùng màu có sẵn (đen, xám, đỏ `canh-bao` cho cảnh báo); không thêm màu riêng.
+  - chỉ dùng màu có sẵn (giao diện v2: tím mực cho nút, đỏ `canh-bao` cho cảnh báo); không thêm màu riêng;
+  - bảng điểm: điểm `HienThi.Diem(x)` (dấu phẩy) trong ô `class="so diem"`, xếp loại `<span class="@HienThi.Xep(xl)">`, dòng không đạt `class="khong-dat"` (mẫu: `HocTap/TongKet.cshtml`).
 
 **Xong một việc khi**
 1. `dotnet build` không lỗi; `dotnet test demo/KiemThu` đạt hết (hiện 80/80). Quy tắc có tính toán thì thêm test vào `demo/KiemThu/KiemThuQuyTac.cs`.

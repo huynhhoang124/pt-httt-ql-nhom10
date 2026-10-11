@@ -147,7 +147,7 @@ Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo c
 
 **Việc tiếp theo, theo thứ tự:**
 1. Gộp PR #1 (bạn trong nhóm duyệt, hoặc chủ repo gộp bằng quyền admin), báo nhóm `git pull`. Trên GitHub còn 5 nhánh cũ theo tên thành viên (`nguyen-gia-an`, `vu-van-hung`, `nguyen-van-luan`, `tran-thu-thuy`, `tran-minh-quan`, ở commit cũ 7e10895): nhóm nên tạo nhánh mới từ `main` sau khi gộp (hoặc gộp `main` vào nhánh cũ) trước khi làm việc trong `PHAN_CONG_SUA.md`.
-2. **Chốt giao diện:** v1 đang chạy (đen – trắng – xám) hay v2 "Vở ô li và mực tím" (`thiet_ke/de_xuat_giao_dien_v2.md` + bản mẫu `.html`). Nếu chọn v2: làm theo mục 5 của tệp đó (chỉ sửa `site.css`, `_Layout`, 06_giao_dien 5.2; không đổi trang nghiệp vụ), rồi quét lại như TC43. Nên làm **trước** khi nhóm làm màn hình mới để các bạn chép đúng kiểu.
+2. ~~Chốt giao diện~~ **Xong:** đã chọn v2 "Vở ô li và mực tím" và áp dụng (`site.css`, `_Layout` có dải đầu trang `.dau-trang` + `.than-trang`, bảng điểm dùng `HienThi.Diem`/`HienThi.Xep`, 06_giao_dien 5.2); `dotnet test` 80/80, quét 8 vai trò ở 375/1280 px không tràn ngang. PR #1 đã gộp vào `main`.
 3. Nhóm làm `PHAN_CONG_SUA.md` (6 màn hình còn thiếu R2.3a, R2.3b, R3.1, R4.1, R4.3b, R5.3a; ThamSo phiên bản CSDL; R5.4b; script phân quyền; thử điện thoại thật và bản in); người điều phối duyệt PR, xong thì sửa số liệu kết luận (`bao_cao/lam_bao_cao.py`: số màn hình, số ca) và dựng lại báo cáo tổng.
 4. Slide (mục "Thuyết trình" dưới đây; deck đã tạo, chưa có slide; cập nhật số liệu: 38 ca, giao diện mới).
 

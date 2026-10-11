@@ -188,7 +188,7 @@ Theo `thiet_ke/05_module.md` mục 8, bước 5. Mọi ca kiểm thử đều tr
 
 ### 4.2 Ca kiểm thử theo tiến trình
 
-Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung; TC43 sau đợt sửa giao diện).
+Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung; TC43 sau đợt sửa giao diện, chạy lại phần bề rộng 375/1280 px cho 8 vai trò sau khi đổi sang giao diện v2).
 
 | Mã | Tiến trình | Dữ liệu vào / thao tác | Kết quả mong đợi | Kết quả |
 |---|---|---|---|---|

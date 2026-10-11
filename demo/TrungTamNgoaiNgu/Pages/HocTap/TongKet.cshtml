@@ -5,7 +5,7 @@
     ViewData["Ma"] = "R4.3a, F4.3";
     ViewData["TroGiup"] = "Tổng kết = TS chuyên cần × điểm chuyên cần + TS giữa kỳ × điểm giữa kỳ + TS cuối kỳ × điểm cuối kỳ, làm tròn 1 chữ số (QT13). Giỏi ≥ 8.5, Khá ≥ 7.0, Trung bình ≥ 5.0 (QT14). Đạt khi tổng kết ≥ 5.0 và chuyên cần ≥ 70% (QT15). Sau khi duyệt, điểm bị khóa.";
     var c = Model.Chon;
-    string So(decimal? x) => x?.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) ?? "–";
+    string So(decimal? x) => HienThi.Diem(x);
 }
 <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
     <div>
@@ -37,18 +37,19 @@
                 {
                     var t = d.Tinh;
                     var kq = d.DaChot?.KetQua1 ?? t?.KetQua;
-                    <tr class="@(kq == "Không đạt" ? "table-secondary" : "")">
+                    var xl = d.DaChot?.XepLoai ?? t?.XepLoai;
+                    <tr class="@(kq == "Không đạt" ? "khong-dat" : "")">
                         <td>@d.Hv.MaHV</td><td>@d.Hv.HoTen</td>
                         <td class="so">@(t == null ? "–" : $"{So(t.DiemChuyenCan)} ({t.TyLeChuyenCan:0}%)")</td>
                         <td class="so">@So(d.GiuaKy)</td><td class="so">@So(d.CuoiKy)</td>
-                        <td class="so"><b>@So(d.DaChot?.DiemTongKet ?? t?.DiemTongKet)</b></td>
-                        <td>@(d.DaChot?.XepLoai ?? t?.XepLoai ?? "thiếu điểm")</td><td>@kq</td>
+                        <td class="so diem">@So(d.DaChot?.DiemTongKet ?? t?.DiemTongKet)</td>
+                        <td>@if (xl == null) { <span class="chua-lam">thiếu điểm</span> } else { <span class="@HienThi.Xep(xl)">@xl</span> }</td><td>@kq</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <p class="small fst-italic">Chuyên cần, tổng kết, xếp loại do hệ thống tính (QT13–QT15, bảng quyết định 4.3); dòng tô xám là học viên không đạt.</p>
+    <p class="small fst-italic">Chuyên cần, tổng kết, xếp loại do hệ thống tính (QT13–QT15, bảng quyết định 4.3); dòng chữ đỏ là học viên không đạt.</p>
     @if (Model.DuocDuyet)
     {
         <form method="post" class="d-flex flex-wrap gap-2 align-items-end">

@@ -12,6 +12,10 @@ public static class HienThi
     public static string So(decimal x) => x.ToString("N0", Vi);
     public static string Ngay(DateOnly? d) => d?.ToString("dd/MM/yyyy") ?? "–";
     public static string Thu(byte thu) => thu == 8 ? "CN" : $"T{thu}";
+    /// <summary>Điểm một chữ số lẻ, dấu phẩy kiểu Việt Nam (7,4); chỉ để xem, ô nhập điểm vẫn dùng dấu chấm.</summary>
+    public static string Diem(decimal? x) => x?.ToString("0.0", Vi) ?? "–";
+    /// <summary>Lớp CSS của nhãn xếp loại trong bảng điểm (site.css .xep): Giỏi nền tím, Không đạt viền đỏ.</summary>
+    public static string Xep(string? xepLoai) => xepLoai switch { "Giỏi" => "xep gioi", "Không đạt" => "xep hong", null => "", _ => "xep" };
 
     static readonly string[] ChuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
     static readonly string[] DonVi = ["", " nghìn", " triệu", " tỷ"];
