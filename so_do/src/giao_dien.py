@@ -166,7 +166,7 @@ def ve_thuc_don(form, bao_cao):
     cao = max(cao_cot) + 3.9
     fig, ax = plt.subplots(figsize=(tong * 0.62, cao * 0.62))
     y0 = cao - 1.2
-    hop(ax, tong / 2 - 4.6, y0, 9.2, 0.9, "THỰC ĐƠN CHÍNH (thanh thực đơn trên cùng)", dam=True, co=11)
+    hop(ax, tong / 2 - 4.6, y0, 9.2, 0.9, "TRANG CHỦ (thanh chức năng bên trái)", dam=True, co=11)
     ax.plot([tong / 2] * 2, [y0, y0 - 0.4], color="black", lw=1.2)
     ax.plot([W / 2, tong - W / 2], [y0 - 0.4] * 2, color="black", lw=1.2)
     for i, (ma, (ten, cons)) in enumerate(cot):

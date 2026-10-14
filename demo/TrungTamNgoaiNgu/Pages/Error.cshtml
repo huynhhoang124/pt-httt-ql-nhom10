@@ -6,7 +6,7 @@
 <div class="hop-loi">
     @if (Model.Ma == 404)
     {
-        <span>Địa chỉ này không có trong hệ thống. Gợi ý: kiểm tra lại địa chỉ, hoặc chọn chức năng trên <a href="/">thực đơn chính</a>.</span>
+        <span>Địa chỉ này không có trong hệ thống. Gợi ý: kiểm tra lại địa chỉ, hoặc chọn chức năng ở <a href="/">trang chủ</a>.</span>
     }
     else
     {
@@ -14,4 +14,4 @@
     }
 </div>
 <p class="small">Mã lỗi: <code>@Model.RequestId</code></p>
-<a class="btn btn-outline-primary" href="/">Về thực đơn chính</a>
+<a class="btn btn-outline-primary" href="/">Về trang chủ</a>
