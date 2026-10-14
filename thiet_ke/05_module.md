@@ -53,22 +53,22 @@ Số module: 1 + 6 + 27 = **34 module**, nhiều hơn 25 tiến trình trên DFD
 | Mã | Tên module | Phân hệ | Ứng với | Chức năng con (mức 3) |
 |---|---|---|---|---|
 | 1.1 | Tiếp nhận hồ sơ, kiểm tra trình độ học viên | 1.0 | DFD 1.1 | Tìm và kiểm tra trùng hồ sơ (điện thoại + ngày sinh); thêm, sửa hồ sơ học viên; thêm phụ huynh và quan hệ giám hộ; ghi kết quả kiểm tra đầu vào; ngừng hồ sơ |
-| 1.2 | Quản lý hồ sơ giáo viên | 1.0 | DFD 1.2 | Thêm, sửa hồ sơ giáo viên (kiểm tra trùng điện thoại, email); cập nhật tình trạng làm việc; tra cứu |
-| 1.3 | Quản lý khóa học | 1.0 | DFD 1.3 | Thêm, sửa khóa học; đặt học phí, số buổi, trọng số (tổng 100%); ngừng khóa |
-| 1.4 | Quản lý phòng học | 1.0 | DFD 1.4 | Thêm, sửa phòng; cập nhật tình trạng (sẵn sàng, bảo trì) |
+| 1.2 | Cập nhật hồ sơ giáo viên | 1.0 | DFD 1.2 | Thêm, sửa hồ sơ giáo viên (kiểm tra trùng điện thoại, email); cập nhật tình trạng làm việc; tra cứu |
+| 1.3 | Cập nhật danh mục khóa học | 1.0 | DFD 1.3 | Thêm, sửa khóa học; đặt học phí, số buổi, trọng số (tổng 100%); ngừng khóa |
+| 1.4 | Cập nhật danh mục phòng học | 1.0 | DFD 1.4 | Thêm, sửa phòng; cập nhật tình trạng (sẵn sàng, bảo trì) |
 | 2.1 | Mở lớp, phân công giáo viên | 2.0 | DFD 2.1 | Lập lớp, phân công giáo viên đúng ngôn ngữ; lập lịch tuần, chọn phòng; theo dõi sĩ số; đến ngày khai giảng thì chuyển sang Đang học hoặc Hủy (QT06) |
-| 2.2 | Đăng ký học, xếp học viên vào lớp | 2.0 | DFD 2.2 | Lập phiếu đăng ký (lưu nháp được); kiểm tra lớp còn chỗ, đăng ký trùng; xem hiệu lực đăng ký (QT05); in kết quả đăng ký, danh sách lớp |
+| 2.2 | Nhận đăng ký, xếp học viên vào lớp | 2.0 | DFD 2.2 | Lập phiếu đăng ký (lưu nháp được); kiểm tra lớp còn chỗ, đăng ký trùng; xem hiệu lực đăng ký (QT05); in kết quả đăng ký, danh sách lớp |
 | 2.3 | Xếp lịch, kiểm tra trùng lịch | 2.0 | DFD 2.3 | Sinh các buổi học từ lịch tuần; kiểm tra trùng giáo viên, trùng phòng (QT07); đổi lịch, xếp học bù, dạy thay; in lịch học, lịch dạy |
 | 2.4 | Xử lý chuyển lớp, bảo lưu, nghỉ học | 2.0 | DFD 2.4 | Lập đơn; xét theo cây quyết định (QT08–QT10); cập nhật đăng ký và tạo đăng ký mới có đăng ký gốc; tự chuyển sang Nghỉ học khi quá hạn bảo lưu |
 | 3.1 | Tính học phí, áp dụng ưu đãi | 3.0 | DFD 3.1 | Quản lý danh mục ưu đãi; xét ưu đãi theo bảng quyết định 3.1 (QT01–QT04); chia đợt và đặt hạn (QT05) |
 | 3.2 | Lập phiếu thu | 3.0 | DFD 3.2 | Lập phiếu thu theo từng đợt (lưu nháp được); kiểm tra số tiền (không vượt số còn nợ, đợt 1 ≥ 50%); in phiếu thu 2 liên |
 | 3.3 | Theo dõi công nợ | 3.0 | DFD 3.3 | Tính công nợ tại một ngày; lọc khoản quá hạn (QT16); bỏ đăng ký nghỉ học (QT10) |
-| 3.4 | Thống kê doanh thu | 3.0 | DFD 3.4 | Doanh thu theo kỳ, theo khóa học, theo hình thức thanh toán; so sánh với kỳ trước; kèm tổng công nợ |
+| 3.4 | Lập báo cáo doanh thu | 3.0 | DFD 3.4 | Doanh thu theo kỳ, theo khóa học, theo hình thức thanh toán; so sánh với kỳ trước; kèm tổng công nợ |
 | 4.1 | Điểm danh, tính chuyên cần | 4.0 | DFD 4.1 | Điểm danh theo buổi trên điện thoại; sửa trong 24 giờ; tính tỷ lệ chuyên cần, đánh dấu cảnh báo (QT11, QT12) |
 | 4.2 | Nhập điểm thành phần | 4.0 | DFD 4.2 | Nhập điểm giữa kỳ, cuối kỳ và nhận xét; khóa điểm sau khi lớp đã tổng kết |
-| 4.3 | Tổng kết, xếp loại | 4.0 | DFD 4.3 | Tính điểm tổng kết, xếp loại, xét đạt (bảng quyết định 4.3); QL đào tạo duyệt và chốt kết quả; in bảng điểm |
+| 4.3 | Tổng kết điểm, xếp loại học viên | 4.0 | DFD 4.3 | Tính điểm tổng kết, xếp loại, xét đạt (bảng quyết định 4.3); QL đào tạo duyệt và chốt kết quả; in bảng điểm |
 | 4.4 | Cấp chứng nhận hoàn thành khóa học | 4.0 | DFD 4.4 | Cấp số chứng nhận cho học viên đạt (QT15); in chứng nhận |
-| 5.1 | Quản lý tài khoản, phân quyền | 5.0 | DFD 5.1 | Tạo, khóa tài khoản và gán vai trò; cấu hình tham số (bảng ThamSo); xem nhật ký |
+| 5.1 | Cấp tài khoản, phân quyền người dùng | 5.0 | DFD 5.1 | Tạo, khóa tài khoản và gán vai trò; cấu hình tham số (bảng ThamSo); xem nhật ký |
 | 5.2 | Gửi thông báo | 5.0 | DFD 5.2 | Mỗi ngày tự sinh thông báo về lịch học thay đổi, học phí sắp hoặc đã quá hạn, cảnh báo vắng, kết quả; gửi cho học viên, và cả phụ huynh nếu học viên dưới 18 tuổi |
 | 5.3 | Lập báo cáo tuyển sinh, tình trạng lớp | 5.0 | DFD 5.3 | Báo cáo học viên mới theo tháng, theo khóa; sĩ số, tỷ lệ lấp đầy, số lớp mở và hủy |
 | 5.4 | Lập báo cáo chuyên cần, kết quả, giảng dạy | 5.0 | DFD 5.4 | Chuyên cần theo lớp, danh sách học viên nghỉ nhiều; tỷ lệ đạt, phân bố xếp loại; số buổi đã dạy của từng giáo viên |
@@ -215,7 +215,7 @@ Script đã được thử với dữ liệu sai: cho 3.3 đọc bảng KetQua (
 
 Nhóm đã bổ sung vào `so_do/src/dfd.py`, ở cả mức ngữ cảnh, mức 0 và mức 1:
 - QL đào tạo → 2.0 / 2.3: "Yêu cầu đổi lịch, học bù, dạy thay";
-- QL đào tạo → 4.0 / 4.3: "Phê duyệt kết quả học tập";
+- QL đào tạo → 4.0 / 4.3: "Quyết định duyệt kết quả";
 - 4.0 / 4.3 → QL đào tạo: "Bảng điểm chờ duyệt".
 
 Sau khi bổ sung, kiểm tra cân bằng DFD vẫn đạt. Cấu trúc 3 luồng mới đã thêm vào từ điển dữ liệu (`phan_tich/04_dac_ta.md` mục 4.2), và đầu vào, đầu ra của 2.3, 4.3 đã sửa trong `phan_tich/03_chuc_nang.md`. Đây là ví dụ cho việc thiết kế phát hiện thiếu sót của phân tích, rồi quay lại sửa đúng ở nguồn.

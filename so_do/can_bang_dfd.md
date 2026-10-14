@@ -2,33 +2,35 @@
 
 ## Tác nhân: mức ngữ cảnh ↔ mức 0
 
-| Tác nhân | Hướng | Luồng ở ngữ cảnh | Tiến trình mức 0 |
-|---|---|---|---|
-| Học viên/Phụ huynh | Vào hệ thống | Yêu cầu đăng ký, chuyển lớp, bảo lưu | 2.0 |
-| Học viên/Phụ huynh | Vào hệ thống | Tiền học phí | 3.0 |
-| Học viên/Phụ huynh | Ra khỏi hệ thống | Lịch học | 2.0 |
-| Học viên/Phụ huynh | Ra khỏi hệ thống | Phiếu thu | 3.0 |
-| Học viên/Phụ huynh | Ra khỏi hệ thống | Chuyên cần, kết quả học tập, chứng nhận | 4.0 |
-| Học viên/Phụ huynh | Ra khỏi hệ thống | Thông báo | 5.0 |
-| Nhân viên tuyển sinh/Chăm sóc học viên | Vào hệ thống | Hồ sơ học viên, kết quả kiểm tra đầu vào | 1.0 |
-| Nhân viên tuyển sinh/Chăm sóc học viên | Vào hệ thống | Phiếu đăng ký, đơn chuyển lớp, bảo lưu | 2.0 |
-| Nhân viên tuyển sinh/Chăm sóc học viên | Ra khỏi hệ thống | Kết quả đăng ký, danh sách lớp | 2.0 |
-| Nhân viên kế toán | Vào hệ thống | Thông tin thu tiền, ưu đãi | 3.0 |
-| Nhân viên kế toán | Ra khỏi hệ thống | Học phí phải thu, phiếu thu, công nợ | 3.0 |
-| Giáo viên | Vào hệ thống | Điểm danh, điểm số, nhận xét | 4.0 |
-| Giáo viên | Ra khỏi hệ thống | Lịch dạy, danh sách lớp | 2.0 |
-| Quản lý đào tạo | Vào hệ thống | Thông tin khóa học, giáo viên, phòng học | 1.0 |
-| Quản lý đào tạo | Vào hệ thống | Kế hoạch mở lớp, phân công giáo viên | 2.0 |
-| Quản lý đào tạo | Vào hệ thống | Yêu cầu đổi lịch, học bù, dạy thay | 2.0 |
-| Quản lý đào tạo | Vào hệ thống | Phê duyệt kết quả học tập | 4.0 |
-| Quản lý đào tạo | Ra khỏi hệ thống | Bảng điểm chờ duyệt | 4.0 |
-| Quản lý đào tạo | Ra khỏi hệ thống | Báo cáo lớp học, chuyên cần, kết quả, giảng dạy | 5.0 |
-| Quản trị viên | Vào hệ thống | Tài khoản, phân quyền, cấu hình | 5.0 |
-| Quản trị viên | Ra khỏi hệ thống | Nhật ký hệ thống | 5.0 |
-| Giám đốc | Vào hệ thống | Yêu cầu báo cáo doanh thu | 3.0 |
-| Giám đốc | Vào hệ thống | Yêu cầu báo cáo tổng hợp | 5.0 |
-| Giám đốc | Ra khỏi hệ thống | Báo cáo doanh thu, công nợ | 3.0 |
-| Giám đốc | Ra khỏi hệ thống | Báo cáo tuyển sinh, kết quả học tập | 5.0 |
+Sơ đồ ngữ cảnh dùng tên gộp; mỗi luồng gộp được chia nhỏ thành các luồng mức 0 dưới đây.
+
+| Tác nhân | Hướng | Luồng gộp ở ngữ cảnh | Luồng mức 0 | Tiến trình mức 0 |
+|---|---|---|---|---|
+| Học viên/Phụ huynh | Vào hệ thống | Yêu cầu đăng ký, tiền học phí | Yêu cầu đăng ký, chuyển lớp, bảo lưu | 2.0 |
+| Học viên/Phụ huynh | Vào hệ thống | Yêu cầu đăng ký, tiền học phí | Tiền học phí | 3.0 |
+| Học viên/Phụ huynh | Ra khỏi hệ thống | Lịch học, phiếu thu, kết quả học tập, thông báo | Lịch học | 2.0 |
+| Học viên/Phụ huynh | Ra khỏi hệ thống | Lịch học, phiếu thu, kết quả học tập, thông báo | Phiếu thu | 3.0 |
+| Học viên/Phụ huynh | Ra khỏi hệ thống | Lịch học, phiếu thu, kết quả học tập, thông báo | Chuyên cần, kết quả học tập, chứng nhận | 4.0 |
+| Học viên/Phụ huynh | Ra khỏi hệ thống | Lịch học, phiếu thu, kết quả học tập, thông báo | Thông báo | 5.0 |
+| Nhân viên tuyển sinh/Chăm sóc học viên | Vào hệ thống | Hồ sơ học viên, phiếu đăng ký | Hồ sơ học viên, kết quả kiểm tra đầu vào | 1.0 |
+| Nhân viên tuyển sinh/Chăm sóc học viên | Vào hệ thống | Hồ sơ học viên, phiếu đăng ký | Phiếu đăng ký, đơn chuyển lớp, bảo lưu | 2.0 |
+| Nhân viên tuyển sinh/Chăm sóc học viên | Ra khỏi hệ thống | Kết quả đăng ký | Kết quả đăng ký, danh sách lớp | 2.0 |
+| Nhân viên kế toán | Vào hệ thống | Thông tin thu tiền | Thông tin thu tiền, ưu đãi | 3.0 |
+| Nhân viên kế toán | Ra khỏi hệ thống | Công nợ | Học phí phải thu, phiếu thu, công nợ | 3.0 |
+| Giáo viên | Vào hệ thống | Điểm danh, điểm số | Điểm danh, điểm số, nhận xét | 4.0 |
+| Giáo viên | Ra khỏi hệ thống | Lịch dạy | Lịch dạy, danh sách lớp | 2.0 |
+| Quản lý đào tạo | Vào hệ thống | Thông tin danh mục, kế hoạch lớp, quyết định duyệt | Thông tin khóa học, giáo viên, phòng học | 1.0 |
+| Quản lý đào tạo | Vào hệ thống | Thông tin danh mục, kế hoạch lớp, quyết định duyệt | Kế hoạch mở lớp, phân công giáo viên | 2.0 |
+| Quản lý đào tạo | Vào hệ thống | Thông tin danh mục, kế hoạch lớp, quyết định duyệt | Yêu cầu đổi lịch, học bù, dạy thay | 2.0 |
+| Quản lý đào tạo | Vào hệ thống | Thông tin danh mục, kế hoạch lớp, quyết định duyệt | Quyết định duyệt kết quả | 4.0 |
+| Quản lý đào tạo | Ra khỏi hệ thống | Bảng điểm, báo cáo đào tạo | Bảng điểm chờ duyệt | 4.0 |
+| Quản lý đào tạo | Ra khỏi hệ thống | Bảng điểm, báo cáo đào tạo | Báo cáo lớp học, chuyên cần, kết quả, giảng dạy | 5.0 |
+| Quản trị viên | Vào hệ thống | Tài khoản, phân quyền | Tài khoản, phân quyền, cấu hình | 5.0 |
+| Quản trị viên | Ra khỏi hệ thống | Nhật ký | Nhật ký hệ thống | 5.0 |
+| Giám đốc | Vào hệ thống | Yêu cầu báo cáo | Yêu cầu báo cáo doanh thu | 3.0 |
+| Giám đốc | Vào hệ thống | Yêu cầu báo cáo | Yêu cầu báo cáo tổng hợp | 5.0 |
+| Giám đốc | Ra khỏi hệ thống | Báo cáo doanh thu, báo cáo tổng hợp | Báo cáo doanh thu, công nợ | 3.0 |
+| Giám đốc | Ra khỏi hệ thống | Báo cáo doanh thu, báo cáo tổng hợp | Báo cáo tuyển sinh, kết quả học tập | 5.0 |
 
 ## Kho dữ liệu ↔ tiến trình mức 0
 
@@ -97,12 +99,12 @@
 | D3 Học phí | Đọc từ kho | Học phí phải thu, số đã thu | 3.2: Học phí phải thu, số đã thu; 3.3: Học phí phải thu, số đã thu; 3.4: Số đã thu theo kỳ |
 | (nội bộ) | 3.3 → 3.4 | – | Tổng công nợ |
 
-## DFD-4.0 (Quản lý học tập): mức 0 ↔ mức 1
+## DFD-4.0 (Quản lý kết quả học tập): mức 0 ↔ mức 1
 
 | Tác nhân / kho | Hướng | Luồng mức 0 | Phân rã ở mức 1 |
 |---|---|---|---|
 | Giáo viên | Vào | Điểm danh, điểm số, nhận xét | 4.1: Phiếu điểm danh buổi học; 4.2: Điểm số, nhận xét |
-| Quản lý đào tạo | Vào | Phê duyệt kết quả học tập | 4.3: Phê duyệt kết quả học tập |
+| Quản lý đào tạo | Vào | Quyết định duyệt kết quả | 4.3: Quyết định duyệt kết quả |
 | Học viên/Phụ huynh | Ra | Chuyên cần, kết quả học tập, chứng nhận | 4.1: Chuyên cần; 4.3: Kết quả học tập; 4.4: Chứng nhận |
 | Quản lý đào tạo | Ra | Bảng điểm chờ duyệt | 4.3: Bảng điểm chờ duyệt |
 | D1 Hồ sơ | Đọc từ kho | Trọng số điểm khóa học | 4.3: Trọng số điểm khóa học |
