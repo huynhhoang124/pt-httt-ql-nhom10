@@ -180,15 +180,15 @@ Theo `thiet_ke/05_module.md` mục 8, bước 5. Mọi ca kiểm thử đều tr
 
 | Mức | Công cụ | Kết quả trên bản demo (11/10/2026) |
 |---|---|---|
-| Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **80/80 đạt**: bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm; bảng quyết định 4.3, chứng nhận QT15, trùng lịch QT07, cây quyết định 2.4, điểm "7,5", tổng hợp báo cáo 5.4 |
+| Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **98/98 đạt** (80 ca cũ + 18 ca H1/H2): bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm; bảng quyết định 4.3, chứng nhận QT15, trùng lịch QT07, cây quyết định 2.4, điểm "7,5", tổng hợp báo cáo 5.4; R3.1: tổng tiền theo đợt, ưu đãi, nhiều phiếu thu, bộ lọc quyền và thực đơn 8 vai trò, phạm vi HV/PH, tổng/Excel qua phân trang; F5.1b: chặn POST phiên bản, vẫn lưu tham số chính sách (EF Core InMemory) |
 | Tích hợp (CSDL) | `csdl/kiem_tra.sql` qua `csdl/chay.ps1` | **24/24 đạt** |
-| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (120 tệp) |
+| Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (126 tệp, kiểm tra lại ngày 14/10/2026 sau khi cập nhật main) |
 | Phân quyền | Đăng nhập 8 vai trò, mở từng trang, so mã HTTP với ma trận | Đạt – cho phép/chặn khớp ma trận |
 | Chấp nhận | Nhập lại chứng từ mẫu qua giao diện, so bản in với chứng từ | PT2026-0731 khớp; luồng đăng ký → học phí → phiếu thu chạy thật đạt (mục 4.2) |
 
 ### 4.2 Ca kiểm thử theo tiến trình
 
-Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đều đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung; TC43 sau đợt sửa giao diện, chạy lại phần bề rộng 375/1280 px cho 8 vai trò sau khi đổi sang giao diện v2).
+Kết quả: **Đạt** = đã chạy trên bản demo và đúng. 40 ca trước đợt H1/H2 đã chạy và đạt (ca 1.1–5.4 và N4, N6 sau đợt code bổ sung; TC43 sau đợt sửa giao diện, chạy lại phần bề rộng 375/1280 px cho 8 vai trò sau khi đổi sang giao diện v2). Bổ sung TC37 và TC38, tổng 42 ca; hai ca mới chưa chạy tích hợp SQL Server/HTTP trên máy hiện tại.
 
 | Mã | Tiến trình | Dữ liệu vào / thao tác | Kết quả mong đợi | Kết quả |
 |---|---|---|---|---|
@@ -232,6 +232,8 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đ
 | TC39 | 4.1 | Tra cứu chuyên cần R4.1: hv0480 (lớp TOE-2611 18 buổi), ph0320 (các con), hv0412 (3 lớp kết thúc); nv002/nv005 nhập mã HV; kế toán nv004 mở trang | Tỷ lệ chuyên cần, số buổi có mặt / vắng phép / vắng không phép khớp v_ChuyenCan; bấm xem từng buổi có ngày, trạng thái, ghi chú; cảnh báo vắng nếu > 20% (QT12); HV/PH chỉ thấy của mình; nv004 bị chuyển về /KhongCoQuyen | Đạt |
 | TC40 | 4.3 | Phiếu báo kết quả học tập R4.3b: hv0412 (3 lớp Đạt), hv0398 (Không đạt), ph0301, gv023; lớp TOE-2611 chưa duyệt | Hiện đầy đủ điểm chuyên cần, giữa kỳ, cuối kỳ, tổng kết, xếp loại, Đạt/Không đạt, nhận xét, người duyệt, ngày duyệt; lớp chưa duyệt báo "chưa có kết quả"; bản in trùng chứng từ mẫu 4.2.4; HV/PH/GV chỉ thấy phạm vi của mình; vai trò không quyền bị chặn | Đạt |
 | TC43 | Giao diện chung (06_giao_dien 5.2, 6) | Đăng nhập 8 vai trò, mở mọi mục thực đơn và các trang ngoài quyền; mở mọi trang ở bề rộng 375 và 1280 px; Ctrl+S, Esc, F1, nút Hủy trên F3.2; điện thoại "09ab", email "abc", điểm "11", "8.25", mã HV "Minh"; F4.1 bấm "Có mặt hết"; đăng xuất | Mọi mục thực đơn mở được, trang ngoài quyền bị chặn; không trang nào tràn ngang, mọi ô nhập có nhãn, chỉ một màu nhấn; phím tắt đúng; trình duyệt chặn và báo bằng tiếng Việt; học viên chưa chọn được đánh x; đăng xuất về trang đăng nhập | Đạt |
+| TC37 | 3.1, N5 – R3.1 | nv004 xem toàn bộ, lọc lớp/mã HV, đổi số dòng/trang, xuất Excel; hv0412 và ph0301 lọc cả mã ngoài phạm vi; mở bằng 8 vai trò | Học phí gốc, tên và % ưu đãi, tổng giảm thực tế, số phải nộp và từng đợt (tiền, hạn, đã thu) đúng; tổng và Excel theo toàn bộ bộ lọc; không lộ khoản ngoài phạm vi; GV/ĐT/QT bị chặn, HV/PH/TS/KT/GĐ được xem; tổng phải nộp = SUM(DotHocPhi.SoTien) nối HocPhi | Chưa chạy tích hợp SQL Server/HTTP trên máy hiện tại; đã thêm kiểm thử tự động |
+| TC38 | 5.1 – F5.1b, nâng cấp CSDL | Chạy `powershell -ExecutionPolicy Bypass -File csdl/kiem_tra_hung.ps1`; chạy 002 trên CSDL mẫu; nv003 mở F5.1b và gửi giả mạo `GiaTri[PHIEN_BAN_CSDL]=999`; sửa tham số chính sách bình thường | 002 thêm đúng một dòng phiên bản 2 khi thiếu; chạy lần hai không lỗi/trùng; nâng 1 lên 2 và không hạ phiên bản cao hơn; F5.1b chỉ hiện phiên bản, POST giả mạo bị từ chối; tham số khác vẫn lưu và ghi nhật ký | Chưa chạy tích hợp SQL Server/HTTP trên máy hiện tại; đã thêm kiểm thử tự động |
 
 ### 4.3 Lỗi phát hiện khi kiểm thử và cách sửa
 
@@ -242,7 +244,7 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng. Cả 38 ca đ
 | Bỏ trống người nộp vẫn lưu được | TC13 | Trang tự điền người nộp cả khi lưu | Chỉ gợi ý người nộp khi mở form |
 | Nhật ký ghi "Cu?i k?" | TC21 | Cột `NhatKy.MaDoiTuong` kiểu VARCHAR | Đổi thành NVARCHAR(100) (`csdl/schema.sql`) |
 
-Sau mỗi lần sửa: chạy lại `csdl/chay.ps1` (24/24), `dotnet test` (80/80) và ca kiểm thử liên quan.
+Sau mỗi lần sửa: chạy lại `csdl/chay.ps1` (24/24), `dotnet test` (98/98 sau H1/H2) và ca kiểm thử liên quan. Đợt H1/H2 ngày 12/10/2026 đã build không lỗi/cảnh báo, xUnit 98/98 đạt và kiểm tra mã đạt với 122 tệp. Kiểm thử SQL Server/HTTP thật cho TC37, TC38 chưa chạy vì máy hiện tại không có instance SQL Server mẫu; xem `demo/KIEM_THU_HUNG.md` và `csdl/kiem_tra_hung.ps1` để chạy tiếp.
 
 ---
 

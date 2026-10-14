@@ -30,6 +30,7 @@ public static partial class ThucDon
         ("F2.3", "/LopHoc/XepLich", "T"),
         ("F2.4", "/LopHoc/XuLyDon", "T"),
         ("F3.1", "/HocPhi/KhoanPhaiThu", "T"),
+        ("R3.1", "/HocPhi/HocPhiPhaiThu", ""),
         ("F3.2", "/HocPhi/PhieuThu", "T"),
         ("R3.2", "/HocPhi/DanhSachPhieuThu", ""),
         ("R3.3", "/HocPhi/CongNo", ""),
