@@ -1,0 +1,142 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocTap.PhieuBaoKetQuaModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R4.3b";
+    ViewData["TroGiup"] = "Phiếu báo kết quả học tập (bảng điểm) cá nhân cho từng học viên – từng lớp sau khi kết quả đã được duyệt (module 4.3). Bản in 1 trang A4.";
+    var l = Model.LopChon;
+    var hv = Model.HocVienChon;
+    var kq = Model.KetQuaChon;
+}
+
+<div class="d-print-none mb-3">
+    <form method="get" class="d-flex flex-wrap gap-2 align-items-end">
+        <div>
+            <label class="form-label" for="lop">Lớp</label>
+            <select id="lop" name="lop" class="form-select" onchange="this.form.submit()">
+                @foreach (var x in Model.CacLop)
+                {
+                    <option value="@x.MaLop" selected="@(x.MaLop == Model.Lop)">@x.MaLop – @x.MaKHNavigation.TenKH</option>
+                }
+            </select>
+        </div>
+        @if (Model.CacHocVien.Count > 1)
+        {
+            <div>
+                <label class="form-label" for="hv">Học viên</label>
+                <select id="hv" name="hv" class="form-select" onchange="this.form.submit()">
+                    @foreach (var h in Model.CacHocVien)
+                    {
+                        <option value="@h.MaHV" selected="@(h.MaHV == Model.Hv)">@h.MaHV – @h.HoTen</option>
+                    }
+                </select>
+            </div>
+        }
+        <button class="btn btn-primary">Xem</button>
+    </form>
+</div>
+
+@if (l == null)
+{
+    <p class="text-secondary">Không có lớp học nào trong phạm vi truy cập.</p>
+}
+else if (hv == null)
+{
+    <p class="text-secondary">Lớp @l.MaLop chưa có học viên nào trong phạm vi truy cập.</p>
+}
+else if (kq == null)
+{
+    <div class="hop-tb">
+        Lớp <b>@l.MaLop</b> (@hv.MaHV – @hv.HoTen): <b>chưa có kết quả</b> (kết quả học tập chưa được duyệt).
+    </div>
+}
+else
+{
+    var kh = l.MaKHNavigation;
+    <form method="post" class="mb-3 d-print-none">
+        <input type="hidden" name="lop" value="@l.MaLop" />
+        <input type="hidden" name="hv" value="@hv.MaHV" />
+        <button class="btn btn-primary" asp-page-handler="In" title="In hoặc lưu PDF (Ctrl+P)">In phiếu báo điểm</button>
+    </form>
+
+    <div class="lien mt-3">
+        <div class="d-flex justify-content-between small">
+            <span><b>TRUNG TÂM NGOẠI NGỮ</b></span>
+            <span>Mẫu: <b>R4.3b</b></span>
+        </div>
+
+        <div class="text-center mt-3 mb-3">
+            <h2 class="h4 fw-bold m-0" style="font-family: var(--chu-in);">PHIẾU BÁO KẾT QUẢ HỌC TẬP</h2>
+            <div class="small text-secondary mt-1">(BẢNG ĐIỂM)</div>
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-sm-6">
+                <div>Học viên: <b>@hv.HoTen</b> (Mã: <b>@hv.MaHV</b>)</div>
+                <div>Ngày sinh: @HienThi.Ngay(hv.NgaySinh)</div>
+            </div>
+            <div class="col-sm-6">
+                <div>Lớp: <b>@l.MaLop</b></div>
+                <div>Khóa học: @kh.TenKH @if (!string.IsNullOrEmpty(kh.TrinhDoDauVao)) { <span>(trình độ @kh.TrinhDoDauVao → @kh.TrinhDoDauRa)</span> }</div>
+                <div>Giáo viên: @l.MaGVNavigation.HoTen</div>
+            </div>
+        </div>
+
+        <div class="small mb-2">
+            <b>Trọng số:</b> Chuyên cần @kh.TSChuyenCan% – Giữa kỳ @kh.TSGiuaKy% – Cuối kỳ @kh.TSCuoiKy%
+        </div>
+
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Mã HV</th>
+                        <th>Họ tên</th>
+                        <th class="so">Chuyên cần</th>
+                        <th class="so">Giữa kỳ</th>
+                        <th class="so">Cuối kỳ</th>
+                        <th class="so">Tổng kết</th>
+                        <th class="text-center">Xếp loại</th>
+                        <th class="text-center">Kết quả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="@(kq.KetQua1 == "Đạt" ? "" : "khong-dat")">
+                        <td>@hv.MaHV</td>
+                        <td>@hv.HoTen</td>
+                        <td class="so diem">@HienThi.Diem(Model.DiemChuyenCan)</td>
+                        <td class="so diem">@HienThi.Diem(Model.DiemGiuaKy)</td>
+                        <td class="so diem">@HienThi.Diem(Model.DiemCuoiKy)</td>
+                        <td class="so diem fw-bold">@HienThi.Diem(kq.DiemTongKet)</td>
+                        <td class="text-center"><span class="@HienThi.Xep(kq.XepLoai)">@kq.XepLoai</span></td>
+                        <td class="text-center fw-bold">@kq.KetQua1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mb-3">
+            <b>Nhận xét của GV:</b> @(string.IsNullOrWhiteSpace(Model.NhanXetGV) ? "Chăm chỉ, hoàn thành khóa học." : Model.NhanXetGV)
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <div>
+                @if (kq.ChungNhan != null)
+                {
+                    <div class="small">Số chứng nhận: <b>@kq.ChungNhan.SoCN</b></div>
+                }
+            </div>
+            <div class="text-center" style="min-width: 12rem;">
+                <div>Ngày duyệt: @HienThi.Ngay(kq.NgayDuyet)</div>
+                <div class="fw-bold mt-1">Người duyệt</div>
+                <div style="height: 3rem;"></div>
+                <div>@(kq.MaNVDuyetNavigation?.HoTen ?? kq.MaNVDuyet ?? "Quản lý đào tạo")</div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.In)
+{
+    <script>print();</script>
+}

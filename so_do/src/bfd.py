@@ -17,13 +17,13 @@ GOC = "0. HỆ THỐNG QUẢN LÝ\nTRUNG TÂM NGOẠI NGỮ"
 CHUC_NANG = {
     "1.0": ("Quản lý danh mục và hồ sơ", [
         "Tiếp nhận hồ sơ, kiểm tra trình độ học viên",
-        "Quản lý hồ sơ giáo viên",
-        "Quản lý khóa học",
-        "Quản lý phòng học",
+        "Cập nhật hồ sơ giáo viên",
+        "Cập nhật danh mục khóa học",
+        "Cập nhật danh mục phòng học",
     ]),
     "2.0": ("Quản lý lớp học và lịch học", [
         "Mở lớp, phân công giáo viên",
-        "Đăng ký học, xếp học viên vào lớp",
+        "Nhận đăng ký, xếp học viên vào lớp",
         "Xếp lịch, kiểm tra trùng lịch",
         "Xử lý chuyển lớp, bảo lưu, nghỉ học",
     ]),
@@ -31,16 +31,16 @@ CHUC_NANG = {
         "Tính học phí, áp dụng ưu đãi",
         "Lập phiếu thu",
         "Theo dõi công nợ",
-        "Thống kê doanh thu",
+        "Lập báo cáo doanh thu",
     ]),
-    "4.0": ("Quản lý học tập", [
+    "4.0": ("Quản lý kết quả học tập", [
         "Điểm danh, tính chuyên cần",
         "Nhập điểm thành phần",
-        "Tổng kết, xếp loại",
+        "Tổng kết điểm, xếp loại học viên",
         "Cấp chứng nhận hoàn thành khóa học",
     ]),
     "5.0": ("Quản lý hệ thống và báo cáo", [
-        "Quản lý tài khoản, phân quyền",
+        "Cấp tài khoản, phân quyền người dùng",
         "Gửi thông báo",
         "Lập báo cáo tuyển sinh, tình trạng lớp",
         "Lập báo cáo chuyên cần, kết quả, giảng dạy",

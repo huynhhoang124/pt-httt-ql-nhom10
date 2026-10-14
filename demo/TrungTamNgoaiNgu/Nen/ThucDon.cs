@@ -11,7 +11,7 @@ public static partial class ThucDon
     public static readonly Dictionary<string, string> PhanHe = new()
     {
         ["1.0"] = "Quản lý danh mục và hồ sơ", ["2.0"] = "Quản lý lớp học và lịch học", ["3.0"] = "Quản lý học phí",
-        ["4.0"] = "Quản lý học tập", ["5.0"] = "Quản lý hệ thống và báo cáo", ["N"] = "Cá nhân, tiện ích",
+        ["4.0"] = "Quản lý kết quả học tập", ["5.0"] = "Quản lý hệ thống và báo cáo", ["N"] = "Cá nhân, tiện ích",
     };
 
     /// <summary>Tên phân hệ để hiện: mục nền không ghi mã "N".</summary>
@@ -37,6 +37,7 @@ public static partial class ThucDon
         ("R4.1", "/HocTap/ChuyenCan", ""),
         ("F4.2", "/HocTap/NhapDiem", "T"),
         ("R4.3a", "/HocTap/TongKet", ""),
+        ("R4.3b", "/HocTap/PhieuBaoKetQua", ""),
         ("R4.4", "/HocTap/ChungNhan", ""),
         ("R3.4", "/BaoCao/DoanhThu", "X"),
         ("R5.3b", "/BaoCao/TinhTrangLop", "X"),
