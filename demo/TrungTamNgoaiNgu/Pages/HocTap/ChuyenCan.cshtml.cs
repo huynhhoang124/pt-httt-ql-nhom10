@@ -14,10 +14,10 @@ namespace TrungTamNgoaiNgu.Pages.HocTap;
 /// Mỗi lớp: tỷ lệ chuyên cần, số buổi có mặt / vắng có phép / vắng không phép, cảnh báo nếu vượt ngưỡng vắng (QT12);
 /// bấm vào lớp xem từng buổi (ngày, trạng thái, ghi chú).</summary>
 [Quyen("4.1")]
-public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
+public class ChuyenCanModel(TrungTamContext db) : PageModel
 {
     public record ThongKeLop(
-        LopHoc Lop,
+        Data.Entities.LopHoc Lop,
         string TrangThaiDangKy,
         int SoBuoiDaHoc,
         int SoCoMat,
@@ -35,6 +35,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
         TimeOnly GioBatDau,
         TimeOnly GioKetThuc,
         string MaPhong,
+        string Loai,
         string TrangThaiBuoi,
         string? TrangThaiDiemDanh,
         string TenTrangThai,
@@ -57,7 +58,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
     public HocVien? HocVienChon { get; set; }
     public List<HocVien> CacHocVienDuocXem { get; set; } = [];
     public List<ThongKeLop> DanhSachLop { get; set; } = [];
-    public LopHoc? LopChon { get; set; }
+    public Data.Entities.LopHoc? LopChon { get; set; }
     public ThongKeLop? ThongKeLopChon { get; set; }
     public List<ChiTietBuoi> DanhSachBuoi { get; set; } = [];
     public decimal NguongCanhBaoVang { get; set; }
@@ -69,6 +70,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
         NguongChuyenCanDat = await db.ThamSoAsync("NGUONG_CHUYEN_CAN_DAT");
 
         var vaiTro = User.VaiTro();
+        IQueryable<string>? lopGV = null;  // giáo viên chỉ xem chuyên cần ở các lớp mình dạy
         CoQuyenNhapHV = !PhanQuyen.ChiCuaMinh(vaiTro, "4.1");
 
         if (vaiTro == "HV")
@@ -90,7 +92,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
         }
         else if (vaiTro == "GV")
         {
-            var dsLopGV = PhamVi.LopCuaGiaoVien(db, User.MaGV());
+            var dsLopGV = lopGV = PhamVi.LopCuaGiaoVien(db, User.MaGV());
             var hvLopGV = await db.DangKy.AsNoTracking()
                 .Where(d => dsLopGV.Contains(d.MaLop))
                 .Select(d => d.MaHV)
@@ -131,7 +133,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
         var dangKy = await db.DangKy.AsNoTracking()
             .Include(d => d.MaLopNavigation).ThenInclude(l => l.MaKHNavigation)
             .Include(d => d.MaLopNavigation).ThenInclude(l => l.MaGVNavigation)
-            .Where(d => d.MaHV == MaHV && d.TrangThai != "Hủy")
+            .Where(d => d.MaHV == MaHV && d.TrangThai != "Hủy" && (lopGV == null || lopGV.Contains(d.MaLop)))
             .OrderByDescending(d => d.MaLopNavigation.NgayKhaiGiang)
             .ToListAsync();
 
@@ -201,6 +203,7 @@ public class ChuyenCanModel(TrungTamContext db, DongHo dongHo) : PageModel
                     b.GioBatDau,
                     b.GioKetThuc,
                     b.MaPhong,
+                    b.Loai,
                     b.TrangThai,
                     dd?.TrangThai,
                     tt,

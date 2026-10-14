@@ -47,7 +47,7 @@ else
 {
     <div class="hop-tb mb-3">
         <b>Học viên:</b> @Model.HocVienChon.MaHV – @Model.HocVienChon.HoTen
-        @if (Model.HocVienChon.NgaySinh != null) { <span class="ms-2">· Ngày sinh: @HienThi.Ngay(Model.HocVienChon.NgaySinh)</span> }
+        <span class="ms-2">· Ngày sinh: @HienThi.Ngay(Model.HocVienChon.NgaySinh)</span>
         @if (!string.IsNullOrEmpty(Model.HocVienChon.DienThoai)) { <span class="ms-2">· ĐT: @Model.HocVienChon.DienThoai</span> }
     </div>
 
