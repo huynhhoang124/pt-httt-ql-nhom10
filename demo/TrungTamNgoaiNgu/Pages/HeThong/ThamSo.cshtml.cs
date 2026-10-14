@@ -22,6 +22,13 @@ public class ThamSoModel(TrungTamContext db, DongHo dongHo) : PageModel
         var doi = new List<string>();
         foreach (var t in DanhSach)
         {
+            // Phiên bản chỉ được cập nhật bởi tệp nâng cấp, kể cả khi giả mạo POST.
+            if (t.MaThamSo == "PHIEN_BAN_CSDL")
+            {
+                if (GiaTri.ContainsKey(t.MaThamSo))
+                    ModelState.AddModelError("", "Phiên bản CSDL chỉ được cập nhật bằng tệp nâng cấp.");
+                continue;
+            }
             if (GiaTri.GetValueOrDefault(t.MaThamSo) is not { } v || v == t.GiaTri) continue;
             if (v <= 0 || (t.DonVi == "%" && v > 100) || (t.DonVi == "điểm" && v > 10))
             {

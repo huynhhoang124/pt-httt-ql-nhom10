@@ -1,0 +1,39 @@
+@page
+@model TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel
+@using TrungTamNgoaiNgu.Nen
+@using TrungTamNgoaiNgu.Pages.HocPhi
+@{
+    ViewData["Ma"] = "R3.1";
+    ViewData["TroGiup"] = "Xem toàn bộ học phí đã lập. Số phải nộp là tổng số tiền các đợt sau ưu đãi và làm tròn. Tổng và Excel tính toàn bộ kết quả lọc. Học viên, phụ huynh chỉ xem khoản của mình.";
+}
+<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+    <div><label class="form-label" for="lop">Lớp</label><select id="lop" name="lop" class="form-select">
+        <option value="">Tất cả</option>
+        @foreach (var l in Model.CacLop) { <option selected="@(l == Model.Lop)">@l</option> }
+    </select></div>
+    <div><label class="form-label" for="maHV">Mã học viên</label><input id="maHV" name="maHV" value="@Model.MaHV" list="ds-hoc-vien" class="form-control" maxlength="10" title="Nhập mã học viên để lọc chính xác" /></div>
+    <button class="btn btn-primary">Xem</button>
+</form>
+<partial name="_GoiYHocVien" />
+<partial name="_XuatBaoCao" />
+<p>Lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm"). Có @Model.Trang.Tong khoản học phí theo bộ lọc.</p>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Học viên</th><th>Lớp</th><th class="so">Học phí gốc</th><th>Ưu đãi áp dụng</th><th class="so">Phải nộp</th><th>Các đợt học phí</th></tr></thead>
+        <tbody>
+        @foreach (var h in Model.DanhSach)
+        {
+            <tr><td>@h.MaHV<br />@h.DangKy.MaHVNavigation.HoTen</td><td>@h.MaLop</td>
+                <td class="so">@HienThi.Tien(h.HocPhiGoc)</td>
+                <td>@(h.MaUD.Count == 0 ? "Không có" : HocPhiPhaiThuModel.UuDai(h))<br />Tổng giảm: @HocPhiPhaiThuModel.TyLe(h.TyLeGiam)%</td>
+                <td class="so">@HienThi.Tien(HocPhiPhaiThuModel.PhaiNop(h))</td>
+                <td>@foreach (var d in h.DotHocPhi.OrderBy(d => d.Dot))
+                    { <div>Đợt @d.Dot: @HienThi.Tien(d.SoTien); hạn @HienThi.Ngay(d.HanDong); đã thu @HienThi.Tien(HocPhiPhaiThuModel.DaThu(d))</div> }
+                </td></tr>
+        }
+        @if (Model.DanhSach.Count == 0) { <tr><td colspan="6">Không có khoản học phí phù hợp.</td></tr> }
+        </tbody>
+        <tfoot><tr><th colspan="2">Tổng toàn bộ kết quả lọc</th><th class="so">@HienThi.Tien(Model.TongGoc)</th><td></td><th class="so">@HienThi.Tien(Model.TongPhaiNop)</th><td>Đã thu: @HienThi.Tien(Model.TongDaThu)</td></tr></tfoot>
+    </table>
+</div>
+<partial name="_PhanTrang" model="Model.Trang" />
