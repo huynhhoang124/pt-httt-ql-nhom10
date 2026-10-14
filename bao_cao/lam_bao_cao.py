@@ -464,7 +464,7 @@ def bao_cao_phan_tich(doc=None):
     }
     for k, (ma, mo_ta) in enumerate(mo_ta_1.items(), 1):
         from_bfd = ["Quản lý danh mục và hồ sơ", "Quản lý lớp học và lịch học", "Quản lý học phí",
-                    "Quản lý học tập", "Quản lý hệ thống và báo cáo"][k - 1]
+                    "Quản lý kết quả học tập", "Quản lý hệ thống và báo cáo"][k - 1]
         tieu_de(doc, f"5.5.{k} DFD-{ma}.0 {from_bfd}", 3)
         doan(doc, mo_ta)
         hinh(doc, sd / f"DFD_muc_1_{ma}.png", f"Hình 5.{k + 2}. DFD mức 1 của xử lý {ma}.0 – {from_bfd}")

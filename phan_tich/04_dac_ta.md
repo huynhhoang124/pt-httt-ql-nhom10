@@ -40,7 +40,7 @@ Kiểm tra riêng của từng chức năng:
 | 2.1 | Sĩ số tối đa ≤ 20 và ≤ sức chứa phòng (QT06). Giáo viên phải dạy đúng ngôn ngữ của khóa học. Đến ngày khai giảng: nếu số đăng ký có hiệu lực ≥ 8 thì Trạng thái lớp = "Đang học", ngược lại = "Hủy" (QT06), rồi chuyển *Lớp đã mở* sang 2.3. |
 | 5.1 | Tên đăng nhập là duy nhất. Tài khoản phụ huynh chỉ được gắn với học viên là con của mình. |
 
-### 1.2 Chức năng 2.2 – Đăng ký học, xếp học viên vào lớp
+### 1.2 Chức năng 2.2 – Nhận đăng ký, xếp học viên vào lớp
 
 ```
 Nơi thực hiện : quầy tuyển sinh
@@ -130,7 +130,7 @@ Xử lý:
       áp dụng cây quyết định cảnh báo chuyên cần (mục 2.2)
 ```
 
-### 1.7 Chức năng 4.3 – Tổng kết, xếp loại
+### 1.7 Chức năng 4.3 – Tổng kết điểm, xếp loại học viên
 
 ```
 Nơi thực hiện : phòng đào tạo
@@ -314,7 +314,7 @@ Mỗi dòng là một luồng trên DFD mức 1. Luồng mức 0 tương ứng x
 | Chuyên cần | Tình hình đi học gửi học viên | Mã lớp + Số buổi đã học + Số buổi có mặt + Tỷ lệ chuyên cần (S) + (Cảnh báo) | 4.1 |
 | Điểm số, nhận xét | Điểm giáo viên nhập | Mã lớp + Loại điểm + {Mã HV + Điểm + (Nhận xét)} | Giáo viên |
 | Bảng điểm chờ duyệt | Kết quả đã tính, chờ QL đào tạo duyệt | Mã lớp + {Mã HV + Họ tên + Điểm chuyên cần (S) + Điểm giữa kỳ + Điểm cuối kỳ + Điểm tổng kết (S) + Xếp loại (S) + Kết quả (S)} | 4.3 |
-| Phê duyệt kết quả học tập | Xác nhận kết quả của QL đào tạo | Mã lớp + Mã NV duyệt + Ngày duyệt + [Duyệt \| Yêu cầu xem lại] + (Ghi chú) | QL đào tạo |
+| Quyết định duyệt kết quả | Xác nhận kết quả của QL đào tạo | Mã lớp + Mã NV duyệt + Ngày duyệt + [Duyệt \| Yêu cầu xem lại] + (Ghi chú) | QL đào tạo |
 | Kết quả học tập | Kết quả cuối khóa (02_thu_thap.md, mục 4.2.4) | Kết quả học tập | 4.3 |
 | Chứng nhận | Giấy chứng nhận (02_thu_thap.md, mục 4.2.5) | Chứng nhận + Họ tên + Ngày sinh + Tên KH + Xếp loại + Điểm tổng kết | 4.4 |
 | Tài khoản, phân quyền, cấu hình | Thao tác quản trị | Tài khoản + Vai trò + {Quyền} + (Tham số cấu hình) | Quản trị viên |

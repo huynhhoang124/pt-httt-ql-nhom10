@@ -166,7 +166,7 @@ def ve_thuc_don(form, bao_cao):
     cao = max(cao_cot) + 3.9
     fig, ax = plt.subplots(figsize=(tong * 0.62, cao * 0.62))
     y0 = cao - 1.2
-    hop(ax, tong / 2 - 4.6, y0, 9.2, 0.9, "THỰC ĐƠN CHÍNH (thanh thực đơn trên cùng)", dam=True, co=11)
+    hop(ax, tong / 2 - 4.6, y0, 9.2, 0.9, "TRANG CHỦ (thanh chức năng bên trái)", dam=True, co=11)
     ax.plot([tong / 2] * 2, [y0, y0 - 0.4], color="black", lw=1.2)
     ax.plot([W / 2, tong - W / 2], [y0 - 0.4] * 2, color="black", lw=1.2)
     for i, (ma, (ten, cons)) in enumerate(cot):
@@ -279,7 +279,7 @@ class Man:
 
 
 def mau_f2_2():
-    m = Man(22, 12.8, "F2.2  Phiếu đăng ký học", "2.0 Lớp học và lịch học  ›  2.2 Đăng ký học, xếp học viên vào lớp",
+    m = Man(22, 12.8, "F2.2  Phiếu đăng ký học", "2.0 Quản lý lớp học và lịch học  ›  2.2 Nhận đăng ký, xếp học viên vào lớp",
             "Mau_F2_2.png")
     m.truong(0.3, -2.6, "Số phiếu", "DK2026-0158", 3.6, "tự sinh khi lưu", khoa=True)
     m.truong(4.4, -2.6, "Ngày đăng ký", "05/09/2026", 3.4, bat_buoc=True)
@@ -370,7 +370,7 @@ def mau_f4_1():
 
 def mau_r4_3():
     m = Man(22, 13.2, "R4.3a  Bảng điểm lớp chờ duyệt   ·   F4.3  Duyệt kết quả",
-            "4.0 Quản lý học tập  ›  4.3 Tổng kết, xếp loại", "Mau_R4_3.png")
+            "4.0 Quản lý kết quả học tập  ›  4.3 Tổng kết điểm, xếp loại học viên", "Mau_R4_3.png")
     m.ax.text(0.3, -2.6, "Lớp IEK-2609 · IELTS Kids Foundation (A2 → B1) · GV Phạm Quốc Huy · Trọng số 10% – 30% – 60%\n"
               "Lập lúc 18/12/2026 08:00 · 26 buổi đã dạy · Trạng thái: chờ duyệt", va="top", fontsize=9, linespacing=1.6)
     y = m.bang(0.3, -3.9, ["Mã HV", "Họ tên", "Chuyên cần", "Giữa kỳ", "Cuối kỳ", "Tổng kết", "Xếp loại", "Kết quả"],

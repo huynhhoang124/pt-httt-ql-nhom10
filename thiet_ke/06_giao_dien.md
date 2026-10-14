@@ -73,7 +73,7 @@ Mã form: `F` + mã module. Cột *Luồng DFD* ghi theo dạng `tác nhân: tê
 | F3.4 | Chọn kỳ báo cáo doanh thu | 3.4 | GD: Yêu cầu báo cáo doanh thu | GD | Đối thoại | Tham số: Từ ngày, Đến ngày, Khóa học |
 | F4.1 | Điểm danh buổi học | 4.1 | GV: Phiếu điểm danh buổi học | GV | Điền mẫu trên điện thoại, một chạm mỗi học viên | DiemDanh: SoBuoi, MaHV, TrangThai, GhiChu |
 | F4.2 | Nhập điểm thành phần | 4.2 | GV: Điểm số, nhận xét | GV | Điền mẫu dạng bảng | Diem: MaHV, LoaiDiem, Diem, NhanXet |
-| F4.3 | Duyệt kết quả học tập | 4.3 | DT: Phê duyệt kết quả học tập | DT | Đối thoại xác nhận trên bảng điểm chờ duyệt (R4.3a) | KetQua: MaNVDuyet, NgayDuyet; Tham số: Duyệt hoặc Yêu cầu xem lại, Ghi chú |
+| F4.3 | Duyệt kết quả học tập | 4.3 | DT: Quyết định duyệt kết quả | DT | Đối thoại xác nhận trên bảng điểm chờ duyệt (R4.3a) | KetQua: MaNVDuyet, NgayDuyet; Tham số: Duyệt hoặc Yêu cầu xem lại, Ghi chú |
 | F5.1a | Tài khoản, phân quyền | 5.1 | QT: Tài khoản, phân quyền, cấu hình | QT | Điền mẫu | TaiKhoan: TenDangNhap, VaiTro, MaNV, MaGV, MaHV, MaPH, TrangThai; NhanVien: HoTen, BoPhan, ChucVu, DienThoai, Email, TrangThai |
 | F5.1b | Tham số hệ thống | 5.1 | QT: Tài khoản, phân quyền, cấu hình | QT | Điền mẫu dạng bảng | ThamSo: GiaTri |
 | F5.3 | Chọn báo cáo tổng hợp | 5.3, 5.4 | GD: Yêu cầu báo cáo tổng hợp | GD | Đối thoại | Tham số: Loại báo cáo, Từ ngày, Đến ngày, Khóa học, Lớp, Giáo viên |
@@ -130,7 +130,7 @@ Mỗi vai trò chỉ thấy các mục mà ma trận 3.5 cho phép. Ví dụ, gi
 
 ![Sơ đồ thực đơn](../so_do/Thuc_don.png)
 
-Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ liệu: trang chủ trình bày như mục lục (phân hệ → module → màn hình), và thanh bên trái luôn mở ở mọi màn hình (trên điện thoại thu vào nút "Thực đơn"), mục đang mở được tô đậm. Module chưa có màn hình nào cho vai trò thì không hiện.
+Trên bản demo, thực đơn hiện ở hai chỗ, cùng một nguồn dữ liệu: trang chủ trình bày như mục lục (phân hệ → module → màn hình), và thanh bên trái luôn mở ở mọi màn hình (trên điện thoại thu vào nút "Chức năng"), mục đang mở được tô đậm. Module chưa có màn hình nào cho vai trò thì không hiện. Trên màn hình không dùng chữ "thực đơn" (người dùng dễ hiểu nhầm là thực đơn món ăn): thực đơn chính hiện là **Trang chủ**, nút thu gọn là **Chức năng**.
 
 ### 5.2 Quy ước chung cho mọi màn hình
 
