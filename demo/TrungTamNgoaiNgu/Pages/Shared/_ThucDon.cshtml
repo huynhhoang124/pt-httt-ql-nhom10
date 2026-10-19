@@ -1,19 +1,32 @@
-@* Thanh thực đơn bên trái (trên điện thoại nằm trong nút "Chức năng"): cùng dữ liệu với trang chủ.
-   Mục đang mở xác định theo mã màn hình của trang (trang con như sửa hồ sơ, in phiếu vẫn sáng đúng mục). *@
+@using TrungTamNgoaiNgu.Nen
+@* Thanh bên: Trang chủ + 5 phân hệ (1.0–5.0) + Cá nhân, cùng dữ liệu với trang chủ (ThucDon.ChoVaiTro).
+   Nhóm chứa màn hình đang mở thì mở sẵn và tô màu; mục đang mở có aria-current="page".
+   site.js đọc các a.td-con để làm danh sách tìm nhanh (Ctrl+K). *@
 @{
     var maTrang = (ViewData["Ma"] as string)?.Split(", ") ?? [];
     var laTrangChu = Context.Request.Path == "/";
+    var bieuTuong = new Dictionary<string, string>
+    {
+        ["1.0"] = "users", ["2.0"] = "calendar-days", ["3.0"] = "wallet", ["4.0"] = "graduation-cap", ["5.0"] = "chart-column", ["N"] = "user",
+    };
+    // "Quản lý danh mục và hồ sơ" → "Danh mục và hồ sơ" cho gọn thanh bên; tên đầy đủ vẫn ở title
+    static string Gon(string s) => s.StartsWith("Quản lý ") ? char.ToUpper(s[8]) + s[9..] : s;
 }
 <nav class="thuc-don" aria-label="Chức năng">
-    <a class="thuc-don-chinh" href="/" aria-current="@(laTrangChu ? "page" : null)">Trang chủ</a>
+    <a class="td-muc" href="/" aria-current="@(laTrangChu ? "page" : null)"><svg class="ic"><use href="#home" /></svg><span class="td-nhan">Trang chủ</span></a>
+    <div class="td-tieu-de">Phân hệ</div>
     @foreach (var ph in ThucDon.ChoVaiTro(User.VaiTro()))
     {
-        <div class="thuc-don-nhom">@ph.Ten</div>
-        <ul>
-            @foreach (var d in ph.Module.SelectMany(m => m.ManHinh))
-            {
-                <li><a href="@d.Url" aria-current="@(maTrang.Contains(d.Ma) ? "page" : null)"><span class="ma">@d.Ma</span><span>@d.Ten</span></a></li>
-            }
-        </ul>
+        var ds = ph.Module.SelectMany(m => m.ManHinh).ToList();
+        var dangMo = ds.Any(d => maTrang.Contains(d.Ma));
+        <details class="td-nhom @(dangMo ? "dang-mo" : "")" open="@(dangMo || maTrang.Length == 0 ? "open" : null)">
+            <summary title="@ph.Ten"><svg class="ic"><use href="#@bieuTuong.GetValueOrDefault(ph.Ma, "file-text")" /></svg><span class="td-nhan">@if (ph.Ma != "N") { <span class="ma-ph">@ph.Ma</span> }@Gon(ThucDon.PhanHe[ph.Ma])</span><svg class="ic ic-nho mui"><use href="#chevron-down" /></svg></summary>
+            <ul>
+                @foreach (var d in ds)
+                {
+                    <li><a class="td-con" href="@d.Url" aria-current="@(maTrang.Contains(d.Ma) ? "page" : null)"><span class="ma">@d.Ma</span><span>@d.Ten</span></a></li>
+                }
+            </ul>
+        </details>
     }
 </nav>

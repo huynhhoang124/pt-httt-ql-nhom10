@@ -1,94 +1,130 @@
 @using TrungTamNgoaiNgu.Nen
 @inject DongHo DongHo
+@inject IWebHostEnvironment Env
 @{
-    // Bố cục chung (06_giao_dien mục 5.2): đường dẫn "phân hệ › module" · tên màn hình · ô "Mẫu" ghi mã form/báo cáo
-    // (như ô "Mẫu số" trên chứng từ giấy) · nội dung · nút lệnh ở cuối form · dòng trợ giúp ở đáy.
+    // Khung trang v3 (06_giao_dien mục 5.2): thanh bên (5 phân hệ + Cá nhân) · thanh trên (Ctrl+K, giờ hệ thống, người dùng)
+    // · đầu trang "phân hệ › module", tiêu đề, chip mã màn hình, nút "?" (F1) · hộp trợ giúp · nội dung · nút lệnh (_NutLenh).
+    // Trang không cần khung (Đăng nhập): đặt ViewData["TrangTron"] = true.
     var maTrang = (ViewData["Ma"] as string)?.Split(", ") ?? [];
-    string? duongDan = null, ten = ViewData["Title"] as string;
+    string? phanHe = null, module = null, ten = ViewData["Title"] as string;
     if (maTrang.Length > 0)
     {
         var mod = ThucDon.Module.First(m => m.Ma == ThucDon.ManHinh[maTrang[0]].Module);
-        duongDan = $"{ThucDon.TenPhanHe(mod.PhanHe)} › {mod.Ma} {mod.Ten}";
+        phanHe = ThucDon.TenPhanHe(mod.PhanHe);
+        module = $"{mod.Ma} {mod.Ten}";
         ten = ten is null ? string.Join(" · ", maTrang.Select(m => ThucDon.ManHinh[m].Ten))
             : ten.StartsWith(maTrang[0] + " ") ? ten[(maTrang[0].Length + 1)..] : ten;
     }
     var daDangNhap = User.Identity?.IsAuthenticated == true;
-    var coThucDon = daDangNhap && Context.Request.Path != "/" && !Context.Request.Path.StartsWithSegments("/DangNhap");
+    var trangTron = ViewData["TrangTron"] is true || !daDangNhap;
+    var vt = User.VaiTro();
+    var laHvPh = vt is "HV" or "PH";
+    var tenDn = User.Identity?.Name ?? "";
+    var chuTat = tenDn.Length >= 2 ? tenDn[..2].ToUpperInvariant() : tenDn.ToUpperInvariant();
+    var duongDanHt = Context.Request.Path.Value ?? "/";
+    var bieuTuong = System.IO.File.ReadAllText(System.IO.Path.Combine(Env.WebRootPath, "lib", "icons", "lucide.svg"));
 }
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@(maTrang.Length > 0 ? string.Join(", ", maTrang) + " " : "")@(ten ?? "Trang chủ") – Trung tâm ngoại ngữ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    @* Phông tải không chặn hiển thị: máy không có Internet vẫn mở trang ngay, dùng Segoe UI thay *@
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Literata:opsz,wght@7..72,600&display=swap" media="print" onload="this.media='all'" />
+    @* Đặt chế độ sáng/tối trước khi vẽ để không nháy *@
+    <script>try { var g = localStorage.getItem('ttnn:giao-dien') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.setAttribute('data-bs-theme', g); } catch (e) { }</script>
+    <link rel="stylesheet" href="~/css/fonts.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <a class="bo-qua" href="#noi-dung">Bỏ qua danh sách chức năng, tới nội dung</a>
-    <header class="thanh-tren d-print-none">
-        <a class="ten-he-thong" href="/">Trung tâm ngoại ngữ <span class="phu d-none d-sm-inline">Hệ thống quản lý</span></a>
-        @if (daDangNhap)
-        {
-            <div class="nguoi-dung">
-                <span><b>@User.Identity!.Name</b> <span class="vai-tro">@ThucDon.TenVaiTro(User.VaiTro())</span></span>
-                <form method="post" asp-page="/DangXuat" data-dang-xuat="@User.Identity.Name">
-                    <button class="btn btn-sm btn-outline-primary">Đăng xuất</button>
-                </form>
-            </div>
-        }
-    </header>
-    <div class="khung @(coThucDon ? "co-thuc-don" : "")">
-        @if (coThucDon)
-        {
-            <aside class="cot-trai d-print-none"><partial name="_ThucDon" /></aside>
-        }
-        <main id="noi-dung" tabindex="-1">
-            @if (coThucDon)
-            {
-                <details class="thuc-don-gon d-print-none">
-                    <summary>Chức năng</summary>
+    <div hidden aria-hidden="true">@Html.Raw(bieuTuong)</div>
+    @if (trangTron)
+    {
+        @RenderBody()
+    }
+    else
+    {
+        <a class="bo-qua" href="#noi-dung">Bỏ qua danh sách chức năng, tới nội dung</a>
+        <div class="app @(laHvPh ? "co-dieu-huong-day" : "")">
+            <aside class="thanh-ben d-print-none" aria-label="Chức năng">
+                <div class="thanh-ben-trong">
+                    <a class="logo" href="/"><span class="logo-dau"><svg class="ic"><use href="#languages" /></svg></span><span class="logo-chu">Trung tâm ngoại ngữ<small>Hệ thống quản lý</small></span></a>
                     <partial name="_ThucDon" />
-                </details>
-            }
-            @if (ten != null)
-            {
-                @* Dải đầu trang kẻ ô li, có đường lề như trang đầu cuốn vở (thiet_ke/de_xuat_giao_dien_v2.md) *@
-                <div class="dau-trang">
-                    @if (duongDan != null)
-                    {
-                        <div class="duong-dan d-print-none">@duongDan</div>
-                    }
-                    <div class="hang-tieu-de">
-                        <h1 class="tieu-de">@ten</h1>
-                        @if (maTrang.Length > 0)
-                        {
-                            <div class="o-mau" title="Mã màn hình trong thiết kế (06_giao_dien)">
-                                <span>Mẫu</span>
-                                @foreach (var m in maTrang) { <b>@m</b> }
-                            </div>
-                        }
-                        @if (ViewData["TroGiup"] is string goiY)
-                        {
-                            <button type="button" class="btn btn-sm btn-outline-primary nut-tro-giup d-print-none" data-tro-giup title="Trợ giúp (F1): @goiY" aria-label="Trợ giúp (F1)">?</button>
-                        }
+                    <div class="thanh-ben-day">
+                        <button type="button" class="btn btn-nhe btn-sm nut-thu-gon" data-thu-gon-ben title="Thu gọn, mở rộng thanh bên"><svg class="ic"><use href="#panel-left" /></svg><span class="nhan-nut">Thu gọn</span></button>
+                        <button type="button" class="btn btn-nhe btn-sm btn-bieu-tuong" style="flex:none" data-doi-giao-dien aria-label="Đổi chế độ sáng, tối"><svg class="ic"><use href="#moon" /></svg></button>
                     </div>
                 </div>
+            </aside>
+            <div class="man-che d-print-none"></div>
+            <div class="chinh">
+                <header class="thanh-tren d-print-none">
+                    <button type="button" class="btn btn-nhe btn-bieu-tuong nut-ngan-keo" data-mo-ngan-keo aria-label="Mở danh sách chức năng"><svg class="ic"><use href="#menu" /></svg></button>
+                    <button type="button" class="o-tim-nhanh" data-tim-nhanh aria-label="Tìm chức năng (Ctrl+K)"><svg class="ic"><use href="#search" /></svg><span>Tìm chức năng theo mã hoặc tên…</span><span class="kbd">Ctrl K</span></button>
+                    <div class="tt-phai">
+                        <span class="gio-he-thong" title="Giờ hệ thống"><svg class="ic ic-nho"><use href="#clock" /></svg>@DongHo.Bay.ToString("dd/MM/yyyy HH:mm")</span>
+                        <details class="nguoi-dung">
+                            <summary aria-label="Tài khoản @tenDn"><span class="avatar">@chuTat</span><span class="nd-chu"><span class="nd-ten">@tenDn</span><span class="nhan nhan-chinh">@ThucDon.TenVaiTro(vt)</span></span><svg class="ic ic-nho chu-mo"><use href="#chevron-down" /></svg></summary>
+                            <div class="menu-tha">
+                                <div class="menu-tha-dau"><b>@tenDn</b><span>@ThucDon.TenVaiTro(vt)</span></div>
+                                <a href="/DoiMatKhau"><svg class="ic"><use href="#key-round" /></svg>Đổi mật khẩu</a>
+                                <form method="post" asp-page="/DangXuat" data-dang-xuat="@tenDn">
+                                    <button class="nguy"><svg class="ic"><use href="#log-out" /></svg>Đăng xuất</button>
+                                </form>
+                            </div>
+                        </details>
+                    </div>
+                </header>
+                <main id="noi-dung" tabindex="-1">
+                    @if (ten != null && duongDanHt != "/")
+                    {
+                        <div class="dau-trang">
+                            @if (phanHe != null)
+                            {
+                                <nav class="duong-dan d-print-none" aria-label="Đường dẫn"><span>@phanHe</span><svg class="ic"><use href="#chevron-right" /></svg><b>@module</b></nav>
+                            }
+                            <div class="hang-tieu-de">
+                                <h1 class="tieu-de">@ten</h1>
+                                @foreach (var m in maTrang) { <span class="chip-ma" title="Mã màn hình trong thiết kế (06_giao_dien)">@m</span> }
+                                @if (ViewData["TroGiup"] is string)
+                                {
+                                    <button type="button" class="btn btn-secondary btn-sm btn-bieu-tuong nut-tro-giup d-print-none" data-tro-giup aria-controls="tro-giup" aria-expanded="false" aria-label="Trợ giúp (F1)" title="Trợ giúp (F1)"><svg class="ic ic-nho"><use href="#circle-help" /></svg></button>
+                                }
+                                @RenderSection("LenhDauTrang", required: false)
+                            </div>
+                        </div>
+                    }
+                    <div class="than-trang">
+                        @if (ViewData["TroGiup"] is string tg)
+                        {
+                            <aside id="tro-giup" class="hop-tro-giup d-print-none" tabindex="-1" hidden>
+                                <svg class="ic"><use href="#info" /></svg>
+                                <p><b>Trợ giúp.</b> @tg</p>
+                                <button type="button" class="btn btn-nhe btn-sm btn-bieu-tuong dong" data-tro-giup aria-label="Đóng trợ giúp"><svg class="ic ic-nho"><use href="#x" /></svg></button>
+                            </aside>
+                        }
+                        @RenderBody()
+                    </div>
+                </main>
+            </div>
+            @if (laHvPh)
+            {
+                <nav class="dieu-huong-day d-print-none" aria-label="Điều hướng chính">
+                    <a href="/" aria-current="@(duongDanHt == "/" ? "page" : null)"><svg class="ic"><use href="#home" /></svg>Trang chủ</a>
+                    <a href="/#lich"><svg class="ic"><use href="#calendar-days" /></svg>Lịch</a>
+                    <a href="/HocPhi/CongNo" aria-current="@(duongDanHt.StartsWith("/HocPhi") ? "page" : null)"><svg class="ic"><use href="#wallet" /></svg>Học phí</a>
+                    <a href="/HocTap/PhieuBaoKetQua" aria-current="@(duongDanHt.StartsWith("/HocTap") ? "page" : null)"><svg class="ic"><use href="#graduation-cap" /></svg>Kết quả</a>
+                    <a href="/HeThong/ThongBao" aria-current="@(duongDanHt.StartsWith("/HeThong/ThongBao") ? "page" : null)"><svg class="ic"><use href="#bell" /></svg>Thông báo</a>
+                </nav>
             }
-            <div class="than-trang">@RenderBody()</div>
-        </main>
-    </div>
-    <footer class="tro-giup d-print-none">
-        @if (ViewData["TroGiup"] is string tg)
+        </div>
+        @* Sau khi lưu, trang đặt TempData["Toast"] = "Tiêu đề|Nội dung" để hiện toast *@
+        @if (TempData["Toast"] is string toast)
         {
-            <p id="tro-giup" tabindex="-1"><b>Trợ giúp.</b> @tg</p>
+            var p = toast.Split('|', 2);
+            <div hidden data-toast="thanh-cong" data-tieu-de="@p[0]">@(p.Length > 1 ? p[1] : "")</div>
         }
-        <p class="gio">Giờ hệ thống: @DongHo.Bay.ToString("dd/MM/yyyy HH:mm")</p>
-    </footer>
+    }
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

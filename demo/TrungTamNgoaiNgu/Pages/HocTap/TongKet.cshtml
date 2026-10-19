@@ -55,7 +55,8 @@
         <form method="post" class="d-flex flex-wrap gap-2 align-items-end">
             <input type="hidden" name="lop" value="@c.MaLop" />
             <button class="btn btn-primary" asp-page-handler="Duyet" disabled="@(!Model.SanSang)"
-                    onclick="return confirm('Duyệt kết quả của @Model.DanhSach.Count học viên lớp @c.MaLop?\nSau khi duyệt: điểm bị khóa, @Model.DanhSach.Count(d => d.Tinh?.KetQua == "Đạt") học viên đạt được chuyển sang cấp chứng nhận (4.4).')">Duyệt kết quả</button>
+                    data-xac-nhan-tieu-de="Duyệt kết quả của @Model.DanhSach.Count học viên lớp @c.MaLop?" data-xac-nhan-nut="Duyệt kết quả" data-xac-nhan-loai="chinh"
+                    data-xac-nhan="Sau khi duyệt: điểm bị khóa, @Model.DanhSach.Count(d => d.Tinh?.KetQua == "Đạt") học viên đạt được chuyển sang cấp chứng nhận (4.4).">Duyệt kết quả</button>
             <div>
                 <label class="form-label" for="GhiChu">Ghi chú cho giáo viên</label>
                 <input id="GhiChu" name="GhiChu" class="form-control" value="@Model.GhiChu" maxlength="80" />
