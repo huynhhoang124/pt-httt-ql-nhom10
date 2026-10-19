@@ -1,26 +1,201 @@
 @page
+@model IndexModel
 @using TrungTamNgoaiNgu.Nen
+@inject DongHo DongHo
 @{
     ViewData["Title"] = "Trang chủ";
-    // Thực đơn phân cấp (06_giao_dien mục 5.1): phân hệ → module → màn hình, trình bày như mục lục
+    // Thực đơn phân cấp (06_giao_dien mục 5.1): phân hệ → module → màn hình, dạng lưới thẻ.
+    // Nhân viên: thẻ số liệu nhanh; học viên, phụ huynh: "sổ liên lạc" (IndexModel).
     var thucDon = ThucDon.ChoVaiTro(User.VaiTro());
-}
-<p class="dan-nhap">Chọn chức năng cần làm. Mỗi tài khoản chỉ thấy các chức năng được phép.</p>
-<div class="muc-luc">
-    @foreach (var ph in thucDon)
+    var bieuTuong = new Dictionary<string, string>
     {
-        <section class="muc-luc-nhom" aria-labelledby="ph-@ph.Ma.Replace(".", "")">
-            <h2 id="ph-@ph.Ma.Replace(".", "")">@ph.Ten</h2>
-            @foreach (var m in ph.Module)
+        ["1.0"] = "users", ["2.0"] = "calendar-days", ["3.0"] = "wallet", ["4.0"] = "graduation-cap", ["5.0"] = "chart-column", ["N"] = "user",
+    };
+    var gio = DongHo.Bay.Hour;
+    var buoi = gio < 11 ? "buổi sáng" : gio < 14 ? "buổi trưa" : gio < 18 ? "buổi chiều" : "buổi tối";
+    string Thu(DateOnly d) => d.DayOfWeek == DayOfWeek.Sunday ? "Chủ nhật" : "Thứ " + new[] { "", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy" }[(int)d.DayOfWeek];
+    string ThuGon(DateOnly d) => d.DayOfWeek == DayOfWeek.Sunday ? "CN" : "T" + ((int)d.DayOfWeek + 1);
+    var homNay = DongHo.HomNay;
+    var c = Model.Con;
+}
+<div class="xep-doc" style="gap:24px">
+    <div class="chao">
+        <div>
+            <h1>Chào @buoi, @(c != null && User.VaiTro() == "HV" ? c.HoTen : User.Identity?.Name)</h1>
+            <p>@Thu(homNay), @homNay.ToString("dd/MM/yyyy") · @(Model.LaHvPh ? "Sổ liên lạc: lịch học, chuyên cần, học phí và kết quả." : "Chọn chức năng cần làm. Mỗi tài khoản chỉ thấy các chức năng được phép.")</p>
+        </div>
+    </div>
+
+    @if (Model.CacThe.Count > 0)
+    {
+        <div class="luoi-so">
+            @foreach (var t in Model.CacThe)
             {
-                <div class="muc-luc-module">@m.Ma @m.Ten</div>
-                <ul>
-                    @foreach (var d in m.ManHinh)
-                    {
-                        <li><a href="@d.Url"><span class="ma">@d.Ma</span><span>@d.Ten</span></a></li>
-                    }
-                </ul>
+                <a class="the the-so @(t.Nguy ? "nguy" : "")" href="@t.Url" style="color:inherit;text-decoration:none">
+                    <span class="the-so-dau"><span class="bieu-tuong-o @(t.Nguy ? "nh" : "")"><svg class="ic"><use href="#@t.BieuTuong" /></svg></span>@t.Nhan</span>
+                    <span class="gia-tri">@t.GiaTri</span>
+                    <span class="phu">@t.Phu</span>
+                </a>
             }
-        </section>
+        </div>
     }
+
+    @if (Model.LaHvPh)
+    {
+        @if (Model.CacCon.Count > 1)
+        {
+            <div class="chon-con" role="group" aria-label="Chọn con">
+                @foreach (var h in Model.CacCon)
+                {
+                    <a class="con" href="/?hv=@h.MaHV" aria-pressed="@(h.MaHV == c?.MaHV ? "true" : "false")" style="text-decoration:none">
+                        <span class="avatar">@string.Concat(h.HoTen.Split(' ', StringSplitOptions.RemoveEmptyEntries).TakeLast(1).Select(s => s[..1]))</span>@h.HoTen
+                    </a>
+                }
+            </div>
+        }
+        @if (c == null)
+        {
+            <div class="hop-tb">Tài khoản chưa gắn với học viên nào. Liên hệ nhân viên tuyển sinh.</div>
+        }
+        else
+        {
+            var tongNo = Model.No.Sum(n => n.ConNo);
+            var quaHan = Model.No.Any(n => n.QuaHan == 1);
+            var han = Model.No.Where(n => n.ConNo > 0).Select(n => n.HanDong).Min();
+            var cc = Model.ChuyenCan;
+            var kq = Model.KetQuaMoi;
+            <div class="luoi-12">
+                <section class="the c-7" id="lich" aria-labelledby="t-lich">
+                    <div class="the-dau"><h2 id="t-lich">Lịch học 7 ngày tới</h2><span class="phu">@c.MaHV · @c.HoTen</span></div>
+                    @if (Model.Lich.Count == 0)
+                    {
+                        <div class="trong"><div class="trong-hinh"><svg class="ic"><use href="#calendar" /></svg></div><h3>Không có buổi học nào</h3><p>Trong 7 ngày tới không có buổi học của các lớp đang học.</p></div>
+                    }
+                    else
+                    {
+                        <ul class="lich-tuan">
+                            @foreach (var b in Model.Lich)
+                            {
+                                <li class="buoi @(b.Ngay == homNay ? "hom-nay" : "")">
+                                    <div class="buoi-ngay"><small>@ThuGon(b.Ngay)</small><b>@b.Ngay.Day</b></div>
+                                    <div class="buoi-tt">
+                                        <b>@b.GioBatDau.ToString("HH\\:mm")–@b.GioKetThuc.ToString("HH\\:mm") · @b.MaLop</b>
+                                        <span>@b.MaLopNavigation.MaKHNavigation.TenKH · buổi @b.SoBuoi · phòng @b.MaPhong · GV @b.MaGVNavigation.HoTen</span>
+                                    </div>
+                                    @if (b.Loai != "Thường") { <span class="nhan nhan-thong-tin">@b.Loai</span> }
+                                    else if (b.Ngay == homNay) { <span class="nhan nhan-chinh">Hôm nay</span> }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </section>
+
+                <section class="the c-5" aria-labelledby="t-cc">
+                    <div class="the-dau"><h2 id="t-cc">Chuyên cần</h2><a class="phu" style="margin-left:auto" href="/HocTap/ChuyenCan">Chi tiết</a></div>
+                    @if (cc == null)
+                    {
+                        <div class="the-than chu-phu">Chưa có buổi học nào được điểm danh.</div>
+                    }
+                    else
+                    {
+                        var pt = cc.TyLeChuyenCan ?? 0;
+                        <div class="the-than hang" style="gap:20px">
+                            <div class="vong-tron" style="--pt:@pt.ToString(System.Globalization.CultureInfo.InvariantCulture);--mau:@(cc.CanhBaoVang == 1 ? "var(--nh-sang)" : "var(--tc-sang)")">
+                                <div><b>@pt.ToString("0")%</b><small>có mặt</small></div>
+                            </div>
+                            <div class="xep-doc" style="gap:6px;flex:1;min-width:140px">
+                                <b>@Model.LopChuyenCan</b>
+                                <span class="chu-phu">Có mặt @cc.SoBuoiCoMat / @cc.SoBuoiDaHoc buổi đã học</span>
+                                @if (cc.CanhBaoVang == 1) { <span class="nhan nhan-nguy-hiem nhan-cham">Vắng nhiều – đã cảnh báo</span> }
+                                else { <span class="nhan nhan-thanh-cong nhan-cham">Đi học đều</span> }
+                            </div>
+                        </div>
+                    }
+                </section>
+
+                <section class="the c-6" aria-labelledby="t-hp">
+                    <div class="the-dau"><h2 id="t-hp">Học phí còn nợ</h2><a class="phu" style="margin-left:auto" href="/HocPhi/CongNo">Chi tiết</a></div>
+                    <div class="the-than">
+                        <div class="gia-tri" style="@(quaHan ? "color:var(--nh)" : "")">@HienThi.Tien(tongNo)</div>
+                        @if (tongNo == 0) { <span class="nhan nhan-thanh-cong nhan-cham" style="margin-top:8px">Đã đóng đủ</span> }
+                        else
+                        {
+                            <p class="chu-phu" style="margin:6px 0 0">Hạn đóng gần nhất: <b>@HienThi.Ngay(han)</b></p>
+                            @if (quaHan) { <span class="nhan nhan-nguy-hiem nhan-cham" style="margin-top:8px">Quá hạn</span> }
+                        }
+                    </div>
+                </section>
+
+                <section class="the c-6" aria-labelledby="t-kq">
+                    <div class="the-dau"><h2 id="t-kq">Kết quả mới nhất</h2><a class="phu" style="margin-left:auto" href="/HocTap/PhieuBaoKetQua">Phiếu báo</a></div>
+                    <div class="the-than">
+                        @if (kq == null)
+                        {
+                            <span class="chu-phu">Chưa có kết quả nào được duyệt.</span>
+                        }
+                        else
+                        {
+                            <div class="hang" style="gap:12px">
+                                <span class="gia-tri diem">@HienThi.Diem(kq.DiemTongKet)</span>
+                                <span class="@HienThi.Xep(kq.XepLoai)">@kq.XepLoai</span>
+                                <span class="nhan @(kq.KetQua1 == "Đạt" ? "nhan-thanh-cong" : "nhan-nguy-hiem") nhan-cham">@kq.KetQua1</span>
+                            </div>
+                            <p class="chu-phu" style="margin:6px 0 0">@kq.MaLop · @kq.DangKy.MaLopNavigation.MaKHNavigation.TenKH · duyệt @HienThi.Ngay(kq.NgayDuyet)</p>
+                        }
+                    </div>
+                </section>
+
+                <section class="the" aria-labelledby="t-tb">
+                    <div class="the-dau"><h2 id="t-tb">Thông báo</h2><a class="phu" style="margin-left:auto" href="/HeThong/ThongBao">Tất cả</a></div>
+                    @if (Model.ThongBao.Count == 0)
+                    {
+                        <div class="the-than chu-phu">Chưa có thông báo.</div>
+                    }
+                    else
+                    {
+                        <ul class="ds-thong-bao">
+                            @foreach (var t in Model.ThongBao)
+                            {
+                                <li>
+                                    <span class="bieu-tuong-o @(t.Loai is "Học phí" or "Chuyên cần" ? "cb" : "tt")"><svg class="ic ic-nho"><use href="#@(t.Loai switch { "Học phí" => "wallet", "Chuyên cần" => "clipboard-check", "Kết quả" => "graduation-cap", _ => "calendar" })" /></svg></span>
+                                    <div><b>@t.Loai.</b> @t.NoiDung<span class="tg">@t.ThoiGianGui.ToString("dd/MM/yyyy HH:mm")</span></div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </section>
+            </div>
+        }
+    }
+
+    <div>
+        @if (Model.LaHvPh) { <h2 class="bang-tieu-de">Chức năng</h2> }
+        <div class="luoi-phan-he">
+            @foreach (var ph in thucDon)
+            {
+                var soMh = ph.Module.Sum(m => m.ManHinh.Count);
+                var id = "ph-" + ph.Ma.Replace(".", "");
+                <section class="the" aria-labelledby="@id">
+                    <div class="the-ph-dau">
+                        <span class="bieu-tuong-o"><svg class="ic ic-lon"><use href="#@bieuTuong.GetValueOrDefault(ph.Ma, "file-text")" /></svg></span>
+                        <div style="flex:1;min-width:0">
+                            <div class="ph-ma">@(ph.Ma == "N" ? "Cá nhân" : ph.Ma)</div>
+                            <h2 class="ph-ten" id="@id" style="margin:0">@ThucDon.PhanHe[ph.Ma]</h2>
+                        </div>
+                        <span class="nhan nhan-trung-tinh">@soMh màn hình</span>
+                    </div>
+                    <div class="the-ph-than">
+                        @foreach (var m in ph.Module)
+                        {
+                            <div class="mod-ten">@m.Ma @m.Ten</div>
+                            @foreach (var d in m.ManHinh)
+                            {
+                                <a class="mh-lk" href="@d.Url"><span class="chip-ma">@d.Ma</span><span>@d.Ten</span><svg class="ic ic-nho mui"><use href="#arrow-right" /></svg></a>
+                            }
+                        }
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
 </div>

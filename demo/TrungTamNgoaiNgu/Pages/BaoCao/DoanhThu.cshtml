@@ -6,7 +6,7 @@
     ViewData["TroGiup"] = "Doanh thu = tiền đã thu theo ngày trên phiếu thu. Công nợ tính tại ngày cuối kỳ, không tính đăng ký nghỉ học (QT10); quá hạn = đã qua hạn của đợt chưa đóng đủ (QT16).";
     var chenh = Model.TongKyTruoc == 0 ? (decimal?)null : (Model.Tong - Model.TongKyTruoc) / Model.TongKyTruoc * 100;
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end d-print-none">
+<form method="get" class="thanh-loc d-print-none">
     <div><label class="form-label" for="tuNgay">Từ ngày</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     <div><label class="form-label" for="denNgay">Đến ngày</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     <div>

@@ -6,7 +6,7 @@
     ViewData["TroGiup"] = "Đợt 1 tối thiểu 50% số phải nộp (QT05); không nộp vượt số còn nợ của đợt. Bỏ trống ô các đợt không nộp. Số phiếu, ngày thu, người thu do hệ thống điền; phiếu đã lập không sửa, thu sai thì lập phiếu điều chỉnh.";
     var h = Model.HocVien;
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+<form method="get" class="thanh-loc">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
     <input id="hv" name="hv" list="ds-hoc-vien" autocomplete="off" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
@@ -24,17 +24,20 @@
     }
     else
     {
-        <form method="post" onsubmit="return confirm('Lập phiếu thu? Phiếu đã lập không sửa được.')">
+        <form method="post" data-xac-nhan="Phiếu đã lập không sửa được; thu sai thì lập phiếu điều chỉnh." data-xac-nhan-tieu-de="Lập phiếu thu?" data-xac-nhan-nut="Lập phiếu">
             <input type="hidden" name="hv" value="@h.MaHV" />
             <div asp-validation-summary="All" class="hop-loi"></div>
             <div class="row g-2 mb-2">
                 <div class="col-sm-5"><label class="form-label bat-buoc" for="NguoiNop">Người nộp</label><input asp-for="NguoiNop" class="form-control" /></div>
                 <div class="col-sm-5">
-                    <label class="form-label bat-buoc d-block">Hình thức</label>
-                    @foreach (var ht in new[] { "Tiền mặt", "Chuyển khoản" })
-                    {
-                        <label class="me-3"><input type="radio" name="HinhThuc" value="@ht" checked="@(Model.HinhThuc == ht)" /> @ht</label>
-                    }
+                    <span class="form-label bat-buoc d-block">Hình thức</span>
+                    <div class="chon-doan" role="radiogroup" aria-label="Hình thức">
+                        @foreach (var (ht, i) in new[] { "Tiền mặt", "Chuyển khoản" }.Select((h, i) => (h, i)))
+                        {
+                            <input type="radio" id="ht-@i" name="HinhThuc" value="@ht" checked="@(Model.HinhThuc == ht)" />
+                            <label for="ht-@i"><svg class="ic ic-nho"><use href="#@(i == 0 ? "banknote" : "credit-card")" /></svg>@ht</label>
+                        }
+                    </div>
                 </div>
             </div>
             <h2 class="h6 fw-bold">Các đợt còn nợ</h2>
