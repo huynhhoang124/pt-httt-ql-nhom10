@@ -6,7 +6,7 @@
     ViewData["TroGiup"] = "Đợt 1 tối thiểu 50% số phải nộp (QT05); không nộp vượt số còn nợ của đợt. Bỏ trống ô các đợt không nộp. Số phiếu, ngày thu, người thu do hệ thống điền; phiếu đã lập không sửa, thu sai thì lập phiếu điều chỉnh.";
     var h = Model.HocVien;
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+<form method="get" class="thanh-loc">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
     <input id="hv" name="hv" list="ds-hoc-vien" autocomplete="off" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>

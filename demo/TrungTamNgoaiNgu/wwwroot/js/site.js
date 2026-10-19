@@ -279,6 +279,24 @@
         b.setAttribute('aria-label', hien ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
     });
 
-    const khoiDong = () => { batBuoc(); $$('input[list="ds-hoc-vien"]').forEach(oTimHocVien); toastTuMayChu(); };
+    /* ---------- Bảng → thẻ trên điện thoại (site.css: .bang-the, ≤ 640px): gắn data-nhan theo tiêu đề cột,
+       ô chữ đầu tiên làm đầu thẻ. Bỏ qua chứng từ in (.lien) và bảng có class khong-the. ---------- */
+    const bangThe = () => $$('table.table').forEach(t => {
+        if (t.closest('.lien') || t.classList.contains('khong-the') || !t.tHead) return;
+        const hang = t.tHead.rows[t.tHead.rows.length - 1];
+        const ten = [...hang.cells].flatMap(c => Array(c.colSpan).fill(c.innerText.trim()));
+        t.classList.add('bang-the');
+        [...t.tBodies].flatMap(b => [...b.rows]).forEach(r => {
+            let i = 0, coDau = false;
+            [...r.cells].forEach(c => {
+                const n = ten[i]; i += c.colSpan;
+                if (c.colSpan > 1 || c.hasAttribute('data-nhan')) return;
+                if (!coDau && n && c.innerText.trim() && !c.querySelector('input, select, textarea')) { c.classList.add('dau-the'); coDau = true; }
+                else if (n) c.dataset.nhan = n;
+            });
+        });
+    });
+
+    const khoiDong = () => { batBuoc(); bangThe(); $$('input[list="ds-hoc-vien"]').forEach(oTimHocVien); toastTuMayChu(); };
     document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', khoiDong) : khoiDong();
 })();
