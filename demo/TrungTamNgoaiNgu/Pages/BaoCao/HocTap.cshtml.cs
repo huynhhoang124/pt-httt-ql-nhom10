@@ -7,7 +7,7 @@ using TrungTamNgoaiNgu.Nen;
 namespace TrungTamNgoaiNgu.Pages.BaoCao;
 
 /// <summary>F5.3 chọn kỳ + R5.4a Báo cáo kết quả học tập + R5.4b Chuyên cần, kết quả, giảng dạy (module 5.4; KetQua, v_ChuyenCan,
-/// v_GiangDay). Theo lớp khai giảng trong kỳ, có so sánh tỷ lệ đạt, chuyên cần với kỳ trước cùng độ dài (đặc trưng MIS).
+/// BuoiHoc). Theo lớp khai giảng trong kỳ, có so sánh tỷ lệ đạt, chuyên cần với kỳ trước cùng độ dài (đặc trưng MIS).
 /// Giáo viên chỉ thấy lớp mình dạy và dòng giảng dạy của mình.</summary>
 [Quyen("5.4")]
 public class HocTapModel(TrungTamContext db, DongHo dongHo) : PageModel
@@ -36,21 +36,49 @@ public class HocTapModel(TrungTamContext db, DongHo dongHo) : PageModel
         KyNay = TongHop(CacLop);
         KyTruoc = TongHop(await TheoLopAsync(TuNgay.AddDays(-soNgay), TuNgay.AddDays(-1), gv));
 
-        int tuThang = TuNgay.Year * 12 + TuNgay.Month, denThang = DenNgay.Year * 12 + DenNgay.Month;
-        var day = await db.v_GiangDay.Where(x => x.Nam * 12 + x.Thang >= tuThang && x.Nam * 12 + x.Thang <= denThang && (gv == null || x.MaGV == gv))
-                          .GroupBy(x => new { x.MaGV, x.HoTen }).Select(g => new { g.Key.MaGV, g.Key.HoTen, SoBuoi = g.Sum(x => x.SoBuoiDaDay) ?? 0 }).ToListAsync();
-        var gvLop = await db.LopHoc.Where(l => CacLop.Select(c => c.MaLop).Contains(l.MaLop)).ToDictionaryAsync(l => l.MaLop, l => l.MaGV);
-        CacGV = day.Select(d =>
-        {
-            var lop = CacLop.Where(c => gvLop.GetValueOrDefault(c.MaLop) == d.MaGV).ToList();
-            int kq = lop.Sum(c => c.SoKQ), dat = lop.Sum(c => c.Dat);
-            return new GiangDay(d.MaGV, d.HoTen, d.SoBuoi, lop.Count, kq == 0 ? null : 100m * dat / kq);
-        }).OrderBy(g => g.MaGV).ToList();
+        // T2. SỬA LỖI R5.4b: Đếm trực tiếp từ BuoiHoc lọc chính xác theo Ngay và TrangThai = 'Đã dạy'
+        var dsBuoiDay = await db.BuoiHoc.AsNoTracking()
+            .Where(b => b.TrangThai == "Đã dạy" 
+                     && b.Ngay >= TuNgay 
+                     && b.Ngay <= DenNgay 
+                     && (gv == null || b.MaGV == gv))
+            .GroupBy(b => b.MaGV)
+            .Select(g => new { MaGV = g.Key, SoBuoi = g.Count() })
+            .ToListAsync();
 
+        // Lấy danh sách Giáo viên (kèm Họ tên) để ghép nối dữ liệu
+        var dsGiaoVien = await db.GiaoVien.AsNoTracking()
+            .Where(g => gv == null || g.MaGV == gv)
+            .ToDictionaryAsync(g => g.MaGV, g => g.HoTen);
+
+        var gvLop = await db.LopHoc.Where(l => CacLop.Select(c => c.MaLop).Contains(l.MaLop)).ToDictionaryAsync(l => l.MaLop, l => l.MaGV);
+
+        // Tổng hợp danh sách giảng dạy (R5.4b)
+        CacGV = dsGiaoVien.Select(d =>
+        {
+            var maGV = d.Key;
+            var hoTen = d.Value;
+            int soBuoi = dsBuoiDay.FirstOrDefault(b => b.MaGV == maGV)?.SoBuoi ?? 0;
+            var lop = CacLop.Where(c => gvLop.GetValueOrDefault(c.MaLop) == maGV).ToList();
+            int kq = lop.Sum(c => c.SoKQ), dat = lop.Sum(c => c.Dat);
+            return new GiangDay(maGV, hoTen, soBuoi, lop.Count, kq == 0 ? null : 100m * dat / kq);
+        })
+        .Where(g => g.SoBuoi > 0 || g.SoLop > 0) // Chỉ hiển thị GV có buổi dạy hoặc có lớp
+        .OrderBy(g => g.MaGV)
+        .ToList();
+
+        // Xuất Excel cho R5.4a (Lớp học)
         if (xuat == "excel")
             return XuatExcel.Tep($"KetQuaHocTap_{TuNgay:yyyyMMdd}_{DenNgay:yyyyMMdd}",
                 ["Lớp", "Khóa học", "Giáo viên", "Trạng thái", "Số HV", "Chuyên cần TB %", "Cảnh báo vắng", "Đã tổng kết", "Đạt", "Giỏi", "Khá", "Trung bình", "Không đạt", "Điểm TB"],
                 CacLop.Select(c => new object?[] { c.MaLop, c.Khoa, c.GiaoVien, c.TrangThai, c.SoHV, Tron(c.ChuyenCan), c.CanhBao, c.SoKQ, c.Dat, c.Gioi, c.Kha, c.TrungBinh, c.KhongDat, Tron(c.DiemTB) }));
+
+        // T2. THÊM TÍNH NĂNG: Xuất Excel cho R5.4b (Giảng dạy theo Giáo viên)
+        if (xuat == "excel-gv")
+            return XuatExcel.Tep($"GiangDayGiaoVien_{TuNgay:yyyyMMdd}_{DenNgay:yyyyMMdd}",
+                ["Mã GV", "Họ và Tên", "Số buổi dạy", "Số lớp phụ trách", "Tỷ lệ đạt %"],
+                CacGV.Select(g => new object?[] { g.MaGV, g.HoTen, g.SoBuoi, g.SoLop, Tron(g.TyLeDat) }));
+
         return Page();
     }
 
