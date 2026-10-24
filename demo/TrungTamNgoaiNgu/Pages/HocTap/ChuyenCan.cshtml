@@ -9,7 +9,7 @@
 
 @if (Model.CoQuyenNhapHV)
 {
-    <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <form method="get" class="thanh-loc">
         <div>
             <label class="form-label" for="mahv">Mã học viên</label>
             <input id="mahv" name="mahv" value="@Model.MaHV" class="form-control" list="ds-hoc-vien" placeholder="vd: HV0480" required />
@@ -20,7 +20,7 @@
 }
 else if (Model.CacHocVienDuocXem.Count > 1)
 {
-    <form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+    <form method="get" class="thanh-loc">
         <div>
             <label class="form-label" for="mahv">Học viên</label>
             <select id="mahv" name="mahv" class="form-select" onchange="this.form.submit()">

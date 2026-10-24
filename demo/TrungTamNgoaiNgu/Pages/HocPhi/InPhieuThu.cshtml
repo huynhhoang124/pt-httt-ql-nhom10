@@ -12,6 +12,7 @@
     <button class="btn btn-primary" title="In hoặc lưu PDF (Ctrl+P)">In</button>
     <a class="btn btn-outline-primary" href="/HocPhi/DanhSachPhieuThu">Danh sách phiếu thu</a>
 </form>
+<div class="giay-a4">
 @foreach (var lien in new[] { "Liên 1: lưu tại kế toán", "Liên 2: giao người nộp" })
 {
     <div class="lien">
@@ -40,6 +41,7 @@
         <div>Hình thức: @p.HinhThuc &nbsp; Người thu: @p.MaNVNavigation.HoTen (kế toán)</div>
     </div>
 }
+</div>
 @if (Model.In)
 {
     <script>print();</script>

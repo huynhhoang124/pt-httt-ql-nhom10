@@ -1,20 +1,38 @@
 @model TrungTamNgoaiNgu.Nen.NutLenh
+@* Hàng nút cuối form, dính đáy khi cuộn: Lưu (Ctrl+S) · Lưu nháp · Hủy · Thoát (Esc).
+   Trang cần thanh tổng tiền (F3.2) hoặc tổng số chọn (F2.2, F4.1) thì đặt ViewData["TongPhieu"] = ("Tổng tiền phiếu", "1.600.000 đ").
+   Nút Lưu cần hộp xác nhận: ViewData["XacNhan"] = "Phiếu đã lập không sửa được." (site.js thay confirm()). *@
+@{
+    var tong = ViewData["TongPhieu"] as (string Nhan, string GiaTri)?;
+    var xacNhan = ViewData["XacNhan"] as string;
+}
 <div class="nut-lenh d-print-none">
     @if (Model.Luu != null)
     {
+        @* asp-page-handler chỉ đặt khi có handler: tag helper luôn sinh formaction, làm mất chuỗi truy vấn của trang *@
         if (Model.XuLy != null)
         {
-            <button class="btn btn-primary" asp-page-handler="@Model.XuLy" data-phim="luu" title="@Model.Luu (Ctrl+S)">@Model.Luu</button>
+            <button class="btn btn-primary" asp-page-handler="@Model.XuLy" data-phim="luu" title="@Model.Luu (Ctrl+S)"
+                    data-xac-nhan="@xacNhan" data-xac-nhan-tieu-de="@(xacNhan != null ? Model.Luu + "?" : null)" data-xac-nhan-nut="@(xacNhan != null ? Model.Luu : null)">
+                <svg class="ic"><use href="#save" /></svg>@Model.Luu <span class="kbd">Ctrl S</span>
+            </button>
         }
         else
         {
-            <button class="btn btn-primary" data-phim="luu" title="@Model.Luu (Ctrl+S)">@Model.Luu</button>
+            <button class="btn btn-primary" data-phim="luu" title="@Model.Luu (Ctrl+S)"
+                    data-xac-nhan="@xacNhan" data-xac-nhan-tieu-de="@(xacNhan != null ? Model.Luu + "?" : null)" data-xac-nhan-nut="@(xacNhan != null ? Model.Luu : null)">
+                <svg class="ic"><use href="#save" /></svg>@Model.Luu <span class="kbd">Ctrl S</span>
+            </button>
         }
         if (Model.Nhap != null)
         {
             <partial name="_LuuNhap" model="Model.Nhap" />
         }
-        <button type="reset" class="btn btn-outline-primary" title="Bỏ các thay đổi chưa lưu">Hủy</button>
+        <button type="reset" class="btn btn-secondary" title="Bỏ các thay đổi chưa lưu">Hủy</button>
     }
-    <a class="btn btn-outline-primary" href="@Model.Thoat" data-phim="thoat" title="Thoát (Esc)">Thoát</a>
+    <a class="btn btn-nhe" href="@Model.Thoat" data-phim="thoat" title="Thoát (Esc)">Thoát <span class="kbd">Esc</span></a>
+    @if (tong is { } t)
+    {
+        <div class="tong-phieu" aria-live="polite"><span>@t.Nhan</span><b data-tong-phieu>@t.GiaTri</b></div>
+    }
 </div>
