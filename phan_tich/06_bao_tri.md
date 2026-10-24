@@ -11,7 +11,7 @@ Các ví dụ dưới đây lấy từ chính quá trình cài đặt bản demo
 |---|---|---|
 | **Hiệu chỉnh** (sửa lỗi) | Sửa chỗ hệ thống chạy sai so với đặc tả | 4 lỗi phát hiện khi kiểm thử GĐ4 (05_cai_dat mục 4.3): ưu đãi hết hạn trước ngày áp dụng, câu báo lỗi tiếng Anh, phiếu thu tự điền người nộp khi lưu, nhật ký mất dấu tiếng Việt |
 | **Thích nghi** | Thay đổi để hệ thống theo kịp môi trường mới: chính sách, quy định, công nghệ | Chính sách ưu đãi năm mới (sửa bảng `UuDai`, không sửa mã); đổi sĩ số tối đa, tỷ lệ đợt 1, ngưỡng vắng (sửa bảng `ThamSo`); **.NET 8 hết hỗ trợ ngày 10/11/2026** → nâng lên .NET 10 (bản hỗ trợ dài hạn); trình duyệt, máy in mới |
-| **Phòng ngừa** | Xử lý trước các nguy cơ chưa thành lỗi | Thử phục hồi bản sao lưu mỗi quý; theo dõi dung lượng CSDL (Express giới hạn 10 GB); chạy `csdl/kiem_tra.sql` định kỳ để phát hiện dữ liệu sai; chuyển đếm khóa đăng nhập từ bộ nhớ sang bảng CSDL; bắt đổi mật khẩu ở lần đăng nhập đầu |
+| **Phòng ngừa** | Xử lý trước các nguy cơ chưa thành lỗi | Thử phục hồi bản sao lưu mỗi quý; theo dõi dung lượng CSDL (Express giới hạn 10 GB); chạy `csdl/kiem_tra.sql` định kỳ để phát hiện dữ liệu sai; chuyển đếm khóa đăng nhập từ bộ nhớ sang bảng CSDL; bắt đổi mật khẩu ở lần đăng nhập đầu (đã làm, B2, B4) |
 | *Cải tiến* (hoàn thiện) | Thêm hoặc làm tốt hơn chức năng theo đề nghị người dùng | Nhập điểm chấp nhận cả dấu phẩy "7,5"; các hướng phát triển ở mục 5 |
 
 Hai loại "thích nghi" thường gặp nhất (ưu đãi, tham số) **không cần lập trình viên**: thiết kế đã đưa mọi con số chính sách vào bảng `ThamSo`, `UuDai` (3.4), và mã nguồn luôn đọc từ đó (`NghiepVu/QuyTac.cs` không viết cứng 15%, 50%, 24 giờ…). Quản trị viên hoặc kế toán sửa qua giao diện; lập trình viên chỉ vào cuộc khi đổi *cách tính* chứ không phải *con số*.
@@ -26,7 +26,7 @@ Hai loại "thích nghi" thường gặp nhất (ưu đãi, tham số) **không 
 | 2 | Phân loại (hiệu chỉnh / thích nghi / phòng ngừa / cải tiến) và mức độ (mục 2.1) | Quản trị viên, trưởng nhóm | Nhãn của issue |
 | 3 | Phân tích: tìm nguyên nhân gốc, xác định module, bảng, tài liệu bị ảnh hưởng (dùng bảng module × dữ liệu ở 05_module mục 4) | Lập trình viên | Bình luận trong issue |
 | 4 | Sửa trên nhánh riêng; thay đổi CSDL viết thành tệp nâng cấp (mục 3.3) | Lập trình viên | Nhánh `sua/…` hoặc `them/…` |
-| 5 | Kiểm thử hồi quy: `dotnet test` (38 ca), `csdl/kiem_tra.sql` (24 kiểm tra), `demo/sinh_ma.py`, ca kiểm thử của tiến trình liên quan (05_cai_dat mục 4.2); thêm ca mới cho chính lỗi vừa sửa | Lập trình viên, người duyệt | Pull request |
+| 5 | Kiểm thử hồi quy: `dotnet test` (80 ca, cộng số test mọi người thêm), `csdl/kiem_tra.sql` (24 kiểm tra), `demo/sinh_ma.py`, ca kiểm thử của tiến trình liên quan (05_cai_dat mục 4.2); thêm ca mới cho chính lỗi vừa sửa | Lập trình viên, người duyệt | Pull request |
 | 6 | Duyệt và hợp nhất vào `main`; gắn thẻ phiên bản | Trưởng nhóm | Thẻ Git, ghi chú phát hành |
 | 7 | Triển khai: sao lưu CSDL → chạy tệp nâng cấp → xuất bản ứng dụng → thử nhanh | Quản trị viên | Hồ sơ cấu hình (05_cai_dat mục 1.4) |
 | 8 | Cập nhật tài liệu (đặc tả, thiết kế, hướng dẫn sử dụng) nếu thay đổi chạm tới; đóng issue | Người sửa | Tệp .md tương ứng |
@@ -79,9 +79,11 @@ Mỗi thẻ có ghi chú phát hành (GitHub Release): danh sách issue đã x�
 
 ### 3.3 Thay đổi CSDL
 
-Ở giai đoạn thiết kế, CSDL được **tạo lại từ đầu** bằng `csdl/chay.ps1` (xóa và chạy lại `schema.sql`, `views.sql`, `seed.sql`). Khi đã có dữ liệu thật thì **không được tạo lại**. Vì vậy từ bản `v1.0.0`:
+### 3.3 Thay đổi CSDL
+
+Ở giai đoạn thiết kế, CSDL được **tạo lại từ đầu** bằng `csdl/chay.ps1` (xóa và chạy lại `schema.sql`, `views.sql`, `seed.sql`). Khi đã có dữ liệu thật thì **không được tạo lại**. Vì vậy từ phiên bản sau khi gộp H2 (gộp sau H2):
 - `schema.sql` vẫn là mô tả đầy đủ của cấu trúc mới nhất (dùng cài mới, dùng cho bản thử);
-- mỗi thay đổi thêm một tệp `csdl/nang_cap/NNN_mo_ta.sql` (đánh số tăng dần) chỉ gồm `ALTER`/`CREATE`, chạy được trên CSDL đang có dữ liệu;
+- mỗi thay đổi thêm một tệp `csdl/nang_cap/NNN_mo_ta.sql` (đánh số tăng dần) chỉ gồm `ALTER` / `CREATE`, chạy được trên CSDL đang có dữ liệu;
 - bảng `ThamSo` lưu thêm số của tệp nâng cấp cuối cùng đã chạy, để biết CSDL đang ở phiên bản nào;
 - luôn sao lưu trước khi chạy tệp nâng cấp; thử trên bản sao của CSDL thật trước.
 
@@ -118,7 +120,7 @@ Các chức năng đã để **ngoài phạm vi** ở GĐ1 (01_ke_hoach mục 2.
 
 | Hướng | Lợi ích | Thay đổi so với thiết kế hiện tại | Ưu tiên |
 |---|---|---|:-:|
-| Thông báo qua SMS/Zalo, email tự động | 93% phụ huynh muốn được báo khi con vắng (02_thu_thap mục 7); giảm việc gọi điện của CSHV | Module 5.2 thêm kênh gửi; bảng `ThongBao` thêm cột kênh, trạng thái gửi. DFD không đổi (vẫn là luồng "Thông báo" tới HV/PH) | 1 |
+| Thông báo qua SMS/Zalo, email tự động | 93% phụ huynh muốn được báo khi con vắng (02_thu_thap mục 7); giảm việc gọi điện của CSHV | Module 5.2 thêm kênh gửi; bảng `ThongBao` thêm cột kênh gửi (đã có cột `TrangThaiGui`). DFD không đổi (vẫn là luồng "Thông báo" tới HV/PH) | 1 |
 | Thanh toán trực tuyến (mã QR chuyển khoản, cổng thanh toán) | 85% muốn tra cứu học phí trực tuyến; bớt tiền mặt | Phiếu thu sinh tự động khi ngân hàng báo đã nhận (vẫn qua quy tắc QT05 của 3.2); thêm tác nhân "Ngân hàng / cổng thanh toán" vào DFD | 2 |
 | Điểm danh bằng mã QR | Nhanh hơn với lớp đông; học viên tự quét | Màn hình F4.1 hiện mã QR của buổi; quy tắc QT11 giữ nguyên | 3 |
 | Ứng dụng di động | Học viên, phụ huynh xem lịch, học phí, kết quả | Thêm lớp Web API trên các module xử lý có sẵn (05_module mục 7); không đổi CSDL | 4 |
