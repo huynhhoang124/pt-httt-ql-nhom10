@@ -1,9 +1,13 @@
-# TC38: thử nâng cấp 002 trong giao dịch rồi hoàn tác, không thay đổi dữ liệu đang dùng.
+﻿# TC38: thử nâng cấp 002 trong giao dịch rồi hoàn tác, không thay đổi dữ liệu đang dùng.
 # Chạy: powershell -ExecutionPolicy Bypass -File csdl/kiem_tra_hung.ps1 [-May .\SQLEXPRESS04]
-param([string]$May = '.\SQLEXPRESS04')
+param(
+    [string]$May = '.\SQLEXPRESS04',
+    [string]$ChuoiKetNoi = $env:NHOM10_SQL_CONNECTION
+)
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
-$cn = New-Object System.Data.SqlClient.SqlConnection "Server=$May;Database=TrungTamNgoaiNgu;Integrated Security=True;TrustServerCertificate=True"
+if (-not $ChuoiKetNoi) { $ChuoiKetNoi = "Server=$May;Database=TrungTamNgoaiNgu;Integrated Security=True;TrustServerCertificate=True" }
+$cn = New-Object System.Data.SqlClient.SqlConnection $ChuoiKetNoi
 $cn.Open()
 $tx = $cn.BeginTransaction()
 try {

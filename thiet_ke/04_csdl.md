@@ -131,7 +131,7 @@ Tổng hợp:
 | 24 | ThongBao | Thông báo | D5 | 7 | MaTB | 27 |
 | 25 | NhatKy | Nhật ký | D5 | 6 | MaNK | 7 |
 | 26 | ThamSo | Tham số | D5 | 5 | MaThamSo | 15 |
-| | **Tổng** | | | **164** | | **1.872** |
+| | **Tổng** | | | **164** | | **1.873** |
 
 ---
 

@@ -2,6 +2,59 @@
 
 H1 bổ sung R3.1 tại `/HocPhi/HocPhiPhaiThu`. H2 bổ sung tham số phiên bản và tệp nâng cấp 002. Các thay đổi tương ứng TC37 và TC38 trong `phan_tich/05_cai_dat.md`.
 
+## Hoàn thành H3 ngày 24/10/2026
+
+Đã sửa tổng dữ liệu mẫu trong `thiet_ke/04_csdl.md` thành **1.873 dòng**, đối chiếu bằng tổng 26 dòng của bảng tổng hợp. Đã chuyển TC37, TC38 lên trước TC39 và cập nhật kết quả sau kiểm thử tích hợp thực tế. Nội dung slide 8 và 10, kèm ghi chú trình bày 1–2 phút mỗi slide, nằm ở `bao_cao/noi_dung_slide_vu_van_hung.md` để ghép vào bộ slide chung.
+
+Kết quả trên mã nguồn đã hợp nhất `origin/main` tại `dd5361f`:
+
+| Kiểm tra | Kết quả |
+|---|---|
+| .NET SDK 8.0.425, build ứng dụng | 0 lỗi, 0 cảnh báo biên dịch |
+| xUnit | 98/98 đạt |
+| `demo/sinh_ma.py` | Đạt, 127 tệp C# và Razor; 37 màn hình trong danh mục thiết kế |
+| Sinh lại seed và mô tả CSDL | Không thay đổi tệp sinh; 26 bảng, 164 trường, 35 khóa ngoại, 16 chỉ mục |
+| `csdl/chay.ps1` trên SQL Server 2022 Docker riêng | 24/24 đạt |
+| `csdl/kiem_tra_hung.ps1` | Đạt: thêm khi thiếu, chạy lại, nâng 1 lên 2, không hạ 3 xuống 2; hoàn tác giao dịch |
+| TC37, HTTP và Excel | Đạt: từng dòng, ưu đãi, tiền từng đợt, hạn, đã thu và tổng khớp SQL; lọc lớp/mã HV, chuẩn hóa mã, kết hợp lọc, kết quả rỗng, trang 1/2; Excel giữ toàn bộ bộ lọc |
+| TC38, HTTP và SQL | Đạt: phiên bản không có ô nhập; POST phiên bản hiện tại hoặc 999 bị từ chối, CSDL giữ nguyên; sửa chính sách vẫn lưu và ghi nhật ký, sau đó khôi phục. Chạy 002 thật rồi kiểm lại: giao diện hiện 2, POST 999 vẫn bị chặn và SQL giữ 2 |
+
+Kết quả quyền truy cập R3.1 qua đăng nhập thật, có token chống giả mạo và cookie riêng:
+
+| Tài khoản | Vai trò | HTML và Excel |
+|---|---|---|
+| nv001 | Giám đốc | 53 khoản |
+| nv002 | Quản lý đào tạo | Chuyển về `/KhongCoQuyen` |
+| nv003 | Quản trị | Chuyển về `/KhongCoQuyen` |
+| nv004 | Kế toán | 53 khoản |
+| nv005 | Tuyển sinh | 53 khoản |
+| gv023 | Giáo viên | Chuyển về `/KhongCoQuyen` |
+| hv0412 | Học viên | Chỉ 3 khoản của HV0412; lọc HV0480 không có dữ liệu |
+| ph0301 | Phụ huynh | Chỉ 3 khoản của con; lọc HV0480 không có dữ liệu |
+
+Tổng phải nộp toàn bộ là **213.880.000 đồng**, đối chiếu `SUM(DotHocPhi.SoTien)` nối `HocPhi`. Script HTTP đọc dữ liệu SQL độc lập, so từng dòng HTML và Excel, không chỉ so tổng. Kết quả này xác nhận giao diện HTML trả qua HTTP; chưa đánh giá thao tác trực quan hoặc bố cục in bằng trình duyệt.
+
+### Chạy lại trên SQL Server riêng
+
+Hai script PowerShell vẫn giữ mặc định Windows Authentication tới `.\SQLEXPRESS04`. Khi dùng SQL Server thử nghiệm với SQL Authentication, đặt biến môi trường `NHOM10_SQL_CONNECTION` chứa chuỗi kết nối; không ghi mật khẩu vào tệp theo dõi bởi Git hoặc nhật ký. Với `chay.ps1`, chuỗi kết nối có thể bắt đầu ở `master`; với script kiểm tra và ứng dụng, chọn `Database=TrungTamNgoaiNgu`.
+
+```powershell
+# Chỉ thực hiện trên CSDL demo riêng: chay.ps1 dựng lại cấu trúc và dữ liệu.
+powershell -NoProfile -ExecutionPolicy Bypass -File csdl/chay.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File csdl/kiem_tra_hung.ps1
+
+# Cửa sổ chạy ứng dụng: dùng cùng SQL Server và Database=TrungTamNgoaiNgu.
+$env:ConnectionStrings__TrungTam = $env:NHOM10_SQL_CONNECTION
+dotnet run --project demo/TrungTamNgoaiNgu --no-launch-profile --urls http://127.0.0.1:5223
+
+# Cửa sổ kiểm thử: đặt cùng NHOM10_SQL_CONNECTION trước khi chạy.
+python demo/kiem_tra_hung_http.py --url http://127.0.0.1:5223
+```
+
+`kiem_tra_hung_http.py` cần Python chuẩn và Windows PowerShell, không cần cài thêm thư viện. Script thử POST thay đổi `SISO_TOI_DA` rồi khôi phục bằng `finally`; nhật ký đăng nhập/sửa vẫn được giữ. Dừng ứng dụng rồi chạy lại `csdl/chay.ps1` sau khi kiểm thử để đưa CSDL demo về seed và phiên bản 1. Tệp `kiem_tra_hung.ps1` được lưu UTF-8 BOM để Windows PowerShell 5.1 đọc đúng tiếng Việt.
+
+## Lịch sử kiểm thử trước H3
+
 Kết quả ngày 12/10/2026: build không lỗi hoặc cảnh báo; xUnit 98/98 đạt (80 ca cũ và 18 ca mới); `demo/sinh_ma.py` đạt với 122 tệp; sinh lại seed và mô tả CSDL đạt; `git diff --check` đạt. SDK 8.0.425 được dùng từ thư mục tạm của máy. Chưa kiểm thử tích hợp SQL Server/HTTP thật: instance `.\SQLEXPRESS04` không có trên máy hiện tại, `csdl/chay.ps1` lỗi kết nối. Các ca InMemory không xác nhận được thực thi SQL hoặc giao diện trình duyệt.
 
 ## Kiểm tra mã nguồn
