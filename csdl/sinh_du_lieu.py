@@ -19,6 +19,7 @@ R = random.Random(2026)
 
 # ------------------------------ danh mục ------------------------------
 THAM_SO = [  # 3.1 E26
+    ("PHIEN_BAN_CSDL", "Phiên bản CSDL", 1, "phiên bản", None),  # đã gồm nâng cấp 001
     ("SISO_TOI_THIEU", "Sĩ số tối thiểu để mở lớp", 8, "học viên", "QT06"),
     ("SISO_TOI_DA", "Sĩ số tối đa của lớp", 20, "học viên", "QT06"),
     ("TY_LE_GIAM_TOI_DA", "Tổng mức giảm tối đa", 15, "%", "QT04"),

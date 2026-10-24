@@ -305,6 +305,37 @@ public class KiemThuQuyTac
         if (doc) Assert.Equal((decimal)mong, d);
     }
 
+    [Fact] // R3.1: tiền phải nộp dùng các đợt đã lập, giữ nguyên kết quả làm tròn.
+    public void HocPhiPhaiThu_TongDotDaLap()
+    {
+        var h = new TrungTamNgoaiNgu.Data.Entities.HocPhi { HocPhiGoc = 1234567, TyLeGiam = 15 };
+        h.DotHocPhi.Add(new() { SoTien = 525000 });
+        h.DotHocPhi.Add(new() { SoTien = 524000 });
+        Assert.Equal(1049000m, TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.PhaiNop(h));
+        Assert.Equal(0m, TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.PhaiNop(new()));
+    }
+
+    [Fact] // R3.1: một đợt có thể thu nhiều lần, không lấy nhầm tiền của đợt khác.
+    public void HocPhiPhaiThu_CongNhieuPhieuThu()
+    {
+        var d = new TrungTamNgoaiNgu.Data.Entities.DotHocPhi { SoTien = 1080000 };
+        d.ChiTietPhieuThu.Add(new() { SoTien = 500000 });
+        d.ChiTietPhieuThu.Add(new() { SoTien = 580000 });
+        Assert.Equal(1080000m, TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.DaThu(d));
+        Assert.Equal(0m, TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.DaThu(new()));
+    }
+
+    [Fact] // R3.1: liệt kê cả các ưu đãi, kể cả khi tổng giảm bị chặn bởi trần QT04.
+    public void HocPhiPhaiThu_UuDaiCongDon()
+    {
+        var h = new TrungTamNgoaiNgu.Data.Entities.HocPhi { TyLeGiam = 15 };
+        h.MaUD.Add(new() { MaUD = "UD02", TenUD = "Đóng một lần", TyLeGiam = 5 });
+        h.MaUD.Add(new() { MaUD = "UD01", TenUD = "Học viên cũ", TyLeGiam = 10 });
+        Assert.Equal("Học viên cũ (10%); Đóng một lần (5%)", TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.UuDai(h));
+        Assert.Equal("", TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.UuDai(new()));
+        Assert.Equal("7,5", TrungTamNgoaiNgu.Pages.HocPhi.HocPhiPhaiThuModel.TyLe(7.5m));
+    }
+
     [Fact]  // R5.4a – ca TC32: tỷ lệ đạt trên kết quả đã duyệt, chuyên cần bình quân theo số HV
     public void BaoCaoHocTap_TongHopKy()
     {
