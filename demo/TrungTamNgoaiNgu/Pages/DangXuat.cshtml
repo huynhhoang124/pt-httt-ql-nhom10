@@ -1,2 +1,29 @@
 @page
 @model DangXuatModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Đang đăng xuất...</title>
+</head>
+<body>
+    <script>
+        // Lấy tên đăng nhập đã được lưu lại từ Model trước khi hủy phiên đăng nhập
+        const username = @Json.Serialize(Model.TenDangNhap);
+        if (username) {
+            const prefix = 'nhap:' + username + ':';
+            // Quét và xóa toàn bộ các khóa nháp thuộc về tài khoản này trên máy dùng chung
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith(prefix)) {
+                    localStorage.removeItem(key);
+                }
+            });
+        }
+        // Chuyển hướng về trang đăng nhập
+        window.location.href = '/DangNhap';
+    </script>
+</body>
+</html>

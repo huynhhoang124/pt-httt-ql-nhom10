@@ -5,7 +5,8 @@
 <button type="button" class="btn btn-outline-primary" data-luu-nhap>Lưu nháp</button>
 <script>
 (() => {
-    const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(User.Identity?.Name + ":" + Model);
+    // Đã thay thế bằng User.TenDangNhap() để phân biệt chuẩn xác theo tài khoản đăng nhập
+    const form = document.currentScript.closest('form'), khoa = 'nhap:' + @Json.Serialize(User.TenDangNhap() + ":" + Model);
     const tb = document.createElement('span');
     tb.className = 'small tb-nhap';
     form.querySelector('[data-luu-nhap]').after(tb);
