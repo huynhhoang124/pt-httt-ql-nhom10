@@ -36,6 +36,7 @@
         <input id="denngay" name="denngay" type="date" class="form-control" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
     </div>
     <button class="btn btn-primary">Xem lịch</button>
+    <button type="button" class="btn btn-outline-primary" onclick="print()" title="In hoặc lưu PDF (Ctrl+P)">In</button>
 </form>
 
 <div asp-validation-summary="All" class="hop-loi"></div>

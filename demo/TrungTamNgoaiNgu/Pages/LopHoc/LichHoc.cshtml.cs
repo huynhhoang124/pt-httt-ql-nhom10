@@ -7,7 +7,8 @@ using TrungTamNgoaiNgu.Nen;
 
 namespace TrungTamNgoaiNgu.Pages.LopHoc;
 
-/// <summary>R2.3a/R2.3b - Lich hoc cua hoc vien, lich day va danh sach lop.</summary>
+/// <summary>R2.3a Lịch học của học viên (HV, PH, nhân viên nhập mã HV) và R2.3b Lịch dạy, danh sách lớp (GV, tính cả buổi dạy thay)
+/// – module 2.3; BuoiHoc, LopHoc, DangKy, HocVien, v_ChuyenCan.</summary>
 [Quyen("2.3")]
 public class LichHocModel(TrungTamContext db, DongHo dongHo) : PageModel
 {
@@ -67,7 +68,7 @@ public class LichHocModel(TrungTamContext db, DongHo dongHo) : PageModel
         }
         else if (vaiTro == "PH")
         {
-            var maCon = await duocXem!.Order().ToListAsync();
+            var maCon = await duocXem!.OrderBy(h => h).ToListAsync();
             CacHocVienDuocXem = await db.HocVien.AsNoTracking()
                 .Where(h => maCon.Contains(h.MaHV)).OrderBy(h => h.MaHV).ToListAsync();
             if (string.IsNullOrEmpty(MaHV) || !maCon.Contains(MaHV))
