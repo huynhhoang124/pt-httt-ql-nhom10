@@ -26,7 +26,7 @@ Hai loại "thích nghi" thường gặp nhất (ưu đãi, tham số) **không 
 | 2 | Phân loại (hiệu chỉnh / thích nghi / phòng ngừa / cải tiến) và mức độ (mục 2.1) | Quản trị viên, trưởng nhóm | Nhãn của issue |
 | 3 | Phân tích: tìm nguyên nhân gốc, xác định module, bảng, tài liệu bị ảnh hưởng (dùng bảng module × dữ liệu ở 05_module mục 4) | Lập trình viên | Bình luận trong issue |
 | 4 | Sửa trên nhánh riêng; thay đổi CSDL viết thành tệp nâng cấp (mục 3.3) | Lập trình viên | Nhánh `sua/…` hoặc `them/…` |
-| 5 | Kiểm thử hồi quy: `dotnet test` (80 ca, cộng số test mọi người thêm), `csdl/kiem_tra.sql` (24 kiểm tra), `demo/sinh_ma.py`, ca kiểm thử của tiến trình liên quan (05_cai_dat mục 4.2); thêm ca mới cho chính lỗi vừa sửa | Lập trình viên, người duyệt | Pull request |
+| 5 | Kiểm thử hồi quy: `dotnet test` (98 ca), `csdl/kiem_tra.sql` (24 kiểm tra), `demo/sinh_ma.py`, `demo/kiem_tra_quyen.py` (phân quyền 8 vai trò, TC42), ca kiểm thử của tiến trình liên quan (05_cai_dat mục 4.2); thêm ca mới cho chính lỗi vừa sửa | Lập trình viên, người duyệt | Pull request |
 | 6 | Duyệt và hợp nhất vào `main`; gắn thẻ phiên bản | Trưởng nhóm | Thẻ Git, ghi chú phát hành |
 | 7 | Triển khai: sao lưu CSDL → chạy tệp nâng cấp → xuất bản ứng dụng → thử nhanh | Quản trị viên | Hồ sơ cấu hình (05_cai_dat mục 1.4) |
 | 8 | Cập nhật tài liệu (đặc tả, thiết kế, hướng dẫn sử dụng) nếu thay đổi chạm tới; đóng issue | Người sửa | Tệp .md tương ứng |

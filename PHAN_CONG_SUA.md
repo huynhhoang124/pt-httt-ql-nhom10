@@ -2,19 +2,21 @@
 
 Lập ngày 11/10/2026 từ đợt rà soát demo và tài liệu sau khi xong "Code bổ sung" (KE_HOACH.md). Mỗi người một phần, chia theo mảng đã làm trong bảng phân công của KE_HOACH. Hoàng Văn Huynh điều phối và duyệt pull request.
 
+**Cập nhật 01/11/2026 – đợt sửa đã xong:** cả 5 bạn đã mở pull request (#6 Hùng, #9 Thủy, #10 Ân, #11 Quân; Luận gộp từ 14/10). Ngày 01/11 người điều phối gộp cả bốn PR vào nhánh `claude/jolly-cannon-2z0r5c` (PR #7, merge commit giữ tên tác giả từng bạn), sửa nốt chỗ còn thiếu và chạy lại toàn bộ kiểm thử trên SQL Server 2022: build 0 lỗi, `dotnet test` 98/98, `kiem_tra.sql` 24/24, `sinh_ma.py` 131 tệp, `kiem_tra_quyen.py` đạt (248 lượt), 46/46 ca theo tiến trình. Demo đủ **37/37 màn hình**. Chi tiết từng người ở dòng "Trạng thái 01/11" của mục 1–5.
+
 **Cập nhật 16/10/2026:** ghi trạng thái từng việc theo GitHub, thêm việc H3 phát hiện khi duyệt PR #6, hạn nộp (mục "Lịch còn lại" dưới đây) và chia phần slide (mục 7). Báo cáo tiến độ đầy đủ: `bao_cao/Tien_do_Nhom_10_16-10-2026.docx`.
 
-| Người | Việc | Mã ca kiểm thử dành sẵn | Trạng thái 16/10 |
+| Người | Việc | Mã ca kiểm thử dành sẵn | Trạng thái 01/11 |
 |---|---|---|---|
-| Nguyễn Gia Ân | A1 R2.3a lịch học của học viên + R2.3b lịch dạy, danh sách lớp · A2 sửa câu "email" ở 01_ke_hoach | TC35, TC36 | Chưa có trên GitHub |
-| Vũ Văn Hùng | H1 R3.1 bảng học phí phải thu · H2 ghi phiên bản CSDL vào bảng ThamSo · H3 sửa 2 chỗ trong PR #6 | TC37, TC38 | H1, H2 chờ duyệt (PR #6); H3 mới |
+| Nguyễn Gia Ân | A1 R2.3a lịch học của học viên + R2.3b lịch dạy, danh sách lớp · A2 sửa câu "email" ở 01_ke_hoach | TC35, TC36 | Xong (PR #10); sửa thêm lỗi 500 khi phụ huynh mở trang |
+| Vũ Văn Hùng | H1 R3.1 bảng học phí phải thu · H2 ghi phiên bản CSDL vào bảng ThamSo · H3 sửa 2 chỗ trong PR #6 | TC37, TC38 | Xong (PR #6, cả H3; TC37, TC38 chạy trên SQL Server) |
 | Nguyễn Văn Luận | L1 R4.1 chuyên cần của học viên · L2 R4.3b phiếu báo kết quả học tập | TC39, TC40 | Xong (PR #3, #4, gộp 14/10) |
-| Trần Thu Thủy | T1 R5.3a báo cáo tuyển sinh · T2 sửa R5.4b đếm buổi dạy theo ngày, thêm xuất Excel | TC41, (sửa TC32) | Chưa có trên GitHub |
-| Trần Minh Quân | Q3 script kiểm tra phân quyền · Q4 sửa 06_bao_tri · Q5 thử giao diện trên điện thoại thật và bản in (Q1, Q2 đã làm) | TC42, (TC43) | Q1, Q2 xong; Q3, Q4, Q5 chưa có trên GitHub |
+| Trần Thu Thủy | T1 R5.3a báo cáo tuyển sinh · T2 sửa R5.4b đếm buổi dạy theo ngày, thêm xuất Excel | TC41, (sửa TC32) | Xong (PR #9); bổ sung thực đơn, TC41, TC32, giao diện R5.3a |
+| Trần Minh Quân | Q3 script kiểm tra phân quyền · Q4 sửa 06_bao_tri · Q5 thử giao diện trên điện thoại thật và bản in (Q1, Q2 đã làm) | TC42, (TC43) | Q3, Q4 có PR #11 (lỗi build, script chưa chạy được) → đã sửa, viết lại script; Q5 làm bằng giả lập |
 
-Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/06_giao_dien.md` (16/10: 33 trên `main`, 34 khi gộp PR #6). Ai đã làm trên máy thì đẩy nhánh lên GitHub để người điều phối thấy.
+Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/06_giao_dien.md` (đã đạt ngày 01/11 trên nhánh của PR #7). Ai đã làm trên máy thì đẩy nhánh lên GitHub để người điều phối thấy.
 
-**Lịch còn lại** (hạn mở pull request; ai không kịp báo Huynh sớm để chia lại):
+**Lịch còn lại** (lập 16/10; đến 01/11 các việc code, tài liệu đã xong, còn slide – mục 7):
 
 | Hạn | Việc | Người |
 |---|---|---|
@@ -66,6 +68,8 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 
 ## 1. Nguyễn Gia Ân – phân hệ 2.0
 
+**Trạng thái 01/11:** A1, A2 **xong** (PR #10, 23/10). Khi chạy TC35 trên SQL Server phát hiện phụ huynh mở trang bị lỗi 500 (`.Order()` không dịch được sang SQL) → đã sửa (`OrderBy`); thêm nút In; TC35, TC36 đạt (trước ghi "Chưa chạy"). A2: rà lại `phan_tich/`, `thiet_ke/`, không còn chỗ hứa gửi email ở bản đầu.
+
 **Trạng thái 16/10:** A1, A2 chưa có commit trên GitHub. Hạn mở pull request: **T4 21/10**. Gợi ý nhánh: `them/r2.3-lich-hoc` (A1), `sua/email-gd1` (A2).
 
 ### A1. R2.3a Lịch học của học viên, R2.3b Lịch dạy, danh sách lớp (module 2.3)
@@ -104,6 +108,7 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 - **Ca kiểm thử:** TC38 (chạy 002 trên CSDL đã có dữ liệu: thêm đúng 1 dòng, chạy lại lần 2 không lỗi; F5.1b không sửa được).
 
 ### H3. Sửa thêm trong PR #6 (phát hiện khi duyệt ngày 16/10)
+- **Trạng thái 01/11:** H1, H2, H3 **xong** (PR #6, 24/10): tổng 1.873, TC37/TC38 đúng thứ tự, chạy trên SQL Server 2022 (Docker) và HTTP thật đạt, có nội dung slide (`bao_cao/noi_dung_slide_vu_van_hung.md`). Lưu ý: đặt `git config user.name "Vũ Văn Hùng"` (commit H3 mang tên mẫu "Tên của bạn").
 - **Trạng thái H1, H2:** PR #6 chờ duyệt. Kiểm lại 16/10: build 0 lỗi, 0 cảnh báo; `dotnet test` 98/98; `demo/sinh_ma.py` đạt (126 tệp).
 - `thiet_ke/04_csdl.md`, dòng **Tổng** của bảng tổng hợp: số dòng mẫu 1.872 → 1.873 (ThamSo đã tăng 14 → 15).
 - `phan_tich/05_cai_dat.md` mục 4.2: đưa hai dòng TC37, TC38 lên trước TC39 cho đúng thứ tự mã (hiện nằm sau TC43).
@@ -113,6 +118,8 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 ---
 
 ## 3. Nguyễn Văn Luận – phân hệ 4.0
+
+**Trạng thái 01/11:** xong; chưa gửi nội dung slide (mục 7).
 
 **Trạng thái 16/10:** L1, L2 **xong** (PR #3, #4, gộp 14/10). Câu "Cả 38 ca" ở `05_cai_dat.md` mục 4.2 đã được PR #6 viết lại, không cần sửa riêng (tránh xung đột). Việc tiếp: chuẩn bị phần slide (mục 7) và hỗ trợ bạn nào cần.
 
@@ -132,6 +139,8 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 ---
 
 ## 4. Trần Thu Thủy – báo cáo phân hệ 5.0
+
+**Trạng thái 01/11:** T1, T2 **xong** (PR #9, 22/10): R5.3a đúng số (46 HV mới năm 2026 = `v_TuyenSinh`), R5.4b đếm từ `BuoiHoc` theo ngày (khớp SQL kỳ 15/07 – 31/12). Người điều phối bổ sung: R5.3a vào `ThucDon.DaLam` (trước không có trên thực đơn), giao diện R5.3a theo quy ước chung (thanh lọc, một màu nhấn, dòng Tổng / Kỳ trước / So với kỳ trước), nút Excel cho R5.4b, viết TC41, sửa TC32.
 
 **Trạng thái 16/10:** T1, T2 chưa có commit trên GitHub; lỗi của T2 vẫn còn (`Pages/BaoCao/HocTap.cshtml.cs` dòng 40 vẫn đếm từ `v_GiangDay`). Hạn mở pull request: **T4 21/10**.
 
@@ -153,6 +162,8 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
 ## 5. Trần Minh Quân – nền, phân quyền, bảo trì
 
 Q1 (trang lỗi tiếng Việt, bắt lỗi sao lưu) và Q2 (lưu nháp theo tài khoản) **đã làm** trong đợt sửa giao diện ngày 11/10 (ca TC33, TC34 đã cập nhật).
+
+**Trạng thái 01/11:** PR #11 (24/10) **không build được** (`DangXuat.cshtml.cs` thiếu `using`) và làm lại việc Q2 đã có; `kiem_tra_quyen.py` dùng mật khẩu "123456" và địa chỉ không tồn tại nên chưa kiểm tra được trang nào. Người điều phối: trả DangXuat/_LuuNhap về bản `main`, viết lại script theo đặc tả Q3 (đạt, 248 lượt; tìm ra lỗi thẻ trang chủ kế toán, đã sửa), giữ phần Q4 của Quân (bỏ tiêu đề 3.3 bị lặp). Q5 làm bằng Chromium giả lập Pixel 7, iPhone 13 và in PDF A4: sửa ô nhập 16 px, bản in không in tiêu đề trang; **điện thoại thật, máy in thật vẫn nên thử một lần trước buổi thuyết trình**.
 
 **Trạng thái 16/10:** Q3, Q4, Q5 chưa có trên GitHub. Hạn: Q4 **CN 18/10**, Q5 **T4 21/10**, Q3 **T6 23/10**.
 
@@ -184,6 +195,8 @@ Q1 (trang lỗi tiếng Việt, bắt lỗi sao lưu) và Q2 (lưu nháp theo t�
 4. PR #6: sau khi Hùng làm H3, chạy TC37, TC38 trên SQL Server (nếu máy Hùng không có) rồi gộp, hạn **CN 18/10**.
 5. Gộp xong tất cả (**CN 25/10**): sửa số liệu kết luận trong `bao_cao/lam_bao_cao.py` (đang ghi 26 màn hình, 80 ca đơn vị, 38 ca theo tiến trình) và dàn ý slide ở KE_HOACH; dựng lại báo cáo tổng; xóa các nhánh đã gộp.
 6. Dựng bộ slide chung, ghép phần các bạn gửi (mục 7).
+
+**Trạng thái 01/11:** bước 2–5 xong trên nhánh PR #7 (gộp #6, #9, #10, #11; chạy lại toàn bộ kiểm thử; sửa số liệu kết luận: 37 màn hình, 98 ca đơn vị, 46 ca theo tiến trình, 8 lỗi đã sửa; dựng lại `.docx` báo cáo). Còn lại: duyệt và gộp PR #7 (GitHub thường tự chuyển PR #6, #9, #10, #11 sang "Merged" vì commit của các bạn đã nằm trong PR #7; nếu không thì đóng tay); xuất lại PDF bằng `python bao_cao/lam_bao_cao.py` trên máy có Word; xóa các nhánh đã gộp; slide (mục 7).
 
 ---
 
