@@ -202,6 +202,8 @@ Q1 (trang lỗi tiếng Việt, bắt lỗi sao lưu) và Q2 (lưu nháp theo t�
 
 ## 7. Slide thuyết trình (đề xuất chia phần, chốt khi họp nhóm)
 
+**Trạng thái 01/11:** chỉ Hùng gửi nội dung (`bao_cao/noi_dung_slide_vu_van_hung.md`, đã dùng cho slide 8, 10). Người điều phối đã dựng đủ 16 slide theo bảng dưới, có ghi chú người trình bày: https://claude.ai/artifact/PBqgA262dz8XCm871dM9vB (Huynh chia sẻ cho nhóm). Việc của mỗi bạn: mở bộ slide, đọc slide và ghi chú phần mình, sửa nếu muốn nói khác, tập trình bày 1–2 phút mỗi slide.
+
 Bộ slide khoảng 16 trang theo dàn ý ở KE_HOACH mục "Thuyết trình"; Huynh dựng bộ slide chung. Mỗi người chuẩn bị phần của mình: tiêu đề, 3–5 ý, số liệu lấy đúng từ tài liệu (số nào thay đổi trong đợt sửa thì lấy sau ngày 25/10), ghi chú người trình bày 1–2 phút cho mỗi slide; gửi Huynh trước **T4 28/10**. Ai làm phần nào thì trình bày phần đó.
 
 | Người | Slide | Lấy số liệu từ |
