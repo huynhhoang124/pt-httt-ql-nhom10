@@ -5,7 +5,7 @@
     ViewData["Ma"] = "F1.1";
     ViewData["TroGiup"] = "Tìm theo họ tên, số điện thoại hoặc mã học viên. Luôn tìm trước khi thêm để tránh trùng hồ sơ (trùng = cùng điện thoại và ngày sinh).";
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+<form method="get" class="thanh-loc">
     <input name="q" value="@Model.Q" list="ds-hoc-vien" autocomplete="off" class="form-control" style="max-width:22rem" placeholder="Họ tên, điện thoại hoặc mã HV" aria-label="Tìm học viên" title="Gõ một phần họ tên, số điện thoại hoặc mã học viên" />
     <button class="btn btn-primary">Tìm</button>
     @if (User.Co("1.1", "T"))

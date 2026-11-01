@@ -6,7 +6,7 @@
     ViewData["Title"] = "R3.2 Phiếu thu – tra cứu, in lại";
     ViewData["TroGiup"] = "Chọn khoảng ngày thu; bấm số phiếu để xem và in lại.";
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3 align-items-end">
+<form method="get" class="thanh-loc">
     <div><label class="form-label" for="tuNgay">Từ ngày</label><input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     <div><label class="form-label" for="denNgay">Đến ngày</label><input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
     @if (!PhanQuyen.ChiCuaMinh(User.VaiTro(), "3.2"))

@@ -4,16 +4,45 @@
     ViewData["Ma"] = "FN1";
     ViewData["Title"] = "FN1 Đăng nhập";
     ViewData["TroGiup"] = "Tài khoản do quản trị viên cấp. Nhập sai 5 lần liên tiếp thì tài khoản bị khóa tạm 15 phút.";
+    ViewData["TrangTron"] = true;   // _Layout không vẽ thanh bên, thanh trên
 }
-<form method="post" class="col-sm-8 col-md-5">
-    <div asp-validation-summary="All" class="hop-loi"></div>
-    <div class="mb-2">
-        <label asp-for="TenDangNhap" class="form-label bat-buoc"></label>
-        <input asp-for="TenDangNhap" class="form-control" autofocus autocomplete="username" />
+<div class="trang-dn">
+    <div class="dang-nhap">
+        <aside class="dn-trai">
+            <a class="logo" href="/"><span class="logo-dau"><svg class="ic"><use href="#languages" /></svg></span><span class="logo-chu">Trung tâm ngoại ngữ<small>Hệ thống quản lý</small></span></a>
+            <div class="dn-thong-diep">
+                <h2>Lớp học, học phí, kết quả học tập – ở cùng một nơi.</h2>
+                <p>Nhân viên lập phiếu, giáo viên điểm danh trên điện thoại, phụ huynh theo dõi con mỗi tuần.</p>
+            </div>
+            <div class="dn-chao" aria-hidden="true"><span>Hello</span><span>Bonjour</span><span>你好</span><span>こんにちは</span><span>안녕하세요</span><span>Hallo</span></div>
+            <div class="dn-so"><div><b>~500</b><span>học viên</span></div><div><b>30</b><span>giáo viên</span></div><div><b>1</b><span>cơ sở</span></div></div>
+        </aside>
+        <main class="dn-phai" id="noi-dung">
+            <form method="post" class="dn-form">
+                <div>
+                    <span class="chip-ma">FN1</span>
+                    <h1 style="margin-top:12px">Đăng nhập</h1>
+                    <p class="mo-ta">Dùng tài khoản do quản trị viên cấp.</p>
+                </div>
+                <div asp-validation-summary="All" class="hop-loi" style="margin:0"></div>
+                <div>
+                    <label asp-for="TenDangNhap" class="form-label bat-buoc"></label>
+                    <div class="o-bieu-tuong">
+                        <svg class="ic"><use href="#user" /></svg>
+                        <input asp-for="TenDangNhap" class="form-control form-control-lg" autofocus autocomplete="username" placeholder="vd gv023" />
+                    </div>
+                </div>
+                <div>
+                    <label asp-for="MatKhau" class="form-label bat-buoc"></label>
+                    <div class="o-bieu-tuong o-mat-khau">
+                        <svg class="ic"><use href="#lock" /></svg>
+                        <input asp-for="MatKhau" class="form-control form-control-lg" autocomplete="current-password" />
+                        <button type="button" class="btn btn-nhe btn-sm btn-bieu-tuong" data-hien-mat-khau aria-pressed="false" aria-label="Hiện mật khẩu"><svg class="ic"><use href="#eye" /></svg></button>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-lg">Đăng nhập<svg class="ic"><use href="#arrow-right" /></svg></button>
+                <p class="dn-chan">@ViewData["TroGiup"]</p>
+            </form>
+        </main>
     </div>
-    <div class="mb-3">
-        <label asp-for="MatKhau" class="form-label bat-buoc"></label>
-        <input asp-for="MatKhau" class="form-control" autocomplete="current-password" />
-    </div>
-    <button class="btn btn-primary">Đăng nhập</button>
-</form>
+</div>

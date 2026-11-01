@@ -6,7 +6,7 @@
     ViewData["TroGiup"] = "Số phiếu, ngày đăng ký, nhân viên lập do hệ thống điền. Lớp đủ sĩ số thì hệ thống gợi ý lớp cùng khóa còn chỗ (QT06). Đăng ký chỉ có hiệu lực khi đã thu ít nhất 50% học phí (QT05).";
     var h = Model.HocVien;
 }
-<form method="get" class="d-flex flex-wrap gap-2 mb-3">
+<form method="get" class="thanh-loc">
     <label class="form-label bat-buoc mt-2" for="hv">Học viên (mã HV)</label>
     <input id="hv" name="hv" list="ds-hoc-vien" autocomplete="off" value="@Model.Hv" class="form-control" style="max-width:12rem" placeholder="vd HV0412" pattern="[Hh][Vv][0-9]{4}" title="Mã học viên, vd HV0412; gõ tên để được gợi ý" />
     <button class="btn btn-primary">Chọn</button>
