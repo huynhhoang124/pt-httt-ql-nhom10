@@ -7,6 +7,8 @@ using TrungTamNgoaiNgu.Nen;
 
 namespace TrungTamNgoaiNgu.Pages.BaoCao;
 
+/// <summary>F5.3 chọn kỳ + R5.3a Báo cáo tuyển sinh (module 5.3; v_TuyenSinh, KhoaHoc). Học viên mới = đăng ký đầu tiên của học viên
+/// (NgayDangKyDau) nằm trong kỳ; bảng tháng × khóa học, dòng tổng và so với kỳ trước cùng độ dài (cách tính như R5.4a).</summary>
 [Quyen("5.3")]
 public class TuyenSinhModel(TrungTamContext db, DongHo dongHo) : PageModel
 {
@@ -21,14 +23,15 @@ public class TuyenSinhModel(TrungTamContext db, DongHo dongHo) : PageModel
     public int TongTuyenSinhKyTruoc { get; set; }
     public DateTime LapLuc { get; set; }
 
+    /// <summary>Tổng theo từng khóa học của một kỳ (dòng tổng của bảng).</summary>
+    public int TongKhoa(List<TuyenSinhRow> ky, string maKH) => ky.Sum(r => r.SoLuongTheoKhoa.GetValueOrDefault(maKH, 0));
+
     public async Task<IActionResult> OnGetAsync(DateOnly? tuNgay, DateOnly? denNgay, string? xuat)
     {
         LapLuc = dongHo.Bay;
         DenNgay = denNgay ?? dongHo.HomNay;
         TuNgay = tuNgay ?? DenNgay.AddYears(-1);
         if (TuNgay > DenNgay) (TuNgay, DenNgay) = (DenNgay, TuNgay);
-
-        ViewData["Ma"] = "F5.3, R5.3a";
 
         DanhSachKhoaHoc = await db.KhoaHoc.AsNoTracking().OrderBy(k => k.MaKH).ToListAsync();
 
@@ -54,7 +57,15 @@ public class TuyenSinhModel(TrungTamContext db, DongHo dongHo) : PageModel
                 }
                 rowData.Add(r.TongThang);
                 return rowData.ToArray();
-            });
+            }).ToList();
+            var tong = new List<object?> { "Tổng", null };
+            tong.AddRange(DanhSachKhoaHoc.Select(k => (object?)TongKhoa(DuLieuKyNay, k.MaKH)));
+            tong.Add(TongTuyenSinhKyNay);
+            rows.Add(tong.ToArray());
+            var truoc = new List<object?> { "Kỳ trước", null };
+            truoc.AddRange(DanhSachKhoaHoc.Select(k => (object?)TongKhoa(DuLieuKyTruoc, k.MaKH)));
+            truoc.Add(TongTuyenSinhKyTruoc);
+            rows.Add(truoc.ToArray());
 
             return XuatExcel.Tep($"BaoCaoTuyenSinh_{TuNgay:yyyyMMdd}_{DenNgay:yyyyMMdd}", headers.ToArray(), rows);
         }
