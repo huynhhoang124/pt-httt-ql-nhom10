@@ -153,6 +153,11 @@ Làm theo thứ tự; mỗi module: đọc đặc tả (04_dac_ta) + form/báo c
 
 **Chạy demo:** `powershell -ExecutionPolicy Bypass -File csdl/chay.ps1` → `dotnet run --project demo/TrungTamNgoaiNgu --launch-profile http` → http://localhost:5223 (tài khoản = mật khẩu: nv001 GĐ, nv002 ĐT, nv003 QT, nv004 KT, nv005 TS, gv023, hv0412, ph0301). Build khi app đang chạy sẽ lỗi khóa tệp: dừng tiến trình nghe cổng 5223 trước. Dùng đường dẫn tuyệt đối cho `--project` (thư mục làm việc của PowerShell hay bị đổi).
 
+### Phần việc Vũ Văn Hùng ngày 12/10/2026
+- H1 đã triển khai R3.1 `HocPhi/HocPhiPhaiThu`: lọc lớp/mã HV, phạm vi HV/PH, chi tiết ưu đãi và từng đợt, tổng theo toàn bộ bộ lọc, phân trang, Excel.
+- H2 đã triển khai `PHIEN_BAN_CSDL`: seed phiên bản 1 với 15 dòng ThamSo; nâng cấp 002 chạy lại an toàn và không hạ phiên bản; F5.1b chỉ đọc, chặn POST giả mạo. Sinh lại seed và mô tả CSDL, cập nhật tài liệu thiết kế/bảo trì.
+- Kiểm tra: build 0 lỗi/0 cảnh báo; xUnit 98/98 (18 ca mới); `demo/sinh_ma.py` đạt, 122 tệp. TC37/TC38 đã ghi ở 05_cai_dat nhưng chưa chạy tích hợp SQL Server/HTTP thật vì máy hiện tại thiếu SQL Server mẫu. Hướng dẫn đối chiếu SQL và chạy tiếp: `demo/KIEM_THU_HUNG.md`; script thử nâng cấp có hoàn tác: `csdl/kiem_tra_hung.ps1`.
+
 ### Thuyết trình (làm SAU code)
 Slide là Artifact loại Slides: https://claude.ai/artifact/PBqgA262dz8XCm871dM9vB (đã tạo, **chưa có slide nào**). Ảnh đã tải lên: BFD `/_blob/4f44929d59767147a3218aae6b4bb92f` (2012×853), DFD mức 0 `/_blob/bb0a3a96a55674c45241dcfbccf47775` (1761×2990, dọc), ERD 1 `/_blob/203cbb97774d9fea4d5815a720c80353` (1960×1535), sơ đồ module `/_blob/07f6d6e157a0bac5917387c1266c342d` (2417×1291).
 Dự kiến ~16 slide, đen trắng, Times New Roman, ghi chú người trình bày theo bảng phân công: bìa · bài toán (1 cơ sở, ~500 HV, 30 GV, 25–30 lớp; V4–V5, V2–V3, V8) · lộ trình 5 giai đoạn · GĐ1 (phương án C 4,05 điểm; hoàn vốn 1,3–3,7 năm) · thu thập (6 phương pháp, 5 chứng từ, 16 QT) · BFD · DFD · bảng quyết định học phí R1–R8 · ERD · CSDL & module (26 bảng, 35 FK, 63 CHECK, 9 view, 34 module, 8 vai trò, 19 form/18 báo cáo) · một bộ mã thống nhất + sinh tự động · demo (26 màn hình, đủ 20 chức năng lá + N1–N7) · kiểm thử (80 xUnit, 24 kiểm tra CSDL, 8 vai trò, 38/38 ca; 4 lỗi đã sửa) · chuyển đổi theo giai đoạn · bảo trì (.NET 8 hết hỗ trợ 10/11/2026) + hướng phát triển · kết luận, hỏi đáp.

@@ -1966,8 +1966,9 @@ INSERT INTO NhatKy (ThoiDiem, TenDangNhap, ThaoTac, DoiTuong, MaDoiTuong) VALUES
     ('2026-12-18 08:30:00', N'nv002', N'Duyệt', N'KetQua', N'IEK-2609'),
     ('2026-12-20 10:00:00', N'nv002', N'In', N'ChungNhan', N'CN2026-0089');
 
--- ThamSo: 14 dòng
+-- ThamSo: 15 dòng
 INSERT INTO ThamSo (MaThamSo, TenThamSo, GiaTri, DonVi, QuyTac) VALUES
+    (N'PHIEN_BAN_CSDL', N'Phiên bản CSDL', 1, N'phiên bản', NULL),
     (N'SISO_TOI_THIEU', N'Sĩ số tối thiểu để mở lớp', 8, N'học viên', N'QT06'),
     (N'SISO_TOI_DA', N'Sĩ số tối đa của lớp', 20, N'học viên', N'QT06'),
     (N'TY_LE_GIAM_TOI_DA', N'Tổng mức giảm tối đa', 15, N'%', N'QT04'),

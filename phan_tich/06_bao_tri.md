@@ -82,7 +82,7 @@ Mỗi thẻ có ghi chú phát hành (GitHub Release): danh sách issue đã x�
 Ở giai đoạn thiết kế, CSDL được **tạo lại từ đầu** bằng `csdl/chay.ps1` (xóa và chạy lại `schema.sql`, `views.sql`, `seed.sql`). Khi đã có dữ liệu thật thì **không được tạo lại**. Vì vậy từ bản `v1.0.0`:
 - `schema.sql` vẫn là mô tả đầy đủ của cấu trúc mới nhất (dùng cài mới, dùng cho bản thử);
 - mỗi thay đổi thêm một tệp `csdl/nang_cap/NNN_mo_ta.sql` (đánh số tăng dần) chỉ gồm `ALTER`/`CREATE`, chạy được trên CSDL đang có dữ liệu;
-- bảng `ThamSo` lưu thêm số của tệp nâng cấp cuối cùng đã chạy, để biết CSDL đang ở phiên bản nào;
+- bảng `ThamSo` lưu số của tệp nâng cấp cuối cùng đã chạy tại `PHIEN_BAN_CSDL` (chỉ đọc trên F5.1b, chặn cả POST giả mạo). Dữ liệu mẫu có giá trị 1 vì đã gồm nâng cấp 001; tệp `002_phien_ban_csdl.sql` thêm dòng nếu thiếu và nâng lên 2, chạy lại an toàn, không hạ phiên bản đã cao hơn 2. Mỗi tệp nâng cấp sau cập nhật giá trị bằng số tệp trong cùng giao dịch;
 - luôn sao lưu trước khi chạy tệp nâng cấp; thử trên bản sao của CSDL thật trước.
 
 ### 3.4 Phân quyền trên kho mã
