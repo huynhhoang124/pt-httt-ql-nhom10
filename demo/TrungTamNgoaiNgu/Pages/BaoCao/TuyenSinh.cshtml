@@ -1,0 +1,85 @@
+@page
+@model TrungTamNgoaiNgu.Pages.BaoCao.TuyenSinhModel
+@{
+    ViewData["Title"] = "Báo cáo tuyển sinh";
+}
+
+<div class="container-fluid px-4">
+    <h3 class="mt-4">R5.3a Báo cáo tuyển sinh</h3>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Báo cáo tuyển sinh</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-filter me-1"></i> Bộ lọc khoảng thời gian
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-center">
+                <div class="col-auto"><label class="col-form-label">Từ ngày:</label></div>
+                <div class="col-auto">
+                    <input type="date" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="col-auto"><label class="col-form-label">Đến ngày:</label></div>
+                <div class="col-auto">
+                    <input type="date" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Xem báo cáo</button>
+                    <a href="?tuNgay=@Model.TuNgay.ToString("yyyy-MM-dd")&denNgay=@Model.DenNgay.ToString("yyyy-MM-dd")&xuat=excel" class="btn btn-success">Xuất Excel</a>
+                    <button type="button" onclick="window.print()" class="btn btn-secondary">In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">Tổng học viên mới kỳ này: <strong>@Model.TongTuyenSinhKyNay</strong></div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">Tổng học viên mới kỳ trước: <strong>@Model.TongTuyenSinhKyTruoc</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table me-1"></i> Bảng học viên mới theo tháng x khóa học</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Năm</th>
+                            <th>Tháng</th>
+                            @foreach (var kh in Model.DanhSachKhoaHoc)
+                            {
+                                <th>@kh.TenKH</th>
+                            }
+                            <th>Tổng cộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model.DuLieuKyNay)
+                        {
+                            <tr>
+                                <td>@r.Nam</td>
+                                <td>@r.Thang</td>
+                                @foreach (var kh in Model.DanhSachKhoaHoc)
+                                {
+                                    <td>@r.SoLuongTheoKhoa.GetValueOrDefault(kh.MaKH, 0)</td>
+                                }
+                                <td><strong>@r.TongThang</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="text-muted small">Lập lúc: @Model.LapLuc.ToString("dd/MM/yyyy HH:mm:ss")</div>
+</div>
