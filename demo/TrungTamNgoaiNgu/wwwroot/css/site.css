@@ -698,6 +698,7 @@ fieldset:disabled .chon-dd input:checked + label { opacity: .8; }
     .table > thead > tr > th { position: static; background: #eee !important; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .giay-a4 { width: auto; padding: 0; box-shadow: none; }
     .nhan, .xep { border-color: #000 !important; background: none !important; color: #000 !important; }
+    body:has(.lien) .dau-trang { display: none !important; }   /* chứng từ (R3.2, R4.3b, R4.4): chỉ in tờ giấy, không in tiêu đề trang (Q5) */
 }
 
 /* ================= 18b. Tương thích class cũ (v2) – để các trang chưa sửa không vỡ; xem DOI_CLASS.md ================= */
@@ -747,6 +748,7 @@ form > .table-responsive:last-child, .than-trang > .table-responsive:last-child 
     .the-so { padding: 12px 14px; }
     .gia-tri { font-size: 20px; }
     .thanh-loc { padding: 12px; }
+    :is(.form-control, .form-select) { font-size: 16px; }   /* iPhone tự phóng to khi chạm ô chữ < 16px (Q5: F4.1 ghi chú, F4.2 ô điểm) */
     .thanh-loc .o-loc { flex: 1 1 100%; }
     .thanh-loc .day-phai { margin-left: 0; width: 100%; }
     .thanh-loc .day-phai .btn { flex: 1; }
