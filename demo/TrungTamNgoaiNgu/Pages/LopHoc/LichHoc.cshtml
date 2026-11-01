@@ -1,0 +1,126 @@
+@page
+@model TrungTamNgoaiNgu.Pages.LopHoc.LichHocModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "R2.3a, R2.3b";
+    ViewData["TroGiup"] = "Xem lịch học của học viên hoặc lịch dạy của giáo viên trong khoảng thời gian đã chọn. Giáo viên xem thêm danh sách lớp và số buổi vắng của từng học viên.";
+}
+
+<form method="get" class="thanh-loc d-print-none">
+    @if (Model.CoQuyenNhapHV)
+    {
+        <div>
+            <label class="form-label" for="mahv">Mã học viên</label>
+            <input id="mahv" name="mahv" value="@Model.MaHV" class="form-control" list="ds-hoc-vien" placeholder="vd: HV0480" />
+        </div>
+        <partial name="_GoiYHocVien" />
+    }
+    else if (Model.CacHocVienDuocXem.Count > 1)
+    {
+        <div>
+            <label class="form-label" for="mahv">Học viên</label>
+            <select id="mahv" name="mahv" class="form-select">
+                @foreach (var h in Model.CacHocVienDuocXem)
+                {
+                    <option value="@h.MaHV" selected="@(h.MaHV == Model.MaHV)">@h.MaHV – @h.HoTen</option>
+                }
+            </select>
+        </div>
+    }
+    <div>
+        <label class="form-label" for="tungay">Từ ngày</label>
+        <input id="tungay" name="tungay" type="date" class="form-control" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label class="form-label" for="denngay">Đến ngày</label>
+        <input id="denngay" name="denngay" type="date" class="form-control" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+    </div>
+    <button class="btn btn-primary">Xem lịch</button>
+</form>
+
+<div asp-validation-summary="All" class="hop-loi"></div>
+<div class="mb-3"><b>TRUNG TÂM NGOẠI NGỮ</b> · Khoảng ngày: @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay)</div>
+
+@if (Model.HocVienChon != null)
+{
+    <h2 class="h5 fw-bold">Lịch học của @Model.HocVienChon.MaHV – @Model.HocVienChon.HoTen</h2>
+    @if (Model.LichHoc.Count == 0)
+    {
+        <p class="text-secondary">Học viên chưa có lớp đang đăng ký.</p>
+    }
+    @foreach (var lop in Model.LichHoc)
+    {
+        <section class="hop-tb mb-3">
+            <h3 class="h6 fw-bold">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3>
+            <div class="small mb-2">Giáo viên: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</div>
+            @if (lop.CacBuoi.Count == 0)
+            {
+                <div class="text-secondary">Không có buổi học trong khoảng ngày đã chọn.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered align-middle mb-0">
+                        <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Giáo viên</th><th>Loại</th><th>Trạng thái</th><th>Nội dung</th></tr></thead>
+                        <tbody>
+                            @foreach (var b in lop.CacBuoi)
+                            {
+                                <tr class="@(b.TrangThai == "Hủy" ? "table-secondary" : "")">
+                                    <td>@b.SoBuoi</td>
+                                    <td>@HienThi.Thu((byte)(b.Ngay.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)b.Ngay.DayOfWeek + 1)) @HienThi.Ngay(b.Ngay)</td>
+                                    <td>@b.GioBatDau.ToString("HH:mm")–@b.GioKetThuc.ToString("HH:mm")</td>
+                                    <td>@b.MaPhong – @b.TenPhong</td><td>@b.TenGV</td><td>@b.Loai</td><td>@b.TrangThai</td><td>@b.NoiDung</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+    }
+}
+else if (User.VaiTro() == "GV")
+{
+    <h2 class="h5 fw-bold">Lịch dạy của giáo viên</h2>
+    @if (Model.LichDay.Count == 0)
+    {
+        <p class="text-secondary">Không có buổi dạy trong khoảng ngày đã chọn.</p>
+    }
+    @foreach (var lop in Model.LichDay)
+    {
+        <section class="hop-tb mb-3">
+            <h3 class="h6 fw-bold">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3>
+            <div class="small mb-2">Giáo viên phụ trách: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</div>
+            <div class="table-responsive mb-3">
+                <table class="table table-sm table-bordered align-middle">
+                    <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Loại</th><th>Trạng thái</th><th>Nội dung</th></tr></thead>
+                    <tbody>
+                        @foreach (var b in lop.CacBuoi)
+                        {
+                            <tr class="@(b.MaGV != lop.Lop.MaGV ? "table-info" : b.TrangThai == "Hủy" ? "table-secondary" : "")">
+                                <td>@b.SoBuoi</td><td>@HienThi.Thu((byte)(b.Ngay.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)b.Ngay.DayOfWeek + 1)) @HienThi.Ngay(b.Ngay)</td>
+                                <td>@b.GioBatDau.ToString("HH:mm")–@b.GioKetThuc.ToString("HH:mm")</td><td>@b.MaPhong – @b.TenPhong</td><td>@b.Loai</td><td>@b.TrangThai</td><td>@b.NoiDung</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <h4 class="h6 fw-bold">Danh sách học viên</h4>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered align-middle mb-0">
+                    <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Số buổi vắng</th><th>Tỷ lệ chuyên cần</th></tr></thead>
+                    <tbody>
+                        @foreach (var h in lop.DanhSachHocVien)
+                        {
+                            <tr><td>@h.HocVien.MaHV</td><td>@h.HocVien.HoTen</td><td class="so">@h.SoBuoiVang</td><td class="so">@(h.TyLeChuyenCan is null ? "–" : $"{h.TyLeChuyenCan:0.0}%")</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    }
+}
+else if (Model.CoQuyenNhapHV)
+{
+    <div class="hop-tb">Nhập mã học viên để xem lịch học.</div>
+}

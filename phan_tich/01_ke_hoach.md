@@ -100,7 +100,7 @@ Phần cứng người dùng (12 máy tính, máy in, wifi) đã có sẵn, khô
 - Quy mô nhỏ: khoảng 750 người dùng, 50–100 người truy cập đồng thời giờ cao điểm, khoảng 20 bảng dữ liệu; một máy chủ 4 vCPU/8 GB là đủ.
 - Hạ tầng hiện có (máy tính, mạng) dùng được ngay; giáo viên và phụ huynh dùng trình duyệt trên điện thoại, không cần cài ứng dụng.
 - Điểm khó về kỹ thuật: kiểm tra trùng lịch (QT07) và tính học phí nhiều đợt, nhiều ưu đãi. Cả hai đã được đặc tả rõ bằng ngôn ngữ cấu trúc và bảng quyết định ở giai đoạn phân tích.
-- Gửi SMS/Zalo cần tích hợp dịch vụ bên ngoài nên bản đầu chỉ dùng thông báo trong hệ thống và email.
+- Gửi SMS/Zalo và email cần tích hợp dịch vụ bên ngoài nên bản đầu chỉ dùng thông báo trong hệ thống; email, SMS/Zalo để hướng phát triển.
 
 → **Khả thi về kỹ thuật.**
 
