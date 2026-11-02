@@ -178,12 +178,13 @@ Sau giai đoạn 4, ngừng ghi sổ giấy và Excel; lưu trữ bản cuối c
 
 Theo `thiet_ke/05_module.md` mục 8, bước 5. Mọi ca kiểm thử đều trỏ về một quy tắc hoặc một chứng từ đã có.
 
-| Mức | Công cụ | Kết quả trên bản demo (11/10/2026; chạy lại 01/11/2026 sau khi gộp phần việc cả nhóm) |
+| Mức | Công cụ | Kết quả trên bản demo (11/10/2026; chạy lại 01–02/11/2026 sau khi gộp phần việc cả nhóm) |
 |---|---|---|
 | Đơn vị | Dự án xUnit `demo/KiemThu`, chạy `dotnet test` | **98/98 đạt** (80 ca cũ + 18 ca H1/H2): bảng quyết định 3.1 R1–R8, ưu đãi hết hạn/trùng loại, chứng từ DK2026-0158, chia đợt làm tròn nghìn, ngày buổi thứ n, phiếu thu QT05, điểm danh QT11, số tiền bằng chữ, mật khẩu, khóa tạm; bảng quyết định 4.3, chứng nhận QT15, trùng lịch QT07, cây quyết định 2.4, điểm "7,5", tổng hợp báo cáo 5.4; R3.1: tổng tiền theo đợt, ưu đãi, nhiều phiếu thu, bộ lọc quyền và thực đơn 8 vai trò, phạm vi HV/PH, tổng/Excel qua phân trang; F5.1b: chặn POST phiên bản, vẫn lưu tham số chính sách (EF Core InMemory) |
 | Tích hợp (CSDL) | `csdl/kiem_tra.sql` qua `csdl/chay.ps1` | **24/24 đạt** |
 | Đồng bộ thiết kế – mã | `demo/sinh_ma.py`: mã nguồn dùng đúng module, mã lỗi, mã màn hình của 05_module, 06_giao_dien | Đạt (131 tệp, 01/11/2026) |
 | Phân quyền | `python demo/kiem_tra_quyen.py` (TC42): đăng nhập 8 vai trò, đọc `ThucDon.DaLam`, `ThucDon.g.cs`, `Nen/PhanQuyen.g.cs` và quy tắc riêng trong `OnGet` của từng trang, mở mọi trang | **Đạt** – 8 vai trò × 31 trang = 248 lượt; mọi mục trên trang chủ mở được (200), trang không có quyền chuyển về `/KhongCoQuyen`; in bảng vai trò × trang |
+| Độ bền | Gửi giá trị xấu (trống, chữ, số âm, rất lớn, ngày sai, chuỗi 600 ký tự, câu SQL) vào từng ô của mọi form lọc (GET) và form ghi (POST), 8 vai trò; quét mọi liên kết | **Đạt** sau khi sửa 2 lỗi ở mục 4.3 (02/11/2026): 535 trang theo liên kết, 1.011 lượt GET, 1.601 lượt POST, không trang nào lỗi máy chủ (500); lỗi nhập đều báo bằng tiếng Việt |
 | Chấp nhận | Nhập lại chứng từ mẫu qua giao diện, so bản in với chứng từ | PT2026-0731 khớp; luồng đăng ký → học phí → phiếu thu chạy thật đạt (mục 4.2) |
 
 ### 4.2 Ca kiểm thử theo tiến trình
@@ -251,6 +252,8 @@ Kết quả: **Đạt** = đã chạy trên bản demo và đúng. 40 ca trướ
 | Thẻ "Lớp đang học" trên trang chủ kế toán dẫn tới trang bị chặn | TC42 | Thẻ hiện theo quyền 2.1 nhưng trỏ tới R5.3b (module 5.3, kế toán không có quyền) | Không có quyền 5.3 thì trỏ tới F2.1 (`Index.cshtml.cs`) |
 | R5.3a không có trên thực đơn | TC41 | Trang mới chưa thêm vào `ThucDon.DaLam` | Thêm dòng R5.3a (`Nen/ThucDon.cs`) |
 | iPhone tự phóng to khi chạm ô ghi chú F4.1, ô điểm F4.2 | TC43 (Q5) | Ô nhập cỡ chữ 14 px (Safari phóng to khi < 16 px) | Ô nhập 16 px khi khung ≤ 640 px (`site.css`) |
+| F4.2 lỗi 500 khi địa chỉ có `?loai=` trống hoặc loại điểm lạ | Độ bền | Loại điểm nhận giá trị null từ địa chỉ | Loại lạ khi xem thì về "Giữa kỳ"; khi lưu thì trả 404, không lưu nhầm loại (`HocTap/NhapDiem.cshtml.cs`) |
+| Nhận xét, ghi chú dài hơn cột báo lỗi tiếng Anh "String or binary data would be truncated" | Độ bền | Ô nhập không giới hạn độ dài; câu báo dự phòng lấy nguyên văn lỗi SQL | `maxlength` theo độ dài cột cho 10 ô (F1.2, F1.3, F1.4, F4.1, F4.2); lỗi 2628/8152 báo bằng tiếng Việt (`Nen/BaoLoi.cs`) |
 
 Sau mỗi lần sửa: chạy lại `csdl/chay.ps1` (24/24), `dotnet test` (98/98 sau H1/H2), `demo/kiem_tra_quyen.py` (TC42) và ca kiểm thử liên quan. Đợt H1/H2 ngày 12/10/2026 đã build không lỗi/cảnh báo, xUnit 98/98 đạt và kiểm tra mã đạt với 122 tệp. Ngày 24/10/2026 chạy lại: build 0 lỗi/0 cảnh báo, xUnit 98/98, kiểm tra CSDL 24/24; TC37 và TC38 đạt trên SQL Server 2022 trong Docker và HTTP thật với đủ 8 vai trò. Tổng R3.1 khớp SQL: 213.880.000 đồng. Script tái kiểm tra: `csdl/kiem_tra_hung.ps1` và `python demo/kiem_tra_hung_http.py`; hướng dẫn cấu hình và kết quả ở `demo/KIEM_THU_HUNG.md`.
 

@@ -710,8 +710,8 @@ def bao_cao_tong():
         "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, đủ 20 chức năng lá và các chức năng nền (đăng nhập, "
         "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi), đủ 37 màn hình đã thiết kế. Kiểm thử: "
         "98 ca kiểm thử đơn vị, 24 kiểm tra CSDL, 46 ca theo tiến trình đều đạt; script kiểm tra phân quyền tự động "
-        "8 vai trò × 31 trang; nhập lại chứng từ mẫu; thử giao diện trên khổ điện thoại và bản in; 8 lỗi phát hiện "
-        "đã sửa.",
+        "8 vai trò × 31 trang; thử độ bền bằng dữ liệu xấu trên mọi form; nhập lại chứng từ mẫu; thử giao diện "
+        "trên khổ điện thoại và bản in; 10 lỗi phát hiện đã sửa.",
         "Kế hoạch cài đặt theo giai đoạn (danh mục → lớp, lịch → học phí → học tập), huấn luyện 3 mức, chuyển đổi dữ "
         "liệu từ Excel; quy trình bảo trì, quản lý cấu hình bằng Git và 7 hướng phát triển.",
     ])

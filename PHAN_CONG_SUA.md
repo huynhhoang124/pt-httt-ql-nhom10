@@ -2,6 +2,8 @@
 
 Lập ngày 11/10/2026 từ đợt rà soát demo và tài liệu sau khi xong "Code bổ sung" (KE_HOACH.md). Mỗi người một phần, chia theo mảng đã làm trong bảng phân công của KE_HOACH. Hoàng Văn Huynh điều phối và duyệt pull request.
 
+**Kiểm tra lại 02/11/2026:** quét toàn bộ trang và gửi dữ liệu xấu vào mọi form, sửa thêm 2 lỗi (F4.2, câu báo lỗi khi nhập quá dài) và vài chỗ giao diện R2.3a, R5.3a; chi tiết ở KE_HOACH mục "Kiểm tra lại toàn bộ 02/11/2026".
+
 **Cập nhật 01/11/2026 – đợt sửa đã xong:** cả 5 bạn đã mở pull request (#6 Hùng, #9 Thủy, #10 Ân, #11 Quân; Luận gộp từ 14/10). Ngày 01/11 người điều phối gộp cả bốn PR vào nhánh `claude/jolly-cannon-2z0r5c` (PR #7, merge commit giữ tên tác giả từng bạn), sửa nốt chỗ còn thiếu và chạy lại toàn bộ kiểm thử trên SQL Server 2022: build 0 lỗi, `dotnet test` 98/98, `kiem_tra.sql` 24/24, `sinh_ma.py` 131 tệp, `kiem_tra_quyen.py` đạt (248 lượt), 46/46 ca theo tiến trình. Demo đủ **37/37 màn hình**. Chi tiết từng người ở dòng "Trạng thái 01/11" của mục 1–5.
 
 **Cập nhật 16/10/2026:** ghi trạng thái từng việc theo GitHub, thêm việc H3 phát hiện khi duyệt PR #6, hạn nộp (mục "Lịch còn lại" dưới đây) và chia phần slide (mục 7). Báo cáo tiến độ đầy đủ: `bao_cao/Tien_do_Nhom_10_16-10-2026.docx`.
@@ -52,7 +54,7 @@ Sau đợt này demo có đủ 37/37 màn hình đã thiết kế ở `thiet_ke/
   - bảng điểm: điểm `HienThi.Diem(x)` (dấu phẩy) trong ô `class="so diem"`, xếp loại `<span class="@HienThi.Xep(xl)">`, dòng không đạt `class="khong-dat"` (mẫu: `HocTap/TongKet.cshtml`).
 
 **Xong một việc khi**
-1. `dotnet build` không lỗi; `dotnet test demo/KiemThu` đạt hết (hiện 80/80; 98/98 sau khi gộp PR #6). Quy tắc có tính toán thì thêm test vào `demo/KiemThu/KiemThuQuyTac.cs`.
+1. `dotnet build` không lỗi; `dotnet test demo/KiemThu` đạt hết (hiện 98/98). Quy tắc có tính toán thì thêm test vào `demo/KiemThu/KiemThuQuyTac.cs`.
 2. `python demo/sinh_ma.py` báo "đạt" (kiểm tra mã module, mã màn hình, mã lỗi).
 3. Đăng nhập **đủ 8 vai trò** mở trang: vai trò có quyền thấy đúng phạm vi, vai trò không quyền bị chuyển về "Không có quyền".
 4. Số liệu trên trang khớp truy vấn SQL trực tiếp (ghi câu truy vấn đã dùng vào mô tả pull request).
