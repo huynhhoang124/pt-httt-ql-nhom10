@@ -40,7 +40,8 @@
 </form>
 
 <div asp-validation-summary="All" class="hop-loi"></div>
-<div class="mb-3"><b>TRUNG TÂM NGOẠI NGỮ</b> · Khoảng ngày: @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay)</div>
+<p class="d-none d-print-block"><b>TRUNG TÂM NGOẠI NGỮ</b></p>
+<div class="hop-tb">Khoảng ngày @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay)</div>
 
 @if (Model.HocVienChon != null)
 {
@@ -51,22 +52,21 @@
     }
     @foreach (var lop in Model.LichHoc)
     {
-        <section class="hop-tb mb-3">
-            <h3 class="h6 fw-bold">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3>
-            <div class="small mb-2">Giáo viên: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</div>
+        <section class="the mb-3">
+            <div class="the-dau"><h3 class="h6 fw-bold mb-0">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3><span class="small">Giáo viên: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</span></div>
             @if (lop.CacBuoi.Count == 0)
             {
-                <div class="text-secondary">Không có buổi học trong khoảng ngày đã chọn.</div>
+                <div class="the-than text-secondary">Không có buổi học trong khoảng ngày đã chọn.</div>
             }
             else
             {
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered align-middle mb-0">
+                    <table class="table table-sm align-middle mb-0">
                         <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Giáo viên</th><th>Loại</th><th>Trạng thái</th><th>Nội dung</th></tr></thead>
                         <tbody>
                             @foreach (var b in lop.CacBuoi)
                             {
-                                <tr class="@(b.TrangThai == "Hủy" ? "table-secondary" : "")">
+                                <tr class="@(b.TrangThai == "Hủy" ? "chua-lam" : "")">
                                     <td>@b.SoBuoi</td>
                                     <td>@HienThi.Thu((byte)(b.Ngay.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)b.Ngay.DayOfWeek + 1)) @HienThi.Ngay(b.Ngay)</td>
                                     <td>@b.GioBatDau.ToString("HH:mm")–@b.GioKetThuc.ToString("HH:mm")</td>
@@ -89,16 +89,17 @@ else if (User.VaiTro() == "GV")
     }
     @foreach (var lop in Model.LichDay)
     {
-        <section class="hop-tb mb-3">
-            <h3 class="h6 fw-bold">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3>
-            <div class="small mb-2">Giáo viên phụ trách: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</div>
+        <section class="the mb-3">
+            <div class="the-dau"><h3 class="h6 fw-bold mb-0">@lop.Lop.MaLop – @lop.Lop.MaKHNavigation.TenKH</h3><span class="small">Giáo viên phụ trách: @lop.Lop.MaGVNavigation.HoTen · Trạng thái lớp: @lop.Lop.TrangThai</span></div>
+            <div class="the-than">
+            @if (lop.CacBuoi.Any(b => b.MaGV != lop.Lop.MaGV)) { <p class="small mb-2">Dòng tô màu: buổi bạn dạy thay cho giáo viên phụ trách.</p> }
             <div class="table-responsive mb-3">
                 <table class="table table-sm table-bordered align-middle">
                     <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Loại</th><th>Trạng thái</th><th>Nội dung</th></tr></thead>
                     <tbody>
                         @foreach (var b in lop.CacBuoi)
                         {
-                            <tr class="@(b.MaGV != lop.Lop.MaGV ? "table-info" : b.TrangThai == "Hủy" ? "table-secondary" : "")">
+                            <tr class="@(b.MaGV != lop.Lop.MaGV ? "dang-chon" : b.TrangThai == "Hủy" ? "chua-lam" : "")">
                                 <td>@b.SoBuoi</td><td>@HienThi.Thu((byte)(b.Ngay.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)b.Ngay.DayOfWeek + 1)) @HienThi.Ngay(b.Ngay)</td>
                                 <td>@b.GioBatDau.ToString("HH:mm")–@b.GioKetThuc.ToString("HH:mm")</td><td>@b.MaPhong – @b.TenPhong</td><td>@b.Loai</td><td>@b.TrangThai</td><td>@b.NoiDung</td>
                             </tr>
@@ -109,7 +110,7 @@ else if (User.VaiTro() == "GV")
             <h4 class="h6 fw-bold">Danh sách học viên</h4>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered align-middle mb-0">
-                    <thead><tr><th>Mã HV</th><th>Họ tên</th><th>Số buổi vắng</th><th>Tỷ lệ chuyên cần</th></tr></thead>
+                    <thead><tr><th>Mã HV</th><th>Họ tên</th><th class="so">Số buổi vắng</th><th class="so">Tỷ lệ chuyên cần</th></tr></thead>
                     <tbody>
                         @foreach (var h in lop.DanhSachHocVien)
                         {
@@ -117,6 +118,7 @@ else if (User.VaiTro() == "GV")
                         }
                     </tbody>
                 </table>
+            </div>
             </div>
         </section>
     }

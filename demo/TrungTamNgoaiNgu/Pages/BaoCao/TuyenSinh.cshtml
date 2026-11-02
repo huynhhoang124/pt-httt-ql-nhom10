@@ -34,8 +34,8 @@
         </tbody>
         <tfoot>
             <tr class="fw-bold"><td>Tổng</td>@foreach (var k in kh) { <td class="so">@Model.TongKhoa(Model.DuLieuKyNay, k.MaKH)</td> }<td class="so">@Model.TongTuyenSinhKyNay</td></tr>
-            <tr><td>Kỳ trước</td>@foreach (var k in kh) { <td class="so">@Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH)</td> }<td class="so">@Model.TongTuyenSinhKyTruoc</td></tr>
-            <tr><td>So với kỳ trước</td>@foreach (var k in kh) { <td class="so">@Lech(Model.TongKhoa(Model.DuLieuKyNay, k.MaKH), Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH))</td> }<td class="so">@Lech(Model.TongTuyenSinhKyNay, Model.TongTuyenSinhKyTruoc)</td></tr>
+            <tr class="dong-phu"><td>Kỳ trước</td>@foreach (var k in kh) { <td class="so">@Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH)</td> }<td class="so">@Model.TongTuyenSinhKyTruoc</td></tr>
+            <tr class="dong-phu"><td>So với kỳ trước</td>@foreach (var k in kh) { <td class="so">@Lech(Model.TongKhoa(Model.DuLieuKyNay, k.MaKH), Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH))</td> }<td class="so">@Lech(Model.TongTuyenSinhKyNay, Model.TongTuyenSinhKyTruoc)</td></tr>
         </tfoot>
     </table>
 </div>
