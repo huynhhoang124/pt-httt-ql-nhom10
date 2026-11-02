@@ -26,6 +26,11 @@ public static partial class ThongBaoLoi
         for (var e = ex; e != null; e = e.InnerException)
             if (e is SqlException sql)
             {
+                if (sql.Number is 2628 or 8152)   // chuỗi dài hơn cột; ô nhập đã có maxlength, đây là lưới an toàn khi gửi thẳng
+                {
+                    var cot = System.Text.RegularExpressions.Regex.Match(sql.Message, @"column '(\w+)'").Groups[1].Value;
+                    return $"Nội dung nhập dài hơn độ dài cho phép{(cot == "" ? "" : $" (cột {cot})")}. Gợi ý: rút gọn nội dung rồi lưu lại.";
+                }
                 var khoa = Bang.Keys.FirstOrDefault(k => !k.StartsWith("QT") && (sql.Message.Contains($"\"{k}\"") || sql.Message.Contains($"'{k}'")));
                 return khoa is null ? $"Dữ liệu vi phạm ràng buộc của CSDL: {sql.Message}" : Cau(khoa);
             }

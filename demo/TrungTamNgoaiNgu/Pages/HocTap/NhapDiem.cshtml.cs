@@ -36,8 +36,9 @@ public class NhapDiemModel(TrungTamContext db, DongHo dongHo) : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (Loai is null || !LoaiDiemCo.Contains(Loai)) return NotFound();   // kiểm tra trước NapAsync (NapAsync đổi loại lạ về mặc định khi xem)
         await NapAsync();
-        if (Chon == null || !LoaiDiemCo.Contains(Loai)) return NotFound();
+        if (Chon == null) return NotFound();
         if (!DuocGhi) { ModelState.AddModelError("", "Lớp này không nhập điểm được (không phải lớp bạn phụ trách, hoặc lớp đã kết thúc)."); return Page(); }
         int so = 0;
         foreach (var d in DanhSach.Where(d => !d.Khoa))
@@ -70,6 +71,7 @@ public class NhapDiemModel(TrungTamContext db, DongHo dongHo) : PageModel
 
     async Task NapAsync()
     {
+        if (Loai is null || !LoaiDiemCo.Contains(Loai)) Loai = LoaiDiemCo[0];   // ?loai= trống hoặc sửa tay trên địa chỉ: về loại mặc định
         var gv = User.MaGV();
         var q = db.LopHoc.AsNoTracking().Include(l => l.MaKHNavigation).Where(l => l.TrangThai != "Hủy" && l.TrangThai != "Dự kiến");
         if (User.VaiTro() == "GV") q = q.Where(l => l.MaGV == gv);  // phạm vi x: lớp mình phụ trách
