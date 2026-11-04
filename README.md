@@ -17,7 +17,7 @@
 - `so_do/` – BFD_v3, DFD ngữ cảnh, mức 0, mức 1 (`DFD_muc_1_1.png` … `DFD_muc_1_5.png`), bảng cân bằng DFD (`can_bang_dfd.md`), ERD, sơ đồ module, thực đơn, phác thảo màn hình. Script sinh và tự kiểm tra ở `so_do/src/` (`bfd.py`, `dfd.py`, `erd.py`, `module.py`, `giao_dien.py`; cần matplotlib)
 - `csdl/` – CSDL SQL Server: `schema.sql`, `views.sql`, `seed.sql` (sinh bằng `sinh_du_lieu.py`), `kiem_tra.sql` (24 kiểm tra), tệp nâng cấp `nang_cap/`, mô tả bảng `mo_ta_bang.md` (sinh bằng `sinh_mo_ta.py`)
 - `demo/` – Bản demo ASP.NET Core 8 (`TrungTamNgoaiNgu/`), kiểm thử đơn vị xUnit (`KiemThu/`), sinh mã và kiểm tra đồng bộ thiết kế – mã (`sinh_ma.py`), kiểm tra phân quyền 8 vai trò (`kiem_tra_quyen.py`)
-- `bao_cao/` – Báo cáo GĐ1 + GĐ2, GĐ3 và báo cáo tổng (Word + PDF), dựng từ các tệp .md bằng `python bao_cao/lam_bao_cao.py` (cần python-docx và Microsoft Word); phân công sửa (`Phan_cong_sua_Nhom_10.docx`, từ `PHAN_CONG_SUA.md`)
+- `bao_cao/` – Báo cáo GĐ1 + GĐ2, GĐ3 và báo cáo tổng (Word + PDF), dựng từ các tệp .md bằng `python bao_cao/lam_bao_cao.py` (cần python-docx và Microsoft Word); phân công sửa (`Phan_cong_sua_Nhom_10.docx`, từ `PHAN_CONG_SUA.md`); phân chia nội dung mỗi người một phần kèm lý thuyết, nơi đọc, câu hỏi vấn đáp (`Phan_chia_noi_dung_Nhom_10.docx`, từ `PHAN_CHIA_NOI_DUNG.md`)
 - `KE_HOACH.md` – Kế hoạch xuyên suốt dự án (giai đoạn, sản phẩm, phân công, kiểm tra)
 
 ## Chạy demo và kiểm thử
