@@ -42,7 +42,8 @@ public class IndexModel(TrungTamContext db, DongHo dongHo) : PageModel
         {
             var n = await db.LopHoc.CountAsync(l => l.TrangThai == "Đang học");
             var duKien = await db.LopHoc.CountAsync(l => l.TrangThai == "Dự kiến");
-            CacThe.Add(new("book-open", "Lớp đang học", HienThi.So(n), $"{duKien} lớp dự kiến mở", "/BaoCao/TinhTrangLop"));
+            CacThe.Add(new("book-open", "Lớp đang học", HienThi.So(n), $"{duKien} lớp dự kiến mở",
+                PhanQuyen.Co(vt, "5.3") ? "/BaoCao/TinhTrangLop" : "/LopHoc/MoLop"));   // kế toán không có quyền 5.3 (R5.3b)
         }
         if (PhanQuyen.Co(vt, "2.3") || vt == "GV")
         {

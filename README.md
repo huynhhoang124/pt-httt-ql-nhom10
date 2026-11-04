@@ -11,14 +11,20 @@
 6. Trần Minh Quân
 
 ## Nội dung
-- `bai_tap_1/` – Báo cáo phân tích theo 6 góc nhìn (Word + PDF)
-- `so_do/` – Sơ đồ BFD_v3, DFD mức ngữ cảnh, DFD mức 0, DFD mức 1 (`DFD_muc_1_1.png` … `DFD_muc_1_5.png`), bảng cân bằng DFD (`can_bang_dfd.md`), ERD (`ERD_1_nghiep_vu.png`, `ERD_2_he_thong.png`)
-- `phan_tich/` – GĐ1 xác định, khả thi, lập kế hoạch (`01_ke_hoach.md`); giai đoạn phân tích: 2.1 thu thập thông tin (quy tắc nghiệp vụ QT01–QT16), 2.2 phân tích chức năng (mô tả 20 chức năng, ma trận thực thể – chức năng), 2.4 đặc tả xử lý (bảng/cây quyết định) và từ điển dữ liệu
-- `thiet_ke/` – Giai đoạn thiết kế: 3.1 thực thể và thuộc tính (`01_thuc_the.md`, 26 thực thể), 3.2 quan hệ và ERD (`02_quan_he.md`), 3.3 chuẩn hóa (`03_chuan_hoa.md`; kiểm tra: `python thiet_ke/kiem_tra_chuan_hoa.py`), 3.4 CSDL vật lý (`04_csdl.md`)
-- `csdl/` – CSDL SQL Server: `schema.sql`, `views.sql`, `seed.sql` (sinh bằng `sinh_du_lieu.py`), `kiem_tra.sql`, mô tả bảng `mo_ta_bang.md` (sinh bằng `sinh_mo_ta.py`). Chạy: `powershell -ExecutionPolicy Bypass -File csdl/chay.ps1 [-May .\SQLEXPRESS]`
-- `bao_cao/` – Báo cáo GĐ1 + GĐ2 (`Bao_cao_GD1_GD2_Nhom_10`, Word + PDF), dựng tự động từ các file .md bằng `python bao_cao/lam_bao_cao.py` (cần python-docx và Microsoft Word)
-- `so_do/src/` – Script sinh sơ đồ: sửa dữ liệu trong `bfd.py` / `dfd.py` rồi chạy `python so_do/src/bfd.py` và `python so_do/src/dfd.py`; ERD lấy dữ liệu từ `thiet_ke/01_thuc_the.md` và `thiet_ke/02_quan_he.md`, chạy `python so_do/src/erd.py` (cần matplotlib)
+- `bai_tap_1/` – Báo cáo phân tích theo 6 góc nhìn (Word + PDF); `ly_thuyet/` – lý thuyết áp dụng
+- `phan_tich/` – GĐ1 xác định, khả thi, kế hoạch (`01_ke_hoach.md`); GĐ2 phân tích: thu thập thông tin, quy tắc QT01–QT16 (`02_thu_thap.md`), mô tả 20 chức năng (`03_chuc_nang.md`), đặc tả xử lý, từ điển dữ liệu (`04_dac_ta.md`); GĐ4 cài đặt, chuyển đổi, kiểm thử 46 ca (`05_cai_dat.md`); GĐ5 bảo trì (`06_bao_tri.md`)
+- `thiet_ke/` – GĐ3 thiết kế: 26 thực thể (`01_thuc_the.md`), quan hệ và ERD (`02_quan_he.md`), chuẩn hóa (`03_chuan_hoa.md`; kiểm tra: `python thiet_ke/kiem_tra_chuan_hoa.py`), CSDL vật lý (`04_csdl.md`), module và ma trận phân quyền (`05_module.md`), form, báo cáo, thực đơn, thông báo lỗi – 37 màn hình (`06_giao_dien.md`)
+- `so_do/` – BFD_v3, DFD ngữ cảnh, mức 0, mức 1 (`DFD_muc_1_1.png` … `DFD_muc_1_5.png`), bảng cân bằng DFD (`can_bang_dfd.md`), ERD, sơ đồ module, thực đơn, phác thảo màn hình. Script sinh và tự kiểm tra ở `so_do/src/` (`bfd.py`, `dfd.py`, `erd.py`, `module.py`, `giao_dien.py`; cần matplotlib)
+- `csdl/` – CSDL SQL Server: `schema.sql`, `views.sql`, `seed.sql` (sinh bằng `sinh_du_lieu.py`), `kiem_tra.sql` (24 kiểm tra), tệp nâng cấp `nang_cap/`, mô tả bảng `mo_ta_bang.md` (sinh bằng `sinh_mo_ta.py`)
+- `demo/` – Bản demo ASP.NET Core 8 (`TrungTamNgoaiNgu/`), kiểm thử đơn vị xUnit (`KiemThu/`), sinh mã và kiểm tra đồng bộ thiết kế – mã (`sinh_ma.py`), kiểm tra phân quyền 8 vai trò (`kiem_tra_quyen.py`)
+- `bao_cao/` – Báo cáo GĐ1 + GĐ2, GĐ3 và báo cáo tổng (Word + PDF), dựng từ các tệp .md bằng `python bao_cao/lam_bao_cao.py` (cần python-docx và Microsoft Word); phân công sửa (`Phan_cong_sua_Nhom_10.docx`, từ `PHAN_CONG_SUA.md`); phân chia nội dung mỗi người một phần kèm lý thuyết, nơi đọc, câu hỏi vấn đáp (`Phan_chia_noi_dung_Nhom_10.docx`, từ `PHAN_CHIA_NOI_DUNG.md`)
 - `KE_HOACH.md` – Kế hoạch xuyên suốt dự án (giai đoạn, sản phẩm, phân công, kiểm tra)
 
+## Chạy demo và kiểm thử
+1. Cài .NET 8 SDK và SQL Server (Express); dựng CSDL: `powershell -ExecutionPolicy Bypass -File csdl/chay.ps1 [-May .\SQLEXPRESS]` (kết quả cuối phải là "KẾT QUẢ: ĐẠT", 24/24 kiểm tra).
+2. Sửa chuỗi kết nối `TrungTam` trong `demo/TrungTamNgoaiNgu/appsettings.json` nếu tên máy SQL khác, rồi `dotnet run --project demo/TrungTamNgoaiNgu --launch-profile http` → http://localhost:5223.
+3. Tài khoản mẫu, mật khẩu = tên đăng nhập: nv001 Giám đốc, nv002 QL đào tạo, nv003 Quản trị, nv004 Kế toán, nv005 Tuyển sinh, gv023 Giáo viên, hv0412 Học viên, ph0301 Phụ huynh. Giờ hệ thống của demo cố định 04/01/2027 19:30 (`HeThong:ThoiDiem`).
+4. Kiểm thử: `dotnet test demo/KiemThu` (98 ca), `python demo/sinh_ma.py` (đồng bộ thiết kế – mã), `python demo/kiem_tra_quyen.py` khi ứng dụng đang chạy (phân quyền, 248 lượt). Ca kiểm thử theo tiến trình: `phan_tich/05_cai_dat.md` mục 4.2.
+
 ## Quy ước
-Nhánh `main` do Huynh quản lý. Thành viên làm trên nhánh riêng và mở Pull Request vào `main`.
+Nhánh `main` do Huynh quản lý (bắt buộc duyệt). Mỗi việc một nhánh `them/<mô-tả>` hoặc `sua/<mô-tả>` tạo từ `main`, mở Pull Request vào `main`; quy trình đầy đủ ở `phan_tich/06_bao_tri.md` mục 2 và `PHAN_CONG_SUA.md` mục 0.

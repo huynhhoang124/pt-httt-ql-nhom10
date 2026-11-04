@@ -270,7 +270,7 @@ Lớp xử lý nghiệp vụ không tách thành một lớp dịch vụ riêng 
 | Đơn vị (từng module) | Bảng quyết định 3.1 (R1–R8), bảng quyết định 4.3 (R1–R5), cây quyết định 2.4, điều kiện trùng lịch QT07 | 04_dac_ta mục 2, 3: mỗi quy tắc R là một ca |
 | Tích hợp (CSDL) | `csdl/kiem_tra.sql`: 24 kiểm tra, chạy lại sau mỗi lần sửa | 3.4 |
 | Chấp nhận (người dùng) | Nhập lại 5 chứng từ mẫu qua giao diện; kết quả in ra phải trùng chứng từ | 2.1 mục 4.2 |
-| Phân quyền | Đăng nhập lần lượt 8 vai trò, thử truy cập từng ô của ma trận mục 5 | Mục 5 |
+| Phân quyền | Đăng nhập lần lượt 8 vai trò, thử truy cập từng ô của ma trận mục 5 (tự động bằng `demo/kiem_tra_quyen.py`, TC42) | Mục 5 |
 
 **Bước 6 – Tài liệu hướng dẫn.** Viết theo cấu trúc bài giảng (mục 5.5.1.4):
 - tóm tắt hệ thống: quy trình thao tác, sơ đồ module, thực đơn;

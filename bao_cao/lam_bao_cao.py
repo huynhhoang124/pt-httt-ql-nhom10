@@ -1,7 +1,7 @@
 """Dựng báo cáo Word + PDF từ các file .md của dự án (nội dung chỉ sửa ở .md, không sửa tay file Word).
 
 Định dạng giữ như Bài tập 1: Times New Roman, đen trắng, bảng viền xám nhạt, đầu bảng xám.
-Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong] [phan_cong]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
+Chạy: python bao_cao/lam_bao_cao.py [phan_tich] [thiet_ke] [tong] [phan_cong] [phan_chia]  ->  bao_cao/Bao_cao_GD1_GD2_Nhom_10, Bao_cao_GD3_Nhom_10,
 Bao_cao_tong_Nhom_10 (.docx, .pdf; báo cáo tổng = BT1 + GĐ1 → GĐ5), Phan_cong_sua_Nhom_10.docx (từ PHAN_CONG_SUA.md)
 (xuất PDF và cập nhật mục lục cần Microsoft Word trên Windows, qua pywin32).
 """
@@ -708,9 +708,10 @@ def bao_cao_tong():
         "buộc, view, hàm cho báo cáo (Phụ lục B); 34 module theo mã chức năng, ma trận phân quyền 8 vai trò; 19 form, "
         "18 báo cáo ứng với các luồng vào, ra của DFD.",
         "Cài đặt: bản demo ASP.NET Core trên CSDL đã thiết kế, đủ 20 chức năng lá và các chức năng nền (đăng nhập, "
-        "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi) với 26 màn hình. Kiểm thử: 80 ca kiểm thử "
-        "đơn vị, 24 kiểm tra CSDL, 38 ca theo tiến trình đều đạt, kiểm tra phân quyền 8 vai trò, nhập lại chứng từ "
-        "mẫu; 4 lỗi phát hiện đã sửa.",
+        "phân quyền, nhật ký, sao lưu, xuất Excel/PDF, lưu nháp, báo lỗi), đủ 37 màn hình đã thiết kế. Kiểm thử: "
+        "98 ca kiểm thử đơn vị, 24 kiểm tra CSDL, 46 ca theo tiến trình đều đạt; script kiểm tra phân quyền tự động "
+        "8 vai trò × 31 trang; thử độ bền bằng dữ liệu xấu trên mọi form; nhập lại chứng từ mẫu; thử giao diện "
+        "trên khổ điện thoại và bản in; 10 lỗi phát hiện đã sửa.",
         "Kế hoạch cài đặt theo giai đoạn (danh mục → lớp, lịch → học phí → học tập), huấn luyện 3 mức, chuyển đổi dữ "
         "liệu từ Excel; quy trình bảo trì, quản lý cấu hình bằng Git và 7 hướng phát triển.",
     ])
@@ -737,6 +738,21 @@ def phan_cong():
     doc_md(doc, (GOC / "PHAN_CONG_SUA.md").read_text(encoding="utf-8"), None, giu_dau=True)
     doc.paragraphs[0].paragraph_format.page_break_before = False
     ra = GOC / "bao_cao" / "Phan_cong_sua_Nhom_10.docx"
+    doc.save(ra)
+    print("Đã ghi", ra)
+    return ra
+
+
+def phan_chia():
+    """PHAN_CHIA_NOI_DUNG.md -> bao_cao/Phan_chia_noi_dung_Nhom_10.docx (mỗi người một phần: lý thuyết, đọc ở đâu, câu hỏi)."""
+    doc = Document()
+    thiet_lap_kieu(doc)
+    doc.core_properties.title = "Phân chia nội dung dự án theo thành viên"
+    doc.core_properties.author = "Nhóm 10"
+    so_trang(doc)
+    doc_md(doc, (GOC / "PHAN_CHIA_NOI_DUNG.md").read_text(encoding="utf-8"), None, giu_dau=True)
+    doc.paragraphs[0].paragraph_format.page_break_before = False
+    ra = GOC / "bao_cao" / "Phan_chia_noi_dung_Nhom_10.docx"
     doc.save(ra)
     print("Đã ghi", ra)
     return ra
@@ -769,5 +785,8 @@ if __name__ == "__main__":
     for ten in chon:
         if ten == "phan_cong":
             phan_cong()
+            continue
+        if ten == "phan_chia":
+            phan_chia()
             continue
         xuat_pdf({"phan_tich": bao_cao_phan_tich, "thiet_ke": bao_cao_thiet_ke, "tong": bao_cao_tong}[ten]())

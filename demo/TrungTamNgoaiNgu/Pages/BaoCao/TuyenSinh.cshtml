@@ -1,0 +1,42 @@
+@page
+@model TrungTamNgoaiNgu.Pages.BaoCao.TuyenSinhModel
+@using TrungTamNgoaiNgu.Nen
+@{
+    ViewData["Ma"] = "F5.3, R5.3a";
+    ViewData["TroGiup"] = "Học viên mới: học viên có đăng ký đầu tiên trong kỳ (theo ngày đăng ký), xếp vào khóa học của đăng ký đó. Kỳ trước: cùng số ngày, ngay trước kỳ đang xem.";
+    var kh = Model.DanhSachKhoaHoc;
+    string Lech(int nay, int truoc) => truoc == 0 ? (nay == 0 ? "0" : "mới") : $"{(nay >= truoc ? "+" : "")}{100m * (nay - truoc) / truoc:0.0}%";
+}
+<form method="get" class="thanh-loc d-print-none">
+    <div><label class="form-label" for="tuNgay">Từ ngày</label><input id="tuNgay" name="tuNgay" type="date" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <div><label class="form-label" for="denNgay">Đến ngày</label><input id="denNgay" name="denNgay" type="date" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="form-control" /></div>
+    <button class="btn btn-primary">Xem</button>
+</form>
+<partial name="_XuatBaoCao" />
+<div class="hop-tb">
+    Kỳ @HienThi.Ngay(Model.TuNgay) – @HienThi.Ngay(Model.DenNgay) · lập lúc @Model.LapLuc.ToString("dd/MM/yyyy HH:mm")<br />
+    Học viên mới: <b>@Model.TongTuyenSinhKyNay</b> · kỳ trước: @Model.TongTuyenSinhKyTruoc (@Lech(Model.TongTuyenSinhKyNay, Model.TongTuyenSinhKyTruoc))
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-bordered align-middle">
+        <thead><tr><th>Tháng</th>@foreach (var k in kh) { <th class="so" title="@k.TenKH">@k.MaKH</th> }<th class="so">Tổng</th></tr></thead>
+        <tbody>
+            @if (Model.DuLieuKyNay.Count == 0)
+            {
+                <tr><td colspan="@(kh.Count + 2)" class="text-center">Không có học viên mới trong kỳ.</td></tr>
+            }
+            @foreach (var r in Model.DuLieuKyNay)
+            {
+                <tr><td>@r.Thang.ToString("00")/@r.Nam</td>
+                    @foreach (var k in kh) { var n = r.SoLuongTheoKhoa.GetValueOrDefault(k.MaKH, 0); <td class="so">@(n == 0 ? "" : n)</td> }
+                    <td class="so">@r.TongThang</td></tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fw-bold"><td>Tổng</td>@foreach (var k in kh) { <td class="so">@Model.TongKhoa(Model.DuLieuKyNay, k.MaKH)</td> }<td class="so">@Model.TongTuyenSinhKyNay</td></tr>
+            <tr class="dong-phu"><td>Kỳ trước</td>@foreach (var k in kh) { <td class="so">@Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH)</td> }<td class="so">@Model.TongTuyenSinhKyTruoc</td></tr>
+            <tr class="dong-phu"><td>So với kỳ trước</td>@foreach (var k in kh) { <td class="so">@Lech(Model.TongKhoa(Model.DuLieuKyNay, k.MaKH), Model.TongKhoa(Model.DuLieuKyTruoc, k.MaKH))</td> }<td class="so">@Lech(Model.TongTuyenSinhKyNay, Model.TongTuyenSinhKyTruoc)</td></tr>
+        </tfoot>
+    </table>
+</div>
+<p class="small">Mã khóa học: @string.Join(" · ", kh.Select(k => $"{k.MaKH} {k.TenKH}"))</p>

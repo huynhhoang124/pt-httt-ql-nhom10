@@ -15,7 +15,11 @@
                 {
                     <tr>
                         <td>@t.QuyTac</td><td>@t.TenThamSo <span class="small text-secondary">(@t.MaThamSo)</span></td>
-                        <td><input name="GiaTri[@t.MaThamSo]" value="@t.GiaTri.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" class="form-control form-control-sm so" inputmode="decimal" aria-label="@t.TenThamSo" title="Lớn hơn 0; tỷ lệ không quá 100%, điểm không quá 10" /></td>
+                        <td>@if (t.MaThamSo == "PHIEN_BAN_CSDL")
+                            { <span title="Chỉ cập nhật bằng tệp nâng cấp">@t.GiaTri.ToString("0")</span> }
+                            else
+                            { <input name="GiaTri[@t.MaThamSo]" value="@t.GiaTri.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" class="form-control form-control-sm so" inputmode="decimal" aria-label="@t.TenThamSo" title="Lớn hơn 0; tỷ lệ không quá 100%, điểm không quá 10" /> }
+                        </td>
                         <td>@t.DonVi</td>
                     </tr>
                 }

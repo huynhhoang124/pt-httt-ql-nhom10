@@ -31,7 +31,7 @@
         <div asp-validation-summary="All" class="hop-loi"></div>
         <div class="row g-2">
             <div class="col-3 col-md-2"><label class="form-label bat-buoc" for="F_MaKH">Mã</label><input asp-for="F.MaKH" class="form-control" readonly="@(Model.Ma != null)" maxlength="10" /></div>
-            <div class="col-9 col-md-6"><label class="form-label bat-buoc" for="F_TenKH">Tên khóa học</label><input asp-for="F.TenKH" class="form-control" /></div>
+            <div class="col-9 col-md-6"><label class="form-label bat-buoc" for="F_TenKH">Tên khóa học</label><input asp-for="F.TenKH" maxlength="100" class="form-control" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_NgonNgu">Ngôn ngữ</label><select asp-for="F.NgonNgu" asp-items="@(new SelectList(TrungTamNgoaiNgu.Pages.DanhMuc.GiaoVienModel.NgonNgu))" class="form-select"></select></div>
             <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauVao">Vào</label><select asp-for="F.TrinhDoDauVao" asp-items="td" class="form-select"></select></div>
             <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauRa">Ra</label><select asp-for="F.TrinhDoDauRa" asp-items="td" class="form-select"></select></div>
@@ -41,7 +41,7 @@
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSChuyenCan">TS chuyên cần %</label><input asp-for="F.TSChuyenCan" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSGiuaKy">TS giữa kỳ %</label><input asp-for="F.TSGiuaKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSCuoiKy">TS cuối kỳ %</label><input asp-for="F.TSCuoiKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
-            <div class="col-8"><label class="form-label" for="F_MoTa">Mô tả</label><input asp-for="F.MoTa" class="form-control" /></div>
+            <div class="col-8"><label class="form-label" for="F_MoTa">Mô tả</label><input asp-for="F.MoTa" maxlength="500" class="form-control" /></div>
             <div class="col-4"><label class="form-label" for="F_TrangThai">Trạng thái</label><select asp-for="F.TrangThai" asp-items="@(new SelectList(new[] { "Đang mở", "Ngừng" }))" class="form-select"></select></div>
         </div>
         <partial name="_NutLenh" model="new NutLenh()" />

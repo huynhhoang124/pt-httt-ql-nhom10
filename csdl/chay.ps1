@@ -4,13 +4,16 @@
 # Thoát với mã 1 nếu có lỗi SQL hoặc có dòng kiểm tra cho kết quả 'LỖI'.
 param(
     [string]$May = '.\SQLEXPRESS04',
-    [string[]]$Tep = @('schema.sql', 'views.sql', 'seed.sql', 'kiem_tra.sql')
+    [string[]]$Tep = @('schema.sql', 'views.sql', 'seed.sql', 'kiem_tra.sql'),
+    # Tùy chọn cho SQL Server thử nghiệm dùng SQL Authentication; không ghi mật khẩu vào mã nguồn.
+    [string]$ChuoiKetNoi = $env:NHOM10_SQL_CONNECTION
 )
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $Tep = $Tep -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }   # -File truyền "a.sql,b.sql" thành một chuỗi
 $thuMuc = Split-Path -Parent $MyInvocation.MyCommand.Path
-$cn = New-Object System.Data.SqlClient.SqlConnection "Server=$May;Database=master;Integrated Security=True;TrustServerCertificate=True"
+if (-not $ChuoiKetNoi) { $ChuoiKetNoi = "Server=$May;Database=master;Integrated Security=True;TrustServerCertificate=True" }
+$cn = New-Object System.Data.SqlClient.SqlConnection $ChuoiKetNoi
 $cn.Open()
 $coLoi = $false
 try {
