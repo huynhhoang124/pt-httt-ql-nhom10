@@ -77,8 +77,12 @@
             if ($('.app[data-ngan-keo-mo]')) { dongNganKeo(); return; }
             const goiY = $('.goi-y:not([hidden])');
             if (goiY) { goiY.hidden = true; return; }
+            // Esc khi đang ở ô nhập chỉ rời ô đó (người dùng hay bấm Esc để tắt gợi ý); bấm Esc lần nữa mới thoát
+            const dangO = document.activeElement;
+            if (dangO && dangO.matches('input, textarea, select, [contenteditable]')) { dangO.blur(); return; }
             const thoat = $$('[data-phim="thoat"]').find(thay);
-            if (thoat) location.href = thoat.href;
+            // mở hộp hỏi sau phím Esc này, nếu không chính phím Esc sẽ đóng ngay hộp vừa mở
+            if (thoat) { e.preventDefault(); setTimeout(() => roiTrang(thoat.href)); }
         } else if (e.key === 'F1') {
             e.preventDefault();
             moTroGiup();
@@ -169,8 +173,46 @@
         d.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { kq = b.value === 'co'; d.close(); } else if (e.target === d) d.close(); });
         d.addEventListener('close', () => { d.remove(); xong(kq); });
         d.showModal();
-        $('[value=co]', d).focus();
+        // hộp nguy hiểm: đặt sẵn vào Hủy để lỡ bấm Enter không làm mất dữ liệu
+        $(loai === 'nguy' ? '[value=khong]' : '[value=co]', d).focus();
     });
+
+    /* ---------- Form có thay đổi chưa lưu (form POST): hỏi trước khi Thoát (nút, Esc) hoặc Hủy ---------- */
+    const formGhi = f => f && f.method && f.method.toLowerCase() === 'post' && !f.matches('[data-dang-xuat]');
+    const danhDauDoi = e => { const f = e.target.form; if (formGhi(f)) f.dataset.doi = '1'; };
+    document.addEventListener('input', danhDauDoi);
+    document.addEventListener('change', danhDauDoi);
+    document.addEventListener('submit', e => { delete e.target.dataset.doi; });   // chỉ chạy khi gửi thật (hộp xác nhận đã chặn trước)
+    const coNhap = f => !!f.querySelector('.tb-nhap')?.textContent;
+    function roiTrang(url) {
+        const f = $('form[data-doi]');
+        if (!f) { location.href = url; return; }
+        xacNhan({
+            tieuDe: 'Thoát mà không lưu?',
+            noiDung: 'Các thay đổi chưa lưu sẽ mất.' + (f.querySelector('[data-luu-nhap]') ? ' Bản nháp vẫn được giữ trên máy này.' : ''),
+            nut: 'Thoát', loai: 'nguy',
+        }).then(co => { if (co) location.href = url; });
+    }
+    document.addEventListener('click', e => {
+        const a = e.target.closest('a[data-phim="thoat"]');
+        if (!a || !$('form[data-doi]') || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        roiTrang(a.href);
+    });
+    // Nút Hủy (type=reset): xóa mọi ô và bản nháp (_LuuNhap) – hỏi trước nếu đã nhập hoặc đang có nháp
+    document.addEventListener('reset', e => {
+        const f = e.target;
+        if (f.dataset.daXacNhanHuy) { delete f.dataset.daXacNhanHuy; delete f.dataset.doi; return; }
+        const nhap = coNhap(f);
+        if (!f.dataset.doi && !nhap) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();   // chưa cho _LuuNhap xóa nháp
+        xacNhan({
+            tieuDe: 'Bỏ các thay đổi chưa lưu?',
+            noiDung: 'Mọi ô sẽ trở về như lúc mở trang' + (nhap ? '; bản nháp trên máy này cũng bị xóa.' : '.'),
+            nut: 'Bỏ thay đổi', loai: 'nguy',
+        }).then(co => { if (co) { f.dataset.daXacNhanHuy = '1'; f.reset(); } });
+    }, true);
     const hoi = el => xacNhan({ tieuDe: el.dataset.xacNhanTieuDe || 'Xác nhận', noiDung: el.dataset.xacNhan, nut: el.dataset.xacNhanNut || 'Đồng ý', loai: el.dataset.xacNhanLoai || '' });
     document.addEventListener('submit', e => {
         const f = e.target, nut = e.submitter;
