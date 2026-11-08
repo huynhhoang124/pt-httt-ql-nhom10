@@ -482,6 +482,13 @@ h2.h6 { font-size: 15px; font-weight: 600; margin: 8px 0 10px; }
 }
 .nut-lenh .tb-nhap { order: 9; flex-basis: 100%; font-size: 12.5px; color: var(--chu-3); }
 .nut-lenh .tb-nhap:empty { display: none; }
+/* Ô tiền: dòng đọc lại số đã gõ theo kiểu Việt Nam (site.js, data-doc-tien) */
+.doc-tien { margin-top: 2px; color: var(--chu-3); font-variant-numeric: tabular-nums; text-align: right; }
+.doc-tien:empty { display: none; }
+/* Form hẹp (class col-*, vd F1.2, F1.4, FN1): thanh nút nằm gọn trong form thay vì tràn ra lề trang; ẩn chữ phím tắt
+   (vẫn có trong title) để Lưu · Hủy · Thoát không rớt dòng */
+form[class*="col-"] .nut-lenh { margin-inline: 0; padding: 10px 12px; border: 1px solid var(--vien); border-radius: var(--bo-lon); }
+form[class*="col-"] .nut-lenh .kbd { display: none; }
 .nut-lenh .tong-phieu { margin-left: auto; display: flex; align-items: baseline; gap: 10px; order: 5; }
 .tong-phieu span { color: var(--chu-2); font-size: 13px; }
 .tong-phieu b { font-size: 22px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
@@ -753,7 +760,7 @@ form > .table-responsive:last-child, .than-trang > .table-responsive:last-child 
     .thanh-loc .o-loc { flex: 1 1 100%; }
     .thanh-loc .day-phai { margin-left: 0; width: 100%; }
     .thanh-loc .day-phai .btn { flex: 1; }
-    .nut-lenh { margin-inline: -16px; padding: 10px 16px; }
+    .nut-lenh, form[class*="col-"] .nut-lenh { margin-inline: -16px; padding: 10px 16px; border-width: 1px 0 0; border-radius: 0; }
     .nut-lenh > .btn { flex: 1 1 auto; }
     .nut-lenh .kbd { display: none; }
     .nut-lenh .tong-phieu { order: -1; flex-basis: 100%; margin-left: 0; justify-content: space-between; }

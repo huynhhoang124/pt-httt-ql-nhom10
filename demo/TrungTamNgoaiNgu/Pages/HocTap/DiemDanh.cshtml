@@ -8,7 +8,7 @@
 }
 <form method="get" class="mb-3" style="max-width:32rem">
     <label class="form-label" for="buoi">Buổi học</label>
-    <select id="buoi" name="buoi" class="form-select" onchange="this.form.submit()">
+    <select id="buoi" name="buoi" class="form-select" data-tu-gui>
         @foreach (var b in Model.CacBuoi)
         {
             var ma = $"{b.MaLop}|{b.SoBuoi}";

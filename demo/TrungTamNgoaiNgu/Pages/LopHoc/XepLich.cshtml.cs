@@ -28,11 +28,14 @@ public class XepLichModel(TrungTamContext db, DongHo dongHo) : PageModel
     public List<GiaoVien> CacGV { get; set; } = [];
     public string? ThongBao { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(string? tb = null)
+    /// <param name="sua">Số buổi chọn từ bảng (nút "Sửa"): điền sẵn ngày, giờ, phòng, giáo viên, nội dung của buổi đó vào form.</param>
+    public async Task<IActionResult> OnGetAsync(string? tb = null, short? sua = null)
     {
         if (PhanQuyen.ChiCuaMinh(User.VaiTro(), "2.3")) return Forbid();  // HV, PH, GV xem lịch ở R2.3a, R2.3b
         await NapAsync();
         ThongBao = tb;
+        if (sua != null && CacBuoi.FirstOrDefault(b => b.SoBuoi == sua && b.TrangThai == "Kế hoạch") is { } b)
+            (SoBuoi, Ngay, GioBatDau, GioKetThuc, MaPhong, MaGV, NoiDung) = (b.SoBuoi, b.Ngay, b.GioBatDau, b.GioKetThuc, b.MaPhong, b.MaGV, b.NoiDung);
         return Page();
     }
 

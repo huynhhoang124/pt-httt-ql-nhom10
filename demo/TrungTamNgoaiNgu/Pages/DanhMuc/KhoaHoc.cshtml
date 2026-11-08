@@ -37,7 +37,10 @@
             <div class="col-4 col-md-1"><label class="form-label" for="F_TrinhDoDauRa">Ra</label><select asp-for="F.TrinhDoDauRa" asp-items="td" class="form-select"></select></div>
             <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_SoBuoi">Số buổi</label><input asp-for="F.SoBuoi" class="form-control" min="1" /></div>
             <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_ThoiLuongBuoi">Phút/buổi</label><input asp-for="F.ThoiLuongBuoi" class="form-control" min="1" /></div>
-            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_HocPhi">Học phí</label><input asp-for="F.HocPhi" class="form-control" min="1" title="Học phí cả khóa (đồng), lớn hơn 0" /></div>
+            <div class="col-4 col-md-2"><label class="form-label bat-buoc" for="F_HocPhi">Học phí</label>@* type=number: hiện số nguyên (2400000, không phải 2400000.00) và trình duyệt luôn gửi dạng không dấu ngăn cách, máy chủ đọc đúng dù đặt vùng nào; ô trống khi thêm mới thay vì 0 *@
+                <input type="number" id="F_HocPhi" name="F.HocPhi" class="form-control so" min="1000" step="1000" inputmode="numeric" required
+                       value="@(Model.F.HocPhi > 0 ? Model.F.HocPhi.ToString("0", System.Globalization.CultureInfo.InvariantCulture) : "")"
+                       title="Học phí cả khóa (đồng), bội số 1.000" data-doc-tien /><input name="__Invariant" type="hidden" value="F.HocPhi" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSChuyenCan">TS chuyên cần %</label><input asp-for="F.TSChuyenCan" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSGiuaKy">TS giữa kỳ %</label><input asp-for="F.TSGiuaKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
             <div class="col-4 col-md-2"><label class="form-label" for="F_TSCuoiKy">TS cuối kỳ %</label><input asp-for="F.TSCuoiKy" class="form-control" min="0" max="100" title="Ba trọng số cộng lại bằng 100 (QT13)" /></div>
