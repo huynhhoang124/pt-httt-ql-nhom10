@@ -481,6 +481,9 @@ h2.h6 { font-size: 15px; font-weight: 600; margin: 8px 0 10px; }
 }
 .nut-lenh .tb-nhap { order: 9; flex-basis: 100%; font-size: 12.5px; color: var(--chu-3); }
 .nut-lenh .tb-nhap:empty { display: none; }
+/* Ô tiền: dòng đọc lại số đã gõ theo kiểu Việt Nam (site.js, data-doc-tien) */
+.doc-tien { margin-top: 2px; color: var(--chu-3); font-variant-numeric: tabular-nums; text-align: right; }
+.doc-tien:empty { display: none; }
 /* Form hẹp (class col-*, vd F1.2, F1.4, FN1): thanh nút nằm gọn trong form thay vì tràn ra lề trang; ẩn chữ phím tắt
    (vẫn có trong title) để Lưu · Hủy · Thoát không rớt dòng */
 form[class*="col-"] .nut-lenh { margin-inline: 0; padding: 10px 12px; border: 1px solid var(--vien); border-radius: var(--bo-lon); }

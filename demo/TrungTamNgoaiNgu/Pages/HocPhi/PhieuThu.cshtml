@@ -1,8 +1,11 @@
 @page
 @model TrungTamNgoaiNgu.Pages.HocPhi.PhieuThuModel
 @using TrungTamNgoaiNgu.Nen
+@inject DongHo DongHo
 @{
     ViewData["Ma"] = "F3.2";
+    ViewData["TongPhieu"] = ("Tổng tiền phiếu", "0 đ");   // site.js cộng lại khi nhập (ô có data-tong)
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
     ViewData["TroGiup"] = "Đợt 1 tối thiểu 50% số phải nộp (QT05); không nộp vượt số còn nợ của đợt. Bỏ trống ô các đợt không nộp. Số phiếu, ngày thu, người thu do hệ thống điền; phiếu đã lập không sửa, thu sai thì lập phiếu điều chỉnh.";
     var h = Model.HocVien;
 }
@@ -43,23 +46,32 @@
             <h2 class="h6 fw-bold">Các đợt còn nợ</h2>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered align-middle">
-                    <thead><tr><th>Lớp</th><th>Khóa học</th><th>Đợt</th><th>Hạn đóng</th><th class="so">Phải nộp đợt</th><th class="so">Đã nộp</th><th class="so">Còn nợ</th><th style="width:11rem">Nộp lần này</th></tr></thead>
+                    <thead><tr><th>Lớp</th><th>Khóa học</th><th>Đợt</th><th>Hạn đóng</th><th class="so">Phải nộp đợt</th><th class="so">Đã nộp</th><th class="so">Còn nợ</th><th style="width:15rem">Nộp lần này</th></tr></thead>
                     <tbody>
                         @for (int i = 0; i < Model.DanhSach.Count; i++)
                         {
                             var d = Model.DanhSach[i];
+                            var quaHan = d.Han < DongHo.HomNay;
+                            var conNo = d.ConNoDot.ToString("0", inv);
                             <tr>
                                 <td>@d.MaLopHienTai @if (d.MaLopHienTai != d.MaLop) { <span class="small">(khoản của @d.MaLop)</span> }</td>
                                 <td>@d.TenKH</td><td>@d.SoDot</td>
-                                <td>@HienThi.Ngay(d.Han)</td>
+                                <td>@HienThi.Ngay(d.Han)@if (quaHan) { <span class="nhan nhan-nguy-hiem ms-1">Quá hạn</span> }</td>
                                 <td class="so">@HienThi.So(d.SoTienDot)</td><td class="so">@HienThi.So(d.DaThuDot)</td><td class="so">@HienThi.So(d.ConNoDot)</td>
-                                <td><input type="number" name="SoTien[@i]" value="@(i < Model.SoTien.Count ? Model.SoTien[i] : null)" min="0" step="1000" class="form-control form-control-sm so" aria-label="Nộp lần này, lớp @d.MaLop đợt @d.SoDot" title="Số tiền (đồng), bội số 1.000; bỏ trống nếu không nộp đợt này" /></td>
+                                <td>
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <input type="number" name="SoTien[@i]" value="@(i < Model.SoTien.Count ? Model.SoTien[i]?.ToString("0", inv) : null)" min="0" max="@conNo" step="1000" inputmode="numeric"
+                                               class="form-control form-control-sm so" data-tong data-doc-tien aria-label="Nộp lần này, lớp @d.MaLop đợt @d.SoDot"
+                                               title="Số tiền (đồng), bội số 1.000, không quá số còn nợ; bỏ trống nếu không nộp đợt này" />
+                                        <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" data-nop-du="@conNo" title="Điền đủ số còn nợ của đợt: @HienThi.Tien(d.ConNoDot)">Nộp đủ</button>
+                                    </div>
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-            <partial name="_NutLenh" model='new NutLenh(Nhap: $"F3.2:{h.MaHV}:{string.Join(",", Model.DanhSach.Select(d => $"{d.MaLop}-{d.SoDot}"))}")' />
+            <partial name="_NutLenh" model='new NutLenh("Lập phiếu thu", Nhap:$"F3.2:{h.MaHV}:{string.Join(",", Model.DanhSach.Select(d => $"{d.MaLop}-{d.SoDot}"))}")' />
         </form>
     }
 }

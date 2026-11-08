@@ -184,15 +184,26 @@
     document.addEventListener('change', danhDauDoi);
     document.addEventListener('submit', e => { delete e.target.dataset.doi; });   // chỉ chạy khi gửi thật (hộp xác nhận đã chặn trước)
     const coNhap = f => !!f.querySelector('.tb-nhap')?.textContent;
-    function roiTrang(url) {
+    // true khi không có gì chưa lưu hoặc người dùng đồng ý bỏ
+    const hoiBoThayDoi = (tieuDe = 'Thoát mà không lưu?', nut = 'Thoát') => {
         const f = $('form[data-doi]');
-        if (!f) { location.href = url; return; }
-        xacNhan({
-            tieuDe: 'Thoát mà không lưu?',
+        if (!f) return Promise.resolve(true);
+        return xacNhan({
+            tieuDe, nut, loai: 'nguy',
             noiDung: 'Các thay đổi chưa lưu sẽ mất.' + (f.querySelector('[data-luu-nhap]') ? ' Bản nháp vẫn được giữ trên máy này.' : ''),
-            nut: 'Thoát', loai: 'nguy',
-        }).then(co => { if (co) location.href = url; });
-    }
+        });
+    };
+    function roiTrang(url) { hoiBoThayDoi().then(co => { if (co) location.href = url; }); }
+    // Ô chọn tự tải lại trang khi đổi (vd chọn buổi ở F4.1): <select data-tu-gui> – hỏi trước nếu đang có thay đổi chưa lưu
+    document.addEventListener('focusin', e => { const s = e.target.closest('select[data-tu-gui]'); if (s) s.dataset.cu = s.value; });
+    document.addEventListener('change', e => {
+        const s = e.target.closest('select[data-tu-gui]');
+        if (!s) return;
+        hoiBoThayDoi('Đổi mà không lưu?', 'Đổi').then(co => {
+            if (co) { $$('form[data-doi]').forEach(f => delete f.dataset.doi); s.form.submit(); }
+            else if (s.dataset.cu != null) s.value = s.dataset.cu;
+        });
+    });
     document.addEventListener('click', e => {
         const a = e.target.closest('a[data-phim="thoat"]');
         if (!a || !$('form[data-doi]') || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -237,20 +248,49 @@
     const tenTruong = o => ((o.labels && o.labels[0] && o.labels[0].innerText) || o.getAttribute('aria-label') || 'trường này').replace(/\s*\*\s*$/, '').trim();
     document.addEventListener('invalid', e => {
         const o = e.target, v = o.validity, ten = tenTruong(o);
+        const so = x => o.matches('[data-doc-tien]') && x !== '' && Number.isFinite(Number(x)) ? new Intl.NumberFormat('vi-VN').format(Number(x)) + ' đ' : x;
         let cau = '';
         if (v.valueMissing) cau = (o.tagName === 'SELECT' || o.type === 'radio' || o.type === 'checkbox' ? 'Chọn ' : 'Nhập ') + ten.charAt(0).toLowerCase() + ten.slice(1) + '.';
         else if (v.patternMismatch) cau = o.title || ten + ' chưa đúng dạng.';
         else if (v.typeMismatch) cau = ten + (o.type === 'email' ? ' chưa đúng dạng, vd ten@gmail.com.' : ' chưa đúng dạng.');
         else if (v.badInput) cau = ten + ': chỉ nhập số.';
-        else if (v.rangeUnderflow) cau = ten + ' không được nhỏ hơn ' + o.min + '.';
-        else if (v.rangeOverflow) cau = ten + ' không được lớn hơn ' + o.max + '.';
-        else if (v.stepMismatch) cau = ten + ': nhập bội số của ' + o.step + '.';
+        else if (v.rangeUnderflow) cau = ten + ' không được nhỏ hơn ' + so(o.min) + '.';
+        else if (v.rangeOverflow) cau = ten + ' không được lớn hơn ' + so(o.max) + '.';
+        else if (v.stepMismatch) cau = ten + ': nhập bội số của ' + so(o.step) + '.';
         else if (v.tooLong) cau = ten + ' dài quá ' + o.maxLength + ' ký tự.';
         if (cau) o.setCustomValidity(cau);
     }, true);
     const xoaLoi = e => { if (e.target.setCustomValidity) e.target.setCustomValidity(''); };
     document.addEventListener('input', xoaLoi, true);
     document.addEventListener('change', xoaLoi, true);
+
+    /* ---------- Ô tiền: đọc lại số đã gõ (data-doc-tien), "Nộp đủ" (data-nop-du), tổng phiếu (data-tong → [data-tong-phieu]) ---------- */
+    const dinhDangTien = n => new Intl.NumberFormat('vi-VN').format(n) + ' đ';
+    const docTien = o => {
+        let s = o._docTien;
+        if (!s) { s = o._docTien = document.createElement('div'); s.className = 'doc-tien small'; s.setAttribute('aria-live', 'polite'); (o.closest('.d-flex') || o).after(s); }
+        const n = Number(o.value);
+        s.textContent = o.value !== '' && Number.isFinite(n) ? '= ' + dinhDangTien(n) : '';
+    };
+    const tinhTong = f => {
+        const o = f && f.querySelector('[data-tong-phieu]');
+        if (!o) return;
+        o.textContent = dinhDangTien($$('[data-tong]', f).reduce((t, x) => t + (Number(x.value) || 0), 0));
+    };
+    document.addEventListener('input', e => {
+        if (e.target.matches?.('[data-doc-tien]')) docTien(e.target);
+        if (e.target.matches?.('[data-tong]')) tinhTong(e.target.form);
+    });
+    document.addEventListener('click', e => {
+        const b = e.target.closest('[data-nop-du]');
+        if (!b) return;
+        const o = b.closest('td, div').querySelector('input');
+        o.value = b.dataset.nopDu;
+        o.dispatchEvent(new Event('input', { bubbles: true }));   // tổng, đọc lại số, đánh dấu đã sửa, lưu nháp
+        o.focus();
+    });
+    document.addEventListener('reset', e => setTimeout(() => { $$('[data-doc-tien]', e.target).forEach(docTien); tinhTong(e.target); }));
+    const khoiDongTien = () => { $$('[data-doc-tien]').forEach(docTien); new Set($$('[data-tong]').map(x => x.form)).forEach(tinhTong); };
 
     /* ---------- F4.1: "Có mặt hết (người chưa chọn)" ---------- */
     document.addEventListener('click', e => {
@@ -339,6 +379,6 @@
         });
     });
 
-    const khoiDong = () => { batBuoc(); bangThe(); $$('input[list="ds-hoc-vien"]').forEach(oTimHocVien); toastTuMayChu(); };
+    const khoiDong = () => { batBuoc(); bangThe(); $$('input[list="ds-hoc-vien"]').forEach(oTimHocVien); khoiDongTien(); toastTuMayChu(); };
     document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', khoiDong) : khoiDong();
 })();

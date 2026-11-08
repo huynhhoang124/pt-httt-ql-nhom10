@@ -38,6 +38,11 @@
     {
         <form method="post" asp-page-handler="LuuBuoi" class="row g-2 align-items-end mb-3">
             <input type="hidden" name="lop" value="@c.MaLop" />
+            <h2 class="col-12 h6 fw-bold mb-0">
+                @(Model.SoBuoi is { } sb ? $"Đổi lịch buổi {sb}" : "Thêm buổi học bù")
+                @if (Model.SoBuoi != null) { <a class="small fw-normal ms-2" href="?lop=@c.MaLop">Thêm buổi học bù thay vì đổi</a> }
+                else { <span class="small fw-normal text-body-secondary ms-2">Muốn đổi buổi đã xếp: bấm "Sửa" ở dòng buổi đó trong bảng dưới.</span> }
+            </h2>
             <div class="col-6 col-md-1"><label class="form-label" for="SoBuoi">Số buổi</label>
                 <input id="SoBuoi" name="SoBuoi" class="form-control" value="@Model.SoBuoi" placeholder="bù" type="number" min="1" step="1" title="Số thứ tự buổi cần đổi; bỏ trống để thêm buổi học bù" /></div>
             <div class="col-6 col-md-2"><label class="form-label bat-buoc" for="Ngay">Ngày</label>
@@ -61,14 +66,19 @@
     }
     <div class="table-responsive">
         <table class="table table-sm table-bordered align-middle">
-            <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Giáo viên</th><th>Loại</th><th>Nội dung</th><th>Trạng thái</th></tr></thead>
+            <thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Phòng</th><th>Giáo viên</th><th>Loại</th><th>Nội dung</th><th>Trạng thái</th>@if (duocGhi) { <th></th> }</tr></thead>
             <tbody>
                 @foreach (var b in Model.CacBuoi)
                 {
-                    <tr class="@(b.TrangThai == "Hủy" ? "table-secondary" : "")">
+                    var dangSua = b.SoBuoi == Model.SoBuoi;
+                    <tr class="@(b.TrangThai == "Hủy" ? "table-secondary" : dangSua ? "table-primary" : "")" aria-current="@(dangSua ? "true" : null)">
                         <td>@b.SoBuoi</td><td>@HienThi.Thu((byte)(b.Ngay.DayOfWeek == DayOfWeek.Sunday ? 8 : (int)b.Ngay.DayOfWeek + 1)) @HienThi.Ngay(b.Ngay)</td>
                         <td>@b.GioBatDau.ToString("HH:mm")–@b.GioKetThuc.ToString("HH:mm")</td><td>@b.MaPhong</td>
                         <td>@b.MaGV@(b.MaGV != c.MaGV ? " (dạy thay)" : "")</td><td>@b.Loai</td><td>@b.NoiDung</td><td>@b.TrangThai</td>
+                        @if (duocGhi)
+                        {
+                            <td>@if (b.TrangThai == "Kế hoạch") { <a href="?lop=@c.MaLop&sua=@b.SoBuoi" aria-label="Sửa buổi @b.SoBuoi">Sửa</a> }</td>
+                        }
                     </tr>
                 }
             </tbody>
